@@ -247,7 +247,7 @@
               </div>
               <div class="webhook-actions">
                 <button class="btn-icon" title={$_('settings_webhooks.row.test_title')} disabled={testingId === w.id} on:click={() => testOne(w)}>
-                  <span class="material-symbols-rounded">{testingId === w.id ? 'hourglass_empty' : 'send'}</span>
+                  <span class="material-symbols-rounded">{testingId === w.id ? "hourglass_empty" : "send"}</span>
                 </button>
                 <label class="webhook-toggle" title={$_('settings_webhooks.row.enabled_title')}>
                   <input type="checkbox" checked={w.enabled} on:change={() => toggleEnabled(w)} />

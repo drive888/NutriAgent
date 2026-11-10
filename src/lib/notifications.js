@@ -1,5 +1,7 @@
+import { get } from 'svelte/store';
+import { _ } from 'svelte-i18n';
 /**
- * notifications.js — Local notification scheduling for NutriTrace
+ * notifications.js — Local notification scheduling for NutriAgent
  *
  * Handles water reminders, meal reminders, and goal celebrations.
  * Uses @capacitor/local-notifications on native, Notification API on PWA.
@@ -35,9 +37,9 @@ async function _ensureChannel() {
   if (!LN) return;
   try {
     await LN.createChannel({
-      id: 'nutritrace',
-      name: 'NutriTrace',
-      description: 'NutriTrace notifications',
+      id: 'nutriagent',
+      name: 'NutriAgent',
+      description: get(_)('ui.m1ebbdd809575'),
       importance: 4, // HIGH
       visibility: 1, // PUBLIC
       sound: 'default',
@@ -60,9 +62,9 @@ async function _ensureUpdateChannel() {
   if (!LN) return;
   try {
     await LN.createChannel({
-      id: 'nutritrace-updates',
+      id: 'nutriagent-updates',
       name: 'App updates',
-      description: 'Notifies you when a new app version is available.',
+      description: get(_)('ui.mfce88322a0e7'),
       importance: 2, // LOW: no sound, no vibration, no heads-up
       visibility: 1, // PUBLIC
     });
@@ -160,8 +162,8 @@ export async function scheduleWaterReminders(intervalMin = 120) {
     if (at <= new Date()) at.setDate(at.getDate() + 1);
     notifications.push({
       id: id++,
-      title: '💧 Hydration Reminder',
-      body: 'Time to drink some water! Stay hydrated.',
+      title: get(_)('ui.m9eca49fa3f37'),
+      body: get(_)('ui.m9bd61946fa5f'),
       schedule: { at, every: 'day', allowWhileIdle: true },
     });
   }
@@ -199,8 +201,8 @@ export async function scheduleMealReminders(times = ['08:00', '12:00', '18:00'],
     if (at <= new Date()) at.setDate(at.getDate() + 1);
     notifications.push({
       id: 2000 + i,
-      title: '🍽️ Meal Reminder',
-      body: `Time to log your ${mealNames[i] || 'meal'}!`,
+      title: get(_)('ui.m66fd38a874d1'),
+      body: get(_)('ui.m604dd88d8dbe', {values: {value0: (mealNames[i] || 'meal')}}),
       schedule: { at, every: 'day', allowWhileIdle: true },
     });
   });
@@ -322,8 +324,8 @@ const GOAL_UNITS = {
  *  is the first to fire it today. Falls back to local-only dedup if the request fails. */
 async function _claimCelebrationServer(key) {
   try {
-    const { NtApi } = await import('./api.js');
-    const res = await NtApi.post('/api/settings/claim-celebration', { key });
+    const { NaApi } = await import('./api.js');
+    const res = await NaApi.post('/api/settings/claim-celebration', { key });
     return !!res?.fired;
   } catch {
     // Network error / native local mode — fall back to local-only dedup
@@ -511,7 +513,7 @@ export async function sendGotify(url, token, title, message, priority = 5) {
 /** Test Gotify connection */
 export async function testGotify(url, token) {
   try {
-    await sendGotify(url, token, 'NutriTrace', 'Test notification — Gotify is connected!', 5);
+    await sendGotify(url, token, 'NutriAgent', 'Test notification — Gotify is connected!', 5);
     return true;
   } catch {
     return false;
@@ -534,10 +536,10 @@ export async function scheduleWeighInReminder(timeStr = '07:00') {
 
   await LN.schedule({ notifications: [{
     id: 4000,
-    title: '⚖️ Weigh-in Reminder',
-    body: 'Time to step on the scale!',
+    title: get(_)('ui.m2e58817e65da'),
+    body: get(_)('ui.mf926082b51d1'),
     schedule: { at, every: 'day', allowWhileIdle: true },
-    channelId: 'nutritrace',
+    channelId: 'nutriagent',
   }]});
   _dlog(`[notifications] scheduled repeating weigh-in reminder at ${timeStr}`);
 }
@@ -566,7 +568,7 @@ export async function isUpdateNotificationPermissionGranted() {
 
 /**
  * Post a silent "update available" notification. Uses the low-importance
- * `nutritrace-updates` channel so it lands in the shade without sound
+ * `nutriagent-updates` channel so it lands in the shade without sound
  * or heads-up popup. Tapping the notification is handled by
  * `registerUpdateTapListener` — decoupled so the tap handler can navigate
  * the app without this module needing to know about routing.
@@ -586,9 +588,9 @@ export async function showUpdateNotification(latest) {
     await LN.schedule({
       notifications: [{
         id: UPDATE_NOTIFICATION_ID,
-        channelId: 'nutritrace-updates',
-        title: 'NutriTrace update available',
-        body: `${latest.version} is ready. Tap to install.`,
+        channelId: 'nutriagent-updates',
+        title: get(_)('ui.mecd49206ef5e'),
+        body: get(_)('ui.md1f32ce8cc8c', {values: {value0: (latest.version)}}),
         // Extras ride along so the tap handler knows which version to
         // install without re-fetching from GitHub.
         extra: { version: latest.version, notesUrl: latest.notesUrl || '' },

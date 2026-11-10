@@ -19,7 +19,7 @@
  *
  * Adapters must return an array of these. The route layer is responsible for
  * mapping `mealIndex` against the user's `mealNames` setting and writing the
- * final NutriTrace diary item shape.
+ * final NutriAgent diary item shape.
  */
 
 // ── CSV parsing ──────────────────────────────────────────────────────────
@@ -287,7 +287,7 @@ export function splitAmount(s) {
 
 const KCAL_PER_KJ = 1 / 4.184;
 
-/** Convert kJ to kcal (rounded to 1 decimal). NutriTrace stores calories in kcal. */
+/** Convert kJ to kcal (rounded to 1 decimal). NutriAgent stores calories in kcal. */
 export function kJtoKcal(kj) {
   const n = parseNumber(kj);
   return n == null ? null : Math.round(n * KCAL_PER_KJ * 10) / 10;

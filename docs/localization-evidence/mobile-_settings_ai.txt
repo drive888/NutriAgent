@@ -1,0 +1,57 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/settings/ai".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/ai
+	2 container app
+		145 button 打开菜单
+		146 container
+			147 container 主导航
+				148 button 饮食日记
+					149 text book
+					150 text 饮食日记
+				151 button 食物
+					152 text restaurant
+					153 text 食物
+				154 button 统计
+					155 text bar_chart
+					156 text 统计
+				157 button 目标
+					158 text flag
+					159 text 目标
+				160 button 设置
+					161 text settings
+					162 text 设置
+		163 container
+			164 container
+				165 button 返回
+				166 heading AI 助手, Value: 1
+					167 text AI 助手
+			168 text search
+			169 search text field (settable)
+			170 text check_circle 已连接 OPENAI 兼容
+			171 button 测试
+			172 text 启用 AI 助手 在所有页面添加悬浮聊天按钮
+			173 switch 1
+			174 text 服务提供商
+			175 pop up button (collapsed, settable) Value: OpenAI 兼容, Secondary Actions: Expand
+				176 menu
+					177 Anthropic Claude
+					178 OpenAI
+					179 Google Gemini
+					180 (selected) OpenAI 兼容
+			181 text 基础 URL
+			182 text field (settable) 基础 URL, Value: http://20.249.128.159:8317, ID: ai-base-url
+			183 text 支持任何兼容 OpenAI 的 /v1/chat/completions 端点，以及 Ollama、LM Studio、LocalAI、vLLM、llama.cpp 服务器、DeepSeek、Groq、Together AI、Mistral La Plateforme 等。不要包含路径，只需填写源地址。 模型
+			184 text field (settable) gpt-6.1-sol
+			185 text info
+			186 text 工具调用的可靠性因模型而异。
+			187 text  Llama 3.1+、Mistral、Qwen 2.5+ 能很好地处理工具调用。较小或较旧的模型可能导致智能记录和目标分析在没有报错的情况下失效。视觉功能（图片附件）需要多模态模型。如果不确定，请先使用已知可正常工作的模型，并在依赖它之前确认聊天功能正常。 API 密钥（可选）
+			188 text field (settable) API 密钥（可选）, Value: <redacted>
+			189 button visibility, Help: 显示
+			190 text 本地端点（Ollama、LM Studio 等）通常不需要密钥。DeepSeek 或 Groq 等云服务商需要密钥，可前往其控制台获取。 你的密钥安全地保存在服务器上。 助手名称
+			191 text field (settable) Trace
+			192 text 智能记录 长按助手按钮，说出你吃了什么，AI 会解析食物和餐次，匹配你的食物数据库，并在保存前请你确认
+			193 switch 0
+			194 text 目标分析 助手会分析你的摄入趋势，并在趋势持续稳定时主动建议调整目标
+			195 switch 0
+		144 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/ai

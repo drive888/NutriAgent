@@ -1,0 +1,34 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/settings/ai".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 200-250
+~1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/ai
+~				105 heading AI 助手, Value: 1
+~					106 text AI 助手
+~			199 container
++				200 text check_circle Connected OPENAI COMPATIBLE
++				201 button Test
++				202 text 启用 AI 助手 在所有页面添加悬浮聊天按钮
++				203 switch 1
++				204 text 服务提供商
++				205 pop up button (collapsed, settable) Value: OpenAI 兼容, Secondary Actions: Expand
++					206 menu
++						207 Anthropic Claude
++						208 OpenAI
++						209 Google Gemini
++						210 (selected) OpenAI 兼容
++				211 text 基础 URL
++				212 text field (settable) 基础 URL, Value: http://20.249.128.159:8317, ID: ai-base-url
++				213 text 支持任何兼容 OpenAI 的 /v1/chat/completions 端点，以及 Ollama、LM Studio、LocalAI、vLLM、llama.cpp 服务器、DeepSeek、Groq、Together AI、Mistral La Plateforme 等。不要包含路径，只需填写源地址。 模型
++				214 text field (settable) gpt-6.1-sol
++				215 text info
++				216 text 工具调用的可靠性因模型而异。
++				217 text  Llama 3.1+、Mistral、Qwen 2.5+ 能很好地处理工具调用。较小或较旧的模型可能导致智能记录和目标分析在没有报错的情况下失效。视觉功能（图片附件）需要多模态模型。如果不确定，请先使用已知可正常工作的模型，并在依赖它之前确认聊天功能正常。 API 密钥（可选）
++				218 text field (settable) API 密钥（可选）, Value: <redacted>
++				219 button visibility, Help: 显示
++				220 text 本地端点（Ollama、LM Studio 等）通常不需要密钥。DeepSeek 或 Groq 等云服务商需要密钥，可前往其控制台获取。 你的密钥安全地保存在服务器上。 助手名称
++				221 text field (settable) Trace
++				222 text 智能记录 长按助手按钮，说出你吃了什么，AI 会解析食物和餐次，匹配你的食物数据库，并在保存前请你确认
++				223 switch 0
++				224 text 目标分析 助手会分析你的摄入趋势，并在趋势持续稳定时主动建议调整目标
++				225 switch 0
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/ai

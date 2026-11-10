@@ -13,7 +13,7 @@
   import { _ } from 'svelte-i18n';
   import { showSuccess, showError } from '../../stores/toast.js';
   import { DB } from '../../lib/db.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { Nutrition, NUTRIMENTS } from '../../lib/nutrition.js';
   import { isNative, getServerUrl } from '../../lib/platform.js';
   import { get } from 'svelte/store';
@@ -31,7 +31,7 @@
       reader.readAsDataURL(blob);
     });
     await Filesystem.writeFile({ path: `Download/${filename}`, data: base64, directory: Directory.ExternalStorage, recursive: true });
-    showSuccess(`Saved to Downloads/${filename}`);
+    showSuccess($_('ui.mdd147fa6aa0a', { values: { value0: (filename) } }));
   }
 
   function _downloadBlob(blob, filename) {
@@ -48,26 +48,26 @@
   async function exportBackup() {
     try {
       const [foodList, meals, recipes, diary] = await Promise.all([
-        NtApi.getFoods(),
-        NtApi.getMeals(),
-        NtApi.getRecipes(),
-        NtApi.getAllDiary(),
+        NaApi.getFoods(),
+        NaApi.getMeals(),
+        NaApi.getRecipes(),
+        NaApi.getAllDiary(),
       ]);
       let activity = [];
-      try { activity = await NtApi.getActivityRange('1900-01-01', '2999-12-31') || []; } catch {}
+      try { activity = await NaApi.getActivityRange('1900-01-01', '2999-12-31') || []; } catch {}
       let fasts = [];
-      try { fasts = await NtApi.get('/api/fasts?limit=10000') || []; } catch {}
+      try { fasts = await NaApi.get('/api/fasts?limit=10000') || []; } catch {}
 
       const settings = DB.getAllSettings() || {};
       const { APP_VERSION } = await import('../../lib/version.js').catch(() => ({ APP_VERSION: 'unknown' }));
       const _manifest = {
-        format: 'nutritrace-portable-export',
+        format: 'nutriagent-portable-export',
         schema_version: 1,
         app_version: APP_VERSION,
         exported_at: new Date().toISOString(),
         source: isNative ? (getServerUrl() ? 'native-server' : 'native-local') : 'web',
         includes_images: false,
-        scope: 'foods, meals, recipes, diary (with notes), activity, fasts, settings. Excluded by design: wellness metrics + Trace-computed scores, workouts, AI chat history, food/meal sharing grants, federation API tokens, and OAuth wearable tokens. Use Local Full Backup (.zip) for those.',
+        scope: 'foods, meals, recipes, diary (with notes), activity, fasts, settings. Excluded by design: wellness metrics + NutriAgent-computed scores, workouts, AI chat history, food/meal sharing grants, federation API tokens, and OAuth wearable tokens. Use Local Full Backup (.zip) for those.',
         note: 'For a comprehensive backup with embedded image files, use Local Full Backup (.zip).',
         counts: {
           foods:     foodList?.length || 0,
@@ -85,7 +85,7 @@
         exportedAt: _manifest.exported_at,
       };
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      _downloadBlob(blob, `nutritrace-backup-${new Date().toISOString().slice(0,10)}.json`);
+      _downloadBlob(blob, `nutriagent-backup-${new Date().toISOString().slice(0,10)}.json`);
       showSuccess($_('settings_import_export.toast.backup_exported'));
     } catch(e) { showError($_('settings_import_export.toast.export_failed_prefix', { values: { error: e.message } })); }
   }
@@ -103,7 +103,7 @@
           try {
             const blob = await fetch(item.imgUrl).then(r => r.blob());
             const file = new File([blob], 'photo.jpg', { type: blob.type || 'image/jpeg' });
-            const url = await NtApi.uploadImage(file);
+            const url = await NaApi.uploadImage(file);
             return { ...item, imgUrl: url };
           } catch { return { ...item, imgUrl: '' }; }
         }
@@ -124,7 +124,7 @@
           }
           for (const a of (data.activity || [])) await dbm.dbCreateActivity(a).catch(() => {});
         } else {
-          await NtApi.post('/api/data/import', { ...data, foodList, meals, recipes });
+          await NaApi.post('/api/data/import', { ...data, foodList, meals, recipes });
         }
 
         if (data.settings && typeof data.settings === 'object') {
@@ -161,7 +161,7 @@
         const foods = await dbm.dbGetFoods();
         bulkImportBarcodes = (foods || []).map(f => f.barcode).filter(Boolean);
       } else {
-        const foods = await NtApi.getFoods();
+        const foods = await NaApi.getFoods();
         bulkImportBarcodes = (foods || []).map(f => f.barcode).filter(Boolean);
       }
     } catch (_) {
@@ -178,7 +178,7 @@
         const dbm = await import('../../lib/db-native.js');
         for (const f of foods) await dbm.dbCreateFood(f).catch(() => {});
       } else {
-        await NtApi.post('/api/data/import', { foodList: foods });
+        await NaApi.post('/api/data/import', { foodList: foods });
         // Native server mode: foods now live on the server but won't appear
         // in the Android Foods tab until the background sync pulls them
         // (30-60s). Trigger an immediate sync so they show up right away
@@ -208,7 +208,7 @@
   // ── Diary CSV Export ────────────────────────────────────────────────────────
   async function exportCSV() {
     try {
-      const diary = await NtApi.getAllDiary();
+      const diary = await NaApi.getAllDiary();
       let csv = 'Date,Meal,Food,Amount,Unit,Calories,Fat,Carbs,Protein\n';
       diary.forEach(day => {
         (day.items || []).forEach(item => {
@@ -217,7 +217,7 @@
         });
       });
       const blob = new Blob([csv], { type: 'text/csv' });
-      _downloadBlob(blob, `nutritrace-diary-${new Date().toISOString().slice(0,10)}.csv`);
+      _downloadBlob(blob, `nutriagent-diary-${new Date().toISOString().slice(0,10)}.csv`);
       showSuccess($_('settings_import_export.toast.csv_exported'));
     } catch(e) { showError($_('settings_import_export.toast.export_failed_prefix', { values: { error: e.message } })); }
   }
@@ -236,7 +236,7 @@
   // raw 0..3 index) so the export is human-readable at a glance.
   async function exportFullNutritionCSV() {
     try {
-      const diary = await NtApi.getAllDiary();
+      const diary = await NaApi.getAllDiary();
       const customs = get(customNutriments) || [];
       const meals   = get(mealNames) || ['Breakfast','Lunch','Dinner','Snacks'];
       const nutCols = [
@@ -275,7 +275,7 @@
       });
       const csv = lines.join('\n') + '\n';
       const blob = new Blob([csv], { type: 'text/csv' });
-      _downloadBlob(blob, `nutritrace-diary-full-${new Date().toISOString().slice(0,10)}.csv`);
+      _downloadBlob(blob, `nutriagent-diary-full-${new Date().toISOString().slice(0,10)}.csv`);
       showSuccess($_('settings_import_export.toast.csv_exported'));
     } catch(e) { showError($_('settings_import_export.toast.export_failed_prefix', { values: { error: e.message } })); }
   }
@@ -290,7 +290,7 @@
   }
   async function exportActivityCSV() {
     try {
-      const rows = await NtApi.getActivityRange('1900-01-01', '2999-12-31') || [];
+      const rows = await NaApi.getActivityRange('1900-01-01', '2999-12-31') || [];
       let csv = 'Date,Name,Calories,DurationMin,Distance,Source,MET,IsTemplate\n';
       rows.forEach(r => {
         csv += [
@@ -305,7 +305,7 @@
         ].join(',') + '\n';
       });
       const blob = new Blob([csv], { type: 'text/csv' });
-      _downloadBlob(blob, `nutritrace-activity-${new Date().toISOString().slice(0,10)}.csv`);
+      _downloadBlob(blob, `nutriagent-activity-${new Date().toISOString().slice(0,10)}.csv`);
       showSuccess($_('settings_import_export.toast.activity_csv_exported'));
     } catch(e) { showError($_('settings_import_export.toast.export_failed_prefix', { values: { error: e.message } })); }
   }
@@ -314,7 +314,7 @@
 <div class="section-body">
   <!-- Import card -->
   <p class="settings-group-heading">{$_('settings_import_export.sections.import')}</p>
-  <p class="settings-group-sub">Pull data in: bulk-add foods by barcode list, or restore a NutriTrace JSON export.</p>
+  <p class="settings-group-sub">{$_('ui.m028669e862cb')}</p>
   <div class="card settings-card">
     <button class="setting-row setting-action" on:click={openBulkImport}>
       <span class="material-symbols-rounded si" style="color:var(--accent)">playlist_add</span>
@@ -337,7 +337,7 @@
 
   <!-- Export card -->
   <p class="settings-group-heading">{$_('settings_import_export.sections.export')}</p>
-  <p class="settings-group-sub">Portable JSON snapshot or CSV of your diary or activity log.</p>
+  <p class="settings-group-sub">{$_('ui.mc11d8e64a225')}</p>
   <div class="card settings-card">
     <button class="setting-row setting-action" on:click={exportBackup}>
       <span class="material-symbols-rounded si" style="color:var(--accent)">download</span>

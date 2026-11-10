@@ -3,7 +3,7 @@
   import { onMount, tick } from 'svelte';
   import { pop } from 'svelte-spa-router';
   import { _ } from 'svelte-i18n';
-  import { NtApi, API, USDA } from '../lib/api.js';
+  import { NaApi, API, USDA } from '../lib/api.js';
   import { offNutritionStatus, needsFullLookup } from '../lib/off-nutrition.js';
   import { Mealie } from '../lib/mealieApi.js';
   import BarcodeScanner from '../components/foods/BarcodeScanner.svelte';
@@ -22,7 +22,8 @@
   import { foodsShowCategories, foodsShowLabels, foodsShowNotes, foodCategories, cropPhotos, visibleNutriments, nutrimentsOrder, catName as _catName, catDisplay as _catDisplay, energyUnit, foodsSort, mealsSort, recipesSort, offEnabled, usdaEnabled, usdaApiKey } from '../stores/settings.js';
   import { fitImageDataUrl } from '../lib/image-fit.js';
   import { draftKey as _mkDraftKey, loadDraft, loadDraftImg, clearDraft, makeDebouncedPersist, sweepDrafts } from '../lib/editor-draft.js';
-  import { decimalInput, parseDecimal } from '../lib/decimal-input.js';
+  import { decimalInput, parseDecimal } from '../lib/decimal-input.js';
+
   import { foldText } from '../lib/search-text.js';
 
 
@@ -110,16 +111,16 @@
   let _pickerSharedCounts   = { foods: 0 };
   const _pickerMealieEnabled = DB.getSetting('mealieEnabled', false);
   $: _pickerSourceOptions = [
-    { value: 'local',  label: 'Local'        },
-    ...($offEnabled                          ? [{ value: 'off',    label: 'OFF'        }] : []),
-    ...($usdaEnabled                         ? [{ value: 'usda',   label: 'USDA'       }] : []),
-    ...(_pickerMealieEnabled                 ? [{ value: 'mealie', label: 'Mealie'     }] : []),
+    { value: 'local',  label: 'Local', labelKey: 'ui.m8c31e6e72230'        },
+    ...($offEnabled                          ? [{ value: 'off',    label: 'OFF', labelKey: 'ui.m38cca6bea010'        }] : []),
+    ...($usdaEnabled                         ? [{ value: 'usda',   label: 'USDA', labelKey: 'ui.mfc00869aee26'       }] : []),
+    ...(_pickerMealieEnabled                 ? [{ value: 'mealie', label: 'Mealie', labelKey: 'ui.m8666e7993c20'     }] : []),
     ...(_pickerSharingEnabled && _pickerSharedCounts.foods > 0
-                                             ? [{ value: 'shared', label: 'From Others'}] : []),
+                                             ? [{ value: 'shared', label: 'From Others', labelKey: 'ui.m1b76137981ef'}] : []),
   ];
   async function _refreshPickerSharing() {
     try {
-      const s = await NtApi.getSharingStatus();
+      const s = await NaApi.getSharingStatus();
       _pickerSharingEnabled = s.sharing_enabled === true;
       _pickerSharedCounts   = { foods: s.foods || 0 };
     } catch { _pickerSharingEnabled = false; _pickerSharedCounts = { foods: 0 }; }
@@ -127,7 +128,7 @@
   async function _loadSharedFoodsCatalogue() {
     if (!_pickerSharingEnabled) { _pickerSharedFoods = []; return; }
     try {
-      _pickerSharedFoods = await NtApi.getGroupFoods() || [];
+      _pickerSharedFoods = await NaApi.getGroupFoods() || [];
     } catch { _pickerSharedFoods = []; }
   }
 
@@ -152,7 +153,7 @@
     if (editorState.mealPrefill) {
       meal = { ...meal, ...editorState.mealPrefill };
     } else if (params && params.id) {
-      const existing = await NtApi.getMeal(params.id).catch(() => null);
+      const existing = await NaApi.getMeal(params.id).catch(() => null);
       if (existing) meal = { ...meal, ...existing };
     }
     if (meal.imgUrl) photoPreviewUrl = meal.imgUrl;
@@ -272,7 +273,7 @@
   async function _unlinkCtSource() {
     if (!meal?.source_app) return;
     const proceed = window.confirm(
-      "Unlink this recipe from CookTrace?\n\nThe recipe stays in NutriTrace but stops trying to sync with CookTrace. You can safely delete the CookTrace copy after unlinking."
+      "Unlink this recipe from CookTrace?\n\nThe recipe stays in NutriAgent but stops trying to sync with CookTrace. You can safely delete the CookTrace copy after unlinking."
     );
     if (!proceed) return;
     meal = { ...meal, source_app: null, source_external_id: null, source_url: null };
@@ -287,11 +288,11 @@
   async function _deleteCtLinkedMeal() {
     if (!meal?.id) return;
     const proceed = window.confirm(
-      "Delete this recipe from NutriTrace?\n\nThis removes the local copy. Any diary entries referencing it stay logged with their captured nutrition."
+      "Delete this recipe from NutriAgent?\n\nThis removes the local copy. Any diary entries referencing it stay logged with their captured nutrition."
     );
     if (!proceed) return;
     try {
-      await NtApi.deleteMeal(meal.id);
+      await NaApi.deleteMeal(meal.id);
       clearMealEditorState();
       showSuccess($_('meal_editor.ct_refresh.deleted_toast'));
       pop();
@@ -385,7 +386,7 @@
     try {
       cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } } });
       if (videoEl) { videoEl.srcObject = cameraStream; videoEl.play(); }
-    } catch { cameraOpen = false; showError('Camera not available'); }
+    } catch { cameraOpen = false; showError($_('ui.m4c055cc57b13')); }
   }
 
   async function capturePhoto() {
@@ -415,9 +416,9 @@
     pickerLoading = true;
     try {
       [pickerFoods, pickerMeals, pickerRecipes] = await Promise.all([
-        NtApi.getFoods(),
-        NtApi.getMeals(),
-        NtApi.getRecipes(),
+        NaApi.getFoods(),
+        NaApi.getMeals(),
+        NaApi.getRecipes(),
       ]);
     } finally {
       pickerLoading = false;
@@ -586,11 +587,11 @@
     _pickerSavingPick = true;
     try {
       if (_pickerSource === 'shared' && food._shared_by != null) {
-        const mine = await NtApi.copyFood(food.id);
+        const mine = await NaApi.copyFood(food.id);
         if (!mine) throw new Error('Copy returned no food');
-        showSuccess('Saved to your catalog');
+        showSuccess($_('ui.m999fef4a1f0d'));
         // Refresh the local list so subsequent picks see the new row
-        pickerFoods = await NtApi.getFoods();
+        pickerFoods = await NaApi.getFoods();
         return mine;
       }
       if (_pickerSource === 'off' || _pickerSource === 'usda' || _pickerSource === 'mealie') {
@@ -612,10 +613,10 @@
         // OFF / USDA / Mealie items arrive without a numeric id — strip
         // whatever placeholder is there and createFood to mint a real row.
         const { id: _drop, ...rest } = food;
-        const saved = await NtApi.createFood({ ...rest, created_at: food.dateTime || new Date().toISOString() });
+        const saved = await NaApi.createFood({ ...rest, created_at: food.dateTime || new Date().toISOString() });
         if (!saved) throw new Error('Create returned no food');
-        showSuccess('Saved to your catalog');
-        pickerFoods = await NtApi.getFoods();
+        showSuccess($_('ui.m999fef4a1f0d'));
+        pickerFoods = await NaApi.getFoods();
         return saved;
       }
       return food;
@@ -653,13 +654,13 @@
     }
     // OFF lookup
     if (!$offEnabled) {
-      showError('Scan: no local match, and OFF is disabled in Settings.');
+      showError($_('ui.m2e4612bb623c'));
       return;
     }
     _pickerLoadingExt = true;
     try {
       const offFood = await API.lookupBarcode(code);
-      if (!offFood) { showError('Scan: barcode not found.'); return; }
+      if (!offFood) { showError($_('ui.mc5bff5a939f0')); return; }
       _pickerSource = 'off';
       _pickerApiResults = [offFood];
       pickerSearch = '';   // results display directly, no name search
@@ -814,8 +815,8 @@
   async function saveAsCopy() {
     saving = true;
     try {
-      await NtApi.copyMeal(meal.id);
-      showSuccess('Saved a copy to your catalog');
+      await NaApi.copyMeal(meal.id);
+      showSuccess($_('ui.m91ca50953d94'));
       pop();
     } catch (e) { showError('Could not save copy: ' + e.message); }
     saving = false;
@@ -873,8 +874,8 @@
           );
         }
       }
-      if (meal.id) await NtApi.updateMeal(meal.id, item);
-      else await NtApi.createMeal(item);
+      if (meal.id) await NaApi.updateMeal(meal.id, item);
+      else await NaApi.createMeal(item);
       clearMealEditorState();
       // #157: draft persistence — clear the localStorage draft now
       // that the meal has landed successfully.
@@ -918,24 +919,24 @@
     <button class="btn-icon" on:click={pop} aria-label={$_('common.back')} title={$_('common.back')}>
       <span class="material-symbols-rounded">arrow_back</span>
     </button>
-    <h2 class="editor-title">{_readOnly ? `Shared by ${meal._shared_by}` : `${meal.id ? 'Edit' : 'New'} ${isRecipe ? 'Recipe' : 'Meal'}`}</h2>
+    <h2 class="editor-title">{_readOnly ? `Shared by ${meal._shared_by}` : `${meal.id ? $_('ui.m464c4ffd019e') : $_('ui.m18fdd549b2ed')} ${isRecipe ? $_('ui.maec69352b5b9') : $_('ui.mc3940d7d61c8')}`}</h2>
     {#if meal.id && !_readOnly}
       <button class="btn-icon fav-btn" class:on={!!meal.favorite}
         on:click={() => { meal.favorite = meal.favorite ? 0 : 1; meal = meal; }}
-        aria-label={meal.favorite ? 'Unfavorite' : 'Favorite'}
-        title={meal.favorite ? 'Unfavorite' : 'Add to favorites'}>
-        <span class="material-symbols-rounded">{meal.favorite ? 'favorite' : 'favorite_border'}</span>
+        aria-label={meal.favorite ? $_('ui.m5e87a7bd5a63') : $_('ui.mea713ecd8537')}
+        title={meal.favorite ? $_('ui.m5e87a7bd5a63') : $_('ui.m7f3c0782afd7')}>
+        <span class="material-symbols-rounded">{meal.favorite ? "favorite" : "favorite_border"}</span>
       </button>
     {/if}
     {#if _readOnly}
       <button class="btn btn-primary" style="height:36px;padding:0 14px;font-size:13px;white-space:nowrap"
         on:click={saveAsCopy} disabled={saving}>
-        {saving ? 'Copying…' : 'Save to My Catalog'}
+        {saving ? $_('ui.md250fad8b1a2') : $_('ui.m18fbe5ef503f')}
       </button>
     {:else}
       <button class="btn btn-primary" style="height:36px;padding:0 16px;font-size:13px"
         on:click={save} disabled={saving}>
-        {saving ? 'Saving…' : 'Save'}
+        {saving ? $_('ui.m23e39291d613') : $_('ui.m1509f561f241')}
       </button>
     {/if}
   </header>
@@ -944,7 +945,7 @@
     <div class="readonly-banner">
       <span class="material-symbols-rounded">lock</span>
       <div>
-        <div class="readonly-title">Shared by {meal._shared_by} — read only</div>
+        <div class="readonly-title">{$_('ui.m09e58975eb9b')} {meal._shared_by} {$_('ui.m51d64190d60c')}</div>
         <div class="readonly-sub">{isRecipe ? $_('meal_editor_deep.readonly_recipe') : $_('meal_editor_deep.readonly_meal')}</div>
       </div>
     </div>
@@ -974,14 +975,14 @@
       <div class="editor-card-title">{$_('meal_editor.card_photo')}</div>
       <div class="photo-preview-wrap">
         {#if photoPreviewUrl}
-          <img src={photoPreviewUrl} alt="food" class="photo-preview-img" />
+          <img src={photoPreviewUrl} alt={$_('ui.mc1f026582fe6')} class="photo-preview-img" />
           <!-- × in the top-right corner replaces the separate trash
                button in the actions row — matches the FoodEditor
                pattern so the two editors clear photos the same way. -->
           <button class="photo-remove-btn btn-icon"
             on:click={() => photoPreviewUrl = ''}
-            aria-label="Remove photo"
-            title="Remove photo">
+            aria-label={$_('ui.mf46512ab2099')}
+            title={$_('ui.mf46512ab2099')}>
             <span class="material-symbols-rounded" style="font-size:18px">close</span>
           </button>
         {:else}
@@ -993,11 +994,11 @@
       <div class="photo-actions">
         <button class="btn btn-ghost photo-btn" on:click={openCamera}>
           <span class="material-symbols-rounded" style="font-size:18px">camera_alt</span>
-          Camera
+          {$_('ui.m03494b0d1f80')}
         </button>
         <label class="btn btn-ghost photo-btn" style="cursor:pointer">
           <span class="material-symbols-rounded" style="font-size:18px">photo_library</span>
-          Upload
+          {$_('ui.m865e89de78d9')}
           <input type="file" accept="image/*" style="display:none" on:change={handleFileChange} />
         </label>
         <button class="btn btn-ghost photo-btn" on:click={() => { showUrlInput = !showUrlInput; photoUrl = ''; }}>
@@ -1009,14 +1010,14 @@
         <div class="photo-url-row">
           <input class="input photo-url-input" placeholder="https://..." bind:value={photoUrl}
             on:keydown={e => e.key === 'Enter' && applyPhotoUrl()} />
-          <button class="btn btn-primary" on:click={applyPhotoUrl}>Get</button>
+          <button class="btn btn-primary" on:click={applyPhotoUrl}>{$_('ui.m5fb9c3aba7ad')}</button>
         </div>
       {/if}
     </div>
 
     <!-- Name -->
     <div class="card editor-card">
-      <div class="editor-card-title">Name *</div>
+      <div class="editor-card-title">{$_('ui.m862fead051be')}</div>
       <input class="input" placeholder={isRecipe ? $_('meal_editor.recipe_name_placeholder') : $_('meal_editor.meal_name_placeholder')} bind:value={meal.name} />
     </div>
 
@@ -1029,11 +1030,11 @@
           <span class="material-symbols-rounded ct-source-icon">restaurant_menu</span>
           <div class="ct-source-text">
             <span class="ct-source-label">
-              {meal.source_app === 'cooktrace' ? 'From CookTrace' : `From ${meal.source_app}`}
+              {meal.source_app === 'cooktrace' ? $_('ui.mdceb7332eca2') : `From ${meal.source_app}`}
             </span>
             {#if meal.source_url}
               <a class="ct-source-link" href={meal.source_url} target="_blank" rel="noopener noreferrer">
-                Open original
+                {$_('ui.m44a915faf3a9')}
                 <span class="material-symbols-rounded">open_in_new</span>
               </a>
             {/if}
@@ -1153,24 +1154,24 @@
     <div class="card editor-card">
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div class="editor-card-title">
-          {isRecipe ? 'Foods' : 'Foods & Recipes'}
+          {isRecipe ? $_('ui.m83aace864015') : $_('ui.m7c6426b2681b')}
           {#if meal.items.length > 0}
             {@const _hdrEnergy = Nutrition.displayEnergy(totals.calories || 0, $energyUnit)}
             <span style="font-weight:400;color:var(--accent)">
-              — {_hdrEnergy.value.toLocaleString()} {_hdrEnergy.unit} total
+              — {_hdrEnergy.value.toLocaleString()} {_hdrEnergy.unit} {$_('ui.m11239872d178')}
             </span>
           {/if}
         </div>
         <button class="btn btn-ghost" style="font-size:13px;height:32px;padding:0 12px"
           on:click={openPicker}>
-          + Add
+          {$_('ui.mc007258c23b0')}
         </button>
       </div>
 
       {#if meal.items.length === 0}
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 0;opacity:0.5">
           <span class="material-symbols-rounded" style="font-size:32px">restaurant</span>
-          <span class="text-3 text-sm">No ingredients yet. Tap + to add.</span>
+          <span class="text-3 text-sm">{$_('ui.mce0ad660141c')}</span>
         </div>
       {:else}
         <div class="ingredient-list"
@@ -1201,11 +1202,11 @@
               </div>
               <span class="text-3 text-sm">{_ingEnergy.value.toLocaleString()} {_ingEnergy.unit}</span>
               <button class="btn-icon btn-sm" on:click={() => openEditIngredient(i)}
-                style="color:var(--text-3)" title="Edit ingredient">
+                style="color:var(--text-3)" title={$_('ui.m5cfbb96c5bac')}>
                 <span class="material-symbols-rounded" style="font-size:18px">edit</span>
               </button>
               <button class="btn-icon btn-sm" on:click={() => removeIngredient(i)}
-                style="color:var(--text-3)" title="Remove ingredient">
+                style="color:var(--text-3)" title={$_('ui.mc8d71239a5f7')}>
                 <span class="material-symbols-rounded" style="font-size:18px">remove_circle</span>
               </button>
             </div>
@@ -1214,7 +1215,7 @@
         <!-- Running total + inline "add another" so users don't scroll back up -->
         {@const _ftrEnergy = Nutrition.displayEnergy(totals.calories || 0, $energyUnit)}
         <div class="ingredient-list-footer">
-          <span class="ingredient-list-total">{_ftrEnergy.value.toLocaleString()} {_ftrEnergy.unit} · {meal.items.length} {meal.items.length === 1 ? 'item' : 'items'}</span>
+          <span class="ingredient-list-total">{_ftrEnergy.value.toLocaleString()} {_ftrEnergy.unit} · {meal.items.length} {meal.items.length === 1 ? $_('ui.m4a33eacd5fa6') : $_('ui.m5f3c4f8580d3')}</span>
           <button class="ingredient-add-row" on:click={openPicker}>
             <span class="material-symbols-rounded">add</span>
             <span>{$_('meal_editor.add_ingredient')}</span>
@@ -1230,13 +1231,13 @@
         {#each _orderedNutriments.filter(n => (showAllNutrients ? true : _isVisibleByDefault(n)) && totals[n.id]) as n}
           {@const _kjMode = n.id === 'calories' && $energyUnit === 'kJ'}
           <div style="display:flex;justify-content:space-between;padding:4px 0">
-            <span class="text-sm">{_kjMode ? 'Energy' : n.label}</span>
-            <span class="text-sm font-medium">{_kjMode ? Math.round(totals[n.id] * 4.184) : Math.round(totals[n.id]*10)/10} {_kjMode ? 'kJ' : n.unit}</span>
+            <span class="text-sm">{_kjMode ? $_('ui.mf2fcd3f7dcca') : (n.labelKey ? $_(n.labelKey) : n.label)}</span>
+            <span class="text-sm font-medium">{_kjMode ? Math.round(totals[n.id] * 4.184) : Math.round(totals[n.id]*10)/10} {_kjMode ? $_('ui.m39e575dcf28e') : n.unit}</span>
           </div>
         {/each}
         <button class="btn btn-ghost w-full" style="margin-top:8px"
           on:click={() => showAllNutrients = !showAllNutrients}>
-          {showAllNutrients ? 'Show less' : 'Show all nutrients'}
+          {showAllNutrients ? $_('ui.m94ea9b1d33a0') : $_('ui.m6bd70820d02b')}
         </button>
       </div>
     {/if}
@@ -1254,8 +1255,8 @@
         <span class="material-symbols-rounded">arrow_back</span>
       </button>
       {#if selectedIngredients.size > 0}
-        <span class="picker-count-title">{selectedIngredients.size} selected</span>
-        <button class="btn-icon accent" on:click={confirmMultiIngredientAdd} aria-label="Add selected" title="Add selected"
+        <span class="picker-count-title">{selectedIngredients.size} {$_('ui.md7cbbb688b2e')}</span>
+        <button class="btn-icon accent" on:click={confirmMultiIngredientAdd} aria-label={$_('ui.m967e2ae2ca11')} title={$_('ui.m967e2ae2ca11')}
           disabled={_pickerSavingPick}>
           <span class="material-symbols-rounded">check</span>
         </button>
@@ -1281,7 +1282,7 @@
         {#each _pickerSourceOptions as opt}
           <button class="picker-source-chip" class:active={_pickerSource === opt.value}
             on:click={() => { _pickerSource = opt.value; pickerSearch = ''; }}>
-            {opt.label}
+            {opt.labelKey ? $_(opt.labelKey) : opt.label}
           </button>
         {/each}
       </div>
@@ -1292,15 +1293,15 @@
       {:else if pickerFiltered.length === 0}
         <div class="picker-empty">
           {#if _isExternalSearch && !pickerSearch}
-            Type to search {_pickerSource === 'off' ? 'Open Food Facts' : _pickerSource === 'usda' ? 'USDA' : 'Mealie'}.
+            {$_('ui.m8f5af6627018')} {_pickerSource === 'off' ? $_('ui.me5b3be5216f9') : _pickerSource === 'usda' ? 'USDA' : $_('ui.m8666e7993c20')}.
           {:else if _isExternalSearch}
-            No {_pickerSource === 'off' ? 'OFF' : _pickerSource === 'usda' ? 'USDA' : 'Mealie'} results for "{pickerSearch}".
+            {$_('ui.m1ea442a134b2')} {_pickerSource === 'off' ? 'OFF' : _pickerSource === 'usda' ? 'USDA' : $_('ui.m8666e7993c20')} {$_('ui.m0c2e1a517184')}{pickerSearch}".
           {:else if _pickerSource === 'shared'}
-            No foods shared with you yet.
+            {$_('ui.m34001d45e381')}
           {:else if pickerSearch}
-            No results found
+            {$_('ui.m7d7e36058609')}
           {:else}
-            No items yet. Add some in the Foods tab first.
+            {$_('ui.m2ac320c533fe')}
           {/if}
         </div>
       {:else}
@@ -1308,10 +1309,10 @@
           {@const _sel = selectedIngredients.has(food)}
           {@const _pickEnergy = Nutrition.displayEnergy(food.nutrition?.calories || 0, $energyUnit)}
           <div class="picker-item-row" class:picker-item-selected={_sel}>
-            <button class="picker-select-btn" on:click={() => toggleIngredient(food)} aria-label="Select"
+            <button class="picker-select-btn" on:click={() => toggleIngredient(food)} aria-label={$_('ui.m2a78025de6aa')}
               disabled={_pickerSavingPick}>
               <span class="material-symbols-rounded picker-check" class:picker-check-on={_sel}>
-                {_sel ? 'check_circle' : 'radio_button_unchecked'}
+                {_sel ? "check_circle" : "radio_button_unchecked"}
               </span>
             </button>
             <button class="picker-item-btn"
@@ -1323,7 +1324,7 @@
               {:else}
                 <div class="picker-thumb picker-thumb-ph">
                   <span class="material-symbols-rounded" style="font-size:20px">
-                    {pickerTab === 0 ? 'restaurant' : pickerTab === 1 ? 'dinner_dining' : 'menu_book'}
+                    {pickerTab === 0 ? "restaurant" : pickerTab === 1 ? "dinner_dining" : "menu_book"}
                   </span>
                 </div>
               {/if}
@@ -1349,7 +1350,7 @@
 <BarcodeScanner bind:open={_pickerScannerOpen} on:scan={(e) => _onPickerBarcode(e.detail?.code)} />
 
 <!-- ── Portion picker sheet ── -->
-<Sheet bind:open={portionSheet} title={portionFood ? portionFood.name : 'Set Portion'}
+<Sheet bind:open={portionSheet} title={portionFood ? portionFood.name : $_('ui.m9bb23fe9dde3')}
   on:close={() => { editingIndex = null; }}>
   <div style="display:flex;flex-direction:column;gap:16px;padding-top:8px">
     <div style="display:flex;gap:12px">
@@ -1377,7 +1378,7 @@
 </Sheet>
 
 <!-- ── Multi-ingredient portion sheet ── -->
-<Sheet bind:open={showMultiPortionSheet} title="Set Portions ({multiPortionItems.length} items)">
+<Sheet bind:open={showMultiPortionSheet} title={$_('ui.m1d39268e1ded', {values: {value0: (multiPortionItems.length)}})}>
   <div style="display:flex;flex-direction:column;gap:16px;padding-top:8px">
     {#each multiPortionItems as item, i}
       {#if i > 0}<div style="height:1px;background:var(--border);margin:4px 0"></div>{/if}
@@ -1393,14 +1394,14 @@
             <UnitPicker bind:value={item.unit} />
           </div>
           <div style="width:60px">
-            <label class="form-label" style="font-size:11px;color:var(--text-3);display:block;margin-bottom:5px">Qty</label>
+            <label class="form-label" style="font-size:11px;color:var(--text-3);display:block;margin-bottom:5px">{$_('ui.ma9be9c3e9ab6')}</label>
             <input class="input" type="text" inputmode="decimal" use:decimalInput bind:value={item.qty} style="width:100%;font-size:16px" />
           </div>
         </div>
       </div>
     {/each}
     <button class="btn btn-primary w-full" on:click={confirmMultiPortion}>
-      Add {multiPortionItems.length} Ingredient{multiPortionItems.length > 1 ? 's' : ''}
+      {$_('ui.m9fd728c66c9a')} {multiPortionItems.length} {$_('ui.mc4c5ed008b86')}{multiPortionItems.length > 1 ? 's' : ''}
     </button>
   </div>
 </Sheet>
@@ -1411,7 +1412,7 @@
     <div class="cam-popup">
       <div class="cam-header">
         <span class="cam-title">{$_('meal_editor_deep.take_photo')}</span>
-        <button class="btn-icon" on:click={closeCamera} title="Close camera">
+        <button class="btn-icon" on:click={closeCamera} title={$_('ui.mbebcb88d9dcf')}>
           <span class="material-symbols-rounded">close</span>
         </button>
       </div>
@@ -1420,7 +1421,7 @@
       <div class="cam-footer">
         <button class="btn btn-primary cam-capture-btn" on:click={capturePhoto}>
           <span class="material-symbols-rounded">camera_alt</span>
-          Capture
+          {$_('ui.m1900b478a586')}
         </button>
       </div>
     </div>

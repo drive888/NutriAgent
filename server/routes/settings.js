@@ -1,3 +1,4 @@
+import { requestLanguage, translateServerText } from '../lib/localization.js';
 import { Router } from 'express';
 import db from '../db.js';
 import { wrap } from '../logger.js';
@@ -137,23 +138,25 @@ async function _pushTestHandler(req, res) {
       if (!url || !token) return res.status(400).json({ error: 'Gotify URL and token required — save settings first' });
       resp = await _sendPush(`${serviceBase(url) ?? url}/message?token=${encodeURIComponent(token)}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: title || 'NutriTrace', message: message || 'Test notification — connected!', priority: priority || 5 }),
+        body: JSON.stringify({ title: title || 'NutriAgent', message: message || translateServerText('Test notification — connected!', requestLanguage(req, db)), priority: priority || 5 }),
       });
     } else if (svc === 'ntfy') {
       const url = _s('ntfyUrl') || 'https://ntfy.sh';
       const topic = _s('ntfyTopic');
       const token = _s('ntfyToken');
       if (!topic) return res.status(400).json({ error: 'ntfy topic required' });
-      const headers = { 'Title': title || 'NutriTrace', 'Priority': String(Math.min(5, priority || 5)) };
+      const testTitle = title || 'NutriAgent';
+      const encodedTitle = /[^\x00-\xFF]/.test(testTitle) ? `=?UTF-8?B?${Buffer.from(testTitle, 'utf8').toString('base64')}?=` : testTitle;
+      const headers = { 'Title': encodedTitle, 'Priority': String(Math.min(5, priority || 5)) };
       if (token) headers['Authorization'] = `Bearer ${token}`;
       resp = await _sendPush(`${serviceBase(url) ?? url}/${encodeURIComponent(topic)}`, {
-        method: 'POST', headers, body: message || 'Test notification — connected!',
+        method: 'POST', headers, body: message || translateServerText('Test notification — connected!', requestLanguage(req, db)),
       });
     } else if (svc === 'apprise') {
       const url = _s('appriseUrl');
       const tag = _s('appriseTag');
       if (!url) return res.status(400).json({ error: 'Apprise URL required' });
-      const body = { title: title || 'NutriTrace', body: message || 'Test notification — connected!', type: 'info' };
+      const body = { title: title || 'NutriAgent', body: message || translateServerText('Test notification — connected!', requestLanguage(req, db)), type: 'info' };
       if (tag) body.tag = tag;
       resp = await _sendPush(`${serviceBase(url) ?? url}/notify`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),

@@ -1,3 +1,5 @@
+import { get } from 'svelte/store';
+import { _ } from 'svelte-i18n';
 import { writable } from 'svelte/store';
 
 /** Global confirm-dialog store.
@@ -13,13 +15,14 @@ import { writable } from 'svelte/store';
 export const confirmRequest = writable(null);
 
 export function confirmDialog({
-  title = 'Are you sure?',
+  title = get(_)('ui.mf0762c4f3bfc'),
+  titleKey,
   message = '',
   confirmText = 'OK',
-  cancelText = 'Cancel',
+  cancelText = get(_)('common.cancel'),
   dangerous = false,
 } = {}) {
   return new Promise(resolve => {
-    confirmRequest.set({ title, message, confirmText, cancelText, dangerous, resolve });
+    confirmRequest.set({ title, titleKey, message, confirmText, cancelText, dangerous, resolve });
   });
 }

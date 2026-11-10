@@ -1,0 +1,73 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/foods/edit".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/foods/edit
+	2 container app
+		145 container
+			146 button Back
+			147 heading Add Food, Value: 2
+				148 text Add Food
+			149 button Save
+			150 text PHOTO
+			151 text photo_camera
+			152 button camera_alt Camera
+				153 text camera_alt
+				154 text Camera
+			155 button photo_library Upload
+				156 text photo_library
+				157 text Upload
+			158 button link URL
+				159 text link
+				160 text URL
+			161 text history Restored unsaved changes from earlier.
+			162 button Discard
+			163 text BASIC INFO
+			164 text NAME *
+			165 text field (settable)
+			166 text BRAND
+			167 text field (settable)
+			168 text SERVING SIZE
+			169 text field (settable) 100
+			170 text UNIT
+			171 container
+				172 text field (settable) g
+				173 text expand_more
+			174 button link_off, Help: Fields are independent
+			175 text BARCODE
+			176 container
+				177 text field (settable)
+				178 button Scan Barcode
+			179 text NOTES
+			180 text entry area (settable)
+			181 text NUTRITION
+			182 button Description: Scan nutrition label, Help: Take a photo of the nutrition label to fill these fields
+				183 text document_scanner
+				184 text Scan Label
+			185 text CALORIES (KCAL)
+			186 text field (settable)
+			187 text FAT (G)
+			188 text field (settable)
+			189 text SATURATED FAT (G)
+			190 text field (settable)
+			191 text SODIUM (MG)
+			192 text field (settable)
+			193 text CARBS (G)
+			194 text field (settable)
+			195 text FIBER (G)
+			196 text field (settable)
+			197 text SUGARS (G)
+			198 text field (settable)
+			199 text ADDED SUGARS (G)
+			200 text field (settable)
+			201 text PROTEIN (G)
+			202 text field (settable)
+			203 text VITAMIN D (MCG)
+			204 text field (settable)
+			205 text CALCIUM (MG)
+			206 text field (settable)
+			207 text IRON (MG)
+			208 text field (settable)
+			209 text POTASSIUM (MG)
+			210 text field (settable)
+			211 button Show All Nutrients
+		144 button Description: Open AI coach (hold to dictate food), Help: AI Assistant
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/foods/edit

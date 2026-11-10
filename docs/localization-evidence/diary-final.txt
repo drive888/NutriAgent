@@ -1,0 +1,114 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/#/".
+1 AXWebArea NutriTrace, URL: localhost:3103/#/
+	2 container app
+		3 button 打开菜单
+		4 container
+			77 container
+				78 button 展开营养面板
+					79 text 0% P
+					80 text  · 
+					81 text 0% C
+					82 text  · 
+					83 text 0% F
+					84 text  · 
+					85 text 0 kcal
+					86 text · 
+					87 text water_drop
+					88 text  0 ml
+					89 text expand_less
+			18 container 主导航
+				19 button 饮食日记
+					20 text book
+					21 text 饮食日记
+				22 button 食物
+					23 text restaurant
+					24 text 食物
+				25 button 统计
+					26 text bar_chart
+					27 text 统计
+				28 button 目标
+					29 text flag
+					30 text 目标
+				31 button 设置
+					32 text settings
+					33 text 设置
+		90 container
+			91 heading 饮食日记, Value: 1
+				92 text 饮食日记
+			93 button 前一天
+			94 button 今天 11/03/2026, Help: 跳转到日期
+				95 text 今天
+				96 text 11/03/2026
+			97 button 后一天
+			98 container meal-0
+				99 text free_breakfast 早餐
+				100 button Description: 早餐餐食操作, Help: 餐食操作
+				101 button Description: 为早餐快速记录热量, Help: 快速热量
+				102 button 为早餐添加食物
+				103 button 为早餐添加食物
+					104 text add_circle
+					105 text 点击添加食物
+			106 container meal-2
+				107 text dinner_dining 晚餐
+				108 button Description: 晚餐餐食操作, Help: 餐食操作
+				109 button Description: 为晚餐快速记录热量, Help: 快速热量
+				110 button 为晚餐添加食物
+				111 button 为晚餐添加食物
+					112 text add_circle
+					113 text 点击添加食物
+			114 container meal-1
+				115 text lunch_dining 午餐
+				116 button Description: 午餐餐食操作, Help: 餐食操作
+				117 button Description: 为午餐快速记录热量, Help: 快速热量
+				118 button 为午餐添加食物
+				119 button 为午餐添加食物
+					120 text add_circle
+					121 text 点击添加食物
+			122 container meal-3
+				123 text cookie 加餐
+				124 button Description: 加餐餐食操作, Help: 餐食操作
+				125 button Description: 为加餐快速记录热量, Help: 快速热量
+				126 button 为加餐添加食物
+				127 button 为加餐添加食物
+					128 text add_circle
+					129 text 点击添加食物
+			130 container
+				131 text edit_note 当日备注 expand_more
+		76 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+	132 container
+		133 button Description: 记录饮水, Help: 饮水 — 记录你的饮水量
+		134 button Description: 营养汇总, Help: 营养概览 — 查看今日各项营养素的完整明细
+		135 button Description: 身体数据, Help: 身体数据 — 记录体重、体脂和身体围度
+	136 container
+		137 text 概览
+		138 button Description: 隐藏小组件面板, Help: 隐藏小组件（可通过边缘标签重新打开）
+		139 container
+			140 button Description: 切换宏量营养素的百分比和克数显示, Help: 切换百分比 / 克数
+				141 text %
+				142 text g
+			143 button trending_up, Help: 查看趋势
+			144 button open_in_full, Help: 打开完整营养摘要
+		145 container
+			146 image
+			147 text 0 kcal / 2,000
+		148 text 0% 蛋白质 0% 碳水 0% 脂肪 0 g 蛋白质 0 g 碳水 0 g 脂肪
+		149 container
+			150 text water_drop 饮水 0 ml  / 2000 ml
+			151 button 打开饮水面板
+		152 button +250 ml, Help: 小水瓶
+		153 button +500 ml, Help: 标准水瓶
+		154 button +1000 ml, Help: 大水瓶
+		155 button +3785 ml, Help: 加仑水壶
+		156 button + 自定义
+		157 container
+			158 text monitor_weight 身体数据
+			159 button open_in_full, Help: 打开身体数据面板
+		160 text 尚未记录体重
+		161 button 记录
+		162 text 今天尚未记录测量数据
+		163 button 记录身体指标
+		164 container
+			165 text edit_note 当日备注
+		166 text entry area (settable)
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/#/

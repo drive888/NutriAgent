@@ -5,7 +5,7 @@
  * reading that lands in wellness_data also populates that day's diary
  * body_stats.weight — but only when it's currently empty, so manual
  * entries always win. Reporter's case: Renpho → Health Connect →
- * NutriTrace was updating Wellness "Body Weight" but leaving Body
+ * NutriAgent was updating Wellness "Body Weight" but leaving Body
  * Stats "Weight" (and its goal) stale.
  *
  * Called from every wellness-write site that handles `weight_kg`:

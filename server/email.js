@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
 import db from './db.js';
 import { logger } from './logger.js';
+import { userLanguage } from './lib/localization.js';
+import { chineseEmail } from './lib/email-localization.js';
 
 /** Seed app_config from env vars at startup (env vars take priority) */
 export function seedSmtpFromEnv() {
@@ -66,7 +68,7 @@ function createTransport(overrides) {
 
 export async function sendMail({ to, subject, html, text }) {
   const cfg = getSmtpConfig();
-  const from = cfg.smtp_from || cfg.smtp_user || 'NutriTrace <noreply@nutritrace.app>';
+  const from = cfg.smtp_from || cfg.smtp_user || 'NutriAgent <noreply@nutriagent.app>';
   const transport = createTransport();
   await transport.sendMail({ from, to, subject, html, text });
 }
@@ -76,19 +78,24 @@ export async function sendMail({ to, subject, html, text }) {
  *  (so unsaved form values can be tested). Recipient priority: explicit
  *  `to` arg, then smtp_from, then smtp_user. Returns the address the
  *  email was actually sent to so the UI can show it. */
-export async function testSmtp({ overrides, to, origin, recipientName } = {}) {
+export async function testSmtp({ overrides, to, origin, recipientName, language = 'en' } = {}) {
   const cfg = _mergedCfg(overrides);
-  const from = cfg.smtp_from || cfg.smtp_user || 'NutriTrace <noreply@nutritrace.app>';
+  const from = cfg.smtp_from || cfg.smtp_user || 'NutriAgent <noreply@nutriagent.app>';
   const recipient = to || cfg.smtp_from || cfg.smtp_user;
   if (!recipient) throw new Error('No recipient. Fill in a From address (or make sure your account has an email set).');
   const transport = createTransport(overrides);
+  const localized = localizedMail('test', { name: recipientName }, language, origin || '');
+  if (localized) {
+    await transport.sendMail({ from, to: recipient, ...localized });
+    return { to: recipient };
+  }
   const body = _testEmailBody(recipientName);
   await transport.sendMail({
     from,
     to: recipient,
-    subject: 'NutriTrace SMTP Test',
-    html: emailWrapper(origin || '', body, null, 'SMTP test from your NutriTrace instance'),
-    text: `Hi${recipientName ? ' ' + recipientName : ''},\n\nThis is a test email from your NutriTrace instance. If you're reading this, your SMTP settings work end-to-end. Password resets, invites, and other transactional emails will be delivered through this config.\n\nSafe to delete this email.`,
+    subject: 'NutriAgent SMTP Test',
+    html: emailWrapper(origin || '', body, null, 'SMTP test from your NutriAgent instance'),
+    text: `Hi${recipientName ? ' ' + recipientName : ''},\n\nThis is a test email from your NutriAgent instance. If you're reading this, your SMTP settings work end-to-end. Password resets, invites, and other transactional emails will be delivered through this config.\n\nSafe to delete this email.`,
   });
   return { to: recipient };
 }
@@ -103,7 +110,7 @@ function _testEmailBody(name) {
       SMTP Test Successful
     </p>
     <p class="nt-body-txt" style="margin:0 0 16px;font-size:15px;color:#8A93A8;line-height:1.7;">
-      This is a test email from your <strong style="color:#FFFFFF;">NutriTrace</strong> instance. If you&rsquo;re reading this,
+      This is a test email from your <strong style="color:#FFFFFF;">NutriAgent</strong> instance. If you&rsquo;re reading this,
       your SMTP settings work end-to-end.
     </p>
     <p class="nt-body-txt" style="margin:0 0 24px;font-size:15px;color:#8A93A8;line-height:1.7;">
@@ -134,14 +141,15 @@ function _escapeHtml(str) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-function emailWrapper(origin, bodyHtml, footerNote, preheaderText) {
+function emailWrapper(origin, bodyHtml, footerNote, preheaderText, language = 'en') {
+  const chinese = language === 'zh-CN';
   const logoUrl = `${_escapeHtml(origin)}/icons/logo-email.png`;
   const year    = new Date().getFullYear();
   const preheader = preheaderText
     ? `<div style="display:none;font-size:1px;color:#0A0B0F;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">${preheaderText}</div>`
     : '';
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${chinese ? 'zh-CN' : 'en'}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
@@ -178,13 +186,13 @@ ${preheader}
         <!-- Header -->
         <tr>
           <td class="nt-header" align="center" style="background-color:#0D1610;padding:36px 40px 30px;border-radius:16px 16px 0 0;border:1px solid #163324;border-bottom:none;">
-            <img src="${logoUrl}" alt="NutriTrace" width="60" height="60"
+            <img src="${logoUrl}" alt="NutriAgent" width="60" height="60"
               style="display:block;margin:0 auto 18px;border-radius:14px;" />
             <div style="font-family:${_FONT};font-size:26px;font-weight:700;color:#FFFFFF;letter-spacing:-0.4px;line-height:1;">
-              NutriTrace
+              NutriAgent
             </div>
             <div style="font-family:${_FONT};font-size:11px;font-weight:600;color:#00C47A;letter-spacing:0.22em;text-transform:uppercase;margin-top:8px;">
-              Trace Every Bite
+              ${chinese ? '记录每一口' : 'Your AI Nutrition Assistant'}
             </div>
           </td>
         </tr>
@@ -206,7 +214,7 @@ ${preheader}
           <td class="nt-footer" style="background-color:#0D0F14;padding:22px 40px 28px;border-radius:0 0 16px 16px;border:1px solid #1A1F2E;border-top:1px solid #252D3D;">
             ${footerNote ? `<p class="nt-muted" style="margin:0 0 10px;font-family:${_FONT};font-size:12px;color:#4A5268;text-align:center;line-height:1.6;">${footerNote}</p>` : ''}
             <p class="nt-muted" style="margin:0;font-family:${_FONT};font-size:11px;color:#323850;text-align:center;">
-              &copy; ${year} NutriTrace &nbsp;&middot;&nbsp; Self-hosted &nbsp;&middot;&nbsp; Your data, your rules
+              &copy; ${year} NutriAgent &nbsp;&middot;&nbsp; ${chinese ? '自行托管 &nbsp;&middot;&nbsp; 您的数据，由您做主' : 'Self-hosted &nbsp;&middot;&nbsp; Your data, your rules'}
             </p>
           </td>
         </tr>
@@ -246,9 +254,21 @@ function fallbackUrl(url) {
   </p>`;
 }
 
+function recipientLanguage(email) {
+  const user = db.prepare('SELECT id FROM users WHERE LOWER(email) = LOWER(?)').get(email);
+  return userLanguage(db, user?.id);
+}
+
+function localizedMail(type, data, language, origin) {
+  const rendered = chineseEmail(type, data, language);
+  return rendered ? { subject: rendered.subject, html: emailWrapper(origin, rendered.body, null, rendered.preheader, 'zh-CN'), text: rendered.text } : null;
+}
+
 // ── Templates ──────────────────────────────────────────────────────────────
 
 export async function sendPasswordReset(email, resetUrl) {
+  const localized = localizedMail('reset', { url: resetUrl }, recipientLanguage(email), new URL(resetUrl).origin);
+  if (localized) return sendMail({ to: email, ...localized });
   const origin = new URL(resetUrl).origin;
   const body = `
     ${greeting(null)}
@@ -256,7 +276,7 @@ export async function sendPasswordReset(email, resetUrl) {
       Password Reset Requested
     </p>
     <p class="nt-body-txt" style="margin:0 0 28px;font-size:15px;color:#8A93A8;line-height:1.7;">
-      We received a request to reset the password for your NutriTrace account.
+      We received a request to reset the password for your NutriAgent account.
       Click the button below to choose a new password.
     </p>
     ${ctaButton(resetUrl, 'Reset My Password')}
@@ -268,13 +288,15 @@ export async function sendPasswordReset(email, resetUrl) {
 
   await sendMail({
     to: email,
-    subject: 'Reset your NutriTrace password',
-    html: emailWrapper(origin, body, null, 'Reset your NutriTrace password — this link expires in 1 hour.'),
-    text: `Reset your NutriTrace password:\n${resetUrl}\n\nThis link expires in 1 hour. If you didn't request this, ignore this email.`,
+    subject: 'Reset your NutriAgent password',
+    html: emailWrapper(origin, body, null, 'Reset your NutriAgent password — this link expires in 1 hour.'),
+    text: `Reset your NutriAgent password:\n${resetUrl}\n\nThis link expires in 1 hour. If you didn't request this, ignore this email.`,
   });
 }
 
-export async function sendInvite(email, inviteUrl, inviterName) {
+export async function sendInvite(email, inviteUrl, inviterName, language = 'en') {
+  const localized = localizedMail('invite', { url: inviteUrl, sender: inviterName }, language, new URL(inviteUrl).origin);
+  if (localized) return sendMail({ to: email, ...localized });
   const origin  = new URL(inviteUrl).origin;
   const sender  = inviterName
     ? `<strong style="color:#FFFFFF;">${_escapeHtml(inviterName)}</strong> has invited you to join`
@@ -286,7 +308,7 @@ export async function sendInvite(email, inviteUrl, inviterName) {
       You&rsquo;re Invited
     </p>
     <p class="nt-body-txt" style="margin:0 0 16px;font-size:15px;color:#8A93A8;line-height:1.7;">
-      ${sender} <strong style="color:#FFFFFF;">NutriTrace</strong> &mdash; a personal nutrition
+      ${sender} <strong style="color:#FFFFFF;">NutriAgent</strong> &mdash; a personal nutrition
       tracker built for privacy, where your data lives on your own server and nowhere else.
     </p>
     <p class="nt-body-txt" style="margin:0 0 32px;font-size:15px;color:#8A93A8;line-height:1.7;">
@@ -301,9 +323,9 @@ export async function sendInvite(email, inviteUrl, inviterName) {
 
   await sendMail({
     to: email,
-    subject: `You've been invited to NutriTrace`,
-    html: emailWrapper(origin, body, null, `${_escapeHtml(inviterName || 'Someone')} invited you to NutriTrace — accept within 7 days.`),
-    text: `${inviterName ? inviterName + ' has invited you' : "You've been invited"} to join NutriTrace.\n\nAccept your invitation:\n${inviteUrl}\n\nThis invite expires in 7 days.`,
+    subject: `You've been invited to NutriAgent`,
+    html: emailWrapper(origin, body, null, `${_escapeHtml(inviterName || 'Someone')} invited you to NutriAgent — accept within 7 days.`),
+    text: `${inviterName ? inviterName + ' has invited you' : "You've been invited"} to join NutriAgent.\n\nAccept your invitation:\n${inviteUrl}\n\nThis invite expires in 7 days.`,
   });
 }
 
@@ -312,6 +334,8 @@ export async function sendInvite(email, inviteUrl, inviterName) {
 // share dialog. Best-effort; the share succeeds even if the email fails.
 export async function sendFoodShared(email, foodName, sharerName, viewUrl) {
   if (!email) return;
+  const localized = localizedMail('food', { url: viewUrl, sender: sharerName, item: foodName }, recipientLanguage(email), new URL(viewUrl).origin);
+  if (localized) return sendMail({ to: email, ...localized });
   const origin = new URL(viewUrl).origin;
   const foodText   = String(foodName   || 'a food');
   const sharerText = String(sharerName || 'Someone');
@@ -324,7 +348,7 @@ export async function sendFoodShared(email, foodName, sharerName, viewUrl) {
     </p>
     <p class="nt-body-txt" style="margin:0 0 16px;font-size:15px;color:#8A93A8;line-height:1.7;">
       <strong style="color:#FFFFFF;">${safeFood}</strong> just landed in your "From Others" tab
-      on <strong style="color:#FFFFFF;">NutriTrace</strong>. Open it to view the nutrition,
+      on <strong style="color:#FFFFFF;">NutriAgent</strong>. Open it to view the nutrition,
       log it to your diary, or copy it into your own library.
     </p>
     ${ctaButton(viewUrl, 'View Food')}
@@ -333,8 +357,8 @@ export async function sendFoodShared(email, foodName, sharerName, viewUrl) {
   await sendMail({
     to: email,
     subject: 'Someone shared a food with you',
-    html: emailWrapper(origin, body, null, `${safeSharer} shared "${safeFood}" with you on NutriTrace.`),
-    text: `${sharerText} shared "${foodText}" with you on NutriTrace.\n\nOpen it: ${viewUrl}`,
+    html: emailWrapper(origin, body, null, `${safeSharer} shared "${safeFood}" with you on NutriAgent.`),
+    text: `${sharerText} shared "${foodText}" with you on NutriAgent.\n\nOpen it: ${viewUrl}`,
   });
 }
 
@@ -343,6 +367,8 @@ export async function sendFoodShared(email, foodName, sharerName, viewUrl) {
 // share dialog. Best-effort; the share succeeds even if the email fails.
 export async function sendMealShared(email, mealName, sharerName, viewUrl) {
   if (!email) return;
+  const localized = localizedMail('meal', { url: viewUrl, sender: sharerName, item: mealName }, recipientLanguage(email), new URL(viewUrl).origin);
+  if (localized) return sendMail({ to: email, ...localized });
   const origin = new URL(viewUrl).origin;
   const mealText   = String(mealName   || 'a meal');
   const sharerText = String(sharerName || 'Someone');
@@ -355,7 +381,7 @@ export async function sendMealShared(email, mealName, sharerName, viewUrl) {
     </p>
     <p class="nt-body-txt" style="margin:0 0 16px;font-size:15px;color:#8A93A8;line-height:1.7;">
       <strong style="color:#FFFFFF;">${safeMeal}</strong> just landed in your "From Others" tab
-      on <strong style="color:#FFFFFF;">NutriTrace</strong>. Open it to view the ingredients
+      on <strong style="color:#FFFFFF;">NutriAgent</strong>. Open it to view the ingredients
       and nutrition, log it to your diary, or copy it into your own library.
     </p>
     ${ctaButton(viewUrl, 'View Meal')}
@@ -364,8 +390,8 @@ export async function sendMealShared(email, mealName, sharerName, viewUrl) {
   await sendMail({
     to: email,
     subject: 'Someone shared a meal with you',
-    html: emailWrapper(origin, body, null, `${safeSharer} shared "${safeMeal}" with you on NutriTrace.`),
-    text: `${sharerText} shared "${mealText}" with you on NutriTrace.\n\nOpen it: ${viewUrl}`,
+    html: emailWrapper(origin, body, null, `${safeSharer} shared "${safeMeal}" with you on NutriAgent.`),
+    text: `${sharerText} shared "${mealText}" with you on NutriAgent.\n\nOpen it: ${viewUrl}`,
   });
 }
 
@@ -514,8 +540,9 @@ export async function sendWeeklySummaryEmail(userId, origin) {
     const weightDiff = (firstWeight != null && lastWeight != null) ? lastWeight - firstWeight : null;
 
     // ── Build email ───────────────────────────────────────────────────────
+    const language = userLanguage(db, userId);
     const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    const fmtDate = (d) => `${DAYS[d.getDay()]} ${d.toLocaleDateString('en-US', { month:'short', day:'numeric' })}`;
+    const fmtDate = (d) => language === 'zh-CN' ? d.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric', weekday: 'short' }) : `${DAYS[d.getDay()]} ${d.toLocaleDateString('en-US', { month:'short', day:'numeric' })}`;
     const weekRange = `${fmtDate(fromDate)} – ${fmtDate(toDate)}`;
 
     const _dispAvgCal = _toE(avgCal);
@@ -568,10 +595,29 @@ export async function sendWeeklySummaryEmail(userId, origin) {
       ${wellnessSection}
       ${weightSection}`;
 
+    const localized = localizedMail('weekly', { name, weekRange, rows: [
+      ['记录饮食天数', `${daysLogged} / 7`],
+      ['日均能量', _dispAvgCal, _eUnit], ['相对目标', _dispDiffSigned, _eUnit],
+      ['目标达成率', goalHitPct, '%'], ['平均蛋白质', avgProt, 'g'],
+      ['平均碳水化合物', avgCarb, 'g'], ['平均脂肪', avgFat, 'g'], ['平均饮水量', avgWaterL, 'L'],
+      ['标记完成天数', daysCompleted > 0 ? `${daysCompleted} / 7` : null],
+      ['日均步数', avgSteps], ['平均消耗能量', w.calories_out ? _toE(w.calories_out) : null, _eUnit],
+      ['平均睡眠', w.sleep_duration_min ? `${Math.floor(w.sleep_duration_min / 60)} 小时 ${Math.round(w.sleep_duration_min % 60)} 分钟` : null],
+      ['平均静息心率', w.resting_hr ? Math.round(w.resting_hr) : null, 'bpm'],
+      ['平均准备度', w.readiness_score ? Math.round(w.readiness_score) : null, '/ 100'],
+      ['平均压力管理', w.stress_score ? Math.round(w.stress_score) : null, '/ 100'],
+      ['本周体重变化', weightDiff != null ? `${weightDiff >= 0 ? '+' : ''}${weightDiff.toFixed(1)}` : null, 'kg'],
+    ] }, language, origin);
+    if (localized) {
+      await sendMail({ to: toEmail, ...localized });
+      logger.info(`[email] weekly summary sent to user ${userId} (${toEmail})`);
+      return;
+    }
+
     await sendMail({
       to: toEmail,
-      subject: `NutriTrace Weekly Summary — ${weekRange}`,
-      html: emailWrapper(origin, body, 'To stop receiving these emails, turn off Weekly Summary in Settings &rarr; Notifications.', `Your NutriTrace week: ${_dispAvgCal != null ? _dispAvgCal + ' avg ' + _eUnit : ''}${avgSteps ? ', ' + avgSteps + ' avg steps' : ''}`),
+      subject: `NutriAgent Weekly Summary — ${weekRange}`,
+      html: emailWrapper(origin, body, 'To stop receiving these emails, turn off Weekly Summary in Settings &rarr; Notifications.', `Your NutriAgent week: ${_dispAvgCal != null ? _dispAvgCal + ' avg ' + _eUnit : ''}${avgSteps ? ', ' + avgSteps + ' avg steps' : ''}`),
       text: `Weekly Summary (${weekRange})\n\n` +
         (_dispAvgCal != null ? `Avg ${_isKj ? 'energy' : 'calories'}: ${_dispAvgCal} ${_eUnit}\n` : '') +
         (avgProt  ? `Avg protein: ${avgProt}g\n` : '') +

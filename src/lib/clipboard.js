@@ -1,5 +1,5 @@
 /**
- * clipboard.js: copy text wherever NutriTrace runs.
+ * clipboard.js: copy text wherever NutriAgent runs.
  *
  * navigator.clipboard only exists on secure pages (HTTPS or localhost).
  * Self-hosters often open their server over plain http on a LAN or tailnet,

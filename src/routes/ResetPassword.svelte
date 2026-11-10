@@ -1,7 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { push, querystring } from 'svelte-spa-router';
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import { currentUser } from '../stores/auth.js';
   import { loadServerSettings } from '../stores/settings.js';
   import { validatePassword, passwordStrength } from '../lib/validation.js';
@@ -24,7 +24,7 @@
     token = params.get('token') || '';
     if (!token) { validating = false; return; }
     try {
-      const res  = await fetch(apiUrl(`/api/auth/validate-token?token=${token}&type=reset`), { credentials: 'include' });
+      const res  = await fetch(apiUrl(`/api/auth/validate-token?token=${token}&type=reset`), { credentials: 'include', headers: { 'Accept-Language': $locale || 'en' } });
       const data = await res.json();
       if (res.ok) { tokenValid = true; username = data.username || ''; }
     } finally {
@@ -42,7 +42,7 @@
       const res  = await fetch(apiUrl('/api/auth/reset-password'), {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept-Language': $locale || 'en' },
         body: JSON.stringify({ token, password }),
       });
       const data = await res.json();
@@ -63,7 +63,7 @@
 <div class="login-page">
   <div class="login-card card">
     <div class="login-logo">
-      <img src={iconUrl('/icons/logo.png')} alt="NutriTrace" class="logo-img" />
+      <img src={iconUrl('/icons/logo.png')} alt={$_('ui.m2014cdd9e657')} class="logo-img" />
       <h1 class="login-title">{$_('reset_password.title')}</h1>
     </div>
 
@@ -98,7 +98,7 @@
         {#if password}
           <div class="pw-strength" class:s-0={pwScore.score === 0} class:s-1={pwScore.score === 1} class:s-2={pwScore.score === 2} class:s-3={pwScore.score === 3} class:s-4={pwScore.score === 4}>
             <div class="pw-bar"><div class="pw-fill" style:width={`${(pwScore.score / 4) * 100}%`}></div></div>
-            <span class="pw-label">{pwScore.label}</span>
+            <span class="pw-label">{pwScore.labelKey ? $_(pwScore.labelKey) : pwScore.label}</span>
           </div>
         {/if}
       </div>

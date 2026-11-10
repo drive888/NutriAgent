@@ -4,7 +4,7 @@ import fs from 'fs';
 import { randomUUID } from 'crypto';
 import { foldText } from './lib/search-text.js';
 
-const dbPath = process.env.DB_PATH || './nutritrace.db';
+const dbPath = process.env.DB_PATH || './nutriagent.db';
 fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
 const db = new Database(dbPath);

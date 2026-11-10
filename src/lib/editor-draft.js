@@ -3,7 +3,7 @@
  *
  * Motivation (#157): Samsung's camera-mode lmkd policy kills the WebView
  * renderer while the OS camera activity is foreground; Chromium then
- * kills the host process; Android cold-starts NutriTrace and the editor
+ * kills the host process; Android cold-starts NutriAgent and the editor
  * remounts with an empty form. All in-progress typing is lost because
  * it lived only in Svelte state.
  *

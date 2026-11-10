@@ -35,8 +35,9 @@ import { pickApkAsset } from './apk-asset.js';
 import { DB } from './db.js';
 
 const GH_OWNER = 'TraceApps';
+// Upstream repository identity; this fork's displayed name is NutriAgent.
 const GH_REPO  = 'nutritrace';
-const APP_NAME = 'NutriTrace';
+const APP_NAME = 'NutriAgent';
 const CACHE_KEY_LAST_CHECK   = 'wl_updates_last_check';   // ISO string
 const CACHE_KEY_LATEST       = 'wl_updates_latest';       // JSON blob
 const CACHE_KEY_SKIP_VERSION = 'wl_updates_skip_version'; // version string user chose to skip
@@ -345,7 +346,7 @@ export function isUpdateAvailable(latest) {
 
 /**
  * Extract the semver from an APK filename our downloader writes.
- * Names follow `nutritrace-<version>.apk` — same shape as GH release
+ * Names follow `nutriagent-<version>.apk` — same shape as GH release
  * assets. Anything else returns null (safer than guessing).
  */
 function _apkVersionFromName(name) {

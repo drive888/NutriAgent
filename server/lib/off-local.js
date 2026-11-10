@@ -8,7 +8,7 @@
  * OFF_LOCAL_ONLY=1 is set (air-gapped mode).
  *
  * Designed so a self-hoster on an air-gapped network or in a strict-egress
- * environment can run NutriTrace's food-lookup features without ever calling
+ * environment can run NutriAgent's food-lookup features without ever calling
  * the public OFF API.
  *
  * Mirror refresh (issue #22 follow-up):
@@ -1040,7 +1040,7 @@ function _extractLocalized(list, preferLang = 'en') {
 
 /** Unfold the HF Parquet nutriments list-of-objects into the flat
  *  `{name_100g, name_serving, name_value, name_unit}` shape the rest of
- *  NutriTrace expects (matches OFF's public API response shape).
+ *  NutriAgent expects (matches OFF's public API response shape).
  *  Skips elements with no name or no numeric value.
  *
  *  Uses _readField + _coerceString so the same DuckDB-Node STRUCT-shape

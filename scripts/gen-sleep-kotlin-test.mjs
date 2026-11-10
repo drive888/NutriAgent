@@ -11,7 +11,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const FIXTURES = new URL('./fixtures/sleep-sessions.json', import.meta.url);
-export const OUT = new URL('../android/app/src/test/java/com/nutritrace/app/SleepDerivationFixturesTest.kt', import.meta.url);
+export const OUT = new URL('../android/app/src/test/java/com/nutriagent/app/SleepDerivationFixturesTest.kt', import.meta.url);
 
 // AndroidX SleepSessionRecord.STAGE_TYPE_* values.
 const STAGE = { UNKNOWN: 0, AWAKE: 1, SLEEPING: 2, OUT_OF_BED: 3, LIGHT: 4, DEEP: 5, REM: 6, AWAKE_IN_BED: 7 };
@@ -62,7 +62,7 @@ export function render() {
 // Do not edit by hand: change the fixtures, then run
 //   node scripts/gen-sleep-kotlin-test.mjs
 // The JS side runs the same cases in scripts/sleep-sessions.test.js (#236).
-package com.nutritrace.app
+package com.nutriagent.app
 
 import androidx.health.connect.client.records.SleepSessionRecord
 import org.junit.Assert.assertEquals

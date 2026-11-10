@@ -10,7 +10,7 @@
  * image.
  *
  * SVG is intentionally NOT supported — it's a script-execution risk and
- * NutriTrace only ever needs raster food/avatar photos.
+ * NutriAgent only ever needs raster food/avatar photos.
  */
 import fs from 'fs/promises';
 

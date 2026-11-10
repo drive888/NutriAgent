@@ -1,5 +1,5 @@
 /* ============================================================
-   Button Components — NutriTrace
+   Button Components — NutriAgent
    ============================================================ */
 
 .btn {
@@ -21,15 +21,22 @@
   -webkit-user-select: none;
 }
 .btn:active { transform: scale(0.96); }
-.btn:disabled { opacity: 0.4; pointer-events: none; }
+.btn:disabled {
+  opacity: 1;
+  background: var(--surface-2);
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  box-shadow: none;
+  pointer-events: none;
+}
 
 /* Primary — gradient accent */
 .btn-primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: var(--accent-text);
-  box-shadow: 0 2px 12px rgba(79,255,176,0.25);
+  box-shadow: 0 3px 8px color-mix(in srgb, var(--accent) 14%, transparent);
 }
-.btn-primary:hover { opacity: 0.9; }
+.btn-primary:hover { filter: brightness(0.96); }
 
 /* Secondary — surface */
 .btn-secondary {

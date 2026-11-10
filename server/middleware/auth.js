@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
   console.error('[FATAL] JWT_SECRET is required in production. Generate one with: openssl rand -base64 48');
   process.exit(1);
 }
+// Keep the legacy development secret to preserve existing local sessions; production still requires an explicit secret.
 export const JWT_SECRET = process.env.JWT_SECRET || 'nutritrace-dev-secret-change-in-production';
 if (!process.env.JWT_SECRET) {
   console.warn('[WARN] JWT_SECRET not set — using insecure dev default. Set JWT_SECRET in your environment for production.');

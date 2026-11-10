@@ -417,7 +417,7 @@
     "no_signin_methods": "Ingen innloggingsmetode tilgjengelig. Spør din administrator.",
     "biometric": {
       "sign_in_button": "Logg inn med biometri",
-      "prompt": "Logg inn på NutriTrace",
+      "prompt": "Logg inn på NutriAgent",
       "no_saved": "Ingen lagrede pålogging. Vennligst bruk passordet ditt én gang først.",
       "expired": "Ditt lagrede innlogging har utløpt. Bruk passordet ditt for å logge inn.",
       "failed": "Biometrisk innlogging feilet. Bruk passordet ditt istedenfor."
@@ -427,9 +427,9 @@
     },
     "cookie_warning": {
       "http_title": "Innlogging vil ikke fungere på denne adressen",
-      "http_body": "Denne siden bruker vanlig HTTP, men serveren sender kun påloggingsinformasjonen(cookie) over HTTPS. Derfor forkaster nettleseren din den og du blir sendt tilbake til påloggingssiden når du prøver å logge inn. Åpne NutriTrace over HTTPS, eller sett INSECURE_COOKIES=1 på serveren og start den på nytt, hvis du er på et pålitelig hjemmenettverk.",
+      "http_body": "Denne siden bruker vanlig HTTP, men serveren sender kun påloggingsinformasjonen(cookie) over HTTPS. Derfor forkaster nettleseren din den og du blir sendt tilbake til påloggingssiden når du prøver å logge inn. Åpne NutriAgent over HTTPS, eller sett INSECURE_COOKIES=1 på serveren og start den på nytt, hvis du er på et pålitelig hjemmenettverk.",
       "dropped_title": "Nettleseren din holdt deg ikke innlogget",
-      "dropped_body": "Ditt passord var riktig, men nettleseren beholdt ikke innloggingsinformasjonen(cookie). Sjekk at cookies er tillatt for denne siden, og hvis NutriTrace er bak en omvendt proxy (reverse proxy), at den slipper cookies igjennom.",
+      "dropped_body": "Ditt passord var riktig, men nettleseren beholdt ikke innloggingsinformasjonen(cookie). Sjekk at cookies er tillatt for denne siden, og hvis NutriAgent er bak en omvendt proxy (reverse proxy), at den slipper cookies igjennom.",
       "fix_link": "Hvordan fikse det"
     },
     "recovery": {
@@ -476,9 +476,9 @@
     "use_locally": "Bruk lokalt",
     "use_locally_desc": "All dataen blir på denne enheten. Fungerer frakoblet, ingen behov for server. Du kan koble til en server senere i Innstillinger.",
     "connect_to_server": "Koble til server",
-    "connect_to_server_desc": "Synkroniser med din NutriTrace server. Din data er tilgjengelig på all enheter og i web appen.",
+    "connect_to_server_desc": "Synkroniser med din NutriAgent server. Din data er tilgjengelig på all enheter og i web appen.",
     "server_url": "Server URL",
-    "server_url_placeholder": "https://nutritrace.example.com",
+    "server_url_placeholder": "https://nutriagent.example.com",
     "server_url_hint": "Når du har tastet inn serveradressen, vises de påloggingsmetodene som er tilgjengelige for serveren (passord eller SSO).",
     "back": "Tilbake",
     "checking": "Sjekker…",
@@ -546,7 +546,7 @@
       "finish": "Fullfør"
     },
     "welcome": {
-      "title": "Velkommen til NutriTrace",
+      "title": "Velkommen til NutriAgent",
       "desc": "Din personlige kostholdsmåler. La oss gjøre klart oppsettet ditt, det tar rundt ett minutt."
     },
     "name": {
@@ -556,9 +556,9 @@
     },
     "usermgmt": {
       "create_account_title": "Opprett kontoen din",
-      "create_account_desc": "Opprett administratorkontoen din for å sikre NutriTrace-instansen din. Du kan invitere andre brukere senere i innstillinger.",
+      "create_account_desc": "Opprett administratorkontoen din for å sikre NutriAgent-instansen din. Du kan invitere andre brukere senere i innstillinger.",
       "multi_user_title": "Fler-bruker støtte",
-      "multi_user_desc": "NutriTrace kan kjøres i enkeltbrukermodus (standard) eller flerbrukermodus med separate innlogginger og passord tilbakestillinger. Du kan alltids aktivere dette senere i instillinger.",
+      "multi_user_desc": "NutriAgent kan kjøres i enkeltbrukermodus (standard) eller flerbrukermodus med separate innlogginger og passord tilbakestillinger. Du kan alltids aktivere dette senere i instillinger.",
       "enable_toggle": "Aktiver bruker kontoer",
       "enable_toggle_hint": "Hver bruker får sin egen mat dagbok, innstillinger og profil",
       "admin_section": "Administrator konto",
@@ -621,10 +621,10 @@
     },
     "updates": {
       "title": "Sjekk for oppdateringer",
-      "desc": "Serveren din kan fortelle deg når en ny NutriTrace har blitt utgitt.",
+      "desc": "Serveren din kan fortelle deg når en ny NutriAgent har blitt utgitt.",
       "toggle": "Sjekk for oppdateringer automatisk",
       "toggle_sub": "Det er hvordan du hører om nye funksjoner, rettelser og sikkerhetsoppdateringer",
-      "note": "Serveren din spør GitHub med noen timers mellomrom om det finnes en ny versjon av NutriTrace. Ingen informasjon om deg eller dataene dine blir sendt. Du kan når som helst endre dette under Innstillinger, Oppdateringer."
+      "note": "Serveren din spør GitHub med noen timers mellomrom om det finnes en ny versjon av NutriAgent. Ingen informasjon om deg eller dataene dine blir sendt. Du kan når som helst endre dette under Innstillinger, Oppdateringer."
     },
     "summary": {
       "title": "Dine daglige mål",

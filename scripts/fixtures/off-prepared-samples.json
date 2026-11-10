@@ -1,5 +1,5 @@
 {
- "_about": "Real Open Food Facts products (fetched 2026-09-26) that list only \"as prepared\" values, none \"as sold\". For #241: what those values really are varies by product, which is why NutriTrace never uses them unasked.",
+ "_about": "Real Open Food Facts products (fetched 2026-09-26) that list only \"as prepared\" values, none \"as sold\". For #241: what those values really are varies by product, which is why NutriAgent never uses them unasked.",
  "products": {
   "formula_powder_in_prepared": {
    "code": "7613036217378",

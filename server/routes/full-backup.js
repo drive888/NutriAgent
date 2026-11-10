@@ -100,7 +100,7 @@ export function setScheduleConfig({ schedule, time, retention }) {
  *  auto-backup path so both produce identical archives. */
 export function createBackup() {
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-  const filename  = `nutritrace-backup-${timestamp}.zip`;
+  const filename  = `nutriagent-backup-${timestamp}.zip`;
   const destPath  = path.join(BACKUPS_DIR, filename);
   const zip = new AdmZip();
   zip.addFile('database.json', Buffer.from(JSON.stringify(dumpDatabase(), null, 2), 'utf8'));
@@ -131,7 +131,7 @@ export function createBackup() {
 export function pruneOldBackups(retention) {
   const keep = Math.max(1, Math.min(99, parseInt(retention, 10) || DEFAULT_RETENTION));
   const all = fs.readdirSync(BACKUPS_DIR)
-    .filter(f => f.startsWith('nutritrace-backup-') && f.endsWith('.zip'))
+    .filter(f => (f.startsWith('nutriagent-backup-') || f.startsWith('nutritrace-backup-')) && f.endsWith('.zip'))
     .sort()
     .reverse(); // newest first (timestamp filenames sort lex-correctly)
   const toDelete = all.slice(keep);
@@ -169,7 +169,7 @@ export async function runScheduledBackup() {
       if (adminRow) {
         const { pushNotify } = await import('../lib/push-notify.js');
         await pushNotify(adminRow.id, 'notifBackupFailed',
-          '🛟 NutriTrace backup failed',
+          '🛟 NutriAgent backup failed',
           `Scheduled backup error: ${e.message || 'unknown'}`,
           7);
       }
@@ -423,7 +423,7 @@ function dumpDatabase() {
     user_settings:    db.prepare('SELECT * FROM user_settings').all(),
     app_config:       db.prepare('SELECT * FROM app_config').all(),
     ai_chat_history:  db.prepare('SELECT * FROM ai_chat_history').all(),
-    // wellness_data holds BOTH raw wearable metrics AND Trace-computed
+    // wellness_data holds BOTH raw wearable metrics AND NutriAgent-computed
     // readiness / resilience score rows (metric_type = 'readiness_score',
     // 'resilience_score'), so past scores survive a full-backup restore.
     wellness_data:    db.prepare('SELECT * FROM wellness_data').all(),

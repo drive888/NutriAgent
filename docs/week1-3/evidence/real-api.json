@@ -1,0 +1,58 @@
+{
+  "results": [
+    {
+      "file": "docs/week1-3/samples/1250-chicken_wings.jpg",
+      "status": 200,
+      "data": {
+        "kind": "meal",
+        "status": "review",
+        "candidates": [
+          {
+            "name": "chicken",
+            "category": "chicken",
+            "confidence": 0.9984453320503235
+          }
+        ],
+        "requiresConfirmation": true,
+        "mode": "service",
+        "elapsedMs": 1287,
+        "requestId": "e88bb4e6-04ff-4dd2-b18a-59be8ec318d2"
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/labels/nutella-fr.jpg",
+      "status": 200,
+      "data": {
+        "kind": "label",
+        "status": "review",
+        "name": "",
+        "basis": "per100g",
+        "serving": null,
+        "nutrition": {
+          "calories": 539,
+          "proteins": 6.3,
+          "fat": null,
+          "carbohydrates": 57.5,
+          "sodium": null
+        },
+        "missing": [
+          "fat",
+          "sodium"
+        ],
+        "requiresConfirmation": true,
+        "mode": "service",
+        "elapsedMs": 510,
+        "requestId": "84a2d562-65f0-4c0a-9fee-44f5d95d6807"
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/labels/nutella.jpg",
+      "status": 502,
+      "data": {
+        "error": "Recognition result invalid or service failed",
+        "requestId": "38a20176-e587-42f3-b7c7-7d7dd74b44c5"
+      }
+    }
+  ],
+  "csrfRejected": 403
+}

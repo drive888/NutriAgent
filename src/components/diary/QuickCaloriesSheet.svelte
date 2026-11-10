@@ -59,7 +59,7 @@
   }
 
   $: _isKj = $energyUnit === 'kJ';
-  $: _unitLabel = _isKj ? 'kJ' : 'kcal';
+  $: _unitLabel = _isKj ? $_('ui.m39e575dcf28e') : $_('ui.madda1147b4a3');
 
   function _parseOpt(v) {
     if (v == null || v === '') return undefined;
@@ -70,7 +70,7 @@
   async function _save() {
     const raw = parseDecimal(_value);
     if (!Number.isFinite(raw) || raw <= 0) {
-      showError(`Enter a positive ${_unitLabel} value.`);
+      showError($_('ui.m05c36f46dc48', { values: { value0: (_unitLabel) } }));
       return;
     }
     // kJ → kcal: 1 kcal = 4.184 kJ. Store as kcal internally (matches the
@@ -100,13 +100,13 @@
   }
 </script>
 
-<Sheet bind:open title="Quick Calories{mealName ? `: ${mealName}` : ''}">
+<Sheet bind:open title={$_('ui.m22fdb8d9dfb4', {values: {value0: (mealName ? `: ${mealName}` : '')}})}>
   <div class="qc-body">
     <p class="qc-help">
-      Log just the {_unitLabel} when you don't have full nutrition info, or when you don't want to model the food. Optional macros are stored only when you fill them in. Adds straight to the diary; no food entry is created.
+      {$_('ui.m91c735470f60')} {_unitLabel} {$_('ui.mdfc7e16b8d62')}
     </p>
 
-    <label class="form-label" for="qc-name">Name (optional)</label>
+    <label class="form-label" for="qc-name">{$_('ui.me09b37bcc4f3')}</label>
     <input id="qc-name" class="input" type="text" maxlength="60"
            placeholder={$_('quick_calories.name_ph')}
            bind:value={_name} on:keydown={_onKey} />
@@ -149,14 +149,14 @@
                  bind:value={_fat} on:keydown={_onKey} />
           <span class="qc-macro-unit" style="color:var(--macro-fat)">g</span>
         </div>
-        <span class="qc-macro-label">Fat</span>
+        <span class="qc-macro-label">{$_('ui.mddcdda5ac2be')}</span>
       </div>
     </div>
 
     <div class="qc-actions">
       <button class="btn btn-secondary" on:click={() => open = false} disabled={_saving}>{$_('quick_calories.cancel')}</button>
       <button class="btn btn-primary" on:click={_save} disabled={_saving || !_value}>
-        {_saving ? 'Adding…' : 'Add'}
+        {_saving ? $_('ui.mc6de6f45c827') : $_('ui.m9fd728c66c9a')}
       </button>
     </div>
   </div>

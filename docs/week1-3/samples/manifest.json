@@ -1,0 +1,149 @@
+[
+  {
+    "file": "docs/week1-3/samples/0-beignets.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=0&length=1",
+    "source_label": "beignets",
+    "split": "test",
+    "group": "food101-val-0"
+  },
+  {
+    "file": "docs/week1-3/samples/1250-chicken_wings.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=1250&length=1",
+    "source_label": "chicken_wings",
+    "split": "test",
+    "group": "food101-val-1250"
+  },
+  {
+    "file": "docs/week1-3/samples/2500-pizza.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=2500&length=1",
+    "source_label": "pizza",
+    "split": "test",
+    "group": "food101-val-2500"
+  },
+  {
+    "file": "docs/week1-3/samples/3750-apple_pie.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=3750&length=1",
+    "source_label": "apple_pie",
+    "split": "test",
+    "group": "food101-val-3750"
+  },
+  {
+    "file": "docs/week1-3/samples/5000-carrot_cake.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=5000&length=1",
+    "source_label": "carrot_cake",
+    "split": "test",
+    "group": "food101-val-5000"
+  },
+  {
+    "file": "docs/week1-3/samples/6250-tiramisu.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=6250&length=1",
+    "source_label": "tiramisu",
+    "split": "test",
+    "group": "food101-val-6250"
+  },
+  {
+    "file": "docs/week1-3/samples/7500-chocolate_mousse.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=7500&length=1",
+    "source_label": "chocolate_mousse",
+    "split": "test",
+    "group": "food101-val-7500"
+  },
+  {
+    "file": "docs/week1-3/samples/8750-ice_cream.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=8750&length=1",
+    "source_label": "ice_cream",
+    "split": "test",
+    "group": "food101-val-8750"
+  },
+  {
+    "file": "docs/week1-3/samples/10000-frozen_yogurt.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=10000&length=1",
+    "source_label": "frozen_yogurt",
+    "split": "test",
+    "group": "food101-val-10000"
+  },
+  {
+    "file": "docs/week1-3/samples/11250-beef_tartare.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=11250&length=1",
+    "source_label": "beef_tartare",
+    "split": "test",
+    "group": "food101-val-11250"
+  },
+  {
+    "file": "docs/week1-3/samples/12500-scallops.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=12500&length=1",
+    "source_label": "scallops",
+    "split": "test",
+    "group": "food101-val-12500"
+  },
+  {
+    "file": "docs/week1-3/samples/13750-chicken_quesadilla.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=13750&length=1",
+    "source_label": "chicken_quesadilla",
+    "split": "test",
+    "group": "food101-val-13750"
+  },
+  {
+    "file": "docs/week1-3/samples/15000-onion_rings.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=15000&length=1",
+    "source_label": "onion_rings",
+    "split": "test",
+    "group": "food101-val-15000"
+  },
+  {
+    "file": "docs/week1-3/samples/16250-beef_carpaccio.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=16250&length=1",
+    "source_label": "beef_carpaccio",
+    "split": "test",
+    "group": "food101-val-16250"
+  },
+  {
+    "file": "docs/week1-3/samples/17500-lobster_roll_sandwich.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=17500&length=1",
+    "source_label": "lobster_roll_sandwich",
+    "split": "test",
+    "group": "food101-val-17500"
+  },
+  {
+    "file": "docs/week1-3/samples/18750-peking_duck.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=18750&length=1",
+    "source_label": "peking_duck",
+    "split": "test",
+    "group": "food101-val-18750"
+  },
+  {
+    "file": "docs/week1-3/samples/20000-filet_mignon.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=20000&length=1",
+    "source_label": "filet_mignon",
+    "split": "test",
+    "group": "food101-val-20000"
+  },
+  {
+    "file": "docs/week1-3/samples/21250-gyoza.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=21250&length=1",
+    "source_label": "gyoza",
+    "split": "test",
+    "group": "food101-val-21250"
+  },
+  {
+    "file": "docs/week1-3/samples/22500-sushi.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=22500&length=1",
+    "source_label": "sushi",
+    "split": "test",
+    "group": "food101-val-22500"
+  },
+  {
+    "file": "docs/week1-3/samples/23750-churros.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=23750&length=1",
+    "source_label": "churros",
+    "split": "test",
+    "group": "food101-val-23750"
+  },
+  {
+    "file": "docs/week1-3/samples/25000-spaghetti_bolognese.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=25000&length=1",
+    "source_label": "spaghetti_bolognese",
+    "split": "test",
+    "group": "food101-val-25000"
+  }
+]

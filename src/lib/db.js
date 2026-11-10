@@ -1,10 +1,11 @@
 /**
- * db.js - IndexedDB abstraction layer for NutriTrace
+ * db.js - IndexedDB abstraction layer for NutriAgent
  */
 import { settingPrefix } from './setting-key.js';
 import { foldText } from './search-text.js';
 
 const DB = (() => {
+  // Stable physical storage name: keep existing offline records after rebranding.
   const DB_NAME = 'nutritrace';
   const DB_VERSION = 2;
   let _db = null;

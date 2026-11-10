@@ -1,10 +1,10 @@
-# Contributing to NutriTrace
+# Contributing to NutriAgent
 
-Thanks for your interest in NutriTrace.
+Thanks for your interest in NutriAgent.
 
 ## Reporting bugs
 
-- Open an issue at [github.com/traceapps/nutritrace/issues](https://github.com/traceapps/nutritrace/issues).
+- Open an issue at [github.com/traceapps/nutriagent/issues](https://github.com/traceapps/nutritrace/issues).
 - Include your version (Settings → About), what you expected, and what you saw.
 - For sync issues, include whether you're on PWA or native Android, and your server version.
 - Don't paste server logs publicly without redacting — debug output can contain personal health data, and trace request bodies can contain diary entries, notes, or other private content despite credential redaction.
@@ -26,11 +26,11 @@ Thanks for your interest in NutriTrace.
 
 ## Translations
 
-NutriTrace uses [svelte-i18n](https://github.com/kaisermann/svelte-i18n) with one JSON file per locale in `src/i18n/`. The English file at `src/i18n/en.json` is the source of truth.
+NutriAgent uses [svelte-i18n](https://github.com/kaisermann/svelte-i18n) with one JSON file per locale in `src/i18n/`. The English file at `src/i18n/en.json` is the source of truth.
 
 ### Two ways to contribute (pick either)
 
-**A. Weblate (preferred, no code required).** NutriTrace is hosted at [hosted.weblate.org/projects/nutritrace/](https://hosted.weblate.org/projects/nutritrace/). Pick a language, translate strings in the web UI, and pull requests to `dev` are opened automatically. If your language isn't in the list, click **Add new translation** and it'll be approved. If you already have a completed JSON file, seed the language with **Files → Upload translation → Add as translation** on the language page.
+**A. Weblate (preferred, no code required).** NutriAgent is hosted at [hosted.weblate.org/projects/nutriagent/](https://hosted.weblate.org/projects/nutritrace/). Pick a language, translate strings in the web UI, and pull requests to `dev` are opened automatically. If your language isn't in the list, click **Add new translation** and it'll be approved. If you already have a completed JSON file, seed the language with **Files → Upload translation → Add as translation** on the language page.
 
 [![Translation status](https://hosted.weblate.org/widget/nutritrace/multi-auto.svg)](https://hosted.weblate.org/engage/nutritrace/)
 
@@ -70,9 +70,9 @@ The English source text may also change occasionally without renaming the key. W
 ### Translation guidance
 
 - **Domain conventions matter.** For nutrition labels, use the regulatory terms used on food packaging in your country (e.g. French food labels say `Glucides` / `Lipides` / `Protéines`, not the literal translations of the English words).
-- **Match the tone.** NutriTrace's English copy is informal and direct ("How did today feel?"). Try to keep that register rather than translating to a more formal style.
+- **Match the tone.** NutriAgent's English copy is informal and direct ("How did today feel?"). Try to keep that register rather than translating to a more formal style.
 - **Length awareness.** Some buttons are tight on small screens. If your translation is significantly longer than the English, test on a phone-sized viewport.
-- **Do not translate proper nouns or product names** — `NutriTrace`, `OFF`, `USDA`, `Mealie`, `Trace` (the AI assistant), `Open Food Facts` stay as-is.
+- **Do not translate proper nouns or product names** — `NutriAgent`, `OFF`, `USDA`, `Mealie`, `NutriAgent` (the AI assistant), `Open Food Facts` stay as-is.
 
 ### For code contributors — instrumenting new strings
 

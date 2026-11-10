@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-import { NtApi } from '../lib/api.js';
+import { NaApi } from '../lib/api.js';
 import { Nutrition } from '../lib/nutrition.js';
 import { localDateStr, DB } from '../lib/db.js';
 import { resolveAssetUrl, isNative } from '../lib/platform.js';
@@ -149,7 +149,7 @@ function _toApi(entry) {
 
 /** Shared PUT-payload builder for raw callers (Diary.svelte's multi-delete,
  *  water log write, and replace flow) that bypass _save(). Applies the same
- *  reference-shape trim + cached-path scrub, so no future raw NtApi.saveDiaryDate
+ *  reference-shape trim + cached-path scrub, so no future raw NaApi.saveDiaryDate
  *  call can silently reintroduce the recipe-inlining bloat that #125 traced to. */
 export function buildDiaryWritePayload({ items, body_stats, bodyStats, water, notes, deleted_uuids } = {}) {
   return {
@@ -182,7 +182,7 @@ export async function loadEntry(dateStr) {
   let entry = null;
   let failed = false;
   try {
-    const raw = await NtApi.getDiaryDate(dateStr);
+    const raw = await NaApi.getDiaryDate(dateStr);
     entry = _fromApi(raw);
   } catch(e) {
     console.error('[diary] loadEntry error:', e);
@@ -231,7 +231,7 @@ export async function loadEntry(dateStr) {
  * equals the existing one).
  */
 async function _refetchAndSave(targetDate, mutator) {
-  let entry = _fromApi(await NtApi.getDiaryDate(targetDate));
+  let entry = _fromApi(await NaApi.getDiaryDate(targetDate));
   if (!entry) entry = { date: targetDate, items: [], bodyStats: {}, water: [] };
   const updated = mutator(entry);
   if (updated == null) return null;
@@ -243,7 +243,7 @@ async function _refetchAndSave(targetDate, mutator) {
 }
 
 async function _save(entry) {
-  const saved = await NtApi.saveDiaryDate(entry.date, _toApi(entry));
+  const saved = await NaApi.saveDiaryDate(entry.date, _toApi(entry));
   const result = _fromApi(saved);
   // Option C: pending tombstones only exist locally until a successful
   // save. Clear them once the server has acknowledged so a subsequent
@@ -316,8 +316,8 @@ export async function addDiaryItem(foodItem, meal, date) {
   // save the user already saw succeed.
   if (typeof item.id === 'number') {
     const usageUpdate = item.is_recipe
-      ? NtApi.markMealUsed(item.id, targetDate)
-      : NtApi.markFoodUsed(item.id, targetDate);
+      ? NaApi.markMealUsed(item.id, targetDate)
+      : NaApi.markFoodUsed(item.id, targetDate);
     usageUpdate.catch(() => {});
   }
 }
@@ -374,7 +374,7 @@ export async function addQuickCalories({ kcal, name, meal, date, proteins, carbo
  * checkmark reflects instantly; the underlying API call runs in the
  * background and reconciles the timestamp on success.
  *
- * NtApi.setDiaryCompletion routes correctly across all three transports
+ * NaApi.setDiaryCompletion routes correctly across all three transports
  * (server-cookie, native server-mode Bearer, cached local-first) so the
  * caller doesn't need to know which mode is active.
  */
@@ -387,7 +387,7 @@ export async function setDayCompletion(dateStr, completed) {
     currentEntry.set({ ...entry, completed_at: optimisticTs });
   }
   try {
-    const result = await NtApi.setDiaryCompletion(dateStr, !!completed);
+    const result = await NaApi.setDiaryCompletion(dateStr, !!completed);
     let latest = null;
     currentEntry.subscribe(v => latest = v)();
     if (latest && latest.date === dateStr) {
@@ -425,7 +425,7 @@ export async function setMealCompletion(dateStr, slot, completed) {
     currentEntry.set({ ...entry, completed_meals: optimistic });
   }
   try {
-    const result = await NtApi.setDiaryMealCompletion(dateStr, slot, !!completed);
+    const result = await NaApi.setDiaryMealCompletion(dateStr, slot, !!completed);
     let latest = null;
     currentEntry.subscribe(v => latest = v)();
     if (latest && latest.date === dateStr) {
@@ -489,7 +489,7 @@ export async function updateDiaryItem(index, changes) {
  *   1. The diary item's own `items[]` array — recipes added via Foods.svelte
  *      spread the meal/recipe row in, so each diary item already carries
  *      the full ingredient list.
- *   2. Fallback: fetch the recipe by `food_server_id` (or `id`) via NtApi.
+ *   2. Fallback: fetch the recipe by `food_server_id` (or `id`) via NaApi.
  *
  * Scale factor: (item portion × item quantity) / (recipe portion × recipe
  * quantity). Logging 1.5 servings of a recipe produces 1.5x of every
@@ -516,7 +516,7 @@ export async function splitRecipeItem(index) {
         : ref.serverId;
     }
     if (typeof recipeId !== 'number') return false;
-    try { recipe = await NtApi.getMeal(recipeId); }
+    try { recipe = await NaApi.getMeal(recipeId); }
     catch { return false; }
   }
   if (!Array.isArray(recipe.items) || recipe.items.length === 0) return false;
@@ -717,7 +717,7 @@ export async function copyMealToDate(fromMealIdx, targetDate, targetMealIdx) {
   currentDate.subscribe(v => viewDate = v)();
   if (!viewDate) return 0;
 
-  const srcEntry = _fromApi(await NtApi.getDiaryDate(viewDate));
+  const srcEntry = _fromApi(await NaApi.getDiaryDate(viewDate));
   if (!srcEntry) return 0;
   const src = (srcEntry.items || []).filter(it => Number(it.meal ?? 0) === Number(fromMealIdx));
   if (!src.length) return 0;

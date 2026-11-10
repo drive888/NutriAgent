@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { _ } from 'svelte-i18n';
   import Toggle from '../../components/settings/Toggle.svelte';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { isNative, getServerUrl, apiUrl, getAuthToken } from '../../lib/platform.js';
   import { showSuccess, showError } from '../../stores/toast.js';
   import { currentUser, userMgmtActive } from '../../stores/auth.js';
@@ -29,7 +29,7 @@
 
   async function loadSharingConfig() {
     try {
-      const cfg = await NtApi.getSharingStatus().catch(() => ({}));
+      const cfg = await NaApi.getSharingStatus().catch(() => ({}));
       adminSharingEnabled = cfg.sharing_enabled === true;
       // Pre-fill the bulk form from the last-applied per-category state so
       // users don't see 'Private' on every revisit when they actually saved
@@ -96,7 +96,7 @@
 
   async function loadBulkUsers() {
     if (bulkUsersLoaded) return;
-    try { bulkUsers = await NtApi.getUsersList(); bulkUsersLoaded = true; } catch {}
+    try { bulkUsers = await NaApi.getUsersList(); bulkUsersLoaded = true; } catch {}
   }
 
   function toggleBulkUserFor(category, id) {
@@ -111,7 +111,7 @@
   $: if (bulkVisFoods === 'specific' || bulkVisMeals === 'specific' || bulkVisRecipes === 'specific') loadBulkUsers();
 
   async function applyBulkShareCategory(category, visibility, user_ids) {
-    return NtApi.post('/api/foods/bulk-share', {
+    return NaApi.post('/api/foods/bulk-share', {
       visibility,
       targets: [category],
       user_ids: visibility === 'specific' ? user_ids : [],
@@ -130,7 +130,7 @@
       ]);
       // Persist for next time — the form should remember its last state.
       await _saveBulkState();
-      showSuccess('Sharing updated');
+      showSuccess($_('ui.m47cd4fa89a35'));
     } catch(e) { showError('Could not apply: ' + e.message); }
     bulkApplying = false;
   }
@@ -145,12 +145,12 @@
     {#if $currentUser?.role === 'admin'}
       <!-- Group: Admin -->
       <p class="settings-group-heading">{$_('settings_integrations.admin_section')}</p>
-      <p class="settings-group-sub">Server-wide sharing switch. When off, group members can't share items with each other.</p>
+      <p class="settings-group-sub">{$_('ui.m5417b252027f')}</p>
       <div class="card settings-card">
         <div class="setting-row">
           <div>
             <span class="setting-label">{$_('settings_integrations.enable_sharing')}</span>
-            <span class="setting-desc">Allow group members to share foods, meals, and recipes with each other</span>
+            <span class="setting-desc">{$_('ui.m99821bc39ced')}</span>
           </div>
           <Toggle checked={adminSharingEnabled} on:change={e => saveAdminSharingEnabled(e.detail)} />
         </div>
@@ -162,11 +162,11 @@
          authenticated user sees this, not just admins. Server-side
          enforcement in server/lib/default-visibility.js backstops
          the toggle when admin disables sharing globally. -->
-    <p class="settings-group-heading">Auto Share</p>
-    <p class="settings-group-sub">Applied automatically to new foods, meals, and recipes you create. Existing items are left alone; use Bulk Share below to update those.</p>
+    <p class="settings-group-heading">{$_('ui.mdc26260c435d')}</p>
+    <p class="settings-group-sub">{$_('ui.md75ae2b1ef25')}</p>
     <div class="card settings-card">
       <div class="setting-row">
-        <span class="setting-label">Visibility</span>
+        <span class="setting-label">{$_('ui.m7448611d5f93')}</span>
         <div class="select-wrap" style="width:160px">
           <select class="select sel-sm"
             value={$defaultShareVisibility}
@@ -180,7 +180,7 @@
 
     <!-- Group: Bulk Share -->
     <p class="settings-group-heading">{$_('settings_integrations.bulk_share')}</p>
-    <p class="settings-group-sub">Set who can see your existing items. Each category has its own visibility, so changing one doesn't affect the others.</p>
+    <p class="settings-group-sub">{$_('ui.m0b80e772a681')}</p>
     <div class="card settings-card" style="gap:0">
       {#each [
         { key: 'foods',   label: 'Foods'   },
@@ -191,7 +191,7 @@
         {@const _vis    = cat.key === 'foods' ? bulkVisFoods   : cat.key === 'meals' ? bulkVisMeals   : bulkVisRecipes}
         {@const _users  = cat.key === 'foods' ? bulkUsersFoods : cat.key === 'meals' ? bulkUsersMeals : bulkUsersRecipes}
         <div class="setting-row">
-          <span class="setting-label">{cat.label}</span>
+          <span class="setting-label">{cat.labelKey ? $_(cat.labelKey) : cat.label}</span>
           <div class="select-wrap" style="width:160px">
             <select class="select sel-sm"
               on:change={e => {
@@ -209,7 +209,7 @@
         </div>
         {#if _vis === 'specific'}
           <div style="padding:0 16px 12px">
-            <div class="setting-desc" style="margin-bottom:8px">Members who can see your {cat.label.toLowerCase()}:</div>
+            <div class="setting-desc" style="margin-bottom:8px">{$_('ui.md50077f403f0')} {cat.label.toLowerCase()}:</div>
             <div style="display:flex;flex-wrap:wrap;gap:8px">
               {#each bulkUsers as u}
                 <button class="chip" class:chip-active={_users.includes(u.id)}
@@ -218,14 +218,14 @@
                   {u.name}
                 </button>
               {/each}
-              {#if !bulkUsersLoaded}<span class="setting-desc">Loading…</span>{/if}
+              {#if !bulkUsersLoaded}<span class="setting-desc">{$_('ui.mba3bbbe10d8b')}</span>{/if}
             </div>
           </div>
         {/if}
       {/each}
       <div style="padding:8px 16px 12px">
         <button class="btn btn-secondary w-full" on:click={applyBulkShare} disabled={bulkApplying}>
-          {bulkApplying ? 'Applying…' : 'Apply to Existing Items'}
+          {bulkApplying ? $_('ui.m3329a9bb48b9') : $_('ui.m8b9deb3f03a4')}
         </button>
       </div>
     </div>

@@ -5,13 +5,13 @@
  * OFF now stores each product's values as sets (as sold, as prepared, from the
  * packaging, the manufacturer, an estimate...) and builds one "aggregated set"
  * from them, preferring "as prepared" when a product has both. Its older API
- * versions, including the v3 NutriTrace reads, are built from that aggregated
+ * versions, including the v3 NutriAgent reads, are built from that aggregated
  * set only, so a product with both kinds of values looks "as prepared" only.
  * The sets themselves are only served by API v3.5 and later.
  *
  * asSoldNutriments() builds the aggregated set OFF would build if the product
  * had no "as prepared" values, and writes it out the way the older API does,
- * so the rest of NutriTrace reads it like any other product. Every step is a
+ * so the rest of NutriAgent reads it like any other product. Every step is a
  * port of OFF's own code (openfoodfacts-server, lib/ProductOpener):
  *   Nutrition.pm            sort_sets_by_priority, generate_nutrient_aggregated_set_from_sets,
  *                           set_nutrient_values, convert_nutrient_to_standard_unit,

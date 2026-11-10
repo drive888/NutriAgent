@@ -1,0 +1,1311 @@
+{
+  "model": "onnx-community/swin-finetuned-food101-ONNX quantized",
+  "warning": "Public Food101 validation samples may have been seen by pretrained model; exploratory sanity check, not a new independent benchmark. No tuning on these samples.",
+  "n": 21,
+  "resizeTop1": 21,
+  "centerTop1": 21,
+  "samples": [
+    {
+      "file": "docs/week1-3/samples/0-beignets.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=0&length=1",
+      "source_label": "beignets",
+      "split": "test",
+      "group": "food101-val-0",
+      "sha256": "19b917e2235c90c04a6ba0423911219e2a12d9e68c2a39bb5259c382bfede3ca",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "beignets",
+              "confidence": 0.9992146492004395
+            },
+            {
+              "identifier": "waffles",
+              "confidence": 0.00026060862001031637
+            },
+            {
+              "identifier": "french_toast",
+              "confidence": 0.00019627339497674257
+            },
+            {
+              "identifier": "donuts",
+              "confidence": 8.75879850354977e-05
+            },
+            {
+              "identifier": "apple_pie",
+              "confidence": 8.348502888111398e-05
+            }
+          ],
+          "elapsedMs": 82,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "beignets",
+              "confidence": 0.9992146492004395
+            },
+            {
+              "identifier": "waffles",
+              "confidence": 0.00026060862001031637
+            },
+            {
+              "identifier": "french_toast",
+              "confidence": 0.00019627339497674257
+            },
+            {
+              "identifier": "donuts",
+              "confidence": 8.75879850354977e-05
+            },
+            {
+              "identifier": "apple_pie",
+              "confidence": 8.348502888111398e-05
+            }
+          ],
+          "elapsedMs": 110,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/1250-chicken_wings.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=1250&length=1",
+      "source_label": "chicken_wings",
+      "split": "test",
+      "group": "food101-val-1250",
+      "sha256": "dac09add8d367791f5b326c1c0b44d7f0192d90532d00fcce7634cb5a352cfde",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "chicken_wings",
+              "confidence": 0.9984453320503235
+            },
+            {
+              "identifier": "baby_back_ribs",
+              "confidence": 0.00045651139225810766
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.00035651130019687116
+            },
+            {
+              "identifier": "fish_and_chips",
+              "confidence": 0.00031610162113793194
+            },
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 5.504281216417439e-05
+            }
+          ],
+          "elapsedMs": 96,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "chicken_wings",
+              "confidence": 0.9984453320503235
+            },
+            {
+              "identifier": "baby_back_ribs",
+              "confidence": 0.00045651139225810766
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.00035651130019687116
+            },
+            {
+              "identifier": "fish_and_chips",
+              "confidence": 0.00031610162113793194
+            },
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 5.504281216417439e-05
+            }
+          ],
+          "elapsedMs": 95,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/2500-pizza.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=2500&length=1",
+      "source_label": "pizza",
+      "split": "test",
+      "group": "food101-val-2500",
+      "sha256": "734646d121019d3336c4f4164585bcd5f90633aa39a624c455a907864026982c",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "pizza",
+              "confidence": 0.8057581782341003
+            },
+            {
+              "identifier": "beef_carpaccio",
+              "confidence": 0.18686501681804657
+            },
+            {
+              "identifier": "omelette",
+              "confidence": 0.0020683221518993378
+            },
+            {
+              "identifier": "tuna_tartare",
+              "confidence": 0.0012176873860880733
+            },
+            {
+              "identifier": "lasagna",
+              "confidence": 0.0008988486370071769
+            }
+          ],
+          "elapsedMs": 93,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "pizza",
+              "confidence": 0.9576891660690308
+            },
+            {
+              "identifier": "beef_carpaccio",
+              "confidence": 0.03971616178750992
+            },
+            {
+              "identifier": "bruschetta",
+              "confidence": 0.0013443405041471124
+            },
+            {
+              "identifier": "tuna_tartare",
+              "confidence": 0.00023147460888139904
+            },
+            {
+              "identifier": "lasagna",
+              "confidence": 0.00016438036982435733
+            }
+          ],
+          "elapsedMs": 100,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/3750-apple_pie.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=3750&length=1",
+      "source_label": "apple_pie",
+      "split": "test",
+      "group": "food101-val-3750",
+      "sha256": "0300b07e955c0f4a002c63694b19b9270fbb2a2939c21d658ba3cab7e3613b11",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "apple_pie",
+              "confidence": 0.9935408234596252
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 0.002158641815185547
+            },
+            {
+              "identifier": "waffles",
+              "confidence": 0.001921677845530212
+            },
+            {
+              "identifier": "baklava",
+              "confidence": 0.0008530907798558474
+            },
+            {
+              "identifier": "cheesecake",
+              "confidence": 0.0004618267703335732
+            }
+          ],
+          "elapsedMs": 102,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "apple_pie",
+              "confidence": 0.9971498847007751
+            },
+            {
+              "identifier": "waffles",
+              "confidence": 0.002579816384240985
+            },
+            {
+              "identifier": "cheesecake",
+              "confidence": 6.244712130865082e-05
+            },
+            {
+              "identifier": "baklava",
+              "confidence": 5.568386404775083e-05
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 4.707449261331931e-05
+            }
+          ],
+          "elapsedMs": 100,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/5000-carrot_cake.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=5000&length=1",
+      "source_label": "carrot_cake",
+      "split": "test",
+      "group": "food101-val-5000",
+      "sha256": "fd178eabfaeaef88316a376fc03b1072e951e389982a3f1feb18021d549f04fc",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "carrot_cake",
+              "confidence": 0.9995965361595154
+            },
+            {
+              "identifier": "cheesecake",
+              "confidence": 0.00031072148703970015
+            },
+            {
+              "identifier": "apple_pie",
+              "confidence": 3.844936509267427e-05
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 1.2430162314558402e-05
+            },
+            {
+              "identifier": "chocolate_cake",
+              "confidence": 7.970795195433311e-06
+            }
+          ],
+          "elapsedMs": 112,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "carrot_cake",
+              "confidence": 0.9995965361595154
+            },
+            {
+              "identifier": "cheesecake",
+              "confidence": 0.00031072148703970015
+            },
+            {
+              "identifier": "apple_pie",
+              "confidence": 3.844936509267427e-05
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 1.2430162314558402e-05
+            },
+            {
+              "identifier": "chocolate_cake",
+              "confidence": 7.970795195433311e-06
+            }
+          ],
+          "elapsedMs": 108,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/6250-tiramisu.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=6250&length=1",
+      "source_label": "tiramisu",
+      "split": "test",
+      "group": "food101-val-6250",
+      "sha256": "b4b9e8989ad05fc1817efb330baa584e872390c00c52e6f5fb8ebd39dc32d460",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "tiramisu",
+              "confidence": 0.9989781379699707
+            },
+            {
+              "identifier": "carrot_cake",
+              "confidence": 0.0006304442649707198
+            },
+            {
+              "identifier": "cannoli",
+              "confidence": 0.00014237173309084028
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 9.524390770820901e-05
+            },
+            {
+              "identifier": "red_velvet_cake",
+              "confidence": 2.8213982659508474e-05
+            }
+          ],
+          "elapsedMs": 104,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "tiramisu",
+              "confidence": 0.9989781379699707
+            },
+            {
+              "identifier": "carrot_cake",
+              "confidence": 0.0006304442649707198
+            },
+            {
+              "identifier": "cannoli",
+              "confidence": 0.00014237173309084028
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 9.524390770820901e-05
+            },
+            {
+              "identifier": "red_velvet_cake",
+              "confidence": 2.8213982659508474e-05
+            }
+          ],
+          "elapsedMs": 105,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/7500-chocolate_mousse.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=7500&length=1",
+      "source_label": "chocolate_mousse",
+      "split": "test",
+      "group": "food101-val-7500",
+      "sha256": "f134434986d6593b3143e30e1d714d9196c3cd45e05b59c941007a1341462ebf",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "chocolate_mousse",
+              "confidence": 0.9702299237251282
+            },
+            {
+              "identifier": "chocolate_cake",
+              "confidence": 0.00900007039308548
+            },
+            {
+              "identifier": "tiramisu",
+              "confidence": 0.005546945612877607
+            },
+            {
+              "identifier": "cheesecake",
+              "confidence": 0.0035683317109942436
+            },
+            {
+              "identifier": "panna_cotta",
+              "confidence": 0.0035059896763414145
+            }
+          ],
+          "elapsedMs": 109,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "chocolate_mousse",
+              "confidence": 0.9702299237251282
+            },
+            {
+              "identifier": "chocolate_cake",
+              "confidence": 0.00900007039308548
+            },
+            {
+              "identifier": "tiramisu",
+              "confidence": 0.005546945612877607
+            },
+            {
+              "identifier": "cheesecake",
+              "confidence": 0.0035683317109942436
+            },
+            {
+              "identifier": "panna_cotta",
+              "confidence": 0.0035059896763414145
+            }
+          ],
+          "elapsedMs": 112,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/8750-ice_cream.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=8750&length=1",
+      "source_label": "ice_cream",
+      "split": "test",
+      "group": "food101-val-8750",
+      "sha256": "efad07640343d3a993350ef4db8e19dd5538696be971d6ad670057ad7f5e68c5",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "ice_cream",
+              "confidence": 0.9986097812652588
+            },
+            {
+              "identifier": "frozen_yogurt",
+              "confidence": 0.0006616396130993962
+            },
+            {
+              "identifier": "chocolate_cake",
+              "confidence": 0.00011198647553101182
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 0.00010900678171310574
+            },
+            {
+              "identifier": "waffles",
+              "confidence": 0.0001000689881038852
+            }
+          ],
+          "elapsedMs": 109,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "ice_cream",
+              "confidence": 0.9986097812652588
+            },
+            {
+              "identifier": "frozen_yogurt",
+              "confidence": 0.0006616396130993962
+            },
+            {
+              "identifier": "chocolate_cake",
+              "confidence": 0.00011198647553101182
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 0.00010900678171310574
+            },
+            {
+              "identifier": "waffles",
+              "confidence": 0.0001000689881038852
+            }
+          ],
+          "elapsedMs": 105,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/10000-frozen_yogurt.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=10000&length=1",
+      "source_label": "frozen_yogurt",
+      "split": "test",
+      "group": "food101-val-10000",
+      "sha256": "9a1c6aa528601f121a2c08564a4c9880aae058331ea53a451a27d194a7dbd892",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "frozen_yogurt",
+              "confidence": 0.9446963667869568
+            },
+            {
+              "identifier": "ice_cream",
+              "confidence": 0.054708078503608704
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 0.0001134907579398714
+            },
+            {
+              "identifier": "apple_pie",
+              "confidence": 9.287577995564789e-05
+            },
+            {
+              "identifier": "strawberry_shortcake",
+              "confidence": 8.569705823902041e-05
+            }
+          ],
+          "elapsedMs": 109,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "frozen_yogurt",
+              "confidence": 0.9446963667869568
+            },
+            {
+              "identifier": "ice_cream",
+              "confidence": 0.054708078503608704
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 0.0001134907579398714
+            },
+            {
+              "identifier": "apple_pie",
+              "confidence": 9.287577995564789e-05
+            },
+            {
+              "identifier": "strawberry_shortcake",
+              "confidence": 8.569705823902041e-05
+            }
+          ],
+          "elapsedMs": 104,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/11250-beef_tartare.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=11250&length=1",
+      "source_label": "beef_tartare",
+      "split": "test",
+      "group": "food101-val-11250",
+      "sha256": "7fb17f54b79efe91c818eac31380fbfeb17bf4a648fa85a2ad75d471f24375bc",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "beef_tartare",
+              "confidence": 0.9824967384338379
+            },
+            {
+              "identifier": "tuna_tartare",
+              "confidence": 0.013305405154824257
+            },
+            {
+              "identifier": "beef_carpaccio",
+              "confidence": 0.0030870551709085703
+            },
+            {
+              "identifier": "lasagna",
+              "confidence": 0.00031769019551575184
+            },
+            {
+              "identifier": "risotto",
+              "confidence": 0.0002706465311348438
+            }
+          ],
+          "elapsedMs": 109,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "beef_tartare",
+              "confidence": 0.9822686910629272
+            },
+            {
+              "identifier": "tuna_tartare",
+              "confidence": 0.012422463856637478
+            },
+            {
+              "identifier": "beef_carpaccio",
+              "confidence": 0.004105498548597097
+            },
+            {
+              "identifier": "lasagna",
+              "confidence": 0.00024074727843981236
+            },
+            {
+              "identifier": "risotto",
+              "confidence": 0.00023387074179481715
+            }
+          ],
+          "elapsedMs": 94,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/12500-scallops.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=12500&length=1",
+      "source_label": "scallops",
+      "split": "test",
+      "group": "food101-val-12500",
+      "sha256": "7cc18fa0b1b580c3de450335796643da3446df66dee0f5700b4ec5018fbc06cb",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "scallops",
+              "confidence": 0.9994828701019287
+            },
+            {
+              "identifier": "crab_cakes",
+              "confidence": 8.780706411926076e-05
+            },
+            {
+              "identifier": "oysters",
+              "confidence": 8.087460446404293e-05
+            },
+            {
+              "identifier": "escargots",
+              "confidence": 6.644390668952838e-05
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 4.984332190360874e-05
+            }
+          ],
+          "elapsedMs": 93,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "scallops",
+              "confidence": 0.9993871450424194
+            },
+            {
+              "identifier": "escargots",
+              "confidence": 0.00019337018602527678
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 9.671216685092077e-05
+            },
+            {
+              "identifier": "crab_cakes",
+              "confidence": 6.708594446536154e-05
+            },
+            {
+              "identifier": "oysters",
+              "confidence": 5.034198329667561e-05
+            }
+          ],
+          "elapsedMs": 91,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/13750-chicken_quesadilla.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=13750&length=1",
+      "source_label": "chicken_quesadilla",
+      "split": "test",
+      "group": "food101-val-13750",
+      "sha256": "0f1bd478d8838bac0043c4e718d272335f95b9dc6e96fed2ebf32989208f55bb",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "chicken_quesadilla",
+              "confidence": 0.9994726777076721
+            },
+            {
+              "identifier": "pancakes",
+              "confidence": 0.00020547723397612572
+            },
+            {
+              "identifier": "hummus",
+              "confidence": 7.666467718081549e-05
+            },
+            {
+              "identifier": "pizza",
+              "confidence": 3.977659798692912e-05
+            },
+            {
+              "identifier": "chicken_curry",
+              "confidence": 2.7126110580866225e-05
+            }
+          ],
+          "elapsedMs": 92,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "chicken_quesadilla",
+              "confidence": 0.9985596537590027
+            },
+            {
+              "identifier": "hummus",
+              "confidence": 0.0005173455574549735
+            },
+            {
+              "identifier": "pancakes",
+              "confidence": 0.00030756741762161255
+            },
+            {
+              "identifier": "chicken_curry",
+              "confidence": 0.00011867984721902758
+            },
+            {
+              "identifier": "nachos",
+              "confidence": 8.972319483291358e-05
+            }
+          ],
+          "elapsedMs": 81,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/15000-onion_rings.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=15000&length=1",
+      "source_label": "onion_rings",
+      "split": "test",
+      "group": "food101-val-15000",
+      "sha256": "5f9cc277e00d98de45c517290786edd4c9ba07445dc77c4340a0e7898f730577",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "onion_rings",
+              "confidence": 0.9954884648323059
+            },
+            {
+              "identifier": "churros",
+              "confidence": 0.003886539489030838
+            },
+            {
+              "identifier": "donuts",
+              "confidence": 0.00029780736076645553
+            },
+            {
+              "identifier": "french_fries",
+              "confidence": 0.00011983811418758705
+            },
+            {
+              "identifier": "hot_dog",
+              "confidence": 3.752559860004112e-05
+            }
+          ],
+          "elapsedMs": 88,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "onion_rings",
+              "confidence": 0.9964333772659302
+            },
+            {
+              "identifier": "donuts",
+              "confidence": 0.002115810988470912
+            },
+            {
+              "identifier": "churros",
+              "confidence": 0.0011724880896508694
+            },
+            {
+              "identifier": "french_fries",
+              "confidence": 5.9930905990768224e-05
+            },
+            {
+              "identifier": "beignets",
+              "confidence": 3.993229984189384e-05
+            }
+          ],
+          "elapsedMs": 88,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/16250-beef_carpaccio.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=16250&length=1",
+      "source_label": "beef_carpaccio",
+      "split": "test",
+      "group": "food101-val-16250",
+      "sha256": "7c68bd23cd09045b9b181acd14a9f891184874683bdf49d0d36efb8e56117f8c",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "beef_carpaccio",
+              "confidence": 0.9048644304275513
+            },
+            {
+              "identifier": "tuna_tartare",
+              "confidence": 0.07729067653417587
+            },
+            {
+              "identifier": "steak",
+              "confidence": 0.006132488138973713
+            },
+            {
+              "identifier": "sashimi",
+              "confidence": 0.002591700991615653
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.0017621424049139023
+            }
+          ],
+          "elapsedMs": 92,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "beef_carpaccio",
+              "confidence": 0.9048644304275513
+            },
+            {
+              "identifier": "tuna_tartare",
+              "confidence": 0.07729067653417587
+            },
+            {
+              "identifier": "steak",
+              "confidence": 0.006132488138973713
+            },
+            {
+              "identifier": "sashimi",
+              "confidence": 0.002591700991615653
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.0017621424049139023
+            }
+          ],
+          "elapsedMs": 86,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/17500-lobster_roll_sandwich.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=17500&length=1",
+      "source_label": "lobster_roll_sandwich",
+      "split": "test",
+      "group": "food101-val-17500",
+      "sha256": "17be3cf0cc0de161ff88e09f84f46ab8fbb2ec4345f1bc5b5bd7e050f367eb81",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "lobster_roll_sandwich",
+              "confidence": 0.9997579455375671
+            },
+            {
+              "identifier": "bruschetta",
+              "confidence": 0.00012177841563243419
+            },
+            {
+              "identifier": "ceviche",
+              "confidence": 3.520770405884832e-05
+            },
+            {
+              "identifier": "lobster_bisque",
+              "confidence": 1.5942257959977724e-05
+            },
+            {
+              "identifier": "shrimp_and_grits",
+              "confidence": 7.371495030383812e-06
+            }
+          ],
+          "elapsedMs": 87,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "lobster_roll_sandwich",
+              "confidence": 0.9995930790901184
+            },
+            {
+              "identifier": "ceviche",
+              "confidence": 0.0002626173081807792
+            },
+            {
+              "identifier": "shrimp_and_grits",
+              "confidence": 4.140501550864428e-05
+            },
+            {
+              "identifier": "bruschetta",
+              "confidence": 1.952409184013959e-05
+            },
+            {
+              "identifier": "sushi",
+              "confidence": 1.8385071598459035e-05
+            }
+          ],
+          "elapsedMs": 86,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/18750-peking_duck.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=18750&length=1",
+      "source_label": "peking_duck",
+      "split": "test",
+      "group": "food101-val-18750",
+      "sha256": "31435b175c2a24c9ba2d5846c3507130cfe19ba78c53cb2a26b164c0a181aa33",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "peking_duck",
+              "confidence": 0.9999212026596069
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 2.4239110643975437e-05
+            },
+            {
+              "identifier": "baby_back_ribs",
+              "confidence": 1.9073457224294543e-05
+            },
+            {
+              "identifier": "chicken_wings",
+              "confidence": 1.0231743544864003e-05
+            },
+            {
+              "identifier": "steak",
+              "confidence": 5.170923486730317e-06
+            }
+          ],
+          "elapsedMs": 87,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "peking_duck",
+              "confidence": 0.9999212026596069
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 2.4239110643975437e-05
+            },
+            {
+              "identifier": "baby_back_ribs",
+              "confidence": 1.9073457224294543e-05
+            },
+            {
+              "identifier": "chicken_wings",
+              "confidence": 1.0231743544864003e-05
+            },
+            {
+              "identifier": "steak",
+              "confidence": 5.170923486730317e-06
+            }
+          ],
+          "elapsedMs": 91,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/20000-filet_mignon.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=20000&length=1",
+      "source_label": "filet_mignon",
+      "split": "test",
+      "group": "food101-val-20000",
+      "sha256": "2ebec5374fab3c18a73263b01ca3a2cfc4bdd2b43f84cc2da92da75ad0aa7475",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "filet_mignon",
+              "confidence": 0.9205791354179382
+            },
+            {
+              "identifier": "steak",
+              "confidence": 0.07858320325613022
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.00029048483702354133
+            },
+            {
+              "identifier": "prime_rib",
+              "confidence": 0.000274371646810323
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 9.998930181609467e-05
+            }
+          ],
+          "elapsedMs": 84,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "filet_mignon",
+              "confidence": 0.9630783796310425
+            },
+            {
+              "identifier": "steak",
+              "confidence": 0.03550224006175995
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.0005971787613816559
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 0.0002111289941240102
+            },
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 0.00017065995780285448
+            }
+          ],
+          "elapsedMs": 81,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/21250-gyoza.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=21250&length=1",
+      "source_label": "gyoza",
+      "split": "test",
+      "group": "food101-val-21250",
+      "sha256": "be2cba197f9b0f1340a03ed098bbc765927b6f1b4e0bdad3a89c04f1aa2a5bfc",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "gyoza",
+              "confidence": 0.8837372660636902
+            },
+            {
+              "identifier": "dumplings",
+              "confidence": 0.1107064038515091
+            },
+            {
+              "identifier": "ravioli",
+              "confidence": 0.004689238034188747
+            },
+            {
+              "identifier": "peking_duck",
+              "confidence": 0.0004510249709710479
+            },
+            {
+              "identifier": "scallops",
+              "confidence": 0.00014312575513031334
+            }
+          ],
+          "elapsedMs": 84,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "gyoza",
+              "confidence": 0.8837372660636902
+            },
+            {
+              "identifier": "dumplings",
+              "confidence": 0.1107064038515091
+            },
+            {
+              "identifier": "ravioli",
+              "confidence": 0.004689238034188747
+            },
+            {
+              "identifier": "peking_duck",
+              "confidence": 0.0004510249709710479
+            },
+            {
+              "identifier": "scallops",
+              "confidence": 0.00014312575513031334
+            }
+          ],
+          "elapsedMs": 85,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/22500-sushi.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=22500&length=1",
+      "source_label": "sushi",
+      "split": "test",
+      "group": "food101-val-22500",
+      "sha256": "e5e36beb08cdf83ad1a70cb12b9c50417f752a2eb12e03bb40bf427aaf548eed",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "sushi",
+              "confidence": 0.9994895458221436
+            },
+            {
+              "identifier": "sashimi",
+              "confidence": 0.0001516506017651409
+            },
+            {
+              "identifier": "fried_calamari",
+              "confidence": 5.7849320000968874e-05
+            },
+            {
+              "identifier": "fried_rice",
+              "confidence": 5.433948535937816e-05
+            },
+            {
+              "identifier": "tuna_tartare",
+              "confidence": 2.9917813662905246e-05
+            }
+          ],
+          "elapsedMs": 81,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "sushi",
+              "confidence": 0.9995068311691284
+            },
+            {
+              "identifier": "sashimi",
+              "confidence": 0.00011360555072315037
+            },
+            {
+              "identifier": "risotto",
+              "confidence": 5.816892007715069e-05
+            },
+            {
+              "identifier": "takoyaki",
+              "confidence": 4.377111326903105e-05
+            },
+            {
+              "identifier": "fried_calamari",
+              "confidence": 3.689220466185361e-05
+            }
+          ],
+          "elapsedMs": 81,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/23750-churros.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=23750&length=1",
+      "source_label": "churros",
+      "split": "test",
+      "group": "food101-val-23750",
+      "sha256": "8c5663ffa674870d5c3e42cf18c31af8bd1e99674773eac40865f4a5cd01bb88",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "churros",
+              "confidence": 0.9999971389770508
+            },
+            {
+              "identifier": "french_toast",
+              "confidence": 7.168410434132966e-07
+            },
+            {
+              "identifier": "onion_rings",
+              "confidence": 4.6059932401476544e-07
+            },
+            {
+              "identifier": "pancakes",
+              "confidence": 3.9442446109205775e-07
+            },
+            {
+              "identifier": "beignets",
+              "confidence": 1.8071368401706422e-07
+            }
+          ],
+          "elapsedMs": 83,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "churros",
+              "confidence": 0.9999971389770508
+            },
+            {
+              "identifier": "french_toast",
+              "confidence": 7.168410434132966e-07
+            },
+            {
+              "identifier": "onion_rings",
+              "confidence": 4.6059932401476544e-07
+            },
+            {
+              "identifier": "pancakes",
+              "confidence": 3.9442446109205775e-07
+            },
+            {
+              "identifier": "beignets",
+              "confidence": 1.8071368401706422e-07
+            }
+          ],
+          "elapsedMs": 81,
+          "correct": true
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/25000-spaghetti_bolognese.jpg",
+      "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=25000&length=1",
+      "source_label": "spaghetti_bolognese",
+      "split": "test",
+      "group": "food101-val-25000",
+      "sha256": "881f27eb1bd8511c9c836f2662a9998cdab1a04a01edace9b01ee40c8c296866",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "spaghetti_bolognese",
+              "confidence": 0.998927652835846
+            },
+            {
+              "identifier": "spaghetti_carbonara",
+              "confidence": 0.000570914417039603
+            },
+            {
+              "identifier": "pad_thai",
+              "confidence": 0.00025416960124857724
+            },
+            {
+              "identifier": "ravioli",
+              "confidence": 5.534766387427226e-05
+            },
+            {
+              "identifier": "gnocchi",
+              "confidence": 5.163699825061485e-05
+            }
+          ],
+          "elapsedMs": 83,
+          "correct": true
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "spaghetti_bolognese",
+              "confidence": 0.998927652835846
+            },
+            {
+              "identifier": "spaghetti_carbonara",
+              "confidence": 0.000570914417039603
+            },
+            {
+              "identifier": "pad_thai",
+              "confidence": 0.00025416960124857724
+            },
+            {
+              "identifier": "ravioli",
+              "confidence": 5.534766387427226e-05
+            },
+            {
+              "identifier": "gnocchi",
+              "confidence": 5.163699825061485e-05
+            }
+          ],
+          "elapsedMs": 132,
+          "correct": true
+        }
+      }
+    }
+  ]
+}

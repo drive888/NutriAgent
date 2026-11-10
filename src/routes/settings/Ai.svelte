@@ -1,6 +1,6 @@
 <script>
-  import SettingsTrace from '../../components/settings/SettingsTrace.svelte';
+  import SettingsAgent from '../../components/settings/SettingsAgent.svelte';
   import { envLocks } from '../../stores/settings.js';
 </script>
 
-<SettingsTrace envLocks={$envLocks} />
+<SettingsAgent envLocks={$envLocks} />

@@ -47,7 +47,7 @@
           {#if action.icon}
             <span class="material-symbols-rounded as-icon">{action.icon}</span>
           {/if}
-          {action.label}
+          {action.labelKey ? $_(action.labelKey) : action.label}
         </button>
       {/each}
       <button class="as-cancel" on:click={cancel}>{$_('common.cancel')}</button>

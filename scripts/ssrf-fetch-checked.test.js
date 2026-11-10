@@ -1,5 +1,5 @@
 // fetchChecked(): the one way the server fetches an address a user chose.
-// The same test in all four Trace apps, like server/lib/ssrf-guard.js.
+// The same test in all four NutriAgent apps, like server/lib/ssrf-guard.js.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import http from 'node:http';

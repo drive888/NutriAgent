@@ -1,0 +1,67 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/recognition".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/recognition
+	2 container app
+		3 button 打开菜单
+		4 container
+			5 container 主导航
+				6 button 饮食日记
+					7 text book
+					8 text 饮食日记
+				9 button 食物
+					10 text restaurant
+					11 text 食物
+				12 button 统计
+					13 text bar_chart
+					14 text 统计
+				15 button 目标
+					16 text flag
+					17 text 目标
+				18 button 设置
+					19 text settings
+					20 text 设置
+		127 container
+			128 heading 检查照片识别结果, Value: 1
+				129 text 检查照片识别结果
+			130 text 结果仅为草稿。此页面上的任何内容都不会自动创建食物或饮食日记条目。 识别类型
+			131 pop up button (collapsed, settable) 识别类型, Value: 餐食照片, Secondary Actions: Expand
+				132 menu
+					133 (selected) 餐食照片
+					134 营养标签
+			135 text 照片
+			136 button 照片
+			138 image 已选中的识别输入
+			139 button 旋转 90 度
+			140 button 裁剪照片区域
+			137 button 识别照片
+			141 heading 确认前核对, Value: 2
+				142 text 确认前核对
+			143 text 模式： 
+			144 text 真实识别服务
+			145 text  · 2845 ms 候选项
+			146 pop up button (collapsed, settable) 候选项, Value: chicken, Secondary Actions: Expand
+				147 menu
+					148 (selected) chicken
+			149 text 修正食物名称
+			150 text field (settable) 修正食物名称, Value: chicken
+			151 text 实际份量
+			152 stepper (settable, integer) 实际份量, Value: 100
+			153 text 份量单位
+			154 pop up button (collapsed, settable) 份量单位, Value: g, Secondary Actions: Expand
+				155 menu
+					156 (selected) g
+					157 ml
+			158 button 确认草稿并计算
+			159 heading 已确认的预览（未保存）, Value: 2
+				160 text 已确认的预览（未保存）
+			161 definition list
+				162 container 食物名称
+					163 text 食物名称
+				164 text chicken
+				165 container 实际份量
+					166 text 实际份量
+				167 text 100 g
+			168 text 类别识别不等于营养测量。保存前，请匹配现有食物或输入已核实的营养信息。
+			169 button 在食物编辑器中核对当前数值
+		126 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 158 button 确认草稿并计算

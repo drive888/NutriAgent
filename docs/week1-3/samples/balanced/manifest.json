@@ -1,0 +1,162 @@
+[
+  {
+    "file": "docs/week1-3/samples/balanced/development-chicken_wings.jpg",
+    "source_label": "chicken_wings",
+    "category": "chicken",
+    "split": "development",
+    "group": "food101-val-1251",
+    "offset": 1251,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/test-chicken_wings.jpg",
+    "source_label": "chicken_wings",
+    "category": "chicken",
+    "split": "test",
+    "group": "food101-val-1250",
+    "offset": 1250,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/development-greek_salad.jpg",
+    "source_label": "greek_salad",
+    "category": "vegetables",
+    "split": "development",
+    "group": "food101-val-1751",
+    "offset": 1751,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/test-greek_salad.jpg",
+    "source_label": "greek_salad",
+    "category": "vegetables",
+    "split": "test",
+    "group": "food101-val-1750",
+    "offset": 1750,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/development-fried_rice.jpg",
+    "source_label": "fried_rice",
+    "category": "rice",
+    "split": "development",
+    "group": "food101-val-4251",
+    "offset": 4251,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/test-fried_rice.jpg",
+    "source_label": "fried_rice",
+    "category": "rice",
+    "split": "test",
+    "group": "food101-val-4250",
+    "offset": 4250,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/development-garlic_bread.jpg",
+    "source_label": "garlic_bread",
+    "category": "bread",
+    "split": "development",
+    "group": "food101-val-5501",
+    "offset": 5501,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/test-garlic_bread.jpg",
+    "source_label": "garlic_bread",
+    "category": "bread",
+    "split": "test",
+    "group": "food101-val-5500",
+    "offset": 5500,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/development-deviled_eggs.jpg",
+    "source_label": "deviled_eggs",
+    "category": "egg",
+    "split": "development",
+    "group": "food101-val-18251",
+    "offset": 18251,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/test-deviled_eggs.jpg",
+    "source_label": "deviled_eggs",
+    "category": "egg",
+    "split": "test",
+    "group": "food101-val-18250",
+    "offset": 18250,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/development-filet_mignon.jpg",
+    "source_label": "filet_mignon",
+    "category": "beef",
+    "split": "development",
+    "group": "food101-val-20001",
+    "offset": 20001,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/test-filet_mignon.jpg",
+    "source_label": "filet_mignon",
+    "category": "beef",
+    "split": "test",
+    "group": "food101-val-20000",
+    "offset": 20000,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/development-grilled_salmon.jpg",
+    "source_label": "grilled_salmon",
+    "category": "fish",
+    "split": "development",
+    "group": "food101-val-24501",
+    "offset": 24501,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/test-grilled_salmon.jpg",
+    "source_label": "grilled_salmon",
+    "category": "fish",
+    "split": "test",
+    "group": "food101-val-24500",
+    "offset": 24500,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/development-spaghetti_bolognese.jpg",
+    "source_label": "spaghetti_bolognese",
+    "category": "noodles",
+    "split": "development",
+    "group": "food101-val-25001",
+    "offset": 25001,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  },
+  {
+    "file": "docs/week1-3/samples/balanced/test-spaghetti_bolognese.jpg",
+    "source_label": "spaghetti_bolognese",
+    "category": "noodles",
+    "split": "test",
+    "group": "food101-val-25000",
+    "offset": 25000,
+    "source": "https://huggingface.co/datasets/ethz/food101",
+    "caveat": "Public Food101 validation. Pretrained model historical exposure possible."
+  }
+]

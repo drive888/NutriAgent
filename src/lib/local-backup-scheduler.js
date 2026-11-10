@@ -1,6 +1,6 @@
 /**
  * local-backup-scheduler.js — fire scheduled local backups while the
- * NutriTrace app is open in local Android mode.
+ * NutriAgent app is open in local Android mode.
  *
  * Local mode has no server-side scheduler (there's no server), and a
  * background WorkManager job would need native Java + a JS bridge. For
@@ -11,8 +11,8 @@
  * the app after the scheduled time.
  *
  * Storage:
- *   - Auto backups: Documents/nutritrace-backups/nutritrace-backup-auto-<ts>.zip
- *   - Manual backups: Documents/nutritrace-backups/nutritrace-backup-<ts>.zip
+ *   - Auto backups: Documents/nutriagent-backups/nutriagent-backup-auto-<ts>.zip
+ *   - Manual backups: Documents/nutriagent-backups/nutriagent-backup-<ts>.zip
  *   - Retention prunes only the auto-prefixed ones, so the user's manual
  *     archives are never touched by the scheduler.
  *
@@ -35,8 +35,8 @@ const INTERVAL_MS = {
 
 // Auto backup filename prefix so retention prune only touches auto-saved
 // archives, leaving the user's manual exports alone.
-const AUTO_PREFIX = 'nutritrace-backup-auto-';
-const BACKUP_DIR  = 'nutritrace-backups';
+const AUTO_PREFIX = 'nutriagent-backup-auto-';
+const BACKUP_DIR  = 'nutriagent-backups';
 
 // Tick cadence — every 5 min while the app is open. Cheap (just reads
 // settings + does a time comparison) and gives the scheduler reasonable
@@ -130,7 +130,7 @@ async function _runAutoBackup() {
 }
 
 /** Write a blob as a base64-encoded file via Capacitor Filesystem. Uses
- *  the same Documents/nutritrace-backups/ path the manual export
+ *  the same Documents/nutriagent-backups/ path the manual export
  *  function uses, so manual + auto archives sit alongside each other. */
 async function _writeBackupFile(filename, blob) {
   const { Filesystem, Directory } = await import('@capacitor/filesystem');

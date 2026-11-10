@@ -1,8 +1,8 @@
 // Who may reach the server's own network when a feature fetches an
-// address a user chose. The same file in all four Trace apps.
+// address a user chose. The same file in all four NutriAgent apps.
 //
 // Features made for services on the home network (push, Mealie, CookTrace,
-// NutriTrace, Navidrome) allow it for everyone and don't ask here.
+// NutriAgent, Navidrome) allow it for everyone and don't ask here.
 // Features made for the public web ask ownerOrOptIn(): an admin may; other
 // accounts only when the owner sets that feature's ALLOW_PRIVATE_* variable.
 // A single-user install has no sign-in, so every visitor would count as

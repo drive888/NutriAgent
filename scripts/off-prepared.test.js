@@ -2,7 +2,7 @@
  * #241 follow-up: Open Food Facts products with no "as sold" values.
  *
  * They used to arrive as 0 kcal foods everywhere: shown as 0 kcal, saved as
- * 0 kcal, and logged by Trace as 0 kcal with a success message. Their "as
+ * 0 kcal, and logged by NutriAgent as 0 kcal with a success message. Their "as
  * prepared" values are never used unasked, because what they are varies by
  * product (the fixtures are real OFF products, as OFF's v3 API returns them):
  * Nesquik's are the drink made with milk, one formula's are the made-up milk,
@@ -117,7 +117,7 @@ test('using "as prepared" values: converted to the food, recorded in its notes, 
   assert.equal(food.calories, 0, 'the food passed in is untouched');
 });
 
-test('every place an OFF product enters NutriTrace checks it', () => {
+test('every place an OFF product enters NutriAgent checks it', () => {
   const foods = read('../src/routes/Foods.svelte');
   assert.match(foods, /offStatus=\{_paneOffStatus\}/);
   assert.match(foods, /offStatus=\{_detailOffStatus\}/);
@@ -145,24 +145,33 @@ test('every place an OFF product enters NutriTrace checks it', () => {
   const persist = meal.slice(meal.indexOf('async function _maybePersistPickedFood'));
   const refuseAt = persist.indexOf("meal_editor.errors.off_no_values");
   assert.ok(refuseAt > 0, 'the meal editor refuses such an ingredient');
-  assert.ok(refuseAt < persist.indexOf('NtApi.createFood'), 'before anything is saved');
+  assert.ok(refuseAt < persist.indexOf('NaApi.createFood'), 'before anything is saved');
 
-  const trace = read('../src/components/ai/Trace.svelte');
+  const trace = read('../src/components/ai/NutriAgent.svelte');
   const off = trace.slice(trace.indexOf('if (pickedOff) {'));
   const stopAt = off.indexOf('no_nutrition: true');
-  assert.ok(stopAt > 0, 'Trace stops for such a product');
-  assert.ok(stopAt < off.indexOf('NtApi.createFood'), 'before it would have saved and logged it');
+  assert.ok(stopAt > 0, 'NutriAgent stops for such a product');
+  assert.ok(stopAt < off.indexOf('NaApi.createFood'), 'before it would have saved and logged it');
 
   const ql = read('../src/lib/quick-log.js');
   assert.match(ql, /let best = out\.candidates\.find\(usable\) \|\| offResults\[0\];/);
   assert.match(ql, /if \(m\.source === 'off' && !food\.id && offNutritionStatus\(food, API\.offNutritionInfo\(food\.barcode\)\) !== 'ok'\) continue;/);
   assert.match(read('../src/components/diary/SmartLogModal.svelte'), /smart_log\.off_no_values/);
   const modal = read('../src/components/diary/SmartLogModal.svelte');
-  assert.match(modal, /Add \{matchedItems\.filter\(_loggable\)\.length\} to Diary/, 'the Add button counts only what will be logged');
+  const addButton = modal.match(/<button[^>]*on:click=\{commitAll\}[^>]*>([\s\S]*?)<\/button>/)?.[0];
+  assert.ok(addButton, 'the Add button still commits the reviewed matches');
+  assert.match(addButton, /disabled=\{matchedItems\.filter\(_loggable\)\.length === 0\}/, 'no usable matches disables Add');
+  const label = addButton.match(/\{\$_\('([^']+)'\)\}\s+\{matchedItems\.filter\(_loggable\)\.length\}\s+\{\$_\('([^']+)'\)\}/);
+  assert.ok(label, 'the translated Add button counts only what will be logged');
+  const en = JSON.parse(read('../src/i18n/en.json'));
+  const text = key => key.split('.').reduce((value, part) => value?.[part], en);
+  assert.equal(text(label[1]), 'Add');
+  assert.equal(text(label[2]), 'to Diary');
+  assert.match(modal, /const _loggable = \(m\) => !!m\.food && !\(m\.source === 'off' && offNutritionStatus\(m\.food, API\.offNutritionInfo\(m\.food\.barcode\)\) !== 'ok'\);/, 'the count excludes missing foods and OFF matches that cannot be saved');
 });
 
-test('Trace is told what no_nutrition means and not to force the food in', () => {
-  const trace = read('../src/components/ai/Trace.svelte');
+test('NutriAgent is told what no_nutrition means and not to force the food in', () => {
+  const trace = read('../src/components/ai/NutriAgent.svelte');
   assert.match(trace, /If the tool returns \\`no_nutrition\\`/);
   assert.match(read('../src/lib/aiChat.js'), /no_nutrition: true, food_name, as_prepared_only, message\}: Open Food Facts/);
 });

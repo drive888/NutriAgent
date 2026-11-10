@@ -13,7 +13,7 @@ import { getOpenAIChatParams } from './openai-chat-params.js';
 
 // Nutrition schema for the propose_* tools — generated from the canonical
 // NUTRIMENTS list so adding a new nutrient anywhere in the app automatically
-// makes it estimable by Trace, without a second place to edit. Mini-class
+// makes it estimable by NutriAgent, without a second place to edit. Mini-class
 // models (gpt-4o-mini etc.) read `properties:` as a literal allow-list, so
 // listing every NT-tracked key explicitly is what gets them to send
 // fiber / sugars / sat-fat / sodium / vitamin-d / iron / calcium / etc.
@@ -24,7 +24,7 @@ const NUTRITION_SCHEMA = (() => {
   return {
     type: 'object',
     description:
-      'Estimated nutrition values keyed by NutriTrace nutriment ID. All numeric. ' +
+      'Estimated nutrition values keyed by NutriAgent nutriment ID. All numeric. ' +
       '`calories` is required. ESTIMATE EVERY KEY YOU CAN — fiber, sugars, sodium, ' +
       'saturated fat, cholesterol, vitamins, minerals — anything the food contains ' +
       'in non-trivial amounts. Omit a key only when the value would genuinely be ~0 ' +
@@ -281,14 +281,14 @@ export async function callAI({ provider, apiKey, model, messages, systemPrompt, 
  * the pattern in api.js#_fetch — without the Bearer header, env-locked
  * AI calls from Android return 401 even though the chat path looks fine.
  */
-export async function callAIProxy({ messages, systemPrompt, tools, onToolCall }) {
+export async function callAIProxy({ messages, systemPrompt, tools, onToolCall, language = 'en' }) {
   const { apiUrl, isNative, getServerUrl, getAuthToken } = await import('./platform.js');
 
   let currentMessages = [...messages];
   const MAX_ROUNDS = 5;
 
   for (let round = 0; round < MAX_ROUNDS; round++) {
-    const headers = { 'Content-Type': 'application/json' };
+    const headers = { 'Content-Type': 'application/json', 'Accept-Language': language };
     if (isNative && getServerUrl()) {
       const token = getAuthToken();
       if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -335,10 +335,10 @@ export async function callAIProxy({ messages, systemPrompt, tools, onToolCall })
 
 // ── Default models per provider ───────────────────────────────────────────────
 export const AI_PROVIDERS = [
-  { value: 'claude',     label: 'Anthropic Claude' },
-  { value: 'openai',     label: 'OpenAI'           },
-  { value: 'gemini',     label: 'Google Gemini'    },
-  { value: 'oai-compat', label: 'OpenAI Compatible' },
+  { value: 'claude',     label: 'Anthropic Claude', labelKey: 'ui.m12dcc4844286' },
+  { value: 'openai',     label: 'OpenAI', labelKey: 'ui.m8b7d1a3187ab'           },
+  { value: 'gemini',     label: 'Google Gemini', labelKey: 'ui.m063b73480274'    },
+  { value: 'oai-compat', label: 'OpenAI Compatible', labelKey: 'ui.m910becb9f6a0' },
 ];
 
 // Checked against the vendors' model and deprecation pages on 2026-10-09
@@ -348,35 +348,35 @@ export const AI_PROVIDERS = [
 // shows it as a custom model.
 export const AI_MODELS = {
   claude: [
-    { value: 'claude-haiku-5-5',  label: 'Claude Haiku 5.5 (fast, cheapest)'  },
-    { value: 'claude-sonnet-5-5', label: 'Claude Sonnet 5.5 (balanced)'       },
-    { value: 'claude-opus-5-5',   label: 'Claude Opus 5.5 (smarter)'          },
-    { value: 'claude-fable-5-1',  label: 'Claude Fable 5.1 (most capable)'    },
-    { value: 'claude-sonnet-5',   label: 'Claude Sonnet 5 (previous)'         },
-    { value: 'claude-opus-5',     label: 'Claude Opus 5 (previous)'           },
-    { value: 'claude-fable-5',    label: 'Claude Fable 5 (previous)'          },
-    { value: 'claude-opus-4-8',   label: 'Claude Opus 4.8 (previous)'         },
-    { value: '__custom__',        label: 'Custom…'                            },
+    { value: 'claude-haiku-5-5',  label: 'Claude Haiku 5.5 (fast, cheapest)', labelKey: 'ui.m8ce2309eb3ef'  },
+    { value: 'claude-sonnet-5-5', label: 'Claude Sonnet 5.5 (balanced)', labelKey: 'ui.m81ce3c1ef2cf'       },
+    { value: 'claude-opus-5-5',   label: 'Claude Opus 5.5 (smarter)', labelKey: 'ui.md0bb2fdf44ec'          },
+    { value: 'claude-fable-5-1',  label: 'Claude Fable 5.1 (most capable)', labelKey: 'ui.m0fa0a122870c'    },
+    { value: 'claude-sonnet-5',   label: 'Claude Sonnet 5 (previous)', labelKey: 'ui.m5ca5e9eb9436'         },
+    { value: 'claude-opus-5',     label: 'Claude Opus 5 (previous)', labelKey: 'ui.m0307a2d44bd5'           },
+    { value: 'claude-fable-5',    label: 'Claude Fable 5 (previous)', labelKey: 'ui.m532421235045'          },
+    { value: 'claude-opus-4-8',   label: 'Claude Opus 4.8 (previous)', labelKey: 'ui.m2b94a1c77d47'         },
+    { value: '__custom__',        label: 'Custom…', labelKey: 'ui.mc4e69d543a44'                            },
   ],
-  // GPT-6.1 Sol and GPT-6 Astra are left out: Trace calls tools through
+  // GPT-6.1 Sol and GPT-6 Astra are left out: NutriAgent calls tools through
   // Chat Completions, which those two don't support (only the Responses
   // API does, per their model pages).
   openai: [
-    { value: 'gpt-6-luna',    label: 'GPT-6 Luna (fast, cheapest)'   },
-    { value: 'gpt-5.6-terra', label: 'GPT-5.6 Terra (balanced)'      },
-    { value: 'gpt-5.6-sol',   label: 'GPT-5.6 Sol (most capable)'    },
-    { value: 'gpt-5.6-luna',  label: 'GPT-5.6 Luna (previous)'       },
-    { value: 'gpt-4o-mini',   label: 'GPT-4o mini (previous)'        },
-    { value: 'gpt-4o',        label: 'GPT-4o (previous)'             },
-    { value: '__custom__',    label: 'Custom…'                       },
+    { value: 'gpt-6-luna',    label: 'GPT-6 Luna (fast, cheapest)', labelKey: 'ui.m357ad4d3b20b'   },
+    { value: 'gpt-5.6-terra', label: 'GPT-5.6 Terra (balanced)', labelKey: 'ui.m5df74e1c3f8f'      },
+    { value: 'gpt-5.6-sol',   label: 'GPT-5.6 Sol (most capable)', labelKey: 'ui.m9cda0b348e35'    },
+    { value: 'gpt-5.6-luna',  label: 'GPT-5.6 Luna (previous)', labelKey: 'ui.mf07b31987b02'       },
+    { value: 'gpt-4o-mini',   label: 'GPT-4o mini (previous)', labelKey: 'ui.m633c690f7cee'        },
+    { value: 'gpt-4o',        label: 'GPT-4o (previous)', labelKey: 'ui.m6918b35955f6'             },
+    { value: '__custom__',    label: 'Custom…', labelKey: 'ui.mc4e69d543a44'                       },
   ],
   gemini: [
-    { value: 'gemini-3.1-flash-lite',  label: 'Gemini 3.1 Flash Lite (cheapest)'      },
-    { value: 'gemini-3.5-flash-lite',  label: 'Gemini 3.5 Flash Lite (cheap)'         },
-    { value: 'gemini-3.8-flash',       label: 'Gemini 3.8 Flash (fast)'               },
-    { value: 'gemini-3.1-pro-preview', label: 'Gemini 3.1 Pro Preview (most capable)' },
-    { value: 'gemini-3.6-flash',       label: 'Gemini 3.6 Flash (previous)'           },
-    { value: '__custom__',             label: 'Custom…'                               },
+    { value: 'gemini-3.1-flash-lite',  label: 'Gemini 3.1 Flash Lite (cheapest)', labelKey: 'ui.m16cd364d59e6'      },
+    { value: 'gemini-3.5-flash-lite',  label: 'Gemini 3.5 Flash Lite (cheap)', labelKey: 'ui.m23aaf897a701'         },
+    { value: 'gemini-3.8-flash',       label: 'Gemini 3.8 Flash (fast)', labelKey: 'ui.m2766059b1fa8'               },
+    { value: 'gemini-3.1-pro-preview', label: 'Gemini 3.1 Pro Preview (most capable)', labelKey: 'ui.m73f6ebe19886' },
+    { value: 'gemini-3.6-flash',       label: 'Gemini 3.6 Flash (previous)', labelKey: 'ui.mf35858b52ab9'           },
+    { value: '__custom__',             label: 'Custom…', labelKey: 'ui.mc4e69d543a44'                               },
   ],
 };
 
@@ -521,7 +521,7 @@ async function _callOpenAIWithTools(apiKey, model, messages, systemPrompt, tools
 // Models Google has shut down or scheduled for shutdown. Saved selections
 // pointing at any of these are quietly remapped to the current default so
 // users who never opened Settings don't suddenly start hitting 404 / quota=0
-// errors. The dropdown auto-migration in SettingsTrace handles the visible
+// errors. The dropdown auto-migration in SettingsAgent handles the visible
 // case; this is the fallback for the no-visit path.
 // Shut down per ai.google.dev/gemini-api/docs/deprecations (2026-10-09).
 export const GEMINI_RETIRED = new Set([
@@ -603,7 +603,7 @@ async function _callGeminiWithTools(apiKey, model, messages, systemPrompt, tools
 
 let _toolHandler = null;
 
-/** Register the tool handler (called from Trace.svelte) */
+/** Register the tool handler (called from NutriAgent.svelte) */
 export function setToolHandler(handler) { _toolHandler = handler; }
 
 async function _executeTool(name, args) {

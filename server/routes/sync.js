@@ -396,7 +396,7 @@ router.post('/push', wrap(async (req, res) => {
     // Merge semantics (Option C, 2026-08-11): items and water use per-uuid
     // merge via lib/diary-merge. Prior implementation replaced items/water
     // wholesale, letting a stale mobile client wipe the day on push. See
-    // project_nutritrace_diary_persist_gap for the 2026-07-23 and 2026-08-11
+    // project_nutriagent_diary_persist_gap for the 2026-07-23 and 2026-08-11
     // incidents. body_stats keeps its ad-hoc empty-guard (issue #81);
     // day-level soft delete still uses whole-row deleted_at.
     for (const d of diary) {

@@ -239,9 +239,9 @@
     "use_locally": "Uso Local",
     "use_locally_desc": "Todas as informações permanecerão nesse aparelho. Funcionando off-line, sem a necessidade de um servidor. Você pode se conectar a um servidor depois pelas configurações.",
     "connect_to_server": "Conectado ao Servidor",
-    "connect_to_server_desc": "Sincronizado com seu Servidor NutriTrace. Suas informações estarão disponíveis em todos os seus dispositivos e na pagina web.",
+    "connect_to_server_desc": "Sincronizado com seu Servidor NutriAgent. Suas informações estarão disponíveis em todos os seus dispositivos e na pagina web.",
     "server_url": "URL do Servidor",
-    "server_url_placeholder": "https://nutritrace.example.com",
+    "server_url_placeholder": "https://nutriagent.example.com",
     "back": "Voltar",
     "checking": "Checando…",
     "next": "Próximo",
@@ -286,7 +286,7 @@
       "finish": "Concluído"
     },
     "welcome": {
-      "title": "Bem-Vindo ao NutriTrace"
+      "title": "Bem-Vindo ao NutriAgent"
     },
     "name": {
       "placeholder": "Seu nome (Opcional)"

@@ -1,0 +1,58 @@
+{
+  "verifiedAt": "2026-10-30T04:48:16.476Z",
+  "food": {
+    "id": 1,
+    "user_id": 1,
+    "name": "混合餐食 用户照片 人工校对待核实",
+    "brand": null,
+    "nutrition": {},
+    "portion": 100,
+    "unit": "g",
+    "img_url": null,
+    "notes": "用户指定照片回归测试。原模型仅返回chicken，分数0.158830，不能代表整份混合餐。名称为人工修正；100g仅为软件流程测试值，非称重结果。全部营养未知，留空；不得解释为零热量。",
+    "category": null,
+    "barcode": null,
+    "created_at": "2026-10-30 04:46:21",
+    "visibility": "private",
+    "source_id": null,
+    "source_app": null,
+    "source_external_id": null,
+    "source_url": null,
+    "updated_at": "2026-10-30 04:47:18",
+    "deleted_at": null,
+    "changed_at": "2026-10-30 04:47:18",
+    "client_key": null,
+    "favorite": 0,
+    "usage_count": 1,
+    "last_used_at": "2026-10-30",
+    "nutrition_basis": null,
+    "alt_units": null,
+    "density_g_ml": null
+  },
+  "diaryEntries": [
+    {
+      "uuid": "dc01cabb-6b9d-4192-a6dd-73550ae17449",
+      "meal": 1,
+      "addedAt": "2026-10-30T04:47:18.192Z",
+      "id": 1,
+      "food_server_id": 1,
+      "name": "混合餐食 用户照片 人工校对待核实",
+      "brand": null,
+      "portion": 100,
+      "unit": "g",
+      "quantity": 1,
+      "nutrition": {},
+      "notes": "用户指定照片回归测试。原模型仅返回chicken，分数0.158830，不能代表整份混合餐。名称为人工修正；100g仅为软件流程测试值，非称重结果。全部营养未知，留空；不得解释为零热量。",
+      "imgUrl": ""
+    }
+  ],
+  "findings": [
+    "Classifier adapter discarded top1 bibimbap and surfaced lower-score chicken_curry as chicken",
+    "Only name editable; original category chicken stays in draft preview after name correction",
+    "Recognition image is not transferred to food editor",
+    "Unknown nutrients displayed as 0 kcal by existing UI"
+  ],
+  "scope": "Only independent3103 data;3101 untouched",
+  "nutritionGroundTruth": "Unknown;100g test input not measured",
+  "flow": "upload -> service recognition -> manual name correction -> editor -> save -> lunch -> reload -> authenticated API readback"
+}

@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { localizeJsonErrors } from './lib/localization.js';
 import { rememberAdminOrigin } from './lib/public-url.js';
 // Forward-proxy support (#177). Self-installs an undici
 // EnvHttpProxyAgent as the global fetch dispatcher when
@@ -26,6 +27,7 @@ import cooktraceRoutes from './routes/cooktrace.js';
 import settingsRoutes  from './routes/settings.js';
 import appConfigRoutes  from './routes/app-config.js';
 import aiRoutes         from './routes/ai.js';
+import recognitionRoutes from './routes/recognition.js';
 import fullBackupRoutes from './routes/full-backup.js';
 import fitbitRoutes       from './routes/fitbit.js';
 import googleHealthRoutes from './routes/google-health.js';
@@ -76,8 +78,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 validateRequestLoggingConfig();
 
 // ── Reverse-proxy / subpath support ───────────────────────────────────────
-// BASE_URL lets users mount NutriTrace at a path other than root, e.g. for
-// `https://example.com/nutritrace/` set BASE_URL=/nutritrace. Empty string
+// BASE_URL lets users mount NutriAgent at a path other than root, e.g. for
+// `https://example.com/nutriagent/` set BASE_URL=/nutriagent. Empty string
 // (default) keeps current root-mounted behavior — no migration needed for
 // existing installs.
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/$/, '');
@@ -93,6 +95,7 @@ const router = express.Router();
 // Start API request diagnostics before consuming the body so rejected or
 // interrupted requests still have an ID, observed byte count, and outcome.
 router.use(requestLogging);
+router.use(localizeJsonErrors(db));
 
 // Per-route JSON limits for endpoints that legitimately handle large payloads
 // (full data export/import, full-history sync push). Registered BEFORE the
@@ -100,9 +103,10 @@ router.use(requestLogging);
 // is already populated and it short-circuits.
 router.use('/api/data/import', express.json({ limit: '25mb' }));
 router.use('/api/sync/push',   express.json({ limit: '25mb' }));
-// Trace AI chat carries base64'd meal photos (phone camera shots inflate to
+// NutriAgent AI chat carries base64'd meal photos (phone camera shots inflate to
 // ~3-7 MB after base64), so its body needs more headroom than the global cap.
 router.use('/api/ai/chat',     express.json({ limit: '12mb' }));
+router.use('/api/recognition', express.json({ limit: '9mb' }));
 // Diary is an accumulating store — every PUT replays the full day's items,
 // each carrying the source food's nutrition object (~2 KB with full vitamins)
 // plus name / brand / barcode / category / now also nutrition_basis +
@@ -137,7 +141,8 @@ router.use((req, res, next) => {
     const host = req.headers.host;
     const isCapacitor = origin === 'https://localhost'
       || origin === 'http://localhost'
-      || origin === 'https://app.nutritrace.local';
+      || origin === 'https://app.nutriagent.local'
+      || origin === 'https://app.nutritrace.local'; // compatible with earlier native clients
     const isSameHost = host && origin.includes(host);
     if (isCapacitor || isSameHost) {
       res.setHeader('Access-Control-Allow-Origin', origin);
@@ -255,6 +260,7 @@ router.use('/api/activity', activityRoutes);
 router.use('/api/fasts',    fastsRoutes);
 router.use('/api/nutrition-import', nutritionImportRoutes);
 router.use('/api/upload', uploadRoutes);
+router.use('/api/recognition', recognitionRoutes);
 router.use('/api/mealie',     mealieRoutes);
 router.use('/api/cooktrace',  cooktraceRoutes);
 router.use('/api/settings',  settingsRoutes);
@@ -441,7 +447,7 @@ process.on('uncaughtException', (err) => {
 });
 
 app.listen(PORT, async () => {
-  logger.info(`NutriTrace ${APP_VERSION} running on port ${PORT}`);
+  logger.info(`NutriAgent ${APP_VERSION} running on port ${PORT}`);
 
   // One-time repair for instances that enabled user management on a build
   // where the handover was incomplete (TraceApps/docs#2). No-op once clean.

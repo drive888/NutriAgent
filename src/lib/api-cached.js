@@ -119,7 +119,7 @@ function _mealToApi(meal) {
   return { ...rest, img_url: _stripResolvedImgUrl(imgUrl || img_url) || null };
 }
 
-export const NtApiCached = {
+export const NaApiCached = {
 
   // ── Foods — always local-first ────────────────────────────────────────
 
@@ -304,7 +304,7 @@ export const NtApiCached = {
 
   // ── Wellness ──────────────────────────────────────────────────────────
   //
-  // Mirror the shape on _NtApiHttp + NtApiNative. Server-first with a
+  // Mirror the shape on _NaApiHttp + NaApiNative. Server-first with a
   // local fallback so the MET → kcal preview inside AddActivitySheet
   // works whether or not the server is reachable. Issue #162.
   async getLatestWellness(metric) {
@@ -312,8 +312,8 @@ export const NtApiCached = {
       return await _serverFetch('GET', `/api/wellness/latest?metric=${encodeURIComponent(metric)}`);
     } catch {
       try {
-        const { NtApiNative } = await import('./api-native.js');
-        return await NtApiNative.getLatestWellness(metric);
+        const { NaApiNative } = await import('./api-native.js');
+        return await NaApiNative.getLatestWellness(metric);
       } catch {
         return null;
       }
@@ -372,7 +372,7 @@ export const NtApiCached = {
     return data.url;
   },
 
-  // ── Pass-through for NtApi.post/get/put/del ───────────────────────────
+  // ── Pass-through for NaApi.post/get/put/del ───────────────────────────
   // GET: 3s (status checks, data reads — fail fast when server is down)
   // POST/PUT/PATCH/DELETE: 30s (sync operations call external APIs and can take time)
   async get(path) {

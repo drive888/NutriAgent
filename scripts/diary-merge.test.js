@@ -7,7 +7,7 @@ import { mergeEntries, ensureUuids } from '../server/lib/diary-merge.js';
 // wholesale replace on PUT /api/diary/:date + POST /api/sync/push. The
 // primary correctness property is that a client PUT can never wipe
 // server items that the client didn't address explicitly (via
-// deleted_uuids or an existing tombstone). See project_nutritrace_diary_
+// deleted_uuids or an existing tombstone). See project_nutriagent_diary_
 // persist_gap for the 2026-07-23 and 2026-08-11 incidents that motivated
 // the redesign.
 

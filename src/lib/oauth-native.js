@@ -6,7 +6,7 @@
  * 1. App calls openOAuth(url) → opens Chrome/system browser
  * 2. User authorizes on provider site
  * 3. Provider redirects to server /callback?code=...
- * 4. Server exchanges code for token, redirects to nutritrace://callback?provider=connected
+ * 4. Server exchanges code for token, redirects to nutriagent://callback?provider=connected
  * 5. Android receives deep link → App.svelte handles it via appUrlOpen listener
  */
 

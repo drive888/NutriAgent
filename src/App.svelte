@@ -112,7 +112,7 @@
     if (!_syncModeActive || needsLogin || showNativeSetup || sidebarOpen || _pullRefreshing) return;
     // Listen at window level because the fixed top bar and portalled offline
     // banner both sit outside <main>. Dialogs, sheets, sidebars, the bottom
-    // bar and anything draggable (the Trace button, reorder handles) keep
+    // bar and anything draggable (the NutriAgent button, reorder handles) keep
     // their own touch handling (#225). See src/lib/pull-sync.js.
     if (isPullSyncExempt(event.target)) return;
     if (event.touches.length !== 1) return;
@@ -202,6 +202,7 @@
   import Diary      from './routes/Diary.svelte';
   import Foods      from './routes/Foods.svelte';
   import FoodEditor from './routes/FoodEditor.svelte';
+  import Recognition from './routes/Recognition.svelte';
   import MealEditor from './routes/MealEditor.svelte';
   import Statistics from './routes/Statistics.svelte';
   import Goals      from './routes/Goals.svelte';
@@ -212,11 +213,12 @@
   import ForgotPassword from './routes/ForgotPassword.svelte';
   import ResetPassword  from './routes/ResetPassword.svelte';
   import AcceptInvite   from './routes/AcceptInvite.svelte';
-  import Trace      from './components/ai/Trace.svelte';
+  import NutriAgent      from './components/ai/NutriAgent.svelte';
   import UpdateBanner from './components/UpdateBanner.svelte';
   import Wellness   from './routes/Wellness.svelte';
 
   const routes = {
+    '/recognition': Recognition,
     '/':                Diary,
     '/foods':           Foods,
     '/foods/edit':      FoodEditor,
@@ -449,20 +451,20 @@
             } else {
               lastBack = now;
               import('./stores/toast.js').then(({ showSuccess }) => {
-                showSuccess('Tap again to exit');
+                showSuccess($_('ui.md598b6408f9c'));
               });
             }
           }
         });
-        // Listen for OAuth deep link callbacks (nutritrace://callback?fitbit=connected)
+        // Listen for OAuth deep link callbacks (nutriagent://callback?fitbit=connected)
         App.addListener('appUrlOpen', async ({ url }) => {
           console.log('[app] deep link received:', url);
           try {
             const { closeBrowser } = await import('./lib/oauth-native.js');
             await closeBrowser();
           } catch {}
-          // Parse the deep link URL: nutritrace://callback?fitbit=connected
-          // OR for OIDC flow: nutritrace://oidc-callback?token=… / ?error=… / ?linked=1
+          // Parse the deep link URL: nutriagent://callback?fitbit=connected
+          // OR for OIDC flow: nutriagent://oidc-callback?token=… / ?error=… / ?linked=1
           try {
             const u = new URL(url);
             const params = u.searchParams;
@@ -489,7 +491,7 @@
               if (errMsg) {
                 import('./stores/toast.js').then(({ showError }) => showError(decodeURIComponent(errMsg)));
               } else if (linked) {
-                import('./stores/toast.js').then(({ showSuccess }) => showSuccess('Linked'));
+                import('./stores/toast.js').then(({ showSuccess }) => showSuccess($_('ui.mbfda026e6c59')));
                 await loadAuthState();
               } else if (token) {
                 const { setAuthToken } = await import('./lib/platform.js');
@@ -507,7 +509,7 @@
                     }));
                   } catch {}
                 }
-                import('./stores/toast.js').then(({ showSuccess }) => showSuccess('Signed in'));
+                import('./stores/toast.js').then(({ showSuccess }) => showSuccess($_('ui.mca566c8968e7')));
                 await loadAuthState();
                 // Re-evaluate the NativeSetup gate. Without this the user
                 // completes OIDC from NativeSetup, gets a valid token, and
@@ -532,7 +534,7 @@
                 params.get('withings')      ? 'withings' : 'garmin';
               const label = provider === 'google_health' ? 'Google Health' :
                             provider.charAt(0).toUpperCase() + provider.slice(1);
-              import('./stores/toast.js').then(({ showSuccess }) => showSuccess(`${label} connected!`));
+              import('./stores/toast.js').then(({ showSuccess }) => showSuccess($_('ui.mbf7a94fc74b9', { values: { value0: (label) } })));
               // Navigate to Wellness page to pick up new connection
               window.location.hash = '#/wellness';
             } else if (
@@ -574,9 +576,9 @@
     // we don't double-fetch on cold load.
     await handleOidcCallback();
 
-    // Env-lock state for AI / SMTP / OIDC. Fetched globally so the Trace
+    // Env-lock state for AI / SMTP / OIDC. Fetched globally so the NutriAgent
     // FAB knows about env-set AI_ENABLED without waiting for Settings to
-    // load. Mirrors NutriTrace #36. Signed out it would only be refused;
+    // load. Mirrors NutriAgent #36. Signed out it would only be refused;
     // signing in loads it (see _wasNeedsLogin below).
     if (!($userMgmtActive && !$currentUser)) loadEnvLocks();
 
@@ -736,12 +738,12 @@
       _armMidnightTimer();
     }
 
-    // Migrate assistant name: legacy 'Buddy' / 'FitBot' defaults → 'Trace'.
+    // Migrate assistant name: legacy 'Buddy' / 'FitBot' defaults → 'NutriAgent'.
     // Users who set their own custom name keep it.
     {
       const _curName = DB.getSetting('aiAssistantName', null);
-      if (_curName === 'Buddy' || _curName === 'FitBot') {
-        DB.setSetting('aiAssistantName', 'Trace');
+      if (_curName === 'Buddy' || _curName === 'FitBot' || _curName === 'Trace') {
+        DB.setSetting('aiAssistantName', 'NutriAgent');
       }
     }
 
@@ -759,9 +761,9 @@
 
   // Auth gate: bypass for password reset / invite pages
   /**
-   * Which sections the server holds by environment variable, Trace included.
+   * Which sections the server holds by environment variable, NutriAgent included.
    * Sends the Android app's token: cookies alone were refused there, which
-   * left Trace looking unconfigured even with AI_* set on the server.
+   * left NutriAgent looking unconfigured even with AI_* set on the server.
    */
   async function loadEnvLocks() {
     if (isNative && !getServerUrl()) return;
@@ -773,7 +775,7 @@
       if (!res.ok) return;
       const { envLocks } = await import('./stores/settings.js');
       envLocks.set(await res.json());
-    } catch { /* defaults stay: Trace waits for a key in Settings */ }
+    } catch { /* defaults stay: NutriAgent waits for a key in Settings */ }
   }
 
   const AUTH_BYPASS = ['/forgot-password', '/reset-password', '/accept-invite'];
@@ -791,7 +793,7 @@
     _catalogWarmedFor = $currentUser.id;
     setTimeout(() => {
       Promise.all([import('./lib/offline-catalog.js'), import('./lib/api.js')])
-        .then(([off, { NtApi }]) => off.warmOfflineCatalog(NtApi))
+        .then(([off, { NaApi }]) => off.warmOfflineCatalog(NaApi))
         .catch(() => {});
     }, 1500);
   }
@@ -886,7 +888,7 @@
     <button
       class="hamburger"
       on:click={() => sidebarOpen = !sidebarOpen}
-      aria-label="Open menu"
+      aria-label={$_('ui.mb40b3713b43d')}
     >
       <span class="material-symbols-rounded">menu</span>
       {#if (_syncModeActive && !_serverReachable) || _webOffline}
@@ -894,7 +896,7 @@
              red when the server is reachable but the sync is failing. -->
         <span class="conn-badge" class:conn-failing={_syncFailing || _webFailing} class:conn-offline={!(_syncFailing || _webFailing)}
           title={_webOffline ? $_('sync.pending_web_changes', { values: { count: $offlineState.pending } }) : ''}>
-          <span class="material-symbols-rounded" style="font-size:10px">{(_syncFailing || _webFailing) ? 'cloud_alert' : 'cloud_off'}</span>
+          <span class="material-symbols-rounded" style="font-size:10px">{(_syncFailing || _webFailing) ? "cloud_alert" : "cloud_off"}</span>
         </span>
       {/if}
     </button>
@@ -915,7 +917,7 @@
   >
     <span class="material-symbols-rounded sync-connection-icon">{_syncBannerCopy.icon}</span>
     <div class="sync-connection-copy">
-      <strong>{_syncBannerCopy.title}</strong>
+      <strong>{_syncBannerCopy.titleKey ? $_(_syncBannerCopy.titleKey) : _syncBannerCopy.title}</strong>
       <span>{_syncBannerCopy.detail}</span>
     </div>
     <button
@@ -944,7 +946,7 @@
     aria-hidden="true"
   >
     <span class="material-symbols-rounded" class:pull-sync-spin={_pullRefreshing}>
-      {_pullRefreshing ? 'autorenew' : 'arrow_downward'}
+      {_pullRefreshing ? "autorenew" : "arrow_downward"}
     </span>
   </div>
 {/if}
@@ -984,7 +986,7 @@
 {/key}
 
 <Toast />
-<Trace />
+<NutriAgent />
 
 {/if}
 

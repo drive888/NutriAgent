@@ -135,11 +135,11 @@
       <div class="select-wrap" style="width:100%">
         <select class="select" bind:value={source} on:change={reset}>
           {#each SOURCE_OPTIONS as o (o.id)}
-            <option value={o.id}>{o.label}</option>
+            <option value={o.id}>{o.labelKey ? $_(o.labelKey) : o.label}</option>
           {/each}
         </select>
       </div>
-      <p class="text-3 text-sm" style="margin:0">{currentSource.hint}</p>
+      <p class="text-3 text-sm" style="margin:0">{currentSource.hintKey ? $_(currentSource.hintKey) : currentSource.hint}</p>
       {#if source === 'spreadsheet'}
         <a class="text-link" href={resolveAssetUrl('/templates/nutrition-import-template.csv')} download>
           <span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle">download</span>
@@ -200,7 +200,7 @@
             </p>
             <ul class="unmapped-list">
               {#each preview.unmappedMealLabels.slice(0, 6) as u}
-                <li><code>{u.label}</code> · {u.count}</li>
+                <li><code>{u.labelKey ? $_(u.labelKey) : u.label}</code> · {u.count}</li>
               {/each}
               {#if preview.unmappedMealLabels.length > 6}<li class="text-3 text-sm">{$_('settings_nutrition_import.and_more', { values: { n: preview.unmappedMealLabels.length - 6 } })}</li>{/if}
             </ul>
@@ -245,7 +245,7 @@
         <div class="action-row">
           <button class="btn btn-ghost action-btn-cancel" on:click={reset} disabled={busy}>{$_('settings_nutrition_import.cancel')}</button>
           <button class="btn btn-primary action-btn-import" on:click={runCommit} disabled={busy}>
-            {busy ? $_('settings_nutrition_import.importing') : $_(preview.items === 1 ? 'settings_nutrition_import.import_one' : 'settings_nutrition_import.import_n', { values: { n: preview.items } })}
+            {busy ? $_('settings_nutrition_import.importing') : $_(preview.items === 1 ? "settings_nutrition_import.import_one" : "settings_nutrition_import.import_n", { values: { n: preview.items } })}
           </button>
         </div>
       </div>

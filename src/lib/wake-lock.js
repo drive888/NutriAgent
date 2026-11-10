@@ -24,7 +24,7 @@
  */
 
 // Each ticket represents one active caller. Multiple callers can
-// hold at once (e.g. Trace chat + Scan Label). The underlying wake
+// hold at once (e.g. NutriAgent chat + Scan Label). The underlying wake
 // lock is released only when the last ticket goes.
 const _tickets = new Set();
 let _sentinel = null;

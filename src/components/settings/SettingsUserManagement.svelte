@@ -4,7 +4,7 @@
   import Toggle from './Toggle.svelte';
   import { showSuccess, showError } from '../../stores/toast.js';
   import { DB } from '../../lib/db.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { currentUser, userMgmtActive, loadAuthState } from '../../stores/auth.js';
   import { isNative, getServerUrl, resolveAssetUrl, apiUrl, getAuthToken, setAuthToken } from '../../lib/platform.js';
   import { push } from 'svelte-spa-router';
@@ -66,7 +66,7 @@
   let inviteResult = null; // { inviteUrl, sent }
   let pendingInvites = []; // { token, email, role, expires_at }
   async function loadPendingInvites() {
-    try { pendingInvites = await NtApi.get('/api/auth/invites'); }
+    try { pendingInvites = await NaApi.get('/api/auth/invites'); }
     catch { pendingInvites = []; }
   }
   async function revokeInvite(token) {
@@ -77,7 +77,7 @@
       dangerous: true,
     })) return;
     try {
-      await NtApi.del(`/api/auth/invites/${token}`);
+      await NaApi.del(`/api/auth/invites/${token}`);
       await loadPendingInvites();
       showSuccess($_('settings.users.invite_revoked'));
     } catch (e) { showError(e.message || $_('settings.users.err_could_not_revoke')); }
@@ -226,7 +226,7 @@
 
   async function loadUsers() {
     try {
-      umUsers = await NtApi.get('/api/auth/users');
+      umUsers = await NaApi.get('/api/auth/users');
     } catch(e) { umError = e.message; }
   }
 
@@ -307,7 +307,7 @@
     _delTyped  = '';
     _delOpen   = true;
     try {
-      const r = await NtApi.get(`/api/auth/users/${u.id}/data-counts`);
+      const r = await NaApi.get(`/api/auth/users/${u.id}/data-counts`);
       if (_delOpen && _delTarget?.id === u.id) _delCounts = r;
     } catch (e) {
       _delCounts = { error: e.message };
@@ -318,7 +318,7 @@
     if (!_delTarget || _delTyped.trim() !== _delTarget.username) return;
     _delLoading = true;
     try {
-      await NtApi.del(`/api/auth/users/${_delTarget.id}`);
+      await NaApi.del(`/api/auth/users/${_delTarget.id}`);
       _delOpen = false;
       _delTarget = null;
       _delCounts = null;
@@ -359,7 +359,7 @@
         if (u.gender)     DB.setSetting('gender',            u.gender);
         if (u.avatar_url) DB.setSetting('localUserAvatar',   u.avatar_url);
       }
-      await NtApi.del('/api/auth/management');
+      await NaApi.del('/api/auth/management');
       // Move per-user settings back to the anonymous prefix so they're
       // visible after the prefix flip below.
       if (oldId != null) {
@@ -472,8 +472,8 @@
                     {:else}
                       <select class="um-role-select" value={u.role}
                         on:change={e => changeUserRole(u, e.target.value)}>
-                        <option value="user">user</option>
-                        <option value="admin">admin</option>
+                        <option value="user">{$_('ui.m04f8996da763')}</option>
+                        <option value="admin">{$_('ui.m8c6976e5b541')}</option>
                       </select>
                     {/if}
                   </div>
@@ -565,7 +565,7 @@
 
         <!-- Secondary path: add user manually (escape hatch for no-SMTP / offline setups) -->
         <button class="um-secondary-toggle" on:click={() => { showAddUser = !showAddUser; umError = ''; }}>
-          <span class="material-symbols-rounded" style="font-size:14px">{showAddUser ? 'expand_less' : 'expand_more'}</span>
+          <span class="material-symbols-rounded" style="font-size:14px">{showAddUser ? "expand_less" : "expand_more"}</span>
           {showAddUser ? $_('settings.users.add_user_hide') : $_('settings.users.add_user_show')}
         </button>
         {#if showAddUser}
@@ -577,8 +577,8 @@
               {:else}
                 <input class="input um-pw-input" type="password" bind:value={newPassword} placeholder={$_('settings.users.password_required')} autocomplete="new-password" passwordrules="minlength: 8; required: upper; required: lower; required: digit; required: special;" />
               {/if}
-              <button class="um-pw-eye" type="button" on:click={() => newShowPass = !newShowPass} aria-label={newShowPass ? 'Hide' : 'Show'}>
-                <span class="material-symbols-rounded">{newShowPass ? 'visibility_off' : 'visibility'}</span>
+              <button class="um-pw-eye" type="button" on:click={() => newShowPass = !newShowPass} aria-label={newShowPass ? $_('ui.mac20a57bfde0') : $_('ui.m0df6f1cad36c')}>
+                <span class="material-symbols-rounded">{newShowPass ? "visibility_off" : "visibility"}</span>
               </button>
             </div>
             <input class="input" type="text" bind:value={newFullName} placeholder={$_('settings.users.full_name')} />
@@ -648,7 +648,7 @@
           <span class="setting-label">{$_('settings.users.enable_um')}</span>
           <div class="setting-desc">{$_('settings.users.enable_um_subtitle')}</div>
         </div>
-        <span class="material-symbols-rounded text-3" style="font-size:18px">{showEnableUm ? 'expand_less' : 'expand_more'}</span>
+        <span class="material-symbols-rounded text-3" style="font-size:18px">{showEnableUm ? "expand_less" : "expand_more"}</span>
       </button>
 
       {#if showEnableUm}
@@ -689,8 +689,8 @@
                 {:else}
                   <input class="input" style="flex:1;min-width:0" type="password" bind:value={enableAdminPass} placeholder={$_('settings.users.password_required')} autocomplete="new-password" passwordrules="minlength: 8; required: upper; required: lower; required: digit; required: special;" />
                 {/if}
-                <button class="btn-icon" on:click={() => enableShowPass = !enableShowPass} style="flex-shrink:0" aria-label={enableShowPass ? $_('common.hide') : 'Show password'}>
-                  <span class="material-symbols-rounded" style="font-size:18px">{enableShowPass ? 'visibility_off' : 'visibility'}</span>
+                <button class="btn-icon" on:click={() => enableShowPass = !enableShowPass} style="flex-shrink:0" aria-label={enableShowPass ? $_('common.hide') : $_('ui.m6aeaa6a53d09')}>
+                  <span class="material-symbols-rounded" style="font-size:18px">{enableShowPass ? "visibility_off" : "visibility"}</span>
                 </button>
               </div>
               <div style="display:flex;gap:4px;align-items:center;flex:1;min-width:0">
@@ -699,8 +699,8 @@
                 {:else}
                   <input class="input" style="flex:1;min-width:0" type="password" bind:value={enableAdminConf} placeholder={$_('settings.users.confirm_required')} autocomplete="new-password" passwordrules="minlength: 8; required: upper; required: lower; required: digit; required: special;" />
                 {/if}
-                <button class="btn-icon" on:click={() => enableShowPass = !enableShowPass} style="flex-shrink:0" aria-label={enableShowPass ? $_('common.hide') : 'Show password'}>
-                  <span class="material-symbols-rounded" style="font-size:18px">{enableShowPass ? 'visibility_off' : 'visibility'}</span>
+                <button class="btn-icon" on:click={() => enableShowPass = !enableShowPass} style="flex-shrink:0" aria-label={enableShowPass ? $_('common.hide') : $_('ui.m6aeaa6a53d09')}>
+                  <span class="material-symbols-rounded" style="font-size:18px">{enableShowPass ? "visibility_off" : "visibility"}</span>
                 </button>
               </div>
             </div>
@@ -718,37 +718,37 @@
 <!-- Type-username-to-confirm delete-user dialog with cascade preview -->
 <Dialog
   bind:open={_delOpen}
-  title={_delTarget ? `Delete ${_delTarget.full_name || _delTarget.username}?` : 'Delete user?'}
+  title={_delTarget ? $_('ui.m3d83de39d3ef', { values: { value0: (_delTarget.full_name || _delTarget.username) } }) : $_('ui.ma974bdbf8f4b')}
   message=""
   confirmText={_delLoading ? 'Deleting…' : 'Delete Permanently'}
-  cancelText="Cancel"
+  cancelText={$_('ui.m19766ed6ccb2')}
   dangerous={true}
   manualClose={true}
   confirmDisabled={!_delTarget || _delTyped.trim() !== _delTarget.username || _delLoading}
   on:cancel={_cancelDeleteUser}
   on:confirm={_confirmDeleteUser}>
   {#if _delTarget}
-    <p class="del-intro">This will permanently delete the account and everything it owns. This cannot be undone.</p>
+    <p class="del-intro">{$_('ui.m761c0a46134b')}</p>
     {#if !_delCounts}
-      <div class="del-counts-loading">Loading data preview…</div>
+      <div class="del-counts-loading">{$_('ui.mada9aaa13e3c')}</div>
     {:else if _delCounts.error}
-      <div class="del-error">Couldn't load data preview: {_delCounts.error}</div>
+      <div class="del-error">{$_('ui.me0e99f399cf7')} {_delCounts.error}</div>
     {:else}
       <ul class="del-counts">
-        {#if _delCounts.foods         > 0}<li><strong>{_delCounts.foods.toLocaleString()}</strong> {_delCounts.foods === 1 ? 'food' : 'foods'}</li>{/if}
-        {#if _delCounts.meals         > 0}<li><strong>{_delCounts.meals.toLocaleString()}</strong> {_delCounts.meals === 1 ? 'meal' : 'meals'}</li>{/if}
-        {#if _delCounts.recipes       > 0}<li><strong>{_delCounts.recipes.toLocaleString()}</strong> {_delCounts.recipes === 1 ? 'recipe' : 'recipes'}</li>{/if}
-        {#if _delCounts.diary_days    > 0}<li><strong>{_delCounts.diary_days.toLocaleString()}</strong> diary {_delCounts.diary_days === 1 ? 'day' : 'days'}</li>{/if}
-        {#if _delCounts.activities    > 0}<li><strong>{_delCounts.activities.toLocaleString()}</strong> manual {_delCounts.activities === 1 ? 'activity' : 'activities'}</li>{/if}
-        {#if _delCounts.workouts      > 0}<li><strong>{_delCounts.workouts.toLocaleString()}</strong> {_delCounts.workouts === 1 ? 'workout' : 'workouts'}</li>{/if}
-        {#if _delCounts.wellness_data > 0}<li><strong>{_delCounts.wellness_data.toLocaleString()}</strong> wellness data points</li>{/if}
+        {#if _delCounts.foods         > 0}<li><strong>{_delCounts.foods.toLocaleString()}</strong> {_delCounts.foods === 1 ? $_('ui.mc1f026582fe6') : $_('ui.md4392ced9dff')}</li>{/if}
+        {#if _delCounts.meals         > 0}<li><strong>{_delCounts.meals.toLocaleString()}</strong> {_delCounts.meals === 1 ? $_('ui.maec6c3d03f01') : $_('ui.mf146172c0036')}</li>{/if}
+        {#if _delCounts.recipes       > 0}<li><strong>{_delCounts.recipes.toLocaleString()}</strong> {_delCounts.recipes === 1 ? $_('ui.me1d8e5523309') : $_('ui.m63b8bd59a482')}</li>{/if}
+        {#if _delCounts.diary_days    > 0}<li><strong>{_delCounts.diary_days.toLocaleString()}</strong> {$_('ui.m1d7fe146fad6')} {_delCounts.diary_days === 1 ? $_('ui.m944c27e5b97a') : $_('ui.mab51004e9d71')}</li>{/if}
+        {#if _delCounts.activities    > 0}<li><strong>{_delCounts.activities.toLocaleString()}</strong> {$_('ui.m36bde66f289a')} {_delCounts.activities === 1 ? $_('ui.m0651863bf5d9') : $_('ui.m624c95540620')}</li>{/if}
+        {#if _delCounts.workouts      > 0}<li><strong>{_delCounts.workouts.toLocaleString()}</strong> {_delCounts.workouts === 1 ? $_('ui.mb10c94bd8ae3') : $_('ui.me71d65dabfab')}</li>{/if}
+        {#if _delCounts.wellness_data > 0}<li><strong>{_delCounts.wellness_data.toLocaleString()}</strong> {$_('ui.m06d1cf3a6d9b')}</li>{/if}
         {#if !_delCounts.foods && !_delCounts.meals && !_delCounts.recipes && !_delCounts.diary_days && !_delCounts.activities && !_delCounts.workouts && !_delCounts.wellness_data}
-          <li class="del-empty">No data attached to this account.</li>
+          <li class="del-empty">{$_('ui.m60ad29644208')}</li>
         {/if}
       </ul>
     {/if}
     <label class="del-confirm-label" for="del-confirm-input">
-      Type <code>{_delTarget.username}</code> to confirm:
+      {$_('ui.mbaaddf70fb5d')} <code>{_delTarget.username}</code> {$_('ui.m1b2a5036345d')}
     </label>
     <input id="del-confirm-input" class="input del-confirm-input" type="text"
       autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
@@ -756,7 +756,7 @@
       placeholder={_delTarget.username}
       class:matched={_delTyped.trim() === _delTarget.username} />
     {#if _delTyped.trim() !== _delTarget.username}
-      <p class="del-hint">Confirm button enables once the username matches exactly.</p>
+      <p class="del-hint">{$_('ui.md5c2a18af44a')}</p>
     {/if}
   {/if}
 </Dialog>

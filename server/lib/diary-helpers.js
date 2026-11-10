@@ -93,7 +93,7 @@ const _norm = s => String(s || '').trim().toLowerCase();
  *
  * For recipe items (`is_recipe` truthy): meals table has none of these
  * fields, so the meal lookup is a no-op — splitRecipeItem falls back to
- * NtApi.getMeal(recipeId) on demand for ingredient data.
+ * NaApi.getMeal(recipeId) on demand for ingredient data.
  */
 // #237: the foods column stores alt_units as a JSON string. Hand diary items
 // the same array /api/foods returns (routes/foods.js parses it the same way),

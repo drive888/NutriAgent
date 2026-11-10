@@ -1,5 +1,5 @@
 /* ============================================================
-   Design Tokens — NutriTrace
+   Design Tokens — NutriAgent
    Dark theme is default; light overrides follow.
    Auto mode is handled in index.html IIFE + settings store.
    ============================================================ */
@@ -8,29 +8,29 @@
 :root,
 [data-theme="dark"] {
   /* Backgrounds */
-  --bg:            #0A0B0F;
-  --surface-1:     #12141A;
-  --surface-2:     #1A1D26;
-  --surface-3:     #20232E;
+  --bg:            #0D171C;
+  --surface-1:     #152329;
+  --surface-2:     #1B2C34;
+  --surface-3:     #233741;
   --overlay:       rgba(0, 0, 0, 0.70);
 
   /* Borders */
-  --border:        rgba(255, 255, 255, 0.07);
-  --border-strong: rgba(255, 255, 255, 0.14);
+  --border:        rgba(207, 230, 238, 0.10);
+  --border-strong: rgba(207, 230, 238, 0.20);
 
   /* Text */
-  --text-1:        #F0F2F8;
-  --text-2:        rgba(240, 242, 248, 0.60);
-  --text-3:        rgba(240, 242, 248, 0.35);
+  --text-1:        #EAF2F5;
+  --text-2:        #B8CBD2;
+  --text-3:        #91A8B2;
 
-  /* Accent — vibrant mint / cyan gradient */
-  --accent:        #4FFFB0;
-  --accent-2:      #00C9FF;
-  --accent-dim:    rgba(79, 255, 176, 0.15);
-  --accent-text:   #0A0B0F;   /* text ON accent background */
+  /* Accent — calm mint / ocean gradient */
+  --accent:        #69D5B6;
+  --accent-2:      #6CBBD4;
+  --accent-dim:    rgba(105, 213, 182, 0.12);
+  --accent-text:   #0D171C;   /* text ON accent background */
 
   /* Semantic */
-  --success:       #4FFFB0;
+  --success:       #69D5B6;
   --warning:       #FFB547;
   --danger:        #FF5C5C;
   --info:          #4FC3F7;
@@ -46,39 +46,39 @@
   --macro-calories-dim: rgba(255,213,79,0.15);
 
   /* UI */
-  --shadow-sm:     0 1px  3px rgba(0,0,0,0.4);
-  --shadow-md:     0 4px 12px rgba(0,0,0,0.5);
-  --shadow-lg:     0 8px 32px rgba(0,0,0,0.6);
-  --shadow-glow:   0 4px 24px rgba(0,0,0,0.6);
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.18);
+  --shadow-md:     0 6px 18px rgba(0,0,0,0.22);
+  --shadow-lg:     0 16px 40px rgba(0,0,0,0.32);
+  --shadow-glow:   0 6px 18px rgba(0,0,0,0.22);
   --backdrop-blur: blur(20px);
-  --glass-surface: rgba(18, 20, 26, 0.88);
+  --glass-surface: rgba(21, 35, 41, 0.94);
 
   /* Theme-color for PWA chrome */
-  --theme-chrome:  #0A0B0F;
+  --theme-chrome:  #0D171C;
 }
 
 /* --- Light theme --- */
 [data-theme="light"] {
-  --bg:            #F5F7FA;
+  --bg:            #F3F7F8;
   --surface-1:     #FFFFFF;
-  --surface-2:     #EEF1F7;
-  --surface-3:     #E5E8F0;
+  --surface-2:     #EEF4F5;
+  --surface-3:     #E2ECEF;
   --overlay:       rgba(0, 0, 0, 0.45);
 
-  --border:        rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.16);
+  --border:        #DCE6E9;
+  --border-strong: #BFCFD5;
 
-  --text-1:        #0D0F14;
-  --text-2:        rgba(13, 15, 20, 0.60);
-  --text-3:        rgba(13, 15, 20, 0.35);
+  --text-1:        #182B32;
+  --text-2:        #52676F;
+  --text-3:        #5B717A;
 
-  /* Accent stays mint but darkened for contrast on light */
-  --accent:        #00C47A;
-  --accent-2:      #0099CC;
-  --accent-dim:    rgba(0, 196, 122, 0.12);
+  /* Deep teal and ocean blue for readable light-theme controls */
+  --accent:        #087F73;
+  --accent-2:      #176F8C;
+  --accent-dim:    rgba(8, 127, 115, 0.09);
   --accent-text:   #FFFFFF;
 
-  --success:       #00C47A;
+  --success:       #087F73;
   --warning:       #E09400;
   --danger:        #D93025;
   --info:          #0277BD;
@@ -92,13 +92,13 @@
   --macro-protein-dim:  rgba(142,36,170,0.12);
   --macro-calories-dim: rgba(249,168,37,0.12);
 
-  --shadow-sm:     0 1px  3px rgba(0,0,0,0.10);
-  --shadow-md:     0 4px 12px rgba(0,0,0,0.12);
-  --shadow-lg:     0 8px 32px rgba(0,0,0,0.16);
-  --shadow-glow:   0 4px 24px rgba(0,0,0,0.14);
-  --glass-surface: rgba(255, 255, 255, 0.88);
+  --shadow-sm:     0 1px 3px rgba(24,43,50,0.04);
+  --shadow-md:     0 6px 18px rgba(24,43,50,0.07);
+  --shadow-lg:     0 16px 40px rgba(24,43,50,0.12);
+  --shadow-glow:   0 6px 18px rgba(24,43,50,0.07);
+  --glass-surface: rgba(255, 255, 255, 0.94);
 
-  --theme-chrome:  #F5F7FA;
+  --theme-chrome:  #F3F7F8;
 }
 
 /* --- Spacing & Shape --- */
@@ -106,8 +106,8 @@
   --radius-xs:   4px;
   --radius-sm:   8px;
   --radius-md:  12px;
-  --radius-lg:  16px;
-  --radius-xl:  24px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
   --radius-full: 9999px;
 
   --space-1:  4px;

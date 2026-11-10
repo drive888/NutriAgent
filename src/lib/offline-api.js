@@ -8,7 +8,7 @@
  * so the server merges browser edits exactly as it merges the phone's.
  *
  * Anything that needs the server itself (Open Food Facts lookups, photo
- * uploads, wellness providers, Trace, admin) says it needs a connection.
+ * uploads, wellness providers, NutriAgent, admin) says it needs a connection.
  *
  * Deliberately not the Background Sync API: Safari doesn't have it, and iPhone
  * is the reason this exists (#211). The page flushes instead, on a backoff and
@@ -62,7 +62,7 @@ function _dbName() {
     if (user) localStorage.setItem(_USER_KEY, user);
     else user = localStorage.getItem(_USER_KEY);
   } catch { /* private mode */ }
-  return `nutritrace-offline-${user || 'single'}`;
+  return `nutriagent-offline-${user || 'single'}`;
 }
 const _STORES = ['diary', 'foods', 'meals', 'recipes', 'activity', 'activity_sums', 'fasts', 'reads', 'outbox', 'meta'];
 
@@ -197,7 +197,7 @@ async function _loadOps() {
 function _publish(extra = {}) {
   offlineState.update(s => ({ ...s, pending: _ops?.length || 0, ...extra }));
 }
-const _channel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('nutritrace-offline') : null;
+const _channel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('nutriagent-offline') : null;
 _channel?.addEventListener('message', async (e) => {
   if (e.data?.type !== 'outbox') return;
   if (e.data.ids) _swapped = { ..._swapped, ...e.data.ids };
@@ -407,7 +407,7 @@ export function flushOutbox() {
     try {
       const run = () => _flushOnce();
       if (typeof navigator !== 'undefined' && navigator.locks?.request) {
-        return await navigator.locks.request('nutritrace-offline-flush', run);
+        return await navigator.locks.request('nutriagent-offline-flush', run);
       }
       return await run();
     } finally {
@@ -976,7 +976,7 @@ export function createOfflineApi(http) {
     // ── Intermittent fasting ─────────────────────────────────────────
     // The fasting widget talks to the server by path rather than through a
     // named method, so these four take the fasting paths and hand everything
-    // else (wellness providers, admin, Trace) straight on.
+    // else (wellness providers, admin, NutriAgent) straight on.
     async get(path, ...rest) {
       if (!_FASTS.test(path)) {
         if (!_keepsRead(path)) return _through(http, 'get', path, rest);

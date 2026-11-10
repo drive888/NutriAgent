@@ -1,0 +1,35 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/recognition".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/recognition
+	2 container app
+		71 button 打开菜单
+		72 container
+			86 container 主导航
+				87 button 饮食日记
+					88 text book
+					89 text 饮食日记
+				90 button 食物
+					91 text restaurant
+					92 text 食物
+				93 button 统计
+					94 text bar_chart
+					95 text 统计
+				96 button 目标
+					97 text flag
+					98 text 目标
+				99 button 设置
+					100 text settings
+					101 text 设置
+		102 container
+			103 heading 检查照片识别结果, Value: 1
+				104 text 检查照片识别结果
+			105 text 结果仅为草稿。此页面上的任何内容都不会自动创建食物或饮食日记条目。 识别类型
+			106 pop up button (collapsed, settable) 识别类型, Value: 餐食照片, Secondary Actions: Expand
+				107 menu
+					108 (selected) 餐食照片
+					109 营养标签
+			110 text 照片
+			111 button 照片
+			112 button (disabled) 识别照片
+		70 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/recognition

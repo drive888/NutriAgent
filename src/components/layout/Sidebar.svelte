@@ -67,7 +67,7 @@
     }
   }
 
-  $: activePath = $location.split('?')[0];
+  $: activePath = $location.split('?')[0] === '/recognition' ? '/foods' : $location.split('?')[0];
   // Prefix-match so /settings/appearance still highlights the Settings
   // item, /foods/edit/123 still highlights Foods, etc. Root '/' is exact-
   // match only so it doesn't trigger for every nested route.
@@ -117,14 +117,14 @@
     class:sidebar-persistent={persistent}
     in:fly={{ x: -280, duration: persistent ? 0 : 280, easing: cubicOut }}
     out:fly={{ x: -280, duration: persistent ? 0 : 200 }}
-    aria-label="Navigation menu"
+    aria-label={$_('ui.m3f9abc8733ba')}
   >
     <!-- App branding -->
     <div class="sidebar-brand">
-      <img class="brand-icon" src={iconUrl('/icons/logo.png')} alt="NutriTrace" />
+      <img class="brand-icon" src={iconUrl('/icons/logo.png')} alt={$_('ui.m2014cdd9e657')} />
       <div class="brand-text">
-        <span class="brand-name">NutriTrace</span>
-        <span class="brand-tagline">Trace Every Bite — Personal Nutrition Tracker</span>
+        <span class="brand-name">{$_('ui.m2014cdd9e657')}</span>
+        <span class="brand-tagline">{$_('ui.m438871dd90c5')}</span>
       </div>
     </div>
 
@@ -144,11 +144,11 @@
             <span class="material-symbols-rounded sidebar-icon">
               {item.icon}
               {#if item.path === '/settings' && ($updateAvailable.available || $pwaUpdateReady)}
-                <span class="nav-update-dot" aria-label="Update available"></span>
+                <span class="nav-update-dot" aria-label={"Update available"}></span>
               {/if}
             </span>
           {/if}
-          <span class="sidebar-label">{item.label}</span>
+          <span class="sidebar-label">{item.labelKey ? $_(item.labelKey) : item.label}</span>
           {#if isTabActive(item.path)}
             <div class="active-indicator"></div>
           {/if}

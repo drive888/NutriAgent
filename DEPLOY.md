@@ -1,11 +1,10 @@
-# NutriTrace — Deployment Guide
+# NutriAgent — Deployment Guide
 
 ## Quick Start
 
 ```bash
-# Clone and start
-git clone git@github.com:traceapps/nutritrace.git
-cd nutritrace
+# From the parent directory of this NutriAgent checkout
+cd NutriAgent
 cp .env.example .env          # edit as needed
 docker compose up -d
 ```
@@ -20,22 +19,22 @@ Every release publishes a multi-arch (linux/amd64 + linux/arm64) image to
 **two registries** with an identical tag set. GHCR is primary; Docker Hub
 is a discoverability mirror. Both are first-class; pick whichever fits.
 
-- **`ghcr.io/traceapps/nutritrace`** (primary)
-- **`traceapps/nutritrace`** on [Docker Hub](https://hub.docker.com/r/traceapps/nutritrace) (mirror)
+- **`ghcr.io/traceapps/nutriagent`** (primary)
+- **`traceapps/nutriagent`** on [Docker Hub](https://hub.docker.com/r/traceapps/nutritrace) (mirror)
 
 Two tags are published (examples below use GHCR; swap the prefix for
 Docker Hub if preferred):
 
 | Tag | Updates when | Use case |
 |-----|--------------|----------|
-| `ghcr.io/traceapps/nutritrace:latest` | Every stable release | Running the app |
-| `ghcr.io/traceapps/nutritrace:dev` | Every push to `dev` branch | Leading edge, not for production |
+| `ghcr.io/traceapps/nutriagent:latest` | Every stable release | Running the app |
+| `ghcr.io/traceapps/nutriagent:dev` | Every push to `dev` branch | Leading edge, not for production |
 
 There are no version-number tags (`:1`, `:1.4`, `:1.4.0`); the ones published
 for the first releases stopped updating and were retired. To hold a server on
 one exact build, pin it by digest
-(`ghcr.io/traceapps/nutritrace@sha256:...`; `docker inspect --format
-'{{index .RepoDigests 0}}' ghcr.io/traceapps/nutritrace:latest` prints the one you run).
+(`ghcr.io/traceapps/nutriagent@sha256:...`; `docker inspect --format
+'{{index .RepoDigests 0}}' ghcr.io/traceapps/nutriagent:latest` prints the one you run).
 
 ---
 
@@ -65,15 +64,16 @@ A minimal working setup:
 
 ```yaml
 services:
-  nutritrace:
-    image: ghcr.io/traceapps/nutritrace:latest
+  nutriagent:
+    build: .
+    image: nutriagent:local
     ports:
       - "3001:3001"
     volumes:
       - ./data/db:/data/db
       - ./data/uploads:/data/uploads
     environment:
-      DB_PATH: /data/db/nutritrace.db
+      DB_PATH: /data/db/nutriagent.db
       UPLOADS_PATH: /data/uploads
       JWT_SECRET: change-me-to-a-long-random-string
     restart: unless-stopped
@@ -83,8 +83,9 @@ services:
 
 ```yaml
 services:
-  nutritrace:
-    image: ghcr.io/traceapps/nutritrace:latest
+  nutriagent:
+    build: .
+    image: nutriagent:local
     ports:
       - "3001:3001"
     volumes:
@@ -92,7 +93,7 @@ services:
       - ./data/uploads:/data/uploads
     environment:
       # Required
-      DB_PATH: /data/db/nutritrace.db
+      DB_PATH: /data/db/nutriagent.db
       UPLOADS_PATH: /data/uploads
       JWT_SECRET: change-me-to-a-long-random-string
 
@@ -102,7 +103,7 @@ services:
       SMTP_SECURE: "false"      # true for port 465
       SMTP_USER: user@example.com
       SMTP_PASS: yourpassword
-      SMTP_FROM: '"NutriTrace" <noreply@example.com>'
+      SMTP_FROM: '"NutriAgent" <noreply@example.com>'
 
       # Optional: session duration override (hours; 0 = never expires)
       # SESSION_HOURS: 720
@@ -118,7 +119,7 @@ services:
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `DB_PATH` | Yes | `./nutritrace.db` | Path to SQLite database file |
+| `DB_PATH` | Yes | `./nutriagent.db` | Path to SQLite database file |
 | `UPLOADS_PATH` | Yes | `./uploads` | Path for uploaded food/meal images |
 | `UPDATE_CHECK` | No | unset | Set to `off` to stop the server asking GitHub about new releases, whatever the in-app setting says |
 | `JWT_SECRET` | Yes (prod) | `dev-secret` | Secret for signing JWT auth tokens — **change this**. Server refuses to start in production with the dev default. |
@@ -138,7 +139,7 @@ services:
 | `SMTP_SECURE` | No | `false` | `true` for TLS (port 465), `false` for STARTTLS |
 | `SMTP_USER` | No | — | SMTP username |
 | `SMTP_PASS` | No | — | SMTP password |
-| `SMTP_FROM` | No | — | From address, e.g. `"NutriTrace" <noreply@example.com>` |
+| `SMTP_FROM` | No | — | From address, e.g. `"NutriAgent" <noreply@example.com>` |
 | `AI_PROVIDER` | No | — | `claude` \| `openai` \| `gemini` \| `oai-compat`. If set, AI calls are proxied server-side and the provider/model/key fields are locked in Settings for all users. |
 | `AI_API_KEY` | No | — | API key for the chosen provider. Server-only, never reaches the browser. Optional when `AI_PROVIDER=oai-compat`. |
 | `AI_MODEL` | No | provider default | Optional model override (e.g. `claude-haiku-4-5-20251001`, `llama3.1:8b`). Required when `AI_PROVIDER=oai-compat`. |
@@ -179,7 +180,7 @@ Each user connects their own fitness tracker using their own developer API crede
    - **Redirect URL**: `https://your-domain.com/api/wellness/fitbit/callback`
    - Other fields: any values are fine
 4. Copy your **Client ID** and **Client Secret**.
-5. In NutriTrace → Settings → Wellness → Fitbit, paste the credentials and save.
+5. In NutriAgent → Settings → Wellness → Fitbit, paste the credentials and save.
 6. Click **Connect** — you'll be redirected to Fitbit to authorize, then back to the Wellness page.
 
 **Required OAuth scopes** (automatically requested): `activity`, `heartrate`, `sleep`, `oxygen_saturation`, `respiratory_rate`, `cardio_fitness`, `temperature`, `profile`, `location` (the last one is needed for TCX/GPS route data on workout logs)
@@ -190,7 +191,7 @@ Each user connects their own fitness tracker using their own developer API crede
 2. Create a new application.
 3. Set the **Callback URL** to: `https://your-domain.com/api/wellness/withings/callback`
 4. Copy your **Client ID** and **Client Secret**.
-5. In NutriTrace → Settings → Wellness → Withings, paste the credentials and save.
+5. In NutriAgent → Settings → Wellness → Withings, paste the credentials and save.
 6. Click **Connect** to authorize.
 
 **Required scopes**: `user.info`, `user.metrics`, `user.activity`
@@ -199,7 +200,7 @@ Each user connects their own fitness tracker using their own developer API crede
 
 ## Local Open Food Facts mirror
 
-Self-hosters on air-gapped networks, in strict-egress environments, or just wanting resilience when the OFF API is down can point NutriTrace at a local OFF DuckDB mirror. Barcode and food-name lookups try the mirror first; on a miss they fall back to the public OFF API unless you opt into full air-gap mode.
+Self-hosters on air-gapped networks, in strict-egress environments, or just wanting resilience when the OFF API is down can point NutriAgent at a local OFF DuckDB mirror. Barcode and food-name lookups try the mirror first; on a miss they fall back to the public OFF API unless you opt into full air-gap mode.
 
 ### Setup
 
@@ -207,7 +208,7 @@ Self-hosters on air-gapped networks, in strict-egress environments, or just want
    ```yaml
    - ${OFF_LOCAL_DB_HOST_PATH:-./off-mirror}:/data/off-mirror
    ```
-   The mount is read-write so NutriTrace can perform in-place refresh via atomic swap. Earlier docs suggested `:ro`; if you previously set that, change it to writable so scheduled and manual refreshes work.
+   The mount is read-write so NutriAgent can perform in-place refresh via atomic swap. Earlier docs suggested `:ro`; if you previously set that, change it to writable so scheduled and manual refreshes work.
 
 2. Set the env vars in `.env`:
    ```bash
@@ -219,11 +220,11 @@ Self-hosters on air-gapped networks, in strict-egress environments, or just want
    # OFF_LOCAL_ONLY=1
    ```
 
-   Note on file formats: since rc.39, NutriTrace defaults to the OFF Parquet dump on Hugging Face (~7-8 GB) because OFF retired their pre-built native DuckDB snapshot. The lookup code transparently opens the Parquet via DuckDB's `read_parquet()` so per-barcode queries are still fast (DuckDB row-group prunes). If you still have a legacy `.duckdb` file at `OFF_LOCAL_DB`, that path is auto-detected by file extension and continues to work unchanged.
+   Note on file formats: since rc.39, NutriAgent defaults to the OFF Parquet dump on Hugging Face (~7-8 GB) because OFF retired their pre-built native DuckDB snapshot. The lookup code transparently opens the Parquet via DuckDB's `read_parquet()` so per-barcode queries are still fast (DuckDB row-group prunes). If you still have a legacy `.duckdb` file at `OFF_LOCAL_DB`, that path is auto-detected by file extension and continues to work unchanged.
 
 3. `docker compose up -d` to recreate the container.
 
-4. **NutriTrace handles the initial download automatically.** On startup, if `OFF_LOCAL_DB` is set and the file is missing, it pulls the full snapshot (~7-8 GB) from `OFF_LOCAL_URL` in the background. Lookups during the initial pull fall through to the public OFF API (or, in air-gap mode, return "not found") until the download completes. Watch the container logs for `[off-local] refresh complete` to confirm readiness, or open Settings → Connected Services → Open Food Facts; the banner shows live download progress.
+4. **NutriAgent handles the initial download automatically.** On startup, if `OFF_LOCAL_DB` is set and the file is missing, it pulls the full snapshot (~7-8 GB) from `OFF_LOCAL_URL` in the background. Lookups during the initial pull fall through to the public OFF API (or, in air-gap mode, return "not found") until the download completes. Watch the container logs for `[off-local] refresh complete` to confirm readiness, or open Settings → Connected Services → Open Food Facts; the banner shows live download progress.
 
 ### Refreshing the mirror
 
@@ -258,9 +259,9 @@ The native Android client normally calls `api.openfoodfacts.org` directly (bypas
 
 ### Backups
 
-The mirror file is **deliberately excluded from NutriTrace's full-backup ZIPs**. It's a ~4 GB reproducible snapshot of public OFF data; bundling it would balloon backups for no real benefit. Backups continue to contain only your SQLite database (foods, meals, diary, settings, etc.) and your uploaded photos. Your chosen Auto-Refresh interval is preserved (it's a tiny `app_config` row), so after restoring on a fresh install the schedule comes back automatically; the next refresh cycle (or a manual Refresh Now) re-populates the mirror file itself.
+The mirror file is **deliberately excluded from NutriAgent's full-backup ZIPs**. It's a ~4 GB reproducible snapshot of public OFF data; bundling it would balloon backups for no real benefit. Backups continue to contain only your SQLite database (foods, meals, diary, settings, etc.) and your uploaded photos. Your chosen Auto-Refresh interval is preserved (it's a tiny `app_config` row), so after restoring on a fresh install the schedule comes back automatically; the next refresh cycle (or a manual Refresh Now) re-populates the mirror file itself.
 
-If you want a mirror snapshot in your own off-site storage, copy the `off.parquet` (or legacy `off.duckdb`) host file directly with whatever tool you already use (rsync, restic, borg, etc.) — separate from NutriTrace's backup flow.
+If you want a mirror snapshot in your own off-site storage, copy the `off.parquet` (or legacy `off.duckdb`) host file directly with whatever tool you already use (rsync, restic, borg, etc.) — separate from NutriAgent's backup flow.
 
 ### Caveats
 
@@ -272,7 +273,7 @@ If you want a mirror snapshot in your own off-site storage, copy the `off.parque
 
 ## Cloudflare Tunnel (optional)
 
-If you use Cloudflare Tunnel for external access, no special NutriTrace configuration is needed. Just set your OAuth redirect URIs to the tunnel's public URL (e.g. `https://nutritrace.example.com/api/wellness/fitbit/callback`).
+If you use Cloudflare Tunnel for external access, no special NutriAgent configuration is needed. Just set your OAuth redirect URIs to the tunnel's public URL (e.g. `https://nutriagent.example.com/api/wellness/fitbit/callback`).
 
 **Free-tier upload limit**: Cloudflare's free plan caps proxied request bodies at **100 MB**. Normal use (auth, sync, food images) is well under this, but a full-backup *restore* upload can exceed it on accounts with many photos. Either run the restore from your local network (bypassing the tunnel), upgrade to a paid plan, or split the backup. Browsing and creating backups is fine — only restore-upload is affected.
 
@@ -280,11 +281,11 @@ If you use Cloudflare Tunnel for external access, no special NutriTrace configur
 
 ## Reverse Proxy with Subpath
 
-To run NutriTrace behind a reverse proxy at a subpath (e.g. `https://example.com/nutritrace/`), set the `BASE_URL` environment variable to the path prefix:
+To run NutriAgent behind a reverse proxy at a subpath (e.g. `https://example.com/nutriagent/`), set the `BASE_URL` environment variable to the path prefix:
 
 ```yaml
 environment:
-  - BASE_URL=/nutritrace
+  - BASE_URL=/nutriagent
 ```
 
 The path must start with `/` and must NOT have a trailing slash. Empty (the default) keeps the app at root, identical to the previous behavior — no change for existing deployments.
@@ -295,7 +296,7 @@ With `BASE_URL` set, the app's assets, API routes, service worker, and image URL
 
 ```caddyfile
 example.com {
-  handle /nutritrace/* {
+  handle /nutriagent/* {
     reverse_proxy localhost:3001
   }
 }
@@ -306,8 +307,8 @@ example.com {
 ### nginx
 
 ```nginx
-location /nutritrace/ {
-  proxy_pass http://localhost:3001/nutritrace/;  # trailing slash on both sides
+location /nutriagent/ {
+  proxy_pass http://localhost:3001/nutriagent/;  # trailing slash on both sides
   proxy_set_header Host $host;
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
   proxy_set_header X-Forwarded-Proto $scheme;
@@ -318,13 +319,13 @@ location /nutritrace/ {
 
 ```yaml
 labels:
-  - "traefik.http.routers.nutritrace.rule=PathPrefix(`/nutritrace`)"
+  - "traefik.http.routers.nutriagent.rule=PathPrefix(`/nutriagent`)"
   # No StripPrefix middleware — pass the full path through.
 ```
 
 ### OAuth callback URLs at a subpath
 
-When you connect Fitbit / Withings / Garmin OAuth, register the callback URL with the dev portal **including the prefix**, for example `https://example.com/nutritrace/api/wellness/fitbit/callback`. Enter the same URL in the in-app Settings → Wellness configuration. The provider redirects back through your reverse proxy to the prefixed path, the app handles it, and the OAuth flow completes.
+When you connect Fitbit / Withings / Garmin OAuth, register the callback URL with the dev portal **including the prefix**, for example `https://example.com/nutriagent/api/wellness/fitbit/callback`. Enter the same URL in the in-app Settings → Wellness configuration. The provider redirects back through your reverse proxy to the prefixed path, the app handles it, and the OAuth flow completes.
 
 ### Service worker and PWA install
 
@@ -332,13 +333,13 @@ The PWA service worker registers correctly under the subpath. Installing the PWA
 
 ### Native Android app
 
-If you connect the Android app to a server running at a subpath, enter the full URL including the prefix when prompted by the setup wizard (e.g. `https://example.com/nutritrace`). All subsequent API calls preserve the path.
+If you connect the Android app to a server running at a subpath, enter the full URL including the prefix when prompted by the setup wizard (e.g. `https://example.com/nutriagent`). All subsequent API calls preserve the path.
 
 ---
 
 ## Connecting from Android
 
-The Android app ships with a strict network security policy on **release-signed APKs** (the ones distributed via Play Store / GitHub Releases): only HTTPS traffic is allowed to a user's NutriTrace server, to protect auth tokens on open WiFi. Debug-signed APKs (built locally) are unrestricted and can use plain HTTP.
+The Android app ships with a strict network security policy on **release-signed APKs** (the ones distributed via Play Store / GitHub Releases): only HTTPS traffic is allowed to a user's NutriAgent server, to protect auth tokens on open WiFi. Debug-signed APKs (built locally) are unrestricted and can use plain HTTP.
 
 This only affects **server mode** — local-only Android users never hit this.
 
@@ -346,20 +347,20 @@ Four supported paths for server-mode Android users:
 
 ### Path 1 — Real domain + Let's Encrypt (recommended)
 
-Point a real domain at your server (`nutritrace.yourdomain.com`) and terminate TLS with a publicly-trusted cert via Caddy, Traefik, nginx + certbot, etc. The DNS-01 challenge works fine even when your server is on an internal IP — no port forwarding needed. Enter `https://nutritrace.yourdomain.com` in the app and you're done.
+Point a real domain at your server (`nutriagent.yourdomain.com`) and terminate TLS with a publicly-trusted cert via Caddy, Traefik, nginx + certbot, etc. The DNS-01 challenge works fine even when your server is on an internal IP — no port forwarding needed. Enter `https://nutritrace.yourdomain.com` in the app and you're done.
 
 ### Path 2 — Cloudflare Tunnel / Tailscale Funnel / Tailscale mesh
 
-These hand out publicly-trusted certs automatically, no domain or cert management on your end. Enter the tunnel URL (`https://nutritrace.yourtunnel.example.com`) in the app. See the Cloudflare Tunnel section above for the free-tier upload caveat.
+These hand out publicly-trusted certs automatically, no domain or cert management on your end. Enter the tunnel URL (`https://nutriagent.yourtunnel.example.com`) in the app. See the Cloudflare Tunnel section above for the free-tier upload caveat.
 
 ### Path 3 — Self-signed cert + install your CA on Android
 
-If you generate your own root CA and use it to sign certs for `nutritrace.home.arpa` (or whatever internal domain you use), the strict APK won't trust it out of the box — but you can install your CA on the device once and the app will accept any cert your CA signed.
+If you generate your own root CA and use it to sign certs for `nutriagent.home.arpa` (or whatever internal domain you use), the strict APK won't trust it out of the box — but you can install your CA on the device once and the app will accept any cert your CA signed.
 
 1. Export your CA's certificate as a `.crt` or `.pem` file
 2. On your phone: Settings → Security & Privacy → More security settings → Encryption & credentials → Install a certificate → CA certificate
 3. Browse to the file and install. Android will warn that anyone with this CA can monitor your traffic — that's expected, you're explicitly trusting your own CA
-4. Open NutriTrace and connect to `https://nutritrace.home.arpa`
+4. Open NutriAgent and connect to `https://nutritrace.home.arpa`
 
 This survives app updates. You only need to repeat it if you regenerate the CA or factory-reset the device.
 
@@ -396,10 +397,10 @@ Data is in bind-mounted volumes and persists across updates.
 
 The container supports Docker/Swarm-style `*_FILE` environment variables. For any server environment variable, you can provide a mounted file path instead of the raw value:
 
-- `JWT_SECRET_FILE=/run/secrets/nutritrace_jwt_secret`
-- `RECOVERY_TOKEN_FILE=/run/secrets/nutritrace_recovery_token`
-- `SMTP_PASS_FILE=/run/secrets/nutritrace_smtp_pass`
-- `AI_API_KEY_FILE=/run/secrets/nutritrace_ai_api_key`
+- `JWT_SECRET_FILE=/run/secrets/nutriagent_jwt_secret`
+- `RECOVERY_TOKEN_FILE=/run/secrets/nutriagent_recovery_token`
+- `SMTP_PASS_FILE=/run/secrets/nutriagent_smtp_pass`
+- `AI_API_KEY_FILE=/run/secrets/nutriagent_ai_api_key`
 
 Rules:
 
@@ -411,21 +412,22 @@ Example Compose snippet:
 
 ```yaml
 services:
-  nutritrace:
-    image: ghcr.io/traceapps/nutritrace:latest
+  nutriagent:
+    build: .
+    image: nutriagent:local
     environment:
-      DB_PATH: /data/db/nutritrace.db
+      DB_PATH: /data/db/nutriagent.db
       UPLOADS_PATH: /data/uploads
-      JWT_SECRET_FILE: /run/secrets/nutritrace_jwt_secret
-      SMTP_PASS_FILE: /run/secrets/nutritrace_smtp_pass
+      JWT_SECRET_FILE: /run/secrets/nutriagent_jwt_secret
+      SMTP_PASS_FILE: /run/secrets/nutriagent_smtp_pass
     secrets:
-      - nutritrace_jwt_secret
-      - nutritrace_smtp_pass
+      - nutriagent_jwt_secret
+      - nutriagent_smtp_pass
 
 secrets:
-  nutritrace_jwt_secret:
+  nutriagent_jwt_secret:
     file: ./secrets/jwt_secret.txt
-  nutritrace_smtp_pass:
+  nutriagent_smtp_pass:
     file: ./secrets/smtp_pass.txt
 ```
 

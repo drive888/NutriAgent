@@ -38,7 +38,7 @@
   export let defaultMealSlot = 0;   // index into mealNames (used if AI can't infer)
   export let openMode = 'text';     // 'text' | 'voice' | 'preParsed'
   // When openMode === 'preParsed', the caller has already run parseInput and
-  // matched items via the Trace hold-to-record path. We skip the input/
+  // matched items via the NutriAgent hold-to-record path. We skip the input/
   // parsing phases entirely and jump straight to the review modal.
   export let preParsedMatches = null;  // [{ item, candidates, best, source }, ...]
   export let preParsedMeal = null;     // string | null — AI-inferred meal name
@@ -60,7 +60,7 @@
 
   onMount(async () => {
     // Pre-parsed mode: caller already ran parseInput + matchItems via the
-    // Trace hold-to-record gesture. Jump straight to review.
+    // NutriAgent hold-to-record gesture. Jump straight to review.
     if (openMode === 'preParsed' && preParsedMatches && preParsedMatches.length > 0) {
       parsedMeal = preParsedMeal;
       inputText = preParsedSourceText || '';
@@ -132,7 +132,7 @@
 
   async function startListening() {
     if (!voiceAvailable) {
-      showError('Voice input not available on this device.');
+      showError($_('ui.mb40856f95955'));
       return;
     }
     if (isNative) {
@@ -143,7 +143,7 @@
         if (perm.speechRecognition !== 'granted') {
           const req = await SpeechRecognition.requestPermissions();
           if (req.speechRecognition !== 'granted') {
-            showError('Microphone permission denied.');
+            showError($_('ui.m869c837081f0'));
             return;
           }
         }
@@ -197,7 +197,7 @@
       const parsed = await parseInput(inputText, meals);
       parsedMeal = parsed.meal;
       if (!parsed.items || parsed.items.length === 0) {
-        errorMsg = 'No food items found. Try rephrasing.';
+        errorMsg = $_('ui.mb6a5d7dc6df4');
         phase = 'input';
         return;
       }
@@ -214,7 +214,7 @@
       phase = 'review';
     } catch (e) {
       console.error('[smart-log] parse failed:', e);
-      errorMsg = e.message || 'Parse failed.';
+      errorMsg = e.message || $_('ui.mec8b69bb7ae0');
       phase = 'input';
     }
   }
@@ -257,11 +257,11 @@
     try {
       const { saved } = await saveItems(matchedItems, { date, defaultMealSlot });
       if (saved > 0) {
-        showSuccess(`Logged ${saved} item${saved === 1 ? '' : 's'}`);
+        showSuccess($_('ui.mb84933724fd3', { values: { value0: (saved), value1: (saved === 1 ? '' : 's') } }));
         dispatch('saved');
         dispatch('close');
       } else {
-        errorMsg = 'Nothing was saved. All items missing food data.';
+        errorMsg = $_('ui.mf4e28760d812');
         phase = 'review';
       }
     } catch (e) {
@@ -292,7 +292,7 @@
 
   {#if phase === 'input'}
     <div class="ql-body">
-      <p class="ql-hint">Type or speak what you ate. Mention the meal too — "for breakfast I had…"</p>
+      <p class="ql-hint">{$_('ui.m59132e40180d')}</p>
       <div class="ql-input-row">
         <input
           bind:this={inputEl}
@@ -303,15 +303,15 @@
           autocomplete="off"
         />
         {#if voiceAvailable}
-          <button class="btn-icon ql-mic" class:listening on:click={toggleMic} title={listening ? 'Stop' : 'Voice input'}>
-            <span class="material-symbols-rounded">{listening ? 'stop_circle' : 'mic'}</span>
+          <button class="btn-icon ql-mic" class:listening on:click={toggleMic} title={listening ? $_('ui.mcae7d57bc067') : $_('ui.m8748f23993a8')}>
+            <span class="material-symbols-rounded">{listening ? "stop_circle" : "mic"}</span>
           </button>
         {/if}
       </div>
       {#if listening}
         <div class="ql-listening-banner">
           <span class="material-symbols-rounded ql-pulse-icon">graphic_eq</span>
-          Listening… speak now
+          {$_('ui.mf0d6906d5c1a')}
         </div>
       {/if}
       {#if errorMsg}
@@ -319,32 +319,32 @@
       {/if}
       <div class="ql-actions">
         <button class="btn btn-primary" on:click={runParse} disabled={!inputText.trim()}>
-          <span class="material-symbols-rounded" style="font-size:16px">arrow_forward</span> Parse
+          <span class="material-symbols-rounded" style="font-size:16px">arrow_forward</span> {$_('ui.m605537ca5d12')}
         </button>
       </div>
       <div class="ql-examples">
-        <div class="ql-example-label">Examples:</div>
-        <button class="ql-example" on:click={() => { inputText = 'for breakfast I had 2 eggs and a slice of toast'; }}>"for breakfast I had 2 eggs and a slice of toast"</button>
-        <button class="ql-example" on:click={() => { inputText = 'lunch was a chicken caesar salad and a coke'; }}>"lunch was a chicken caesar salad and a coke"</button>
-        <button class="ql-example" on:click={() => { inputText = 'snacking on some almonds and a banana'; }}>"snacking on some almonds and a banana"</button>
+        <div class="ql-example-label">{$_('ui.m1889f03338b7')}</div>
+        <button class="ql-example" on:click={() => { inputText = 'for breakfast I had 2 eggs and a slice of toast'; }}>{$_('ui.m6d6f4cfa9db4')}</button>
+        <button class="ql-example" on:click={() => { inputText = 'lunch was a chicken caesar salad and a coke'; }}>{$_('ui.m91167ec50c13')}</button>
+        <button class="ql-example" on:click={() => { inputText = 'snacking on some almonds and a banana'; }}>{$_('ui.ma2232d11653e')}</button>
       </div>
     </div>
 
   {:else if phase === 'parsing'}
     <div class="ql-body ql-loading">
       <span class="material-symbols-rounded ql-spin" style="font-size:32px;color:var(--accent)">autorenew</span>
-      <p>Parsing "{inputText}"…</p>
+      <p>{$_('ui.m670586a61a39')}{inputText}"…</p>
     </div>
 
   {:else if phase === 'review'}
     <div class="ql-body">
       <div class="ql-review-header">
         <button class="btn btn-secondary btn-sm" on:click={backToInput}>
-          <span class="material-symbols-rounded" style="font-size:14px">arrow_back</span> Edit
+          <span class="material-symbols-rounded" style="font-size:14px">arrow_back</span> {$_('ui.m464c4ffd019e')}
         </button>
         <span class="ql-review-count">
-          {matchedItems.length} item{matchedItems.length === 1 ? '' : 's'}
-          {#if parsedMeal}· detected: <strong>{parsedMeal}</strong>{/if}
+          {matchedItems.length} {$_('ui.m4a33eacd5fa6')}{matchedItems.length === 1 ? '' : 's'}
+          {#if parsedMeal}{$_('ui.md357a08fe159')} <strong>{parsedMeal}</strong>{/if}
         </span>
       </div>
       <div class="ql-list">
@@ -357,24 +357,24 @@
                 {m.food?.name || m.item.name}
                 {#if m.source === 'local'}<span class="ql-badge ql-badge-local">{$_('smart_log.badge_local')}</span>{/if}
                 {#if m.source === 'off'}<span class="ql-badge ql-badge-off">OFF</span>{/if}
-                {#if m.source === 'meal'}<span class="ql-badge ql-badge-meal">Meal</span>{/if}
+                {#if m.source === 'meal'}<span class="ql-badge ql-badge-meal">{$_('ui.mc3940d7d61c8')}</span>{/if}
                 {#if m.source === 'recipe'}<span class="ql-badge ql-badge-recipe">{$_('smart_log.badge_recipe')}</span>{/if}
                 {#if m.source === 'yesterday'}<span class="ql-badge ql-badge-yesterday">{$_('smart_log.badge_yesterday')}</span>{/if}
                 {#if isWater}<span class="ql-badge ql-badge-water">{$_('smart_log.badge_water')}</span>{/if}
                 {#if !m.food}<span class="ql-badge ql-badge-warn">{$_('smart_log.badge_not_found')}</span>{/if}
               </div>
               {#if isWater && m.food}
-                <div class="ql-row-meta">{m.food._waterMl} ml — adds to water log</div>
+                <div class="ql-row-meta">{m.food._waterMl} {$_('ui.m239c404aa60f')}</div>
               {:else if m.food && isExpansion}
                 <div class="ql-row-meta">
-                  Expands to {m.food.items.length} item{m.food.items.length === 1 ? '' : 's'}
+                  {$_('ui.mb58865e2268c')} {m.food.items.length} {$_('ui.m4a33eacd5fa6')}{m.food.items.length === 1 ? '' : 's'}
                   {#if m.food.nutrition?.calories}
                     {@const _e = Nutrition.displayEnergy(m.food.nutrition.calories, $energyUnit)}
-                    · ~{_e.value.toLocaleString()} {_e.unit} total
+                    · ~{_e.value.toLocaleString()} {_e.unit} {$_('ui.m11239872d178')}
                   {/if}
                 </div>
                 <details class="ql-swap">
-                  <summary>Show items ({m.food.items.length})</summary>
+                  <summary>{$_('ui.m1de7e500a041')}{m.food.items.length})</summary>
                   <div class="ql-candidates">
                     {#each m.food.items as sub}
                       <div class="ql-subitem">{sub.name}{sub.brand ? ' · ' + sub.brand : ''}</div>
@@ -391,11 +391,11 @@
                   {_e2.value.toLocaleString()} {_e2.unit} · {amountAndUnit(m.quantity, m.food.unit)}
                 </div>
               {:else}
-                <div class="ql-row-meta">No nutrition data — remove or add manually</div>
+                <div class="ql-row-meta">{$_('ui.mc7274fdeeb0c')}</div>
               {/if}
               {#if m.candidates && m.candidates.length > 1 && !isExpansion && !isWater}
                 <details class="ql-swap">
-                  <summary>Swap match ({m.candidates.length})</summary>
+                  <summary>{$_('ui.m310a922807bf')}{m.candidates.length})</summary>
                   <div class="ql-candidates">
                     {#each m.candidates as c}
                       <button class="ql-candidate" class:active={c === m.food} on:click={() => swapCandidate(i, c)}>
@@ -418,9 +418,9 @@
                 <input type="number" class="input ql-qty" min="1" bind:value={m.quantity} />
               {/if}
               {#if isWater && m.food}
-                <input type="number" class="input ql-qty" min="1" bind:value={m.food._waterMl} title="Amount in ml" />
+                <input type="number" class="input ql-qty" min="1" bind:value={m.food._waterMl} title={$_('ui.mf6dc664059fe')} />
               {/if}
-              <button class="btn-icon" style="color:var(--danger)" on:click={() => removeRow(i)} aria-label="Remove">
+              <button class="btn-icon" style="color:var(--danger)" on:click={() => removeRow(i)} aria-label={$_('ui.mc3812fc4acb8')}>
                 <span class="material-symbols-rounded" style="font-size:18px">close</span>
               </button>
             </div>
@@ -433,7 +433,7 @@
       <div class="ql-actions">
         <button class="btn btn-primary" on:click={commitAll} disabled={matchedItems.filter(_loggable).length === 0}>
           <span class="material-symbols-rounded" style="font-size:16px">check</span>
-          Add {matchedItems.filter(_loggable).length} to Diary
+          {$_('ui.m9fd728c66c9a')} {matchedItems.filter(_loggable).length} {$_('ui.m12b3abd6e8aa')}
         </button>
       </div>
     </div>
@@ -441,7 +441,7 @@
   {:else if phase === 'saving'}
     <div class="ql-body ql-loading">
       <span class="material-symbols-rounded ql-spin" style="font-size:32px;color:var(--accent)">autorenew</span>
-      <p>Saving…</p>
+      <p>{$_('ui.m23e39291d613')}</p>
     </div>
   {/if}
 </div>

@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   /**
    * Diary → week strip (Phase 6 desktop redesign).
    *
@@ -8,7 +9,7 @@
    * click any day to swap the visible diary via loadEntry. Hover a
    * past day for a snapshot popover (macros + water).
    *
-   * Data path: one bulk NtApi.getAllDiary() call at mount, cached in a
+   * Data path: one bulk NaApi.getAllDiary() call at mount, cached in a
    * Map keyed by date. Refetches when the parent's `refreshKey` prop
    * changes (i.e. after the user logs food and the diary store fires).
    *
@@ -16,9 +17,10 @@
    * slot — component itself doesn't gate on viewport size (parent does).
    */
   import { onMount } from 'svelte';
+  import { locale } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
   import { portal } from '../../lib/portal.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { localDateStr } from '../../lib/db.js';
   import { Nutrition } from '../../lib/nutrition.js';
   import { disableAnimations, dateFormat } from '../../stores/settings.js';
@@ -42,7 +44,7 @@
       return `${dy}/${m}/${dt.getFullYear()}`;
     }
     if (fmt === 'natural') {
-      return dt.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+      return dt.toLocaleDateString($locale || undefined, { day: 'numeric', month: 'short', year: 'numeric' });
     }
     return iso;   // ISO / fallback
   }
@@ -88,7 +90,6 @@
 
   // Full weekday names — desktop has plenty of room. If a narrower
   // rail size is ever added, swap this to a short/abbreviated set.
-  const DOW = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   let byDate = new Map();      // iso → { kcal, protein, carbs, fat, water_ml, items }
   let goalByDate = new Map();  // iso → per-day resolved calorie goal (base + dynamic + activity per day)
@@ -180,7 +181,7 @@
       const active = activeByDate.get(iso) ?? 0;
       out.push({
         iso,
-        dow: DOW[dt.getDay()],
+        dow: dt.toLocaleDateString($locale || undefined, { weekday: 'long' }),
         dnum: dt.getDate(),
         kcal,
         goal,
@@ -214,7 +215,7 @@
   async function loadWeek() {
     loading = true;
     try {
-      const all = await NtApi.getAllDiary().catch(() => []);
+      const all = await NaApi.getAllDiary().catch(() => []);
       // Previously filtered to a fixed 7-days-back cutoff, which
       // silently returned zeros when the strip anchored on any
       // historical week. Load every entry into the map now —
@@ -280,10 +281,10 @@
     try {
       const [as, dos] = await Promise.all([
         needActive
-          ? Promise.all(dates.map(d => NtApi.getActivitySum(d, activityPolicy).catch(() => ({ effective: 0 }))))
+          ? Promise.all(dates.map(d => NaApi.getActivitySum(d, activityPolicy).catch(() => ({ effective: 0 }))))
           : Promise.resolve(activitySums),
         needDynamic
-          ? Promise.all(dates.map(d => NtApi.get(`/api/wellness/calories-out?date=${d}`).catch(() => ({ calories_out: null }))))
+          ? Promise.all(dates.map(d => NaApi.get(`/api/wellness/calories-out?date=${d}`).catch(() => ({ calories_out: null }))))
           : Promise.resolve(dynamicOuts),
       ]);
       activitySums = as;
@@ -318,7 +319,7 @@
   $: currentDate, refreshKey, adjustFromActivity, activityPolicy, calorieGoalMode, calorieGoalFactor, calorieGoal, _loadWeekAdjustments();
 </script>
 
-<nav class="week-strip" aria-label="Week strip">
+<nav class="week-strip" aria-label={$_('ui.m727304f94ce6')}>
   {#each strip as day (day.iso)}
     <button
       class="ws-day"
@@ -333,13 +334,13 @@
       on:dragover={(e) => _onDayDragOver(e, day.iso)}
       on:dragleave={() => _onDayDragLeave(day.iso)}
       on:drop={(e) => _onDayDrop(e, day.iso)}
-      title="Switch diary to {day.iso}"
+      title={$_('ui.me8333b875b38', {values: {value0: (day.iso)}})}
     >
-      <span class="ws-dow">{day.dow}</span>
+      <span class="ws-dow">{new Date(day.iso + 'T12:00:00').toLocaleDateString($locale || undefined, { weekday: 'long' })}</span>
       <span class="ws-dnum">
         {day.dnum}
         {#if showCompletion && day.completed}
-          <span class="ws-complete-mark material-symbols-rounded" title="Day marked complete" aria-label="Day marked complete">check_circle</span>
+          <span class="ws-complete-mark material-symbols-rounded" title={"Day marked complete"} aria-label={"Day marked complete"}>check_circle</span>
         {/if}
       </span>
       <span class="ws-kcal">
@@ -360,7 +361,7 @@
   {@const day = _popDay}
   <button type="button" tabindex="-1" use:portal class="ws-popover"
     style="top: {_popPos.top}px; left: {_popPos.left}px;"
-    title="Switch diary to {day.iso}"
+    title={$_('ui.me8333b875b38', {values: {value0: (day.iso)}})}
     on:mouseenter={() => clearTimeout(_popHideTimer)}
     on:mouseleave={_hidePopNow}
     on:click={() => { const iso = day.iso; _hidePopNow(); onSelectDate(iso); }}
@@ -378,7 +379,7 @@
     {#if day.stats.water_ml > 0}
       <span class="ws-pop-water">💧 {(day.stats.water_ml / 1000).toFixed(2)} L</span>
     {/if}
-    <span class="ws-pop-items">{day.stats.item_count} food{day.stats.item_count === 1 ? '' : 's'} logged</span>
+    <span class="ws-pop-items">{day.stats.item_count} {$_('ui.mc1f026582fe6')}{day.stats.item_count === 1 ? '' : 's'} {$_('ui.m7baa99652be2')}</span>
   </button>
 {/if}
 

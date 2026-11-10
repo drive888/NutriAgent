@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   /**
    * Diary → right column → Body Stats widget (combined weight +
    * measurements). Replaces the two separate WeightWidget +
@@ -22,13 +23,13 @@
   export let onOpen        = () => {};
 
   const ROWS = [
-    { key: 'waist',  label: 'Waist'  },
-    { key: 'hips',   label: 'Hips'   },
-    { key: 'chest',  label: 'Chest'  },
-    { key: 'neck',   label: 'Neck'   },
-    { key: 'thighs', label: 'Thighs' },
-    { key: 'biceps', label: 'Biceps' },
-    { key: 'calves', label: 'Calves' },
+    { key: 'waist',  label: 'Waist', labelKey: 'ui.m8470df662662'  },
+    { key: 'hips',   label: 'Hips', labelKey: 'ui.mb004098c1134'   },
+    { key: 'chest',  label: 'Chest', labelKey: 'ui.m378d83808237'  },
+    { key: 'neck',   label: 'Neck', labelKey: 'ui.m6b27a97151bb'   },
+    { key: 'thighs', label: 'Thighs', labelKey: 'ui.mcc3653998568' },
+    { key: 'biceps', label: 'Biceps', labelKey: 'ui.m49f08df6459e' },
+    { key: 'calves', label: 'Calves', labelKey: 'ui.mb94a4523f488' },
   ];
 
   $: measurementRows = ROWS
@@ -77,8 +78,8 @@
 <section class="bs-widget card">
   <header class="bs-header">
     <span class="material-symbols-rounded bs-icon">monitor_weight</span>
-    <span class="bs-title">Body Stats</span>
-    <button class="bs-open" on:click={onOpen} title="Open Body Stats sheet">
+    <span class="bs-title">{$_('ui.mfdff5db050ae')}</span>
+    <button class="bs-open" on:click={onOpen} title={$_('ui.m8a1582ec3eec')}>
       <span class="material-symbols-rounded">open_in_full</span>
     </button>
   </header>
@@ -91,12 +92,12 @@
           <span class="bs-w-num">{currentWeight}</span>
           <span class="bs-w-unit">{weightUnit}</span>
         </div>
-        <button class="bs-edit-inline" on:click={startEditWeight} title="Edit today's weight">
+        <button class="bs-edit-inline" on:click={startEditWeight} title={$_('ui.m579b393b5fc9')}>
           <span class="material-symbols-rounded">edit</span>
         </button>
       {:else}
-        <span class="bs-weight-empty">Weight not logged</span>
-        <button class="bs-quick-log" on:click={startEditWeight}>Log</button>
+        <span class="bs-weight-empty">{$_('ui.me38b2f2682f2')}</span>
+        <button class="bs-quick-log" on:click={startEditWeight}>{$_('ui.m21e49eb2b299')}</button>
       {/if}
     {:else}
       <div class="bs-edit-form" transition:slide={{ duration: 160 }}>
@@ -112,10 +113,10 @@
           disabled={saving}
         />
         <button class="btn btn-primary bs-save" on:click={commitWeight} disabled={saving}>
-          {saving ? '…' : 'Save'}
+          {saving ? '…' : $_('ui.m1509f561f241')}
         </button>
         <button class="btn btn-ghost bs-cancel" on:click={cancelWeight} disabled={saving}>
-          Cancel
+          {$_('ui.m19766ed6ccb2')}
         </button>
       </div>
     {/if}
@@ -128,17 +129,17 @@
     <ul class="bs-list">
       {#each measurementRows as row (row.key)}
         <li class="bs-row">
-          <span class="bs-label">{row.label}</span>
+          <span class="bs-label">{row.labelKey ? $_(row.labelKey) : row.label}</span>
           <span class="bs-value">{row.value} <span class="bs-unit">{lengthUnit}</span></span>
         </li>
       {/each}
     </ul>
   {:else}
-    <div class="bs-empty">No measurements logged today</div>
+    <div class="bs-empty">{$_('ui.mbd3b4f826fc6')}</div>
   {/if}
 
   <button class="btn btn-primary bs-log-btn" on:click={onOpen}>
-    Log Stats
+    {$_('ui.m6f52c941f954')}
   </button>
 </section>
 

@@ -33,7 +33,7 @@ import { isNative, getServerUrl } from './platform.js';
 // Capacitor's WebView shares localStorage with the host app's process; on
 // Android that storage is encrypted at rest by File-Based Encryption since
 // Android 7, so a locked phone == disk-encrypted. Same threat model the rest
-// of NutriTrace uses for cached data.
+// of NutriAgent uses for cached data.
 const TOKEN_KEY = 'nt:biometric:token';
 
 function _getPlugin() {
@@ -68,14 +68,14 @@ export async function getStatus() {
 }
 
 /** Trigger the OS biometric prompt. Returns true on success, false on cancel/fail. */
-export async function authenticate(reason = 'Sign in to NutriTrace') {
+export async function authenticate(reason = 'Sign in to NutriAgent') {
   const p = _getPlugin();
   if (!p) return false;
   try {
     await p.authenticate({
       reason,
       cancelTitle: 'Use Password',
-      androidTitle: 'NutriTrace',
+      androidTitle: 'NutriAgent',
       androidSubtitle: reason,
       androidConfirmationRequired: false,
     });

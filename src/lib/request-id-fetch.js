@@ -1,6 +1,6 @@
 /**
  * Adds a correlation ID to browser/WebView requests sent to the configured
- * NutriTrace server. In verbose diagnostic mode, app and server logs can then
+ * NutriAgent server. In verbose diagnostic mode, app and server logs can then
  * be matched by request_id without logging query strings or request bodies.
  */
 
@@ -16,7 +16,7 @@ function configuredServerUrl() {
   try { return localStorage.getItem('nt:serverUrl') || ''; } catch { return ''; }
 }
 
-export function isNutriTraceApiUrl(rawUrl, pageUrl, serverUrl = configuredServerUrl()) {
+export function isNutriAgentApiUrl(rawUrl, pageUrl, serverUrl = configuredServerUrl()) {
   let target;
   try { target = new URL(rawUrl, pageUrl); } catch { return false; }
   const apiPath = /(?:^|\/)api(?:\/|$)/.test(target.pathname);
@@ -49,7 +49,7 @@ export function installRequestIdFetch() {
 
   window.fetch = async (input, init = {}) => {
     const rawUrl = input instanceof Request ? input.url : String(input);
-    if (!isNutriTraceApiUrl(rawUrl, window.location.href)) return originalFetch(input, init);
+    if (!isNutriAgentApiUrl(rawUrl, window.location.href)) return originalFetch(input, init);
 
     const headers = new Headers(input instanceof Request ? input.headers : undefined);
     new Headers(init.headers || {}).forEach((value, key) => headers.set(key, value));

@@ -1,3 +1,4 @@
+import { userLanguage, translateNotification } from './localization.js';
 /**
  * push-notify.js — Server-side push notifications via Gotify, ntfy, or Apprise
  *
@@ -83,7 +84,7 @@ async function _pushGotify(userId, title, message, priority) {
   const res = await _send(`${serviceBase(url) ?? url}/message?token=${encodeURIComponent(token)}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ title: `NutriTrace — ${title}`, message, priority }),
+    body: JSON.stringify({ title: `NutriAgent — ${title}`, message, priority }),
   });
   if (!res.ok) throw new Error(`Gotify ${res.status}`);
   logger.debug(`[push] gotify: "${title}" → user ${userId}`);
@@ -97,7 +98,7 @@ async function _pushNtfy(userId, title, message, priority) {
   const token = _getUserSetting(userId, 'ntfyToken');
   if (!topic) return;
 
-  const headers = { 'Title': _encodeHeaderValue(`NutriTrace — ${title}`), 'Priority': String(Math.min(5, priority)) };
+  const headers = { 'Title': _encodeHeaderValue(`NutriAgent — ${title}`), 'Priority': String(Math.min(5, priority)) };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
   const res = await _send(`${serviceBase(url) ?? url}/${encodeURIComponent(topic)}`, {
@@ -116,7 +117,7 @@ async function _pushApprise(userId, title, message, priority) {
   const tag = _getUserSetting(userId, 'appriseTag');
   if (!url) return;
 
-  const body = { title: `NutriTrace — ${title}`, body: message, type: priority >= 7 ? 'warning' : 'info' };
+  const body = { title: `NutriAgent — ${title}`, body: message, type: priority >= 7 ? 'warning' : 'info' };
   if (tag) body.tag = tag;
 
   const res = await _send(`${serviceBase(url) ?? url}/notify`, {
@@ -132,7 +133,8 @@ async function _pushApprise(userId, title, message, priority) {
 
 export async function pushNotify(userId, settingKey, title, message, priority = 5) {
   if (!_isEnabled(userId, settingKey)) return;
-  return _pushToService(userId, title, message, priority);
+  const language = userLanguage(db, userId);
+  return _pushToService(userId, translateNotification(title, language), translateNotification(message, language), priority);
 }
 
 // Persistent per-day dedup — prevents the same notification firing multiple times

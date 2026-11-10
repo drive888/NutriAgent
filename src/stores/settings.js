@@ -357,7 +357,7 @@ export async function loadServerSettings() {
     // is the post-logout-then-relogin case where in-memory stores were
     // re-initialized with defaults but the per-user-scoped localStorage
     // entries survived the logout. Without the forced dispatch, subscribed
-    // components (Trace FAB, Wellness section, theme application, etc.)
+    // components (NutriAgent FAB, Wellness section, theme application, etc.)
     // never get woken up to re-read the now-correct values.
     //
     // CRITICAL: skip DEVICE_PREFS keys. These are local-only (form-factor or
@@ -715,11 +715,12 @@ function _accentToHex(value) {
   // Names match ACCENT_COLORS in Settings.svelte's picker; both files
   // must stay in sync when accents are added.
   const NAMED = {
-    mint:   '#4FFFB0', blue:  '#4FC3F7', red:    '#FF7070',
+    mint:   '#69D5B6', blue:  '#4FC3F7', red:    '#FF7070',
     purple: '#CE93D8', orange:'#FFB547', teal:   '#4DD0E1',
     pink:   '#F48FB1', yellow:'#FFF176', indigo: '#9FA8DA',
     lime:   '#C5E1A5', rose:  '#FF80AB', cyan:   '#80DEEA',
   };
+  if (value === 'mint' && document.documentElement.getAttribute('data-theme') === 'light') return '#087F73';
   return NAMED[value] || null;
 }
 
@@ -747,7 +748,7 @@ export function applyAppearance(value) {
   // tint until the user touched the accent picker again.
   const accentHex = _accentToHex(_lastAppliedAccent);
   const meta = document.getElementById('theme-color-meta');
-  if (meta) meta.content = accentHex || (dark ? '#0A0B0F' : '#F5F7FA');
+  if (meta) meta.content = accentHex || (dark ? '#0D171C' : '#F3F7F8');
   appearance.set(value);
 }
 
@@ -938,7 +939,7 @@ export const healthConnectSyncWindowEnd    = createSettingStore('healthConnectSy
 // sharing_enabled toggle is false.
 export const defaultShareVisibility = createSettingStore('defaultShareVisibility', 'private');
 
-// AI Assistant (Trace)
+// AI Assistant (NutriAgent)
 export const aiEnabled       = createSettingStore('aiEnabled',       false);
 export const aiProvider      = createSettingStore('aiProvider',      'claude');
 export const aiApiKey        = createSettingStore('aiApiKey',        '');
@@ -948,10 +949,10 @@ export const aiModel         = createSettingStore('aiModel',         '');
 // Plateforme, etc. Stored as a setting so users can point at any
 // /v1/chat/completions-compatible endpoint without rebuilding the app.
 export const aiBaseUrl       = createSettingStore('aiBaseUrl',       '');
-export const aiAssistantName = createSettingStore('aiAssistantName', 'Trace');
+export const aiAssistantName = createSettingStore('aiAssistantName', 'NutriAgent');
 // Whether the AI key + provider combo has been successfully test-called.
-// Set true by SettingsTrace's save-and-test flow. Read by the Trace FAB
-// (in src/components/ai/Trace.svelte) to decide whether to render — a
+// Set true by SettingsAgent's save-and-test flow. Read by the NutriAgent FAB
+// (in src/components/ai/NutriAgent.svelte) to decide whether to render — a
 // half-configured AI shouldn't put a non-working chat button on every
 // page. Cleared automatically when any auth field (provider, model,
 // key, baseUrl) changes, so the user has to re-verify.
@@ -972,7 +973,7 @@ export const smartLogVoiceLang = createSettingStore('smartLogVoiceLang', 'auto')
 // since there's no server to write to in local mode. Tick runs JS-side
 // while the app is open (App.svelte starts/stops the timer); fires
 // exportLocalBackup() when due, then prunes ZIPs in
-// Documents/nutritrace-backups/ that match the auto-backup naming
+// Documents/nutriagent-backups/ that match the auto-backup naming
 // pattern past the retention limit. Off by default.
 export const localBackupSchedule  = createSettingStore('localBackupSchedule',  'off');     // off|daily|weekly|monthly
 export const localBackupTime      = createSettingStore('localBackupTime',      '03:00');   // HH:MM (device local)
@@ -981,12 +982,12 @@ export const localBackupLastRun   = createSettingStore('localBackupLastRun',   n
 export const localBackupLastError = createSettingStore('localBackupLastError', null);      // string
 
 // One-time migration: existing installs that never customized the assistant
-// name end up with 'FitBot' (the old default). Bump those to 'Trace' so the
+// name end up with 'FitBot' (the old default). Bump those to 'NutriAgent' so the
 // rename is visible without manual action. Users who picked their own name
 // (anything other than literal 'FitBot') are left alone.
 try {
-  if (DB.getSetting('aiAssistantName', null) === 'FitBot') {
-    DB.setSetting('aiAssistantName', 'Trace');
+  if (['Buddy', 'FitBot', 'Trace'].includes(DB.getSetting('aiAssistantName', null))) {
+    DB.setSetting('aiAssistantName', 'NutriAgent');
   }
 } catch {}
 // Quick Log — natural-language food entry powered by the assistant's AI provider.

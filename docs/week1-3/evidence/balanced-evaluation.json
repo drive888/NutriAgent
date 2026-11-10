@@ -1,0 +1,1048 @@
+{
+  "warning": "8 classes, 1 development and 1 test original per class. Very small public benchmark subset, historical model exposure possible, NOT independent canteen performance. Selection used published labels only; no tuning on test originals.",
+  "rows": [
+    {
+      "file": "docs/week1-3/samples/balanced/development-chicken_wings.jpg",
+      "source_label": "chicken_wings",
+      "category": "chicken",
+      "split": "development",
+      "group": "food101-val-1251",
+      "offset": 1251,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "02361b5639cc7ecde6f563f5677030a766a323bc7a95293af42b533d50483df1",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "fried_calamari",
+              "confidence": 0.9541528224945068
+            },
+            {
+              "identifier": "chicken_wings",
+              "confidence": 0.03893011808395386
+            },
+            {
+              "identifier": "onion_rings",
+              "confidence": 0.001739421859383583
+            },
+            {
+              "identifier": "falafel",
+              "confidence": 0.0005747328395955265
+            },
+            {
+              "identifier": "oysters",
+              "confidence": 0.0005271882400847971
+            }
+          ],
+          "correct": false,
+          "ms": 76
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "chicken_wings",
+              "confidence": 0.6264834403991699
+            },
+            {
+              "identifier": "fried_calamari",
+              "confidence": 0.2181365042924881
+            },
+            {
+              "identifier": "carrot_cake",
+              "confidence": 0.01750907674431801
+            },
+            {
+              "identifier": "fish_and_chips",
+              "confidence": 0.014503424055874348
+            },
+            {
+              "identifier": "oysters",
+              "confidence": 0.013075795024633408
+            }
+          ],
+          "correct": true,
+          "ms": 73
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/test-chicken_wings.jpg",
+      "source_label": "chicken_wings",
+      "category": "chicken",
+      "split": "test",
+      "group": "food101-val-1250",
+      "offset": 1250,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "dac09add8d367791f5b326c1c0b44d7f0192d90532d00fcce7634cb5a352cfde",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "chicken_wings",
+              "confidence": 0.9984453320503235
+            },
+            {
+              "identifier": "baby_back_ribs",
+              "confidence": 0.00045651139225810766
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.00035651130019687116
+            },
+            {
+              "identifier": "fish_and_chips",
+              "confidence": 0.00031610162113793194
+            },
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 5.504281216417439e-05
+            }
+          ],
+          "correct": true,
+          "ms": 135
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "chicken_wings",
+              "confidence": 0.9984453320503235
+            },
+            {
+              "identifier": "baby_back_ribs",
+              "confidence": 0.00045651139225810766
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.00035651130019687116
+            },
+            {
+              "identifier": "fish_and_chips",
+              "confidence": 0.00031610162113793194
+            },
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 5.504281216417439e-05
+            }
+          ],
+          "correct": true,
+          "ms": 151
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/development-greek_salad.jpg",
+      "source_label": "greek_salad",
+      "category": "vegetables",
+      "split": "development",
+      "group": "food101-val-1751",
+      "offset": 1751,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "95417d8315d548af667834f74ffb108ef1f3c0ae1933f5b0b5f44839cb0f117f",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "greek_salad",
+              "confidence": 0.3717179596424103
+            },
+            {
+              "identifier": "beet_salad",
+              "confidence": 0.2959967255592346
+            },
+            {
+              "identifier": "seaweed_salad",
+              "confidence": 0.20932836830615997
+            },
+            {
+              "identifier": "caprese_salad",
+              "confidence": 0.07320593297481537
+            },
+            {
+              "identifier": "beef_carpaccio",
+              "confidence": 0.02596372179687023
+            }
+          ],
+          "correct": true,
+          "ms": 127
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "greek_salad",
+              "confidence": 0.8226028084754944
+            },
+            {
+              "identifier": "beet_salad",
+              "confidence": 0.1414216011762619
+            },
+            {
+              "identifier": "caprese_salad",
+              "confidence": 0.017098385840654373
+            },
+            {
+              "identifier": "seaweed_salad",
+              "confidence": 0.007577138487249613
+            },
+            {
+              "identifier": "beef_carpaccio",
+              "confidence": 0.005201923195272684
+            }
+          ],
+          "correct": true,
+          "ms": 92
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/test-greek_salad.jpg",
+      "source_label": "greek_salad",
+      "category": "vegetables",
+      "split": "test",
+      "group": "food101-val-1750",
+      "offset": 1750,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "c28c83f87befc82f6f652f59db0827412623bf7466a697760ca33275b4050847",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "greek_salad",
+              "confidence": 0.9942941069602966
+            },
+            {
+              "identifier": "caprese_salad",
+              "confidence": 0.0025816934648901224
+            },
+            {
+              "identifier": "beet_salad",
+              "confidence": 0.0013320905854925513
+            },
+            {
+              "identifier": "caesar_salad",
+              "confidence": 0.0012798530515283346
+            },
+            {
+              "identifier": "falafel",
+              "confidence": 0.00014545941667165607
+            }
+          ],
+          "correct": true,
+          "ms": 105
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "greek_salad",
+              "confidence": 0.9948486089706421
+            },
+            {
+              "identifier": "caprese_salad",
+              "confidence": 0.002840755507349968
+            },
+            {
+              "identifier": "caesar_salad",
+              "confidence": 0.0010994444601237774
+            },
+            {
+              "identifier": "beet_salad",
+              "confidence": 0.0007474175654351711
+            },
+            {
+              "identifier": "falafel",
+              "confidence": 0.0001499371137470007
+            }
+          ],
+          "correct": true,
+          "ms": 92
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/development-fried_rice.jpg",
+      "source_label": "fried_rice",
+      "category": "rice",
+      "split": "development",
+      "group": "food101-val-4251",
+      "offset": 4251,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "802e2659eff2982f527c33dccade688b7d524bba90c9384bdb65f14dde010b60",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "fried_rice",
+              "confidence": 0.9989699125289917
+            },
+            {
+              "identifier": "paella",
+              "confidence": 0.0006978267920203507
+            },
+            {
+              "identifier": "carrot_cake",
+              "confidence": 0.00011350976274115965
+            },
+            {
+              "identifier": "pad_thai",
+              "confidence": 7.078124326653779e-05
+            },
+            {
+              "identifier": "risotto",
+              "confidence": 5.117710679769516e-05
+            }
+          ],
+          "correct": true,
+          "ms": 92
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "fried_rice",
+              "confidence": 0.9989699125289917
+            },
+            {
+              "identifier": "paella",
+              "confidence": 0.0006978267920203507
+            },
+            {
+              "identifier": "carrot_cake",
+              "confidence": 0.00011350976274115965
+            },
+            {
+              "identifier": "pad_thai",
+              "confidence": 7.078124326653779e-05
+            },
+            {
+              "identifier": "risotto",
+              "confidence": 5.117710679769516e-05
+            }
+          ],
+          "correct": true,
+          "ms": 91
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/test-fried_rice.jpg",
+      "source_label": "fried_rice",
+      "category": "rice",
+      "split": "test",
+      "group": "food101-val-4250",
+      "offset": 4250,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "4997c9ca46f0489fc433d57685c54bb97046d9df01b4dd161056b0a817640741",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "omelette",
+              "confidence": 0.8039201498031616
+            },
+            {
+              "identifier": "shrimp_and_grits",
+              "confidence": 0.14109231531620026
+            },
+            {
+              "identifier": "hummus",
+              "confidence": 0.02102491818368435
+            },
+            {
+              "identifier": "risotto",
+              "confidence": 0.02079145796597004
+            },
+            {
+              "identifier": "scallops",
+              "confidence": 0.001343153533525765
+            }
+          ],
+          "correct": false,
+          "ms": 87
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "omelette",
+              "confidence": 0.8039201498031616
+            },
+            {
+              "identifier": "shrimp_and_grits",
+              "confidence": 0.14109231531620026
+            },
+            {
+              "identifier": "hummus",
+              "confidence": 0.02102491818368435
+            },
+            {
+              "identifier": "risotto",
+              "confidence": 0.02079145796597004
+            },
+            {
+              "identifier": "scallops",
+              "confidence": 0.001343153533525765
+            }
+          ],
+          "correct": false,
+          "ms": 87
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/development-garlic_bread.jpg",
+      "source_label": "garlic_bread",
+      "category": "bread",
+      "split": "development",
+      "group": "food101-val-5501",
+      "offset": 5501,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "b1f89919afc581115313b0ce8e044a7c0738702555e4b0f7207703b140bdc48a",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "garlic_bread",
+              "confidence": 0.9877184629440308
+            },
+            {
+              "identifier": "bruschetta",
+              "confidence": 0.007815705612301826
+            },
+            {
+              "identifier": "french_toast",
+              "confidence": 0.0016083975788205862
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 0.0006253666942939162
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 0.0004889285773970187
+            }
+          ],
+          "correct": true,
+          "ms": 90
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "garlic_bread",
+              "confidence": 0.9877184629440308
+            },
+            {
+              "identifier": "bruschetta",
+              "confidence": 0.007815705612301826
+            },
+            {
+              "identifier": "french_toast",
+              "confidence": 0.0016083975788205862
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 0.0006253666942939162
+            },
+            {
+              "identifier": "bread_pudding",
+              "confidence": 0.0004889285773970187
+            }
+          ],
+          "correct": true,
+          "ms": 88
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/test-garlic_bread.jpg",
+      "source_label": "garlic_bread",
+      "category": "bread",
+      "split": "test",
+      "group": "food101-val-5500",
+      "offset": 5500,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "340af6cf3fd1d391065f2711cbf6be6f429cad69ffdab3b932e51edf63dca0f5",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "cheese_plate",
+              "confidence": 0.38705095648765564
+            },
+            {
+              "identifier": "baklava",
+              "confidence": 0.31946781277656555
+            },
+            {
+              "identifier": "garlic_bread",
+              "confidence": 0.06864579021930695
+            },
+            {
+              "identifier": "carrot_cake",
+              "confidence": 0.035589758306741714
+            },
+            {
+              "identifier": "bruschetta",
+              "confidence": 0.034970223903656006
+            }
+          ],
+          "correct": false,
+          "ms": 86
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "cheese_plate",
+              "confidence": 0.38705095648765564
+            },
+            {
+              "identifier": "baklava",
+              "confidence": 0.31946781277656555
+            },
+            {
+              "identifier": "garlic_bread",
+              "confidence": 0.06864579021930695
+            },
+            {
+              "identifier": "carrot_cake",
+              "confidence": 0.035589758306741714
+            },
+            {
+              "identifier": "bruschetta",
+              "confidence": 0.034970223903656006
+            }
+          ],
+          "correct": false,
+          "ms": 83
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/development-deviled_eggs.jpg",
+      "source_label": "deviled_eggs",
+      "category": "egg",
+      "split": "development",
+      "group": "food101-val-18251",
+      "offset": 18251,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "31054902cc8c1d1dd574a7f3a769e48d819d12d5ab934460b235d46b00566c63",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "deviled_eggs",
+              "confidence": 0.9999464750289917
+            },
+            {
+              "identifier": "cup_cakes",
+              "confidence": 6.855775609437842e-06
+            },
+            {
+              "identifier": "strawberry_shortcake",
+              "confidence": 5.63016419619089e-06
+            },
+            {
+              "identifier": "eggs_benedict",
+              "confidence": 3.6032054140378023e-06
+            },
+            {
+              "identifier": "falafel",
+              "confidence": 1.8781976223181118e-06
+            }
+          ],
+          "correct": true,
+          "ms": 96
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "deviled_eggs",
+              "confidence": 0.9999464750289917
+            },
+            {
+              "identifier": "cup_cakes",
+              "confidence": 6.855775609437842e-06
+            },
+            {
+              "identifier": "strawberry_shortcake",
+              "confidence": 5.63016419619089e-06
+            },
+            {
+              "identifier": "eggs_benedict",
+              "confidence": 3.6032054140378023e-06
+            },
+            {
+              "identifier": "falafel",
+              "confidence": 1.8781976223181118e-06
+            }
+          ],
+          "correct": true,
+          "ms": 85
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/test-deviled_eggs.jpg",
+      "source_label": "deviled_eggs",
+      "category": "egg",
+      "split": "test",
+      "group": "food101-val-18250",
+      "offset": 18250,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "0fb6d7aa58a267b79ee52af0f8123ed0b29a7dad9b847217d75508670d412ff9",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "deviled_eggs",
+              "confidence": 0.9999819993972778
+            },
+            {
+              "identifier": "cup_cakes",
+              "confidence": 2.0564211808959953e-06
+            },
+            {
+              "identifier": "eggs_benedict",
+              "confidence": 1.2421141946106218e-06
+            },
+            {
+              "identifier": "strawberry_shortcake",
+              "confidence": 9.46527222822624e-07
+            },
+            {
+              "identifier": "hummus",
+              "confidence": 7.908417956059566e-07
+            }
+          ],
+          "correct": true,
+          "ms": 83
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "deviled_eggs",
+              "confidence": 0.999987006187439
+            },
+            {
+              "identifier": "cup_cakes",
+              "confidence": 2.6319951302866684e-06
+            },
+            {
+              "identifier": "hummus",
+              "confidence": 6.596134198844084e-07
+            },
+            {
+              "identifier": "scallops",
+              "confidence": 6.163161287986441e-07
+            },
+            {
+              "identifier": "nachos",
+              "confidence": 5.219937975198263e-07
+            }
+          ],
+          "correct": true,
+          "ms": 93
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/development-filet_mignon.jpg",
+      "source_label": "filet_mignon",
+      "category": "beef",
+      "split": "development",
+      "group": "food101-val-20001",
+      "offset": 20001,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "cbef943006f4b56a229816c63beb48b2ea0434db01f749e6aaa8aedefbd1f530",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "filet_mignon",
+              "confidence": 0.8382568359375
+            },
+            {
+              "identifier": "steak",
+              "confidence": 0.08347686380147934
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 0.0467798113822937
+            },
+            {
+              "identifier": "prime_rib",
+              "confidence": 0.029044361785054207
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.0005196036654524505
+            }
+          ],
+          "correct": true,
+          "ms": 83
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "filet_mignon",
+              "confidence": 0.8382568359375
+            },
+            {
+              "identifier": "steak",
+              "confidence": 0.08347686380147934
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 0.0467798113822937
+            },
+            {
+              "identifier": "prime_rib",
+              "confidence": 0.029044361785054207
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.0005196036654524505
+            }
+          ],
+          "correct": true,
+          "ms": 80
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/test-filet_mignon.jpg",
+      "source_label": "filet_mignon",
+      "category": "beef",
+      "split": "test",
+      "group": "food101-val-20000",
+      "offset": 20000,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "2ebec5374fab3c18a73263b01ca3a2cfc4bdd2b43f84cc2da92da75ad0aa7475",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "filet_mignon",
+              "confidence": 0.9205791354179382
+            },
+            {
+              "identifier": "steak",
+              "confidence": 0.07858320325613022
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.00029048483702354133
+            },
+            {
+              "identifier": "prime_rib",
+              "confidence": 0.000274371646810323
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 9.998930181609467e-05
+            }
+          ],
+          "correct": true,
+          "ms": 79
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "filet_mignon",
+              "confidence": 0.9630783796310425
+            },
+            {
+              "identifier": "steak",
+              "confidence": 0.03550224006175995
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.0005971787613816559
+            },
+            {
+              "identifier": "foie_gras",
+              "confidence": 0.0002111289941240102
+            },
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 0.00017065995780285448
+            }
+          ],
+          "correct": true,
+          "ms": 79
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/development-grilled_salmon.jpg",
+      "source_label": "grilled_salmon",
+      "category": "fish",
+      "split": "development",
+      "group": "food101-val-24501",
+      "offset": 24501,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "32964e61766b72754a51c00ac6117688feb9aca6e1cc368afca6c70688e6dd6c",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "omelette",
+              "confidence": 0.7023446559906006
+            },
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 0.22639770805835724
+            },
+            {
+              "identifier": "lasagna",
+              "confidence": 0.007527157198637724
+            },
+            {
+              "identifier": "fried_rice",
+              "confidence": 0.006990761961787939
+            },
+            {
+              "identifier": "bruschetta",
+              "confidence": 0.005660465452820063
+            }
+          ],
+          "correct": false,
+          "ms": 80
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 0.7036958932876587
+            },
+            {
+              "identifier": "risotto",
+              "confidence": 0.05129143223166466
+            },
+            {
+              "identifier": "omelette",
+              "confidence": 0.04638983681797981
+            },
+            {
+              "identifier": "gnocchi",
+              "confidence": 0.0399673767387867
+            },
+            {
+              "identifier": "bruschetta",
+              "confidence": 0.017380882054567337
+            }
+          ],
+          "correct": true,
+          "ms": 77
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/test-grilled_salmon.jpg",
+      "source_label": "grilled_salmon",
+      "category": "fish",
+      "split": "test",
+      "group": "food101-val-24500",
+      "offset": 24500,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "333dfb014160ad3d5cc5b39f2bb3b977fb9896c7cf495ae4eedeae624b8214fe",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 0.992490828037262
+            },
+            {
+              "identifier": "chicken_curry",
+              "confidence": 0.0062984987162053585
+            },
+            {
+              "identifier": "chicken_wings",
+              "confidence": 0.0004236478707753122
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.00012762319238390774
+            },
+            {
+              "identifier": "fried_rice",
+              "confidence": 7.876806921558455e-05
+            }
+          ],
+          "correct": true,
+          "ms": 84
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "grilled_salmon",
+              "confidence": 0.992490828037262
+            },
+            {
+              "identifier": "chicken_curry",
+              "confidence": 0.0062984987162053585
+            },
+            {
+              "identifier": "chicken_wings",
+              "confidence": 0.0004236478707753122
+            },
+            {
+              "identifier": "pork_chop",
+              "confidence": 0.00012762319238390774
+            },
+            {
+              "identifier": "fried_rice",
+              "confidence": 7.876806921558455e-05
+            }
+          ],
+          "correct": true,
+          "ms": 82
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/development-spaghetti_bolognese.jpg",
+      "source_label": "spaghetti_bolognese",
+      "category": "noodles",
+      "split": "development",
+      "group": "food101-val-25001",
+      "offset": 25001,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "0dda78cf9e6d6eb300443f4ea050b8dcf113893b7bdd41ee7f686a12dbaab771",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "spaghetti_bolognese",
+              "confidence": 0.996268630027771
+            },
+            {
+              "identifier": "spaghetti_carbonara",
+              "confidence": 0.0031375184189528227
+            },
+            {
+              "identifier": "pad_thai",
+              "confidence": 0.00017860790831036866
+            },
+            {
+              "identifier": "gnocchi",
+              "confidence": 4.722647281596437e-05
+            },
+            {
+              "identifier": "ravioli",
+              "confidence": 4.303625610191375e-05
+            }
+          ],
+          "correct": true,
+          "ms": 79
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "spaghetti_bolognese",
+              "confidence": 0.9934273958206177
+            },
+            {
+              "identifier": "spaghetti_carbonara",
+              "confidence": 0.005980809219181538
+            },
+            {
+              "identifier": "pad_thai",
+              "confidence": 0.0002362529339734465
+            },
+            {
+              "identifier": "ramen",
+              "confidence": 3.0043725928408094e-05
+            },
+            {
+              "identifier": "baklava",
+              "confidence": 2.6791640266310424e-05
+            }
+          ],
+          "correct": true,
+          "ms": 78
+        }
+      }
+    },
+    {
+      "file": "docs/week1-3/samples/balanced/test-spaghetti_bolognese.jpg",
+      "source_label": "spaghetti_bolognese",
+      "category": "noodles",
+      "split": "test",
+      "group": "food101-val-25000",
+      "offset": 25000,
+      "source": "https://huggingface.co/datasets/ethz/food101",
+      "caveat": "Public Food101 validation. Pretrained model historical exposure possible.",
+      "sha256": "881f27eb1bd8511c9c836f2662a9998cdab1a04a01edace9b01ee40c8c296866",
+      "outputs": {
+        "resize": {
+          "top5": [
+            {
+              "identifier": "spaghetti_bolognese",
+              "confidence": 0.998927652835846
+            },
+            {
+              "identifier": "spaghetti_carbonara",
+              "confidence": 0.000570914417039603
+            },
+            {
+              "identifier": "pad_thai",
+              "confidence": 0.00025416960124857724
+            },
+            {
+              "identifier": "ravioli",
+              "confidence": 5.534766387427226e-05
+            },
+            {
+              "identifier": "gnocchi",
+              "confidence": 5.163699825061485e-05
+            }
+          ],
+          "correct": true,
+          "ms": 76
+        },
+        "center": {
+          "top5": [
+            {
+              "identifier": "spaghetti_bolognese",
+              "confidence": 0.998927652835846
+            },
+            {
+              "identifier": "spaghetti_carbonara",
+              "confidence": 0.000570914417039603
+            },
+            {
+              "identifier": "pad_thai",
+              "confidence": 0.00025416960124857724
+            },
+            {
+              "identifier": "ravioli",
+              "confidence": 5.534766387427226e-05
+            },
+            {
+              "identifier": "gnocchi",
+              "confidence": 5.163699825061485e-05
+            }
+          ],
+          "correct": true,
+          "ms": 77
+        }
+      }
+    }
+  ],
+  "testCount": 8,
+  "testResizeCorrect": 6,
+  "testCenterCorrect": 6
+}

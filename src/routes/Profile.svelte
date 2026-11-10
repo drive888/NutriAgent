@@ -12,7 +12,7 @@
   import { _ } from 'svelte-i18n';
   import { get } from 'svelte/store';
   import { currentUser, userMgmtActive, logout as logoutAuth } from '../stores/auth.js';
-  import { NtApi } from '../lib/api.js';
+  import { NaApi } from '../lib/api.js';
   import { apiUrl, isNative, getServerUrl, getAuthToken, resolveAssetUrl } from '../lib/platform.js';
   import { takePhoto } from '../lib/camera.js';
   import { localDateStr, DB } from '../lib/db.js';
@@ -47,7 +47,7 @@
       const ok = await biometric.authenticate('Enable biometric sign-in');
       if (!ok) {
         biometricLoginEnabled.set(false);
-        showError('Biometric verification was canceled or failed.');
+        showError($_('ui.m0d21b7571efb'));
         return;
       }
       // Stash the current JWT so the next sign-in can unlock with biometric.
@@ -155,7 +155,7 @@
     try {
       if (_isLocal) {
         // Write each field to its corresponding setting, then refresh
-        // currentUser so Sidebar/Trace/etc. pick up the new name + avatar.
+        // currentUser so Sidebar/NutriAgent/etc. pick up the new name + avatar.
         DB.setSetting('localUserName',     full_name.trim() || '');
         DB.setSetting('localUserNickname', nickname.trim()  || '');
         DB.setSetting('dob',               birthday         || '');
@@ -169,7 +169,7 @@
       // Through the API layer rather than a raw fetch, so a profile saved
       // with no connection is queued like everything else and goes up when
       // the connection returns (lib/offline-api.js).
-      const data = await NtApi.updateProfile({ full_name, nickname, birthday, gender, avatar_url, email });
+      const data = await NaApi.updateProfile({ full_name, nickname, birthday, gender, avatar_url, email });
       if (data?.user) currentUser.set(data.user);
       showSuccess($_('profile.saved'));
     } catch(e) {
@@ -185,7 +185,7 @@
         const file = await takePhoto();
         if (!file) return;
         uploading = true;
-        const url = await NtApi.uploadImage(file);
+        const url = await NaApi.uploadImage(file);
         avatar_url = url;
       } catch { showError($_('profile.errors.upload_failed')); }
       finally { uploading = false; }
@@ -199,7 +199,7 @@
     if (!file) return;
     uploading = true;
     try {
-      const url = await NtApi.uploadImage(file);
+      const url = await NaApi.uploadImage(file);
       avatar_url = url;
     } catch(e) {
       showError($_('profile.errors.upload_failed'));
@@ -239,7 +239,7 @@
     window.location.href = apiUrl(`/api/auth/oidc/login/${providerId}?link=1&return=${ret}`);
   }
   async function unlink(linkId) {
-    if (!confirm('Unlink this provider? You won\'t be able to sign in with it again until you re-link.')) return;
+    if (!confirm($_('ui.mfec5c43f917b'))) return;
     unlinking = linkId;
     try {
       const csrf = localStorage.getItem('nt:csrf');
@@ -319,12 +319,12 @@
     <div class="avatar-section">
       <button class="avatar-btn" on:click={pickAvatar} disabled={uploading} title={$_('profile.change_photo')}>
         {#if avatar_url}
-          <img class="avatar-img" src={resolveAssetUrl(avatar_url)} alt="avatar" />
+          <img class="avatar-img" src={resolveAssetUrl(avatar_url)} alt={$_('ui.m87bbe879c7a5')} />
         {:else}
           <span class="material-symbols-rounded avatar-placeholder">person</span>
         {/if}
         <div class="avatar-overlay">
-          <span class="material-symbols-rounded" style="font-size:20px">{uploading ? 'hourglass_empty' : 'photo_camera'}</span>
+          <span class="material-symbols-rounded" style="font-size:20px">{uploading ? "hourglass_empty" : "photo_camera"}</span>
         </div>
       </button>
       <input bind:this={fileInput} type="file" accept="image/*" style="display:none" on:change={onFileChange} />
@@ -385,7 +385,7 @@
                 <div class="oidc-link-info">
                   <span class="oidc-link-name">{l.display_name || 'OIDC'}</span>
                   {#if l.last_login_at}
-                    <span class="oidc-link-meta text-3 text-sm">last sign-in {new Date(l.last_login_at).toLocaleDateString()}</span>
+                    <span class="oidc-link-meta text-3 text-sm">{$_('ui.m366940a582df')} {new Date(l.last_login_at).toLocaleDateString()}</span>
                   {/if}
                 </div>
                 <button class="btn btn-ghost btn-sm" on:click={() => unlink(l.id)} disabled={unlinking === l.id}>
@@ -437,7 +437,7 @@
           {#if new_password}
             <div class="pw-strength" class:s-0={pwScore.score === 0} class:s-1={pwScore.score === 1} class:s-2={pwScore.score === 2} class:s-3={pwScore.score === 3} class:s-4={pwScore.score === 4}>
               <div class="pw-bar"><div class="pw-fill" style:width={`${(pwScore.score / 4) * 100}%`}></div></div>
-              <span class="pw-label">{pwScore.label}</span>
+              <span class="pw-label">{pwScore.labelKey ? $_(pwScore.labelKey) : pwScore.label}</span>
             </div>
           {/if}
         </div>
@@ -472,9 +472,9 @@
           <span class="security-label">{$_('login.biometric.sign_in_button')}</span>
           <div class="security-desc">
             {#if _biometricSupported}
-              Use fingerprint or face unlock instead of typing your password each time. Your password is still required on the first sign-in. Sign-in sessions stay valid for up to a year by default — admins can change this in <strong>Settings → Users → Session Duration</strong>.
+              {$_('ui.mdda7c88bf97c')} <strong>{$_('ui.m132b420d7ead')}</strong>.
             {:else}
-              Set up a fingerprint or face unlock in <strong>Android Settings → Security</strong> first, then come back here.
+              {$_('ui.mbcb4357394fd')} <strong>{$_('ui.mfe2d4fff20bd')}</strong> {$_('ui.m9ad9a7d36f68')}
             {/if}
           </div>
         </div>

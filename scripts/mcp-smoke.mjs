@@ -84,7 +84,7 @@ console.log(`\n\x1b[1mMCP smoke test\x1b[0m  ${URL_}\n`);
     clientInfo: { name: 'nt-smoke', version: '1' },
   });
   const info = r.json?.result?.serverInfo;
-  if (r.status === 200 && info?.name === 'nutritrace') {
+  if (r.status === 200 && info?.name === 'nutriagent') {
     line('PASS', `initialize`, `serverInfo=${info.name}@${info.version}`);
   } else {
     line('FAIL', `initialize`, `status=${r.status} body=${r.raw.slice(0, 200)}`);

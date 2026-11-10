@@ -49,7 +49,7 @@ export function bumpAccountGeneration() { _generation++; }
 // whoever is signed in now. Every change of account (sign-in as someone
 // else, Connect, Disconnect, sign-out, a lost session) forgets them, so a
 // server that still read the cookie first can't answer as the previous
-// account. Only NutriTrace's own cookies go, at every server address the
+// account. Only NutriAgent's own cookies go, at every server address the
 // phone knows (the one in use, the one its data came from, `urls`): a
 // sign-in gate in front of the server (Cloudflare Access, Authelia) keeps
 // its cookie, on that host or any other. Capacitor also keeps a copy of

@@ -10,7 +10,7 @@
   } from '../../lib/log-capture.js';
   import { APP_VERSION } from '../../lib/version.js';
   import { isNative } from '../../lib/platform.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { showError } from '../../stores/toast.js';
 
   // ── Diagnostics: in-app log capture ──────────────────────────────────────
@@ -32,7 +32,7 @@
       _logsCopied = true;
       setTimeout(() => _logsCopied = false, 2000);
     } catch (e) {
-      showError('Copy failed. Select the text manually.');
+      showError($_('ui.m548c9627233b'));
     }
   }
   async function _shareLogs() {
@@ -40,12 +40,12 @@
       if (isNative) {
         const { Share } = await import('@capacitor/share');
         await Share.share({
-          title: 'NutriTrace diagnostic logs',
+          title: $_('ui.mb3f4f379f0a6'),
           text: _logsText,
-          dialogTitle: 'Share NutriTrace logs',
+          dialogTitle: 'Share NutriAgent logs',
         });
       } else if (typeof navigator !== 'undefined' && navigator.share) {
-        await navigator.share({ title: 'NutriTrace diagnostic logs', text: _logsText });
+        await navigator.share({ title: $_('ui.mb3f4f379f0a6'), text: _logsText });
       } else {
         await _copyLogs();
       }
@@ -76,13 +76,13 @@
   async function _shareLogFile() {
     try {
       const f = await getLogFileUri();
-      if (!f) { showError('No log file yet — turn on Verbose logs and reproduce the issue first'); return; }
+      if (!f) { showError($_('ui.m2c0c50c8267d')); return; }
       await _shareFileViaCache({
         srcPath: f.path,
-        cacheBasename: 'nutritrace-log',
-        title: 'NutriTrace diagnostic logs',
-        text: 'NutriTrace log file',
-        dialogTitle: 'Share NutriTrace log file',
+        cacheBasename: 'nutriagent-log',
+        title: $_('ui.mb3f4f379f0a6'),
+        text: 'NutriAgent log file',
+        dialogTitle: 'Share NutriAgent log file',
       });
     } catch (e) {
       // User cancelled or share unsupported — silent.
@@ -96,10 +96,10 @@
       if (!f) { _hasCrashReport = false; return; }
       await _shareFileViaCache({
         srcPath: f.path,
-        cacheBasename: 'nutritrace-crash',
-        title: 'NutriTrace crash report',
-        text: 'NutriTrace crash report',
-        dialogTitle: 'Share NutriTrace crash report',
+        cacheBasename: 'nutriagent-crash',
+        title: $_('ui.m6484422eefa5'),
+        text: 'NutriAgent crash report',
+        dialogTitle: 'Share NutriAgent crash report',
       });
     } catch (e) {
       // User cancelled — silent.
@@ -137,8 +137,8 @@
       const fromStr = fmt(from), toStr = fmt(today);
 
       let fitbitRows = {}, garminRows = {};
-      try { fitbitRows = await NtApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`) || {}; } catch {}
-      try { garminRows = await NtApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`) || {}; } catch {}
+      try { fitbitRows = await NaApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`) || {}; } catch {}
+      try { garminRows = await NaApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`) || {}; } catch {}
 
       // Build deterministic day list, oldest → newest
       const dates = [];
@@ -207,7 +207,7 @@
       _calibCopied = true;
       setTimeout(() => _calibCopied = false, 2000);
     } catch (e) {
-      showError('Copy failed. Select the text manually.');
+      showError($_('ui.m548c9627233b'));
     }
   }
 </script>
@@ -217,7 +217,7 @@
     <div class="setting-row">
       <div>
         <span class="setting-label">{$_('settings_diagnostics.diag_mode')}</span>
-        <div class="setting-desc">Enables detailed app-internal logs (sync, settings, notifications, Health Connect) and{isNative ? ' writes them to a daily log file on disk so they survive crashes and reloads.' : ' enables verbose console output.'} Also records screen sizes and positions (never what you type) to help with display problems on specific devices. Off by default. Turn on while reproducing a bug, then export below.</div>
+        <div class="setting-desc">{$_('ui.me3feb4eac91f')}{isNative ? $_('ui.mfd9fb7d34c8d') : $_('ui.m0839305f553b')} {$_('ui.m2b3c73372505')}</div>
       </div>
       <Toggle checked={_verboseLogging} on:change={e => _toggleVerbose(e.detail)} />
     </div>
@@ -229,30 +229,30 @@
       </p>
       <button class="btn btn-secondary" style="height:40px;font-size:13px" on:click={_openLogsSheet}>
         <span class="material-symbols-rounded" style="font-size:16px">terminal</span>
-        View logs{hasCrashReport() ? ' · crash report available' : ''}
+        {$_('ui.m9ec41ffd7797')}{hasCrashReport() ? $_('ui.m32aec48af03a') : ''}
       </button>
     </div>
     <div class="setting-divider"></div>
     <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:8px">
       <span class="setting-label">{$_('settings_diagnostics.calibration_export')}</span>
       <p class="setting-desc" style="line-height:1.5">
-        Anonymized 30-day JSON of your wellness data (HRV, RHR, sleep, calculated Trace scores). Useful for tracking how Trace scores compare to your device's own scores over time, or for attaching to a wellness-related bug report. Held in-memory until you copy it — nothing is sent anywhere automatically. Review the JSON before sharing.
+        {$_('ui.m26b7f5bd58b8')}
       </p>
       <div class="form-group" style="width:100%;padding:0">
-        <label class="form-label" for="calib-device">Your device (optional, free text)</label>
-        <input id="calib-device" class="input" placeholder="e.g. Pixel Watch 4, Fitbit Charge 6, Sense 2"
+        <label class="form-label" for="calib-device">{$_('ui.m7b5b3f717f95')}</label>
+        <input id="calib-device" class="input" placeholder={$_('ui.m316977457d54')}
           bind:value={_calibDeviceLabel} />
       </div>
       <button class="btn btn-primary" style="height:40px;font-size:13px" on:click={() => { _generateCalibExport(); _calibExportSheet = true; }}>
         <span class="material-symbols-rounded" style="font-size:16px">data_object</span>
-        Generate calibration export
+        {$_('ui.m649712971a03')}
       </button>
     </div>
   </div>
 </div>
 
 <!-- Diagnostic logs viewer -->
-<Sheet bind:open={_logsSheet} title="Diagnostic Logs">
+<Sheet bind:open={_logsSheet} title={$_('ui.mebe88e2057c5')}>
   <div style="padding:0 4px 8px">
     <p class="setting-desc" style="line-height:1.5;margin-bottom:10px">
       {$_('settings_diagnostics.log_help')}
@@ -261,26 +261,26 @@
     <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
       <button class="btn btn-primary" style="flex:1;min-width:120px;height:40px;font-size:13px" on:click={_copyLogs}>
         {#if _logsCopied}
-          <span class="material-symbols-rounded" style="font-size:16px">check</span> Copied
+          <span class="material-symbols-rounded" style="font-size:16px">check</span> {$_('ui.m8d525e5f158b')}
         {:else}
-          <span class="material-symbols-rounded" style="font-size:16px">content_copy</span> Copy
+          <span class="material-symbols-rounded" style="font-size:16px">content_copy</span> {$_('ui.me21f935f11d7')}
         {/if}
       </button>
       <button class="btn btn-secondary" style="flex:1;min-width:120px;height:40px;font-size:13px" on:click={_shareLogs}>
-        <span class="material-symbols-rounded" style="font-size:16px">share</span> Share text
+        <span class="material-symbols-rounded" style="font-size:16px">share</span> {$_('ui.mbc0f15b0487b')}
       </button>
       <button class="btn btn-secondary" style="flex:1;min-width:120px;height:40px;font-size:13px" on:click={_clearLogs}>
-        <span class="material-symbols-rounded" style="font-size:16px">delete</span> Clear
+        <span class="material-symbols-rounded" style="font-size:16px">delete</span> {$_('ui.m83b12c2216ef')}
       </button>
     </div>
     {#if isNative && _verboseLogging}
       <div style="display:flex;gap:8px;margin-top:8px">
         <button class="btn btn-secondary" style="flex:1;height:40px;font-size:13px" on:click={_shareLogFile}>
-          <span class="material-symbols-rounded" style="font-size:16px">description</span> Share log file
+          <span class="material-symbols-rounded" style="font-size:16px">description</span> {$_('ui.mcda6c2851dbc')}
         </button>
       </div>
       <p class="setting-desc" style="margin-top:6px;font-size:11px">
-        Today's persisted log on disk (rotates daily, last 7 days kept). Better for long sessions or after a crash — the in-memory buffer above resets every reload.
+        {$_('ui.md5a61a845c19')}
       </p>
     {/if}
     {#if isNative && _hasCrashReport}
@@ -290,14 +290,14 @@
           <strong style="color:var(--danger);font-size:14px">{$_('settings_diagnostics.crash_available')}</strong>
         </div>
         <p class="setting-desc" style="margin:0 0 8px;font-size:12px">
-          The app captured an uncaught error. Share the report to help track it down, then dismiss it.
+          {$_('ui.m9ac1f112f0e5')}
         </p>
         <div style="display:flex;gap:8px">
           <button class="btn btn-secondary" style="flex:1;height:36px;font-size:12px" on:click={_shareCrashReport}>
-            <span class="material-symbols-rounded" style="font-size:14px">share</span> Share crash report
+            <span class="material-symbols-rounded" style="font-size:14px">share</span> {$_('ui.m0815e1990912')}
           </button>
           <button class="btn btn-ghost" style="flex:1;height:36px;font-size:12px" on:click={_clearCrashReport}>
-            Dismiss
+            {$_('ui.m48845bff334a')}
           </button>
         </div>
       </div>
@@ -306,18 +306,18 @@
 </Sheet>
 
 <!-- Calibration Export preview -->
-<Sheet bind:open={_calibExportSheet} title="Calibration Export — Review">
+<Sheet bind:open={_calibExportSheet} title={$_('ui.m4208836df721')}>
   <div style="padding:0 4px 8px">
     <p class="setting-desc" style="line-height:1.5;margin-bottom:10px">
-      {_calibExportCount} day{_calibExportCount === 1 ? '' : 's'} of data, anonymized. Review the JSON below before sharing — nothing is uploaded automatically.
+      {_calibExportCount} {$_('ui.m944c27e5b97a')}{_calibExportCount === 1 ? '' : 's'} {$_('ui.mc57cc1debe50')}
     </p>
     <textarea readonly style="width:100%;height:240px;font-family:monospace;font-size:11px;padding:8px;border:1px solid var(--border);border-radius:var(--radius-sm,6px);background:var(--surface-2);color:var(--text-1);resize:vertical">{_calibExportJson}</textarea>
     <div style="display:flex;gap:8px;margin-top:10px">
       <button class="btn btn-primary" style="flex:1;height:40px;font-size:13px" on:click={_copyCalibExport}>
         {#if _calibCopied}
-          <span class="material-symbols-rounded" style="font-size:16px">check</span> Copied
+          <span class="material-symbols-rounded" style="font-size:16px">check</span> {$_('ui.m8d525e5f158b')}
         {:else}
-          <span class="material-symbols-rounded" style="font-size:16px">content_copy</span> Copy JSON
+          <span class="material-symbols-rounded" style="font-size:16px">content_copy</span> {$_('ui.m7708c6e2ae9c')}
         {/if}
       </button>
     </div>

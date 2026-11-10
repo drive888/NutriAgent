@@ -45,7 +45,7 @@
   // Steps: usermgmt (optional on native, mandatory on PWA), welcome, units, ...
   // Native local mode: drops usermgmt (no auth needed) but inserts a single
   // 'name' step right after welcome so we can still personalize the UI
-  // (Trace greetings, Sidebar header, etc.) without a full user account.
+  // (NutriAgent greetings, Sidebar header, etc.) without a full user account.
   // PWA single-user (user opts out of UM at the usermgmt step): same 'name'
   // step gets inserted so they can still set a display name. Multi-user
   // doesn't need it — the admin's full_name was captured on the usermgmt
@@ -200,11 +200,11 @@
   let waterGoal = 0; // ml
 
   const ACTIVITY_LEVELS = [
-    { value: 'sedentary',   label: 'Sedentary',          desc: 'Little or no exercise' },
-    { value: 'light',       label: 'Lightly Active',      desc: 'Light exercise 1–3 days/week' },
-    { value: 'moderate',    label: 'Moderately Active',   desc: 'Moderate exercise 3–5 days/week' },
-    { value: 'active',      label: 'Very Active',         desc: 'Hard exercise 6–7 days/week' },
-    { value: 'very_active', label: 'Extremely Active',    desc: 'Very hard exercise & physical job' },
+    { value: 'sedentary',   label: 'Sedentary', labelKey: 'ui.maace858e9445',          desc: 'Little or no exercise', descKey: 'ui.m362112926132' },
+    { value: 'light',       label: 'Lightly Active', labelKey: 'ui.mcb089202890c',      desc: 'Light exercise 1–3 days/week', descKey: 'ui.m26734a1c1e02' },
+    { value: 'moderate',    label: 'Moderately Active', labelKey: 'ui.m29dd7a70267c',   desc: 'Moderate exercise 3–5 days/week', descKey: 'ui.m1d1410170f49' },
+    { value: 'active',      label: 'Very Active', labelKey: 'ui.md4af6818a896',         desc: 'Hard exercise 6–7 days/week', descKey: 'ui.m6e1d9aade264' },
+    { value: 'very_active', label: 'Extremely Active', labelKey: 'ui.m7b632cdea07d',    desc: 'Very hard exercise & physical job', descKey: 'ui.m00ba8eb18711' },
   ];
 
   $: wUnit = $weightUnit || 'kg';
@@ -266,10 +266,10 @@
     if (currentStepName === 'usermgmt') {
       if (enableUserMgmt) {
         umError = '';
-        if (!adminUsername.trim()) { umError = 'Username is required'; return; }
+        if (!adminUsername.trim()) { umError = $_('ui.md18de1563a61'); return; }
         const pwErr = validatePassword(adminPassword);
         if (pwErr) { umError = pwErr; return; }
-        if (adminPassword !== adminConfirm) { umError = 'Passwords do not match'; return; }
+        if (adminPassword !== adminConfirm) { umError = $_('ui.mb6eb82cd3300'); return; }
         // Register the admin account
         umLoading = true;
         try {
@@ -286,7 +286,7 @@
             }),
           });
           const data = await res.json().catch(() => ({}));
-          if (!res.ok) { umError = data.error || 'Registration failed'; umLoading = false; return; }
+          if (!res.ok) { umError = data.error || $_('ui.md40e3b08ef50'); umLoading = false; return; }
           localStorage.setItem('wl:userId', data.user.id);
           await loadAuthState();
           // The account exists, but the browser didn't keep the sign-in
@@ -297,7 +297,7 @@
             return;
           }
         } catch(e) {
-          umError = 'Could not connect to server';
+          umError = $_('ui.ma6bc03eb058f');
           umLoading = false;
           return;
         }
@@ -452,7 +452,7 @@
     if (_useLocalProfile && localName.trim()) batch.localUserName = localName.trim();
     await bulkSet(batch);
 
-    // Refresh the synthetic LOCAL_USER so Sidebar / Trace / etc. pick up the
+    // Refresh the synthetic LOCAL_USER so Sidebar / NutriAgent / etc. pick up the
     // new name without a page reload.
     if (_useLocalProfile && localName.trim()) {
       try { await loadAuthState(); } catch {}
@@ -481,8 +481,8 @@
         {#each Array(14) as _, i}<span class="conf c{i % 7}" style:--i={i}></span>{/each}
       </div>
       <span class="material-symbols-rounded wizard-done-icon">emoji_events</span>
-      <h2 class="wizard-done-title">You're All Set!</h2>
-      <p class="wizard-done-sub">Welcome to NutriTrace. Loading your diary…</p>
+      <h2 class="wizard-done-title">{$_('ui.m405088641f31')}</h2>
+      <p class="wizard-done-sub">{$_('ui.mf9975a8c12e0')}</p>
     </div>
   {:else}
   <!-- Skip button -->
@@ -561,21 +561,21 @@
 
             <div class="form-row-2">
               <div class="form-group">
-                <label class="form-label">Password *</label>
-                <input class="input" type="password" bind:value={adminPassword} autocomplete="new-password" passwordrules="minlength: 8; required: upper; required: lower; required: digit; required: special;" placeholder="8+ chars, upper, lower, number, symbol" />
+                <label class="form-label">{$_('ui.m7c6dc119843f')}</label>
+                <input class="input" type="password" bind:value={adminPassword} autocomplete="new-password" passwordrules="minlength: 8; required: upper; required: lower; required: digit; required: special;" placeholder={$_('ui.m122e578a106b')} />
                 {#if adminPassword}
                   {@const pwScore = passwordStrength(adminPassword)}
                   <div class="pw-strength" class:s-0={pwScore.score === 0} class:s-1={pwScore.score === 1} class:s-2={pwScore.score === 2} class:s-3={pwScore.score === 3} class:s-4={pwScore.score === 4}>
                     <div class="pw-bar"><div class="pw-fill" style:width={`${(pwScore.score / 4) * 100}%`}></div></div>
-                    <span class="pw-label">{pwScore.label}</span>
+                    <span class="pw-label">{pwScore.labelKey ? $_(pwScore.labelKey) : pwScore.label}</span>
                   </div>
                 {/if}
               </div>
               <div class="form-group">
-                <label class="form-label">Confirm *</label>
+                <label class="form-label">{$_('ui.m60c5473bbfc8')}</label>
                 <input class="input" type="password" bind:value={adminConfirm} autocomplete="new-password" passwordrules="minlength: 8; required: upper; required: lower; required: digit; required: special;" />
                 {#if adminConfirm && adminPassword !== adminConfirm}
-                  <p class="pw-mismatch">Passwords don't match</p>
+                  <p class="pw-mismatch">{$_('ui.mec5d490e7422')}</p>
                 {/if}
               </div>
             </div>
@@ -594,7 +594,7 @@
           <p class="step-desc">{$_('wizard.welcome.desc')}</p>
           {#if !(_forceAccountCreation && !$userMgmtActive)}
             <button type="button" class="skip-setup-link" on:click={() => skipSetupConfirm = true}>
-              I'll do this later
+              {$_('ui.meb54e8845602')}
             </button>
           {/if}
         </div>
@@ -622,7 +622,7 @@
             on:click={() => applyUnitSystem('metric')}>
             <span class="material-symbols-rounded" style="font-size:48px">straighten</span>
             <span class="option-label">{$_('wizard.units.metric')}</span>
-            <span class="option-sublabel">kg, cm, °C</span>
+            <span class="option-sublabel">{$_('ui.m11f027b779db')}</span>
             {#if unitSystem === 'metric'}
               <span class="material-symbols-rounded check">check_circle</span>
             {/if}
@@ -631,7 +631,7 @@
             on:click={() => applyUnitSystem('imperial')}>
             <span class="material-symbols-rounded" style="font-size:48px">scale</span>
             <span class="option-label">{$_('wizard.units.imperial')}</span>
-            <span class="option-sublabel">lb, ft/in, °F</span>
+            <span class="option-sublabel">{$_('ui.m1affb6899268')}</span>
             {#if unitSystem === 'imperial'}
               <span class="material-symbols-rounded check">check_circle</span>
             {/if}
@@ -689,14 +689,14 @@
       <!-- ── Current Weight ── -->
       {:else if currentStepName === 'weight'}
         <h2 class="step-title">{$_('wizard.weight.title')}</h2>
-        <p class="step-desc">Your current body weight ({wUnit}).</p>
+        <p class="step-desc">{$_('ui.mfed20f82e962')}{wUnit}).</p>
         <input class="input" type="text" inputmode="decimal" use:decimalInput
           bind:value={weight} style="margin-top:24px;font-size:16px" />
 
       <!-- ── Target Weight ── -->
       {:else if currentStepName === 'target'}
         <h2 class="step-title">{$_('wizard.target.title')}</h2>
-        <p class="step-desc">Your goal weight ({wUnit}). Defaults to your current weight — change it if you're trying to lose or gain.</p>
+        <p class="step-desc">{$_('ui.mdfe66fac5136')}{wUnit}{$_('ui.ma36b739eddf6')}</p>
         <input class="input" type="text" inputmode="decimal" use:decimalInput
           bind:value={targetW} on:input={() => _targetTouched = true}
           style="margin-top:24px;font-size:16px" />
@@ -709,8 +709,8 @@
           {#each ACTIVITY_LEVELS as lvl}
             <button class="activity-card" class:selected={activity === lvl.value}
               on:click={() => activity = lvl.value}>
-              <div class="activity-label" class:selected={activity === lvl.value}>{lvl.label}</div>
-              <div class="activity-desc">{lvl.desc}</div>
+              <div class="activity-label" class:selected={activity === lvl.value}>{lvl.labelKey ? $_(lvl.labelKey) : lvl.label}</div>
+              <div class="activity-desc">{lvl.descKey ? $_(lvl.descKey) : lvl.desc}</div>
               {#if activity === lvl.value}
                 <span class="material-symbols-rounded check">check_circle</span>
               {/if}
@@ -734,7 +734,7 @@
               <div class="int-card-icon">🥫</div>
               <div class="int-card-info">
                 <div class="int-card-title">{$_('wizard.integrations_cards.off')}</div>
-                <div class="int-card-sub">Search the global crowd-sourced food database. An account is only needed to upload edits.</div>
+                <div class="int-card-sub">{$_('ui.m8de8e4fa36cf')}</div>
               </div>
               {#if intSkipped.off}
                 <button class="int-restore-btn" on:click={() => intSkipped = {...intSkipped, off: false}}>{$_('wizard.integrations_cards.configure')}</button>
@@ -744,7 +744,7 @@
             </div>
             {#if !intSkipped.off}
               <div class="int-fields">
-                <a href="https://world.openfoodfacts.org/cgi/user.pl" target="_blank" rel="noopener" class="about-link" style="font-size:13px">Create an OFF account →</a>
+                <a href="https://world.openfoodfacts.org/cgi/user.pl" target="_blank" rel="noopener" class="about-link" style="font-size:13px">{$_('ui.m82e8eee16508')}</a>
                 <input class="input" type="text"     placeholder={$_('wizard_deep.off_user_ph')} bind:value={intOFFUser}  autocomplete="username" />
                 <input class="input" type="password" placeholder={$_('wizard_deep.off_pass_ph')} bind:value={intOFFPass}  autocomplete="current-password" />
               </div>
@@ -767,7 +767,7 @@
             </div>
             {#if !intSkipped.usda}
               <div class="int-fields">
-                <a href="https://fdc.nal.usda.gov/api-key-signup" target="_blank" rel="noopener" class="about-link" style="font-size:13px">Get a free API key →</a>
+                <a href="https://fdc.nal.usda.gov/api-key-signup" target="_blank" rel="noopener" class="about-link" style="font-size:13px">{$_('ui.m28d59e04d911')}</a>
                 <input class="input" type="text" placeholder={$_('wizard_deep.usda_key_ph')} bind:value={intUSDARKey} />
               </div>
             {/if}
@@ -779,7 +779,7 @@
               <div class="int-card-icon">🍽️</div>
               <div class="int-card-info">
                 <div class="int-card-title">{$_('wizard.integrations_cards.mealie')}</div>
-                <div class="int-card-sub">Import recipes from your self-hosted Mealie instance</div>
+                <div class="int-card-sub">{$_('ui.mbb3cb6dcf62e')}</div>
               </div>
               {#if intSkipped.mealie}
                 <button class="int-restore-btn" on:click={() => intSkipped = {...intSkipped, mealie: false}}>{$_('wizard.integrations_cards.configure')}</button>
@@ -813,7 +813,7 @@
                 <div class="int-card-icon">🤖</div>
                 <div class="int-card-info">
                   <div class="int-card-title">{$_('wizard.integrations_cards.ai')}</div>
-                  <div class="int-card-sub">Trace, your AI nutrition assistant — bring your own API key</div>
+                  <div class="int-card-sub">{$_('ui.m7d14547cb918')}</div>
                 </div>
                 {#if intSkipped.ai}
                   <button class="int-restore-btn" on:click={() => intSkipped = {...intSkipped, ai: false}}>{$_('wizard.integrations_cards.configure')}</button>
@@ -824,9 +824,9 @@
               {#if !intSkipped.ai}
                 <div class="int-fields">
                   <select class="input" bind:value={intAIProvider}>
-                    <option value="claude">Anthropic (Claude)</option>
-                    <option value="openai">OpenAI (ChatGPT)</option>
-                    <option value="gemini">Google (Gemini)</option>
+                    <option value="claude">{$_('ui.m118c19cacd3f')}</option>
+                    <option value="openai">{$_('ui.ma01e4f96a000')}</option>
+                    <option value="gemini">{$_('ui.m85b92882b88e')}</option>
                   </select>
                   <input class="input" type="password" placeholder={$_('wizard_deep.api_key_ph')} bind:value={intAIKey} autocomplete="off" />
                 </div>
@@ -853,16 +853,16 @@
           {#if _configured.length > 0}
             <div class="int-summary-row">
               <span class="material-symbols-rounded" style="font-size:16px;color:var(--accent)">check_circle</span>
-              <span>Configured: <strong>{_configured.join(', ')}</strong></span>
+              <span>{$_('ui.m388893e6aea8')} <strong>{_configured.join(', ')}</strong></span>
             </div>
           {/if}
           {#if _skipped.length > 0}
             <div class="int-summary-row int-summary-skip">
               <span class="material-symbols-rounded" style="font-size:16px">remove_circle</span>
-              <span>Skipped: {_skipped.join(', ')}</span>
+              <span>{$_('ui.mbdba73448fdc')} {_skipped.join(', ')}</span>
             </div>
           {/if}
-          <div class="int-summary-hint">You can change these anytime in Settings.</div>
+          <div class="int-summary-hint">{$_('ui.m6acc111388e8')}</div>
         </div>
 
       <!-- ── Notifications ── -->
@@ -900,7 +900,7 @@
               <div class="int-card-icon">🔔</div>
               <div class="int-card-info">
                 <div class="int-card-title">{$_('wizard_deep.enable_notifications')}</div>
-                <div class="int-card-sub">Reminders, goal celebrations, and health alerts</div>
+                <div class="int-card-sub">{$_('ui.m177885b5c4d4')}</div>
               </div>
               <Toggle checked={notifEnabled} on:change={e => notifEnabled = e.detail} />
             </div>
@@ -912,7 +912,7 @@
                 <div class="int-card-icon">💧</div>
                 <div class="int-card-info">
                   <div class="int-card-title">{$_('wizard_deep.hydration_reminders')}</div>
-                  <div class="int-card-sub">Periodic reminders to drink water (8am–10pm)</div>
+                  <div class="int-card-sub">{$_('ui.me9f4623a73c3')}</div>
                 </div>
                 <Toggle checked={notifWater} on:change={e => notifWater = e.detail} />
               </div>
@@ -923,7 +923,7 @@
                 <div class="int-card-icon">🍽️</div>
                 <div class="int-card-info">
                   <div class="int-card-title">{$_('wizard_deep.meal_reminders')}</div>
-                  <div class="int-card-sub">Daily reminders to log breakfast, lunch, and dinner</div>
+                  <div class="int-card-sub">{$_('ui.me8da0ac77bfc')}</div>
                 </div>
                 <Toggle checked={notifMeals} on:change={e => notifMeals = e.detail} />
               </div>
@@ -934,7 +934,7 @@
                 <div class="int-card-icon">🎯</div>
                 <div class="int-card-info">
                   <div class="int-card-title">{$_('wizard_deep.goal_celebrations')}</div>
-                  <div class="int-card-sub">Celebrate when you hit your daily nutrition, water, or step goals</div>
+                  <div class="int-card-sub">{$_('ui.m5d74f3a47e57')}</div>
                 </div>
                 <Toggle checked={notifGoals} on:change={e => notifGoals = e.detail} />
               </div>
@@ -945,7 +945,7 @@
                 <div class="int-card-icon">⚠️</div>
                 <div class="int-card-info">
                   <div class="int-card-title">{$_('wizard_deep.wellness_alerts')}</div>
-                  <div class="int-card-sub">Alerts when HRV drops, sleep declines, or heart rate spikes</div>
+                  <div class="int-card-sub">{$_('ui.ma02ba35e348a')}</div>
                 </div>
                 <Toggle checked={notifWellness} on:change={e => notifWellness = e.detail} />
               </div>
@@ -960,23 +960,23 @@
         <h2 class="step-title">{$_('wizard.summary.title')}</h2>
         <p class="step-desc">{$_('wizard.summary.desc')}</p>
         {@const _goalFactor = goalKcal === tdee ? 1.0 : goalKcal < tdee ? 0.8 : 1.2}
-        {@const _factorLabel = _goalFactor === 0.8 ? 'Lose −20%' : _goalFactor === 1.2 ? 'Gain +20%' : 'Maintain'}
+        {@const _factorLabel = _goalFactor === 0.8 ? $_('ui.m8506576b1310') : _goalFactor === 1.2 ? $_('ui.m77104d953b13') : $_('ui.m0f011be4a5eb')}
         <div class="summary-card">
           <div class="tdee-row">
             <div class="tdee-label">{$_('wizard_deep.starting_tdee')}</div>
             <div class="tdee-value">{_tdeeDisp.value.toLocaleString()}</div>
-            <div class="tdee-unit">{_tdeeDisp.unit} / day</div>
-            <div class="tdee-help">Total Daily Energy Expenditure · Mifflin-St Jeor + activity level</div>
+            <div class="tdee-unit">{_tdeeDisp.unit} {$_('ui.m122faff7033f')}</div>
+            <div class="tdee-help">{$_('ui.m6f4ca36d2686')}</div>
           </div>
           <hr style="border:none;border-top:1px solid var(--border);margin:16px 0" />
           <div class="summary-rows">
             <div class="summary-row">
-              <span class="text-3">{$energyUnit === 'kJ' ? 'Energy goal' : 'Calorie goal'}<br><span style="font-size:11px;opacity:0.7">{_factorLabel} ({Math.round(_goalFactor * 100)}% of TDEE)</span></span>
-              <strong>{_goalDisp.value.toLocaleString()} {_goalDisp.unit}/day</strong>
+              <span class="text-3">{$energyUnit === 'kJ' ? $_('ui.mdfb0c3413db8') : $_('ui.m855ee6d2debf')}<br><span style="font-size:11px;opacity:0.7">{_factorLabel} ({Math.round(_goalFactor * 100)}{$_('ui.m97ffddafc94f')}</span></span>
+              <strong>{_goalDisp.value.toLocaleString()} {_goalDisp.unit}{$_('ui.mea30d1c554b8')}</strong>
             </div>
             <div class="summary-row">
               <span class="text-3">{$_('wizard_deep.water_goal')}</span>
-              <strong>{waterGoal >= 1000 ? (waterGoal / 1000).toFixed(1) + ' L' : waterGoal + ' ml'}/day</strong>
+              <strong>{waterGoal >= 1000 ? (waterGoal / 1000).toFixed(1) + ' L' : waterGoal + ' ml'}{$_('ui.mea30d1c554b8')}</strong>
             </div>
             <div class="summary-row">
               <span class="text-3">{$_('wizard_deep.current_weight')}</span>

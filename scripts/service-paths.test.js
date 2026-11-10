@@ -1,4 +1,4 @@
-// NutriTrace's CookTrace and Mealie proxies forward only what the app reads.
+// NutriAgent's CookTrace and Mealie proxies forward only what the app reads.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { apiPathFor, COOKTRACE_API, MEALIE_API } from '../server/lib/service-paths.js';

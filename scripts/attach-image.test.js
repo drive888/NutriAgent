@@ -1,5 +1,5 @@
 /**
- * Trace's attach button is one shared component, identical in every Trace
+ * NutriAgent's attach button is one shared component, identical in every NutriAgent
  * app: Camera or Gallery on a phone, a tablet or the Android app; straight to
  * the file picker on a computer, where browsers ignore the camera hint. The
  * Android app goes straight to the camera or the system photo picker.
@@ -10,14 +10,14 @@ import { readFileSync } from 'node:fs';
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), 'utf8');
 const button = read('../src/components/ai/AttachImageButton.svelte');
-const trace = read('../src/components/ai/Trace.svelte');
+const trace = read('../src/components/ai/NutriAgent.svelte');
 const app = JSON.parse(read('../package.json')).name;
 
-test('Trace attaches images only through the shared button', () => {
+test('NutriAgent attaches images only through the shared button', () => {
   assert.match(trace, /import AttachImageButton from '\.\/AttachImageButton\.svelte';/);
   assert.match(trace, /<AttachImageButton[^>]*on:files=\{e => [A-Za-z_]+\(e\.detail\)\}/);
-  assert.doesNotMatch(trace, /type="file"/, 'no file inputs of its own left in Trace');
-  assert.doesNotMatch(trace, /CameraSource/, 'no camera calls of its own left in Trace');
+  assert.doesNotMatch(trace, /type="file"/, 'no file inputs of its own left in NutriAgent');
+  assert.doesNotMatch(trace, /CameraSource/, 'no camera calls of its own left in NutriAgent');
   // LiftTrace's coach compares progress photos, so it takes several at once.
   const multiple = /<AttachImageButton multiple\b/.test(trace);
   assert.equal(multiple, app === 'lifttrace', 'only LiftTrace picks several photos');

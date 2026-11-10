@@ -2,6 +2,8 @@
  * api.js - External API calls (Open Food Facts)
  */
 import { settingPrefix } from './setting-key.js';
+import { get } from 'svelte/store';
+import { locale } from 'svelte-i18n';
 import { rankOFFResults } from './off-rank.js';
 import { offProductName } from './off-name.js';
 import { asSoldNutriments } from './off-nutrition-sets.js';
@@ -151,7 +153,7 @@ function _isOffSuccess(data) {
   return !!data.product;
 }
 
-// OFF nutriment keys behind each NutriTrace nutrient, with the factor that
+// OFF nutriment keys behind each NutriAgent nutrient, with the factor that
 // turns OFF's unit into ours (g to mg is 1000, g to mcg 1000000). Calories
 // are handled separately (kcal, or kJ / 4.184).
 const _OFF_NUTRIENTS = [
@@ -351,7 +353,7 @@ const API = {
   // items so the caller can drive infinite-scroll ("Load more when
   // hasMore" and "showing N of totalHits"). Kept separate from
   // searchByName so the simpler array-returning API stays intact for
-  // quick-log, Trace, and MealEditor which don't need paging. #96.
+  // quick-log, NutriAgent, and MealEditor which don't need paging. #96.
   async searchByNameWithMeta(query, page, pageSize = 50) {
     page = page || 1;
     try {
@@ -850,19 +852,19 @@ const USDA = {
   }
 };
 
-// ── NutriTrace Server API ──────────────────────────────────────────────────
+// ── NutriAgent Server API ──────────────────────────────────────────────────
 
 // In native standalone mode (Capacitor + no server URL), requests are served
-// from the local SQLite database via NtApiNative. In all other cases (web PWA,
+// from the local SQLite database via NaApiNative. In all other cases (web PWA,
 // or native with a server URL configured) this HTTP implementation is used.
 import { isNative, getServerUrl, getAuthToken, resolveAssetUrl, apiUrl } from './platform.js';
 import { Nutrition } from './nutrition.js';
 
-const _NtApiHttp = {
+const _NaApiHttp = {
   // Core fetch — apiUrl() handles the server URL prefix (native server mode)
   // or the BASE_URL prefix (PWA at a subpath) consistently for every call.
   async _fetch(method, path, body, isUpload = false) {
-    const headers = {};
+    const headers = { 'Accept-Language': get(locale) || 'en' };
     if (!isUpload) headers['Content-Type'] = 'application/json';
 
     // Native server mode: add Bearer token (cookies don't persist across WebView reloads)
@@ -986,26 +988,26 @@ const _NtApiHttp = {
   },
 };
 
-// ── Platform-aware NtApi export ────────────────────────────────────────────
-// In Capacitor native standalone mode: use SQLite-backed NtApiNative.
+// ── Platform-aware NaApi export ────────────────────────────────────────────
+// In Capacitor native standalone mode: use SQLite-backed NaApiNative.
 // In all other cases (web, native + server URL): use the HTTP implementation.
 // Both are statically imported so Rollup can bundle them; the unused branch
 // is never called at runtime (isNative is false in the browser).
 
-import { NtApiNative } from './api-native.js';
+import { NaApiNative } from './api-native.js';
 
 // Dynamic proxy — resolves which implementation to use on EVERY call.
 // Three modes: web (HTTP), native standalone (local SQLite), native server (cached).
-import { NtApiCached } from './api-cached.js';
+import { NaApiCached } from './api-cached.js';
 import { createOfflineApi } from './offline-api.js';
 
 // The browser's API, wrapped so the diary keeps working without a connection
 // (#211). Built on first use, so a page that never calls the API never opens
 // IndexedDB.
 let _offlineHttp = null;
-const _webApi = () => (_offlineHttp ||= createOfflineApi(_NtApiHttp));
+const _webApi = () => (_offlineHttp ||= createOfflineApi(_NaApiHttp));
 
-export const NtApi = new Proxy({}, {
+export const NaApi = new Proxy({}, {
   get(_, prop) {
     // Skip well-known thenable / meta probes. Awaiting a Proxy without
     // this returns the fallback stub for `then`, which JS tries to
@@ -1016,9 +1018,9 @@ export const NtApi = new Proxy({}, {
     if (!isNative) {
       impl = _webApi();     implName = 'HTTP';       // Web PWA: server, with an offline mirror
     } else if (!getServerUrl()) {
-      impl = NtApiNative;   implName = 'Native';     // Native standalone — always local
+      impl = NaApiNative;   implName = 'Native';     // Native standalone — always local
     } else {
-      impl = NtApiCached;   implName = 'Cached';     // Native + server — cached/offline
+      impl = NaApiCached;   implName = 'Cached';     // Native + server — cached/offline
     }
     const v = impl[prop];
     if (typeof v === 'function') return v.bind(impl);
@@ -1026,13 +1028,13 @@ export const NtApi = new Proxy({}, {
 
     // The requested method isn't implemented on the current impl. Return
     // a stub that returns a rejected promise instead of undefined, so a
-    // caller doing `NtApi.foo(...).catch(...)` still gets its .catch()
+    // caller doing `NaApi.foo(...).catch(...)` still gets its .catch()
     // attached — a bare undefined throws SYNCHRONOUSLY at the call site,
     // which inside a Svelte reactive block aborts the update and looks
     // like the button did nothing (#162 root cause). The warn helps the
     // next divergence surface in DevTools / Diagnostic Logs.
     return function _ntApiMissing() {
-      const msg = `[NtApi] '${String(prop)}' is not implemented in ${implName} mode`;
+      const msg = `[NaApi] '${String(prop)}' is not implemented in ${implName} mode`;
       try { console.warn(msg); } catch { /* noop */ }
       return Promise.reject(new Error(msg));
     };

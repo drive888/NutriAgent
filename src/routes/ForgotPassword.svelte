@@ -1,6 +1,6 @@
 <script>
   import { push } from 'svelte-spa-router';
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import { apiUrl, resolveAssetUrl, iconUrl } from '../lib/platform.js';
 
   let email   = '';
@@ -16,7 +16,7 @@
       const res  = await fetch(apiUrl('/api/auth/forgot-password'), {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept-Language': $locale || 'en' },
         body: JSON.stringify({ email: email.trim() }),
       });
       const data = await res.json();
@@ -33,7 +33,7 @@
 <div class="login-page">
   <div class="login-card card">
     <div class="login-logo">
-      <img src={iconUrl('/icons/logo.png')} alt="NutriTrace" class="logo-img" />
+      <img src={iconUrl('/icons/logo.png')} alt={$_('ui.m2014cdd9e657')} class="logo-img" />
       <h1 class="login-title">{$_('forgot_password.title')}</h1>
     </div>
 
@@ -55,7 +55,7 @@
         <input class="input" type="email" autocomplete="email"
           bind:value={email}
           on:keydown={e => e.key === 'Enter' && submit()}
-          placeholder="you@example.com" autofocus />
+          placeholder={$_('ui.m53e6cdc30765')} autofocus />
       </div>
 
       {#if error}

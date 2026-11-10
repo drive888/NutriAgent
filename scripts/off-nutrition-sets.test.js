@@ -3,7 +3,7 @@
  *
  * OFF keeps each product's values as sets and builds one "aggregated set"
  * from them, preferring "as prepared" when a product has both. v3, the API
- * NutriTrace reads, is built from that set only, so a can of beans with both
+ * NutriAgent reads, is built from that set only, so a can of beans with both
  * came back "as prepared" only (101 kcal, not the 64 on the label), and so did
  * Nesquik, two baby formulas and Benco. v3.5 serves the sets, and
  * off-nutrition-sets.js builds the "as sold" values from them with OFF's own
@@ -62,7 +62,7 @@ test('the port gives the values OFF gives, for products whose own answer is "as 
     assert.ok(keys.size > 10, name);
     for (const k of keys) assert.equal(ours.nutriments[k], v3.nutriments[k], `${name}: ${k}`);
     assert.equal(ours.per, v3.nutrition_data_per, `${name}: per`);
-    // And through NutriTrace's mapper, in both import modes.
+    // And through NutriAgent's mapper, in both import modes.
     for (const perServing of [false, true]) {
       const { api } = realApi({ perServing });
       const merged = api._mapOFFProduct({ ...v3, nutriments: ours.nutriments, nutrition_data_per: ours.per }, { full: true });

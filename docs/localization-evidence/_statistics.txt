@@ -1,0 +1,65 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/statistics".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/statistics
+	2 container app
+		71 button 打开菜单
+		72 container
+			86 container 主导航
+				87 button 饮食日记
+					88 text book
+					89 text 饮食日记
+				90 button 食物
+					91 text restaurant
+					92 text 食物
+				93 button 统计
+					94 text bar_chart
+					95 text 统计
+				96 button 目标
+					97 text flag
+					98 text 目标
+				99 button 设置
+					100 text settings
+					101 text 设置
+		102 container
+			103 heading 统计, Value: 1
+				104 text 统计
+			105 button 热量
+			106 button 脂肪
+			107 button 饱和脂肪
+			108 button 钠
+			109 button 碳水化合物
+			110 button 膳食纤维
+			111 button 糖
+			112 button 添加糖
+			113 button 蛋白质
+			114 button 维生素D
+			115 button 钙
+			116 button 铁
+			117 button 钾
+			118 button 体重
+			119 button 颈围
+			120 button 腰围
+			121 button 臀围
+			122 button 胸围
+			123 button 大腿围
+			124 button 上臂围
+			125 button 小腿围
+			126 button 体脂
+			127 button 身体水分
+			128 button 饮水
+			129 button 1W
+			130 button 2W
+			131 button 1M
+			132 button 3M
+			133 button 6M
+			134 button 1Y
+			135 button 全部
+			136 button 自定义
+			137 button show_chart, Help: 切换图表类型
+			138 text 0 kcal 平均值 0 kcal 最小值 0 kcal 最大值 1 天 已记录
+			139 button 导出 CSV
+			140 text 历史记录
+			141 button Description: 打开 2026-10-30 的饮食日记, Help: 在饮食日记中打开这一天
+			142 text 0 kcal
+		70 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/statistics

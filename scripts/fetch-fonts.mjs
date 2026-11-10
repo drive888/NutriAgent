@@ -4,7 +4,7 @@
  * still fetches only the scripts a page needs.
  *
  * Usage: node fetch-fonts.mjs <public/fonts dir> <slug> "<css2 query>"
- *   node fetch-fonts.mjs ../../nutritrace/public/fonts inter "family=Inter:wght@300..700"
+ *   node fetch-fonts.mjs ../../nutriagent/public/fonts inter "family=Inter:wght@300..700"
  */
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';

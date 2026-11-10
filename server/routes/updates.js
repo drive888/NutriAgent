@@ -42,7 +42,7 @@ const CACHE_KEYS = {
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const GH_REPO_URL  = 'https://api.github.com/repos/TraceApps/nutritrace';
 const DEV_TAG_RE   = /^v\d+\.\d+\.\d+-dev\.?\d+$/;
-const UA = `TraceApps-NutriTrace-Server/${APP_VERSION}`;
+const UA = `TraceApps-NutriAgent-Server/${APP_VERSION}`;
 
 function _getCfg(key) {
   const row = db.prepare('SELECT value FROM app_config WHERE key = ?').get(key);

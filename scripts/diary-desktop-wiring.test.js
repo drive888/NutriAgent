@@ -83,11 +83,13 @@ test('Diary hides the mobile bottom bar + top-right actions at ≥1280px', () =>
 
 // ── Week strip + hover popover (Phase 6) ──────────────────────────────────
 test('WeekStrip pulls last 7 days from getAllDiary and shows kcal per day', () => {
-  assert.match(weekStripSrc, /NtApi\.getAllDiary\(\)/);
+  assert.match(weekStripSrc, /NaApi\.getAllDiary\(\)/);
   // 7-column layout
   assert.match(weekStripSrc, /grid-template-columns:\s*repeat\(7,\s*1fr\)/);
   // Full weekday names (not single-letter abbreviations)
-  assert.match(weekStripSrc, /'Sunday',\s*'Monday'/);
+  assert.match(weekStripSrc, /import\s+\{[^}]*locale[^}]*\}\s+from\s+['"]svelte-i18n['"]/);
+  assert.match(weekStripSrc, /dow:\s*dt\.toLocaleDateString\(\$locale\s*\|\|\s*undefined,\s*\{\s*weekday:\s*'long'\s*\}\)/);
+  assert.match(weekStripSrc, /<span class="ws-dow">\{[^\n]*toLocaleDateString\(\$locale\s*\|\|\s*undefined,\s*\{\s*weekday:\s*'long'\s*\}\)\}<\/span>/);
 });
 
 test('WeekStrip respects disableAnimations in the popover fade', () => {

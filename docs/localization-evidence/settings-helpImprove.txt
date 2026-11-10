@@ -1,0 +1,134 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/#/settings/helpImprove".
+1 AXWebArea NutriTrace, URL: localhost:3103/#/settings/helpImprove
+	2 container app
+		3 button 打开菜单
+		4 container
+			18 container 主导航
+				19 button 饮食日记
+					20 text book
+					21 text 饮食日记
+				22 button 食物
+					23 text restaurant
+					24 text 食物
+				25 button 统计
+					26 text bar_chart
+					27 text 统计
+				28 button 目标
+					29 text flag
+					30 text 目标
+				31 button 设置
+					32 text settings
+					33 text 设置
+		77 container
+			78 container
+				79 button 返回
+				80 heading 诊断, Value: 1
+					81 text 诊断
+			82 text search
+			83 search text field (settable)
+			84 button person 个人资料
+				85 text person
+				86 text 个人资料
+			87 text 显示
+			88 button contrast 外观
+				89 text contrast
+				90 text 外观
+			91 button language 区域与单位
+				92 text language
+				93 text 区域与单位
+			94 button book 饮食日记
+				95 text book
+				96 text 饮食日记
+			97 button water_drop 饮水
+				98 text water_drop
+				99 text 饮水
+			100 button restaurant 食物
+				101 text restaurant
+				102 text 食物
+			103 text 数据与记录
+			104 button flag 热量目标
+				105 text flag
+				106 text 热量目标
+			107 button straighten 身体数据
+				108 text straighten
+				109 text 身体数据
+			110 button bar_chart 统计
+				111 text bar_chart
+				112 text 统计
+			113 button science 营养素
+				114 text science
+				115 text 营养素
+			116 button category 分类
+				117 text category
+				118 text 分类
+			119 button straighten 自定义单位
+				120 text straighten
+				121 text 自定义单位
+			122 text 集成
+			123 button link 食物来源
+				124 text link
+				125 text 食物来源
+			126 button smart_toy AI 助手
+				127 text smart_toy
+				128 text AI 助手
+			129 button favorite 健康
+				130 text favorite
+				131 text 健康
+			132 text 应用
+			133 button notifications 通知
+				134 text notifications
+				135 text 通知
+			136 button backup 备份与恢复
+				137 text backup
+				138 text 备份与恢复
+			139 button import_export 导入与导出
+				140 text import_export
+				141 text 导入与导出
+			142 button group 食物共享
+				143 text group
+				144 text 食物共享
+			145 button system_update 更新
+				146 text system_update
+				147 text 更新
+			148 button troubleshoot 诊断
+				149 text troubleshoot
+				150 text 诊断
+			151 text 管理
+			152 button group 用户
+				153 text group
+				154 text 用户
+			155 button vpn_key 身份验证
+				156 text vpn_key
+				157 text 身份验证
+			158 button mail 电子邮件 (SMTP)
+				159 text mail
+				160 text 电子邮件 (SMTP)
+			161 button key API 令牌
+				162 text key
+				163 text API 令牌
+			164 button webhook Webhook 通知
+				165 text webhook
+				166 text Webhook 通知
+			167 text NUTRITRACE
+			168 button volunteer_activism 支持
+				169 text volunteer_activism
+				170 text 支持
+			171 button info 关于
+				172 text info
+				173 text 关于
+			174 text 诊断模式 启用详细的应用内部日志（同步、设置、通知、Health Connect），并启用详细控制台输出。 还会记录屏幕尺寸和位置（绝不记录您输入的内容），以帮助排查特定设备上的显示问题。默认关闭。复现问题时开启，然后在下方导出。
+			175 switch 0
+			176 text 查看诊断日志 应用控制台的最近日志。有助于报告问题，可复制或分享到 
+			177 link Description: GitHub 问题, Value: github.com/traceapps/nutritrace/issues
+			178 text 中。  不会自动发送任何内容。
+			179 button terminal 查看日志
+				180 text terminal
+				181 text 查看日志
+			182 text 导出校准数据 以匿名化 JSON 格式导出您近 30 天的健康数据（心率变异性、静息心率、睡眠、计算得出的 Trace 评分）。可用于长期跟踪 Trace 评分与设备自身评分的差异，也可作为健康相关问题报告的附件。在您复制之前，数据仅保存在内存中，不会自动发送到任何地方。分享前请检查 JSON。 您的设备（选填，自由输入）
+			183 text field (settable) 您的设备（选填，自由输入）, ID: calib-device
+			184 button data_object 生成校准导出数据
+				185 text data_object
+				186 text 生成校准导出数据
+		76 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/#/settings/helpImprove

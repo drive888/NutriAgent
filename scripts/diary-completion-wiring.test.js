@@ -64,7 +64,7 @@ test('#207: sync-push preserves existing completed_at when incoming is null (off
 
 test('#207: diary store exports setDayCompletion', () => {
   assert.match(diaryStore, /export async function setDayCompletion/);
-  assert.match(diaryStore, /NtApi\.setDiaryCompletion/);
+  assert.match(diaryStore, /NaApi\.setDiaryCompletion/);
 });
 
 test('#207: WeekStrip renders a completion badge on completed days', () => {
@@ -110,8 +110,8 @@ test('#207: Diary passes completedDays into the DatePicker', () => {
 });
 
 test('#207: bedtime notification carries the Close today action + receiver exists', () => {
-  const worker  = readFileSync(new URL('../android/app/src/main/java/com/nutritrace/app/ReminderWorker.java', import.meta.url), 'utf8');
-  const receiver = readFileSync(new URL('../android/app/src/main/java/com/nutritrace/app/DiaryCompletionReceiver.java', import.meta.url), 'utf8');
+  const worker  = readFileSync(new URL('../android/app/src/main/java/com/nutriagent/app/ReminderWorker.java', import.meta.url), 'utf8');
+  const receiver = readFileSync(new URL('../android/app/src/main/java/com/nutriagent/app/DiaryCompletionReceiver.java', import.meta.url), 'utf8');
   const manifest = readFileSync(new URL('../android/app/src/main/AndroidManifest.xml', import.meta.url), 'utf8');
   assert.match(worker,  /postBedtimeNotification/);
   assert.match(worker,  /isTodayCompleted/);
@@ -134,7 +134,15 @@ test('#207: Statistics computes completionStats and renders the KPI', () => {
   const stats = readFileSync(new URL('../src/routes/Statistics.svelte', import.meta.url), 'utf8');
   assert.match(stats, /let completionStats/);
   assert.match(stats, /completedDatesSet/);
-  assert.match(stats, /Marked complete/);
+  const completionKpi = stats.match(/\{#if \$diaryShowCompletion && completionStats && completionStats\.total > 0\}([\s\S]*?)\{\/if\}/)?.[1];
+  assert.ok(completionKpi, 'completion KPI is rendered for a nonempty viewed range');
+  const labelKey = completionKpi.match(/class="stats-rail-kpi-lbl"[^>]*>\{\$_\('([^']+)'\)\}<\/span>/)?.[1];
+  assert.ok(labelKey, 'completion KPI references a translated label');
+  const englishLabel = labelKey.split('.').reduce((value, key) => value?.[key], JSON.parse(en));
+  assert.equal(englishLabel, 'Marked complete', 'the referenced label still describes completion adherence');
+  assert.match(stats, /pct:\s*Math\.round\(\(marked \/ totalDays\) \* 100\)/);
+  assert.match(completionKpi, /\{completionStats\.marked\} \/ \{completionStats\.total\}/);
+  assert.match(completionKpi, /\{completionStats\.pct\}%/);
   assert.match(stats, /completionMarkerPlugin/);
 });
 
@@ -184,7 +192,7 @@ test('#207: Statistics KPI + tick plugin gated on diaryShowCompletion', () => {
 });
 
 test('#207: bedtime notification action gated on diaryShowCompletion', () => {
-  const worker = readFileSync(new URL('../android/app/src/main/java/com/nutritrace/app/ReminderWorker.java', import.meta.url), 'utf8');
+  const worker = readFileSync(new URL('../android/app/src/main/java/com/nutriagent/app/ReminderWorker.java', import.meta.url), 'utf8');
   assert.match(worker, /getBoolSetting\(db, "diaryShowCompletion"\)/);
 });
 
@@ -216,7 +224,7 @@ test('backups: native dbUpsertDiaryFromServer carries completed_at + completed_m
 
 test('#207 per-meal: store exports setMealCompletion', () => {
   assert.match(diaryStore, /export async function setMealCompletion/);
-  assert.match(diaryStore, /NtApi\.setDiaryMealCompletion/);
+  assert.match(diaryStore, /NaApi\.setDiaryMealCompletion/);
 });
 
 test('#207 per-meal: Diary meal card wires the gated checkbox', () => {

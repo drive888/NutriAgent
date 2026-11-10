@@ -50,7 +50,7 @@ router.get('/sum/:date', wrap((req, res) => {
   });
 }));
 
-// Range query for stats / Trace context
+// Range query for stats / NutriAgent context
 router.get('/', wrap((req, res) => {
   const u = uid(req);
   const from = String(req.query.from || '');

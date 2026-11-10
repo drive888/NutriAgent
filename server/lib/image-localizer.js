@@ -87,7 +87,7 @@ export async function localizeImage(img_url, opts = {}) {
     try {
       response = await fetchChecked(img_url, {
         signal: controller.signal,
-        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NutriTrace/1.0)' },
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NutriAgent/1.0)' },
       }, guard);
       if (!response.ok) {
         logger.debug(`[image-localizer] Failed to download (${response.status}): ${img_url.substring(0, 80)}`);

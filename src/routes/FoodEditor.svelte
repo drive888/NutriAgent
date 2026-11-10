@@ -6,7 +6,7 @@
 
   import { portal } from '../lib/portal.js';
   import { pop, push } from 'svelte-spa-router';
-  import { NtApi } from '../lib/api.js';
+  import { NaApi } from '../lib/api.js';
   import { NUTRIMENTS } from '../lib/nutrition.js';
   import { showSuccess, showError, showInfo } from '../stores/toast.js';
   import { offlineState } from '../lib/offline-api.js';
@@ -15,6 +15,9 @@
   import Toggle from '../components/settings/Toggle.svelte';
   import UnitPicker from '../components/ui/UnitPicker.svelte';
   import ImageCropper from '../components/ui/ImageCropper.svelte';
+  import Sheet from '../components/ui/Sheet.svelte';
+  import Recognition from './Recognition.svelte';
+  import { mergeRecognitionFood } from '../lib/recognition-editor.js';
   import { takePhoto } from '../lib/camera.js';
   import { isNative } from '../lib/platform.js';
   import BarcodeScanner from '../components/foods/BarcodeScanner.svelte';
@@ -26,6 +29,12 @@
   import { decimalInput, parseDecimal } from '../lib/decimal-input.js';
 
   // ── Photo capture / upload ─────────────────────────────────
+  let showRecognition = false;
+  function applyRecognition(event) {
+    if (_readOnly) return;
+    food = mergeRecognitionFood(food, event.detail);
+    showRecognition = false;
+  }
   let fileInput;
   let showCamera  = false;
   let showUrlInput = false;
@@ -490,7 +499,7 @@
 
   function _buildLabelMessages(provider, image) {
     // Build the prompt + image payload. Each provider has its own multimodal
-    // format. Same shape pattern used by Trace.svelte#_buildImageMessage.
+    // format. Same shape pattern used by NutriAgent.svelte#_buildImageMessage.
     const prompt = [
       'Extract nutrition facts from this label image.',
       'Return ONLY a JSON object with these keys (omit keys you cannot read):',
@@ -588,7 +597,7 @@
     store = editorState.foodStore || 'foodList';
     // Cache the user's library for duplicate-barcode detection. Best-effort —
     // if the call fails the duplicate warning just stays inactive.
-    NtApi.getFoods().then(list => { _myFoods = list || []; }).catch(() => {});
+    NaApi.getFoods().then(list => { _myFoods = list || []; }).catch(() => {});
     if (editorState.foodPrefill) {
       const prefill = editorState.foodPrefill;
       // Flatten nested nutrition into top-level fields for editing
@@ -610,7 +619,7 @@
         }
       }
     } else if (params && params.id) {
-      const existing = await NtApi.getFood(params.id).catch(() => null);
+      const existing = await NaApi.getFood(params.id).catch(() => null);
       if (existing) {
         const flatNutrition = (existing.nutrition && typeof existing.nutrition === 'object') ? { ...existing.nutrition } : {};
         food = { ...food, ...existing, ...flatNutrition };
@@ -635,7 +644,7 @@
       // scan of that same barcode.
       const _otherScan = editorState.foodPrefill?.barcode && _draft?.barcode
         && String(_draft.barcode) !== String(editorState.foodPrefill.barcode);
-      if (_draft && typeof _draft === 'object' && Object.keys(_draft).length > 0 && !_otherScan) {
+      if (_draft && typeof _draft === 'object' && Object.keys(_draft).length > 0 && !_otherScan && !editorState.foodPrefill?._recognitionDraft) {
         food = { ...food, ..._draft };
         _draftRestored = true;
       }
@@ -700,8 +709,8 @@
       delete copy.visibility;
       delete copy.favorite;
       const created = sourceId
-        ? await NtApi.copyFood(sourceId)
-        : await NtApi.createFood(copy);
+        ? await NaApi.copyFood(sourceId)
+        : await NaApi.createFood(copy);
       showSuccess($_('food_editor.toast.saved_copy'));
       clearFoodEditorState();
       pop();
@@ -739,8 +748,8 @@
       }
       const item = { ...food, nutrition: _nutrition };
       const saved = food.id
-        ? await NtApi.updateFood(food.id, item)
-        : await NtApi.createFood(item);
+        ? await NaApi.updateFood(food.id, item)
+        : await NaApi.createFood(item);
       item.id = saved.id;
       // If called from diary pick mode, also add to diary
       const ctx = editorState.foodDiaryCtx;
@@ -843,24 +852,24 @@
     <button class="btn-icon" on:click={pop} aria-label={$_('common.back')} title={$_('common.back')}>
       <span class="material-symbols-rounded">arrow_back</span>
     </button>
-    <h2 class="editor-title">{_readOnly ? `Shared by ${food._shared_by}` : (food.id ? 'Edit Food' : 'Add Food')}</h2>
+    <h2 class="editor-title">{_readOnly ? `Shared by ${food._shared_by}` : (food.id ? $_('ui.m1634b91e1a7f') : $_('ui.mf8aabbc1e8af'))}</h2>
     {#if food.id && !_readOnly}
       <button class="btn-icon fav-btn" class:on={!!food.favorite}
         on:click={() => { food.favorite = food.favorite ? 0 : 1; food = food; }}
-        aria-label={food.favorite ? 'Unfavorite' : 'Favorite'}
-        title={food.favorite ? 'Unfavorite' : 'Add to favorites'}>
-        <span class="material-symbols-rounded">{food.favorite ? 'favorite' : 'favorite_border'}</span>
+        aria-label={food.favorite ? $_('ui.m5e87a7bd5a63') : $_('ui.mea713ecd8537')}
+        title={food.favorite ? $_('ui.m5e87a7bd5a63') : $_('ui.m7f3c0782afd7')}>
+        <span class="material-symbols-rounded">{food.favorite ? "favorite" : "favorite_border"}</span>
       </button>
     {/if}
     {#if _readOnly}
       <button class="btn btn-primary" style="height:36px;padding:0 14px;font-size:13px;white-space:nowrap"
         on:click={saveAsCopy} disabled={saving}>
-        {saving ? 'Copying…' : 'Save to My Catalog'}
+        {saving ? $_('ui.md250fad8b1a2') : $_('ui.m18fbe5ef503f')}
       </button>
     {:else}
       <button class="btn btn-primary" style="height:36px;padding:0 16px;font-size:13px"
         on:click={save} disabled={saving}>
-        {saving ? 'Saving…' : 'Save'}
+        {saving ? $_('ui.m23e39291d613') : $_('ui.m1509f561f241')}
       </button>
     {/if}
   </header>
@@ -869,7 +878,7 @@
     <div class="readonly-banner">
       <span class="material-symbols-rounded">lock</span>
       <div>
-        <div class="readonly-title">Shared by {food._shared_by} — read only</div>
+        <div class="readonly-title">{$_('ui.m09e58975eb9b')} {food._shared_by} {$_('ui.m51d64190d60c')}</div>
         <div class="readonly-sub">{$_('food_editor.readonly_sub')}</div>
       </div>
     </div>
@@ -888,7 +897,7 @@
       <div class="editor-card-title">{$_('food_editor.card_photo')}</div>
       <div class="photo-preview-wrap">
         {#if food.imgUrl}
-          <img class="photo-preview-img" src={food.imgUrl} alt="Food" />
+          <img class="photo-preview-img" src={food.imgUrl} alt={$_('ui.me4eb18069d65')} />
           <button class="photo-remove-btn btn-icon" on:click={removePhoto} aria-label={$_('food_editor.photo_remove')} title={$_('food_editor.photo_remove')}>
             <span class="material-symbols-rounded" style="font-size:18px">close</span>
           </button>
@@ -901,26 +910,39 @@
       <div class="photo-btn-row">
         <button class="btn btn-ghost photo-action-btn" on:click={openCamera}>
           <span class="material-symbols-rounded">camera_alt</span>
-          Camera
+          {$_('ui.m03494b0d1f80')}
         </button>
         <button class="btn btn-ghost photo-action-btn" on:click={openGallery}>
           <span class="material-symbols-rounded">photo_library</span>
-          Upload
+          {$_('ui.m865e89de78d9')}
         </button>
         <button class="btn btn-ghost photo-action-btn" on:click={() => { showUrlInput = !showUrlInput; photoUrl = ''; }}>
           <span class="material-symbols-rounded">link</span>
           URL
         </button>
       </div>
+      {#if food.imgUrl && !_readOnly}
+        <button class="btn btn-primary" style="width:100%;margin-top:12px" on:click={() => showRecognition = true}>
+          <span class="material-symbols-rounded">document_scanner</span>
+          {$_('photo_recognition.recognize_current')}
+        </button>
+      {/if}
       {#if showUrlInput}
         <div class="photo-url-row">
           <input class="input photo-url-input" placeholder="https://..." bind:value={photoUrl}
             on:keydown={e => e.key === 'Enter' && applyPhotoUrl()} />
-          <button class="btn btn-primary" on:click={applyPhotoUrl}>Get</button>
+          <button class="btn btn-primary" on:click={applyPhotoUrl}>{$_('ui.m5fb9c3aba7ad')}</button>
         </div>
       {/if}
       <input bind:this={fileInput} type="file" accept="image/*" style="display:none" on:change={onFileChange} />
     </div>
+
+    <Sheet bind:open={showRecognition} title={$_('photo_recognition.recognize_current')}>
+      {#if showRecognition}
+        <Recognition embedded initialImage={food.imgUrl} initialName={food.name}
+          initialAmount={food.portion} initialUnit={food.unit} on:review={applyRecognition} />
+      {/if}
+    </Sheet>
 
     <!-- Camera popup -->
     {#if showCamera}
@@ -937,7 +959,7 @@
           <div class="cam-footer">
             <button class="btn btn-primary cam-capture-btn" on:click={capturePhoto}>
               <span class="material-symbols-rounded">camera_alt</span>
-              Capture
+              {$_('ui.m1900b478a586')}
             </button>
           </div>
         </div>
@@ -978,7 +1000,7 @@
     <div class="card editor-card">
       <div class="editor-card-title">{$_('food_editor.card_basic')}</div>
       <div class="form-group">
-        <label class="form-label">Name *</label>
+        <label class="form-label">{$_('ui.m862fead051be')}</label>
         <input class="input" placeholder={$_('food_editor.name_placeholder')} bind:value={food.name} />
       </div>
       <div class="form-group">
@@ -995,9 +1017,9 @@
           <label class="form-label">{$_('food_editor.field_unit')}</label>
           <UnitPicker bind:value={food.unit} />
         </div>
-        <button class="btn-icon link-btn" class:linked title={linked ? 'All fields scale proportionally' : 'Fields are independent'}
+        <button class="btn-icon link-btn" class:linked title={linked ? $_('ui.md5502a4ca3cf') : $_('ui.m14f66e9be519')}
           on:click={() => { linked = !linked; if (linked) takeSnapshot(); }}>
-          <span class="material-symbols-rounded" style="font-size:20px">{linked ? 'link' : 'link_off'}</span>
+          <span class="material-symbols-rounded" style="font-size:20px">{linked ? "link" : "link_off"}</span>
         </button>
       </div>
 
@@ -1013,15 +1035,15 @@
         <div class="basis-toggle">
           <button type="button" class="basis-opt" class:active={food.nutrition_basis === 'g'}
             on:click={() => food.nutrition_basis = food.nutrition_basis === 'g' ? null : 'g'}>
-            Per 100 g
+            {$_('ui.m96950f42745f')}
           </button>
           <button type="button" class="basis-opt" class:active={food.nutrition_basis === 'ml'}
             on:click={() => food.nutrition_basis = food.nutrition_basis === 'ml' ? null : 'ml'}>
-            Per 100 ml
+            {$_('ui.m7bf13e4e9424')}
           </button>
         </div>
         <div class="form-hint">
-          Defaults the unit picker when logging to the diary. Leave both off if unknown; math behaves like today's default.
+          {$_('ui.m4a90180951dc')}
         </div>
       </div>
 
@@ -1033,11 +1055,11 @@
         <div class="alt-units">
           {#each (food.alt_units || []) as row, i}
             <div class="alt-unit-row">
-              <input class="input alt-unit-abbr" placeholder="e.g. slice"
+              <input class="input alt-unit-abbr" placeholder={$_('ui.m52b2351aef13')}
                 bind:value={row.abbr} />
               <span class="alt-unit-eq">=</span>
               <input class="input alt-unit-grams" type="text" inputmode="decimal" use:decimalInput
-                placeholder="grams" bind:value={row.grams} />
+                placeholder={$_('ui.m7c06c42706d5')} bind:value={row.grams} />
               <span class="alt-unit-suffix">g</span>
               <button type="button" class="btn-icon alt-unit-del"
                 title={$_('food_editor.remove_serving_unit')} aria-label={$_('food_editor.remove_serving_unit')}
@@ -1049,11 +1071,11 @@
           <button type="button" class="btn-link alt-unit-add"
             on:click={() => food.alt_units = [...(food.alt_units || []), { abbr: '', grams: '' }]}>
             <span class="material-symbols-rounded" style="font-size:18px;vertical-align:middle">add</span>
-            Add serving unit
+            {$_('ui.m7cfa3cde1811')}
           </button>
         </div>
         <div class="form-hint">
-          Lets you log "1 slice", "1 cookie", "1 bottle" etc. with the right gram conversion.
+          {$_('ui.m86551d22d1f7')}
         </div>
       </div>
 
@@ -1062,7 +1084,7 @@
            that doesn't match the basis (g picked on a per-100-ml food).
            Issues #69. -->
       <div class="form-group">
-        <label class="form-label">Density (g/ml)</label>
+        <label class="form-label">{$_('ui.m5d626ee54c64')}</label>
         <div style="display:flex;align-items:center;gap:6px">
           <input class="input" type="text" inputmode="decimal" use:decimalInput
             placeholder={$_('food_editor.placeholder_optional')}
@@ -1071,7 +1093,7 @@
           <span style="color:var(--text-3);font-size:13px">g/ml</span>
         </div>
         <div class="form-hint">
-          Only used when the picked unit's system (mass vs volume) doesn't match the nutrition basis. Common values: water 1.00, milk 1.03, olive oil 0.91, honey 1.42.
+          {$_('ui.m90ce88c91897')}
         </div>
       </div>
       {/if}
@@ -1087,13 +1109,13 @@
         {#if duplicateOf}
           <div class="barcode-dup-warn">
             <span class="material-symbols-rounded" style="font-size:16px;color:var(--warning,#f59e0b)">warning</span>
-            <span>You already have a food with this barcode: <strong>{duplicateOf.name}</strong></span>
+            <span>{$_('ui.ma8b7535e7346')} <strong>{duplicateOf.name}</strong></span>
             <button type="button" class="btn-link" on:click={() => {
               clearFoodEditorState();
               editorState.foodStore = store;
               if (editorState.foodDiaryCtx) { /* preserve pick-mode context */ }
               push(`/foods/edit/${duplicateOf.id}`);
-            }}>Open existing →</button>
+            }}>{$_('ui.ma272e5cc3696')}</button>
           </div>
         {/if}
         {#if hasBarcode}
@@ -1101,14 +1123,14 @@
             <button class="btn btn-secondary" style="flex:1"
               on:click={shareOrViewOnOFF} disabled={contributing}>
               <span class="material-symbols-rounded" style="font-size:15px;vertical-align:middle;margin-right:4px">
-                {offProductExists ? 'open_in_new' : 'upload'}
+                {offProductExists ? "open_in_new" : "upload"}
               </span>
-              {contributing ? 'Uploading…' : offSuccess ? 'Submitted!' : offProductExists ? 'View on OFF' : 'Share to OFF'}
+              {contributing ? $_('ui.m5ce44dd77dae') : offSuccess ? $_('ui.mf6de864b7e19') : offProductExists ? $_('ui.mce4afcc2f73f') : $_('ui.m94ca5a9cf4a4')}
             </button>
             <button class="btn btn-secondary" style="flex:1"
               on:click={downloadFromOFF} disabled={downloading}>
               <span class="material-symbols-rounded" style="font-size:15px;vertical-align:middle;margin-right:4px">download</span>
-              {downloading ? 'Loading…' : downloadSuccess ? 'Updated!' : 'Refresh from OFF'}
+              {downloading ? $_('ui.mba3bbbe10d8b') : downloadSuccess ? $_('ui.m0e5cf48d5c95') : $_('ui.m6e1941f74f4e')}
             </button>
           </div>
           {#if _offNotice}
@@ -1131,21 +1153,21 @@
               {#if offVerified === null}
                 <span class="off-verify-checking">
                   <span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle">hourglass_top</span>
-                  Verifying on Open Food Facts…
+                  {$_('ui.m568759739e0d')}
                 </span>
               {:else if offVerified}
                 <span class="off-verify-ok">
                   <span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle">check_circle</span>
-                  Confirmed live on Open Food Facts
+                  {$_('ui.m75b20e022817')}
                 </span>
               {:else}
                 <span class="off-verify-pending">
                   <span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle">schedule</span>
-                  Submitted — may take a few minutes to appear
+                  {$_('ui.m8ffd1b4b4299')}
                 </span>
               {/if}
               <a class="off-verify-link" href="https://world.openfoodfacts.org/product/{food.barcode}" target="_blank" rel="noopener">
-                View on Open Food Facts <span class="material-symbols-rounded" style="font-size:12px;vertical-align:middle">open_in_new</span>
+                {$_('ui.m38fcf89f3905')} <span class="material-symbols-rounded" style="font-size:12px;vertical-align:middle">open_in_new</span>
               </a>
             </div>
           {/if}
@@ -1193,11 +1215,11 @@
         {#if $aiEffectivelyEnabled}
           <button class="scan-label-btn" on:click={scanLabel} disabled={scanningLabel}
             title={$_('food_editor.scan_label_title')}
-            aria-label="Scan nutrition label">
+            aria-label={$_('ui.m53b9d6fd850a')}>
             <span class="material-symbols-rounded scan-icon" class:spin={scanningLabel}>
-              {scanningLabel ? 'progress_activity' : 'document_scanner'}
+              {scanningLabel ? "progress_activity" : "document_scanner"}
             </span>
-            <span>{scanningLabel ? 'Scanning…' : 'Scan Label'}</span>
+            <span>{scanningLabel ? $_('ui.m38d96da6e8b2') : $_('ui.m6d1cd818546a')}</span>
           </button>
         {/if}
       </div>
@@ -1222,10 +1244,10 @@
           in:slide|local={{ duration: $disableAnimations ? 0 : 180 }}
           out:slide|local={{ duration: $disableAnimations ? 0 : 140 }}>
           <label class="form-label">
-            {_kjMode ? 'Energy' : n.label} ({_kjMode ? 'kJ' : n.unit})
+            {_kjMode ? $_('ui.mf2fcd3f7dcca') : (n.labelKey ? $_(n.labelKey) : n.label)} ({_kjMode ? $_('ui.m39e575dcf28e') : n.unit})
             {#if (n.id === 'sodium' || n.id === 'salt') && food._derived && food._derived[n.id]}
               <span class="material-symbols-rounded" style="font-size:14px;color:var(--text-3);vertical-align:middle;margin-left:2px"
-                title={n.id === 'sodium' ? 'Auto-calculated from salt (× 400 mg/g)' : 'Auto-calculated from sodium (÷ 400)'}>calculate</span>
+                title={n.id === 'sodium' ? $_('ui.m0a8c0d596336') : $_('ui.mb2bd2e9c48db')}>calculate</span>
             {/if}
           </label>
           {#if _kjMode}
@@ -1242,7 +1264,7 @@
       </div><!-- /.nutrition-fields -->
       <button class="btn btn-ghost w-full" style="margin-top:8px"
         on:click={() => showAllNutrients = !showAllNutrients}>
-        {showAllNutrients ? 'Show Less' : 'Show All Nutrients'}
+        {showAllNutrients ? $_('ui.m0264d7b0ccb8') : $_('ui.m784060ee3030')}
       </button>
     </div>
 

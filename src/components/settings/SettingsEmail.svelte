@@ -178,8 +178,8 @@
   $: smtpBannerStatus = smtpTestStatus === 'testing' || smtpTestStatus === 'fail'
     ? smtpTestStatus
     : (smtpHost && smtpFrom ? 'ok' : '');
-  $: smtpBannerLabel   = smtpTestStatus === 'ok' ? $_('settings_email.banner.last_test_sent') : $_('settings_email.banner.configured');
-  $: smtpBannerSubtext = smtpTestStatus === 'ok'
+  $: smtpBannerLabel   = smtpTestStatus === $_('ui.m2689367b205c') ? $_('settings_email.banner.last_test_sent') : $_('settings_email.banner.configured');
+  $: smtpBannerSubtext = smtpTestStatus === $_('ui.m2689367b205c')
     ? (smtpTestRecipient
         ? $_('settings_email.banner.sent_to', { values: { recipient: smtpTestRecipient } })
         : $_('settings_email.banner.sent_generic'))
@@ -248,7 +248,7 @@
             on:click={() => smtpShowPass = !smtpShowPass}
             title={smtpShowPass ? $_('settings_email.form.hide') : $_('settings_email.form.show')}
             aria-label={smtpShowPass ? $_('settings_email.form.hide_pass_aria') : $_('settings_email.form.show_pass_aria')}>
-            <span class="material-symbols-rounded">{smtpShowPass ? 'visibility_off' : 'visibility'}</span>
+            <span class="material-symbols-rounded">{smtpShowPass ? "visibility_off" : "visibility"}</span>
           </button>
         {/if}
       </div>

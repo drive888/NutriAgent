@@ -99,7 +99,7 @@ const DAILY = 'Date,Group,Energy (kcal),Alcohol (g),Caffeine (mg),Oxalate (mg),P
 
 test('the real Daily Nutrition column set imports, micronutrients included', () => {
   // DAILY is the header a user pasted from their own export. Values follow
-  // its column order; Oxalate, Phytate and Completed have no NutriTrace
+  // its column order; Oxalate, Phytate and Completed have no NutriAgent
   // equivalent and are ignored rather than misfiled.
   const row = (group, kcal) => `9/4/2026,${group},${kcal},0,95,12,5,410,0.4,2.1,120,300,210,6.1,45,50,5,20,15,25,false`;
   const out = parseCronometer([DAILY, row('Breakfast', '400'), row('Total', '400')].join('\n'));

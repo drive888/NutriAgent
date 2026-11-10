@@ -1,0 +1,26 @@
+{
+  "status": 200,
+  "elapsedMs": 458,
+  "raw": {
+    "name": "",
+    "basis": "per100g",
+    "serving": null,
+    "nutrients": {
+      "energy": {
+        "value": 539,
+        "unit": "kcal"
+      },
+      "proteins": {
+        "value": 6.3,
+        "unit": "g"
+      },
+      "fat": null,
+      "carbohydrates": {
+        "value": 57.5,
+        "unit": "g"
+      },
+      "sodium": null
+    },
+    "rawText": "Valeurs nutrtionnelles/\nVeedingswaarden /\nNährwerte\nPour/\nPar portion/\nPer/\n%*рa\nPer porte/\nje 100 g\npOnon/\nje Portion per poriel\nEnergie\n15g\nje Porion\nF CJ/ 2252/\n3367\n4\nkcal\n539\nMatères grasses / Vetten/ Fet (a)\n30,9\n80\ndont acides gras saturés /\nwaanvan verzadigde vetzuren/\ndavon gesäibigte Fettsäuren\n(g)\n10,6\n1,6\n8\nGlucides / Koolhydraten /\nKohlenhydrate\n(g)\n57,5\n8,6\n3\ndont sucres/ waarvan suikers/\ndavon Zucker\n(g)\n56,3\n9\nProtéines / Eiten / Eweiß\n(g)\n6,3\nSel/Zout/Salz\n(a)\n0,107\n0,9\n0,016\n*Aport de référence pour un adulte- ype (8 400 k/2 000 kcal)"
+  }
+}

@@ -1,10 +1,10 @@
-// Tool results on their way to a provider. The same file in NutriTrace and
+// Tool results on their way to a provider. The same file in NutriAgent and
 // LiftTrace: change one, change both.
 //
 // The app echoes each tool's name on its `role: 'tool'` messages, because
 // Gemini answers a tool call by name. OpenAI's tool messages have no `name`
 // (role, content, tool_call_id), and strict OpenAI-compatible endpoints
-// refuse it (TraceApps/nutritrace#259), so it comes off before the messages
+// refuse it (TraceApps/nutriagent#259), so it comes off before the messages
 // go to one. Gemini gets the name through its own translator instead.
 
 /** The messages as an OpenAI-compatible endpoint accepts them. */

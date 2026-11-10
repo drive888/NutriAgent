@@ -1,0 +1,46 @@
+{
+  "base": "http://localhost:3102",
+  "date": "2026-10-29T16:59:52.134Z",
+  "results": [
+    {
+      "name": "Login session and denied anonymous access",
+      "status": "PASS"
+    },
+    {
+      "name": "Food create and retry deduplication",
+      "status": "PASS"
+    },
+    {
+      "name": "User isolation read and write",
+      "status": "PASS"
+    },
+    {
+      "name": "Food read update and invalid parameter rejection",
+      "status": "PASS"
+    },
+    {
+      "name": "Diary save retry read update isolation and manual calculation",
+      "status": "PASS"
+    },
+    {
+      "name": "Diary invalid portion and date rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "Both explicit mock drafts returned without saving",
+      "status": "PASS"
+    },
+    {
+      "name": "Recognition rejects forged type and missing auth",
+      "status": "PASS"
+    },
+    {
+      "name": "Upload rejects spoof and cleans invalid file",
+      "status": "PASS"
+    },
+    {
+      "name": "Diary explicit deletion persists and food delete",
+      "status": "PASS"
+    }
+  ]
+}

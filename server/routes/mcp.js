@@ -122,7 +122,7 @@ router.get('/', (req, res) => {
     id: null,
     error: {
       code: -32000,
-      message: 'GET not supported: NutriTrace runs MCP in stateless mode. Use POST.',
+      message: 'GET not supported: NutriAgent runs MCP in stateless mode. Use POST.',
     },
   });
 });

@@ -341,7 +341,7 @@
     "password_label": "Contraseña *",
     "username_label": "Nombre de usuario *",
     "intro_with_email": "Recibiste una invitación en <strong>{email}</strong>. Elige un nombre de usuario y una contraseña para comenzar.",
-    "intro": "Te invitaron a NutriTrace. Elige un nombre de usuario y una contraseña para comenzar.",
+    "intro": "Te invitaron a NutriAgent. Elige un nombre de usuario y una contraseña para comenzar.",
     "success": "¡Cuenta creada! Redirigiendo…",
     "invalid_link": "Este enlace de invitación no es válido o caducó. Pídele uno nuevo a tu administrador.",
     "verifying": "Verificando invitación…",
@@ -458,7 +458,7 @@
     "no_signin_methods": "No hay métodos de inicio de sesión disponibles. Consulta con tu administrador.",
     "biometric": {
       "sign_in_button": "Iniciar sesión con biometría",
-      "prompt": "Iniciar sesión en NutriTrace",
+      "prompt": "Iniciar sesión en NutriAgent",
       "no_saved": "No hay un inicio de sesión guardado. Usa tu contraseña una primera vez.",
       "expired": "Tu inicio de sesión guardado venció. Usa tu contraseña para entrar.",
       "failed": "Falló el inicio de sesión biométrico. Usa tu contraseña."
@@ -510,9 +510,9 @@
     "use_locally": "Usar localmente",
     "use_locally_desc": "Todos los datos quedan en este dispositivo. Funciona sin conexión y no hace falta servidor. Más adelante puedes conectarte a uno desde Ajustes.",
     "connect_to_server": "Conectar a un servidor",
-    "connect_to_server_desc": "Sincroniza con tu servidor de NutriTrace. Tus datos quedan disponibles en todos los dispositivos y en la app web.",
+    "connect_to_server_desc": "Sincroniza con tu servidor de NutriAgent. Tus datos quedan disponibles en todos los dispositivos y en la app web.",
     "server_url": "URL del servidor",
-    "server_url_placeholder": "https://nutritrace.ejemplo.com",
+    "server_url_placeholder": "https://nutriagent.ejemplo.com",
     "server_url_hint": "Después de ingresar tu servidor, se van a mostrar las opciones de inicio de sesión (contraseña o SSO) según lo que ese servidor admita.",
     "back": "Atrás",
     "checking": "Verificando…",
@@ -580,7 +580,7 @@
       "finish": "Terminar"
     },
     "welcome": {
-      "title": "Te damos la bienvenida a NutriTrace",
+      "title": "Te damos la bienvenida a NutriAgent",
       "desc": "Tu registro personal de nutrición. Vamos a dejarlo listo en alrededor de un minuto."
     },
     "name": {
@@ -590,9 +590,9 @@
     },
     "usermgmt": {
       "create_account_title": "Crea tu cuenta",
-      "create_account_desc": "Configura tu cuenta de administrador para proteger tu instancia de NutriTrace. Más adelante puedes invitar a otras personas desde Ajustes.",
+      "create_account_desc": "Configura tu cuenta de administrador para proteger tu instancia de NutriAgent. Más adelante puedes invitar a otras personas desde Ajustes.",
       "multi_user_title": "Soporte para varios usuarios",
-      "multi_user_desc": "NutriTrace puede funcionar en modo de un solo usuario (predeterminado) o de varios usuarios, con inicios de sesión separados y restablecimiento de contraseña. Siempre puedes activarlo después en Ajustes.",
+      "multi_user_desc": "NutriAgent puede funcionar en modo de un solo usuario (predeterminado) o de varios usuarios, con inicios de sesión separados y restablecimiento de contraseña. Siempre puedes activarlo después en Ajustes.",
       "enable_toggle": "Activar cuentas de usuario",
       "enable_toggle_hint": "Cada persona tiene su propio diario, ajustes y perfil",
       "admin_section": "Cuenta de administrador",
@@ -655,10 +655,10 @@
     },
     "updates": {
       "title": "Buscar actualizaciones",
-      "desc": "Tu servidor puede avisarte cuando sale una nueva versión de NutriTrace.",
+      "desc": "Tu servidor puede avisarte cuando sale una nueva versión de NutriAgent.",
       "toggle": "Buscar actualizaciones automáticamente",
       "toggle_sub": "Así te enteras de funciones nuevas, correcciones y actualizaciones de seguridad",
-      "note": "Tu servidor le consulta a GitHub cada pocas horas si salió una versión nueva de NutriTrace. No se envía nada sobre ti ni sobre tus datos. Puedes cambiarlo cuando quieras en Ajustes, Actualizaciones."
+      "note": "Tu servidor le consulta a GitHub cada pocas horas si salió una versión nueva de NutriAgent. No se envía nada sobre ti ni sobre tus datos. Puedes cambiarlo cuando quieras en Ajustes, Actualizaciones."
     },
     "summary": {
       "title": "Tus objetivos diarios",
@@ -1538,8 +1538,8 @@
       "workout_history_desc": "Muestra los entrenamientos registrados con mapas de recorrido GPS en la pestaña Movimiento. Requiere un dispositivo con GPS.",
       "custom_days_ph": "días",
       "custom_days_title": "Cantidad de días personalizada (máx. {max})",
-      "authorize_desc": "Autoriza a NutriTrace a leer tus datos de {provider}.",
-      "authorize_desc_fitbit": "Autoriza a NutriTrace a leer tus datos de Fitbit vía Google Health.",
+      "authorize_desc": "Autoriza a NutriAgent a leer tus datos de {provider}.",
+      "authorize_desc_fitbit": "Autoriza a NutriAgent a leer tus datos de Fitbit vía Google Health.",
       "server_only_desc": "Requiere conexión a un servidor para la autenticación OAuth. En modo local, usa Health Connect más abajo para leer los datos de {provider} directo desde tu dispositivo Android.",
       "sync_range_desc": "Hasta qué tan atrás busca el botón de sincronización manual.",
       "sync_range_desc_fitbit": "Hasta qué tan atrás busca el botón de sincronización manual. La sincronización automática siempre cubre solo el día de hoy.",
@@ -1557,7 +1557,7 @@
       "legacy_desc": "Pasos, actividad, fases del sueño, frecuencia cardíaca, VFC y SpO2. La API web clásica de Fitbit se está discontinuando; las conexiones nuevas deberían usar Google Health, más abajo.",
       "retired_desc": "La API web clásica de Fitbit se está discontinuando. Para sincronizar datos de Fitbit, conéctate vía Google Health más abajo, que usa los mismos datos a través de la Fitness API de Google.",
       "relink_label": "Hay que volver a vincular antes del 31 de mayo de 2026",
-      "authorize_desc": "Autoriza a NutriTrace a leer tus datos de Fitbit vía Google Health.",
+      "authorize_desc": "Autoriza a NutriAgent a leer tus datos de Fitbit vía Google Health.",
       "setup_desc": "La configuración de Fitbit ahora se hace desde Google Cloud Console (dev.fitbit.com ya no acepta registros de aplicaciones nuevas). Crea un cliente OAuth 2.0 de tipo \"servidor web\" y pega aquí el Client ID y el Secret.",
       "setup_link": "Guía de configuración →",
       "client_id_ph": "De Google Cloud Console → APIs y servicios → Credenciales",
@@ -1567,11 +1567,11 @@
     "garmin_deep": {
       "server_only": "Requiere conexión a un servidor para la autenticación OAuth. En modo local, usa Health Connect más abajo para leer los datos de Garmin directo desde tu dispositivo Android.",
       "metrics_desc": "Pasos, sueño, frecuencia cardíaca, VFC, SpO2, Body Battery y estrés. Requiere el acuerdo de socio de la Garmin Health API.",
-      "authorize_desc": "Autoriza a NutriTrace a leer tus datos de Garmin."
+      "authorize_desc": "Autoriza a NutriAgent a leer tus datos de Garmin."
     },
     "withings_deep": {
       "server_only": "Requiere conexión a un servidor para la autenticación OAuth. En modo local, usa Health Connect más abajo para leer los datos de Withings directo desde tu dispositivo Android.",
-      "authorize_desc": "Autoriza a NutriTrace a leer tus datos de Withings."
+      "authorize_desc": "Autoriza a NutriAgent a leer tus datos de Withings."
     },
     "fitbit": {
       "title": "Fitbit",
@@ -1585,7 +1585,7 @@
       "long_range_warn": "⚠ Los rangos largos pueden tardar varios minutos y acercarse al límite de peticiones de la API de Fitbit.",
       "relink_required": "Hay que volver a vincular antes del 31 de mayo de 2026",
       "relink_button": "Volver a vincular Fitbit",
-      "authorize_desc": "Autoriza a NutriTrace a leer tus datos de Fitbit vía Google Health.",
+      "authorize_desc": "Autoriza a NutriAgent a leer tus datos de Fitbit vía Google Health.",
       "setup_guide_link": "Guía de configuración →",
       "client_id_placeholder": "De Google Cloud Console → APIs y servicios → Credenciales",
       "redirect_help": "Agrega esta URI exacta a la lista de URIs de redirección autorizadas de tu cliente OAuth de Google Cloud",
@@ -1602,7 +1602,7 @@
       "enable_desc": "Pasos, sueño, frecuencia cardíaca, VFC, SpO2, Body Battery y estrés. Requiere el acuerdo de socio de la Garmin Health API.",
       "apply_link": "Solicitar acceso →",
       "long_range_warn": "⚠ La API de Garmin limita los datos históricos confiables a unos 6 meses…",
-      "authorize_desc": "Autoriza a NutriTrace a leer tus datos de Garmin.",
+      "authorize_desc": "Autoriza a NutriAgent a leer tus datos de Garmin.",
       "creds_desc": "Credenciales OAuth 1.0a de tu aplicación aprobada de la Garmin Health API. La URI de redirección tiene que coincidir exactamente.",
       "creds_link": "Obtener credenciales de la API →",
       "consumer_key": "Consumer Key",
@@ -1621,7 +1621,7 @@
       "enable_desc": "Composición corporal desde balanzas (peso, % de grasa, músculo, masa ósea y más).",
       "dashboard_link": "Panel de desarrollador →",
       "long_range_warn": "⚠ Los rangos largos pueden tardar varios minutos y acercarse al límite de peticiones de la API de Withings.",
-      "authorize_desc": "Autoriza a NutriTrace a leer tus datos de Withings.",
+      "authorize_desc": "Autoriza a NutriAgent a leer tus datos de Withings.",
       "creds_desc": "Crea una cuenta de desarrollador de Withings…",
       "client_id_placeholder": "p. ej. abc123def456",
       "redirect_help": "Agrega esta URI exacta a la lista de URLs de redirección de tu aplicación de Withings",
@@ -1638,8 +1638,8 @@
       "not_installed": "Health Connect no está instalado. Instálalo desde Play Store.",
       "not_supported": "Health Connect no es compatible con este dispositivo.",
       "not_supported_short": "No compatible con este dispositivo",
-      "perms_not_granted": "No se concedieron los permisos. Intenta abrir la app de Health Connect → Permisos de aplicaciones → NutriTrace y activarlos a mano.",
-      "perm_denied": "No se concedieron los permisos. Intenta abrir la app de Health Connect → Permisos de aplicaciones → NutriTrace y activarlos a mano.",
+      "perms_not_granted": "No se concedieron los permisos. Intenta abrir la app de Health Connect → Permisos de aplicaciones → NutriAgent y activarlos a mano.",
+      "perm_denied": "No se concedieron los permisos. Intenta abrir la app de Health Connect → Permisos de aplicaciones → NutriAgent y activarlos a mano.",
       "enabled_success": "Health Connect activado ({count} tipos de datos)",
       "enabled_toast": "Health Connect activado ({n} tipos de datos)",
       "enable_label": "Activar Health Connect",
@@ -1649,7 +1649,7 @@
       "status_unsupported": "No compatible con este dispositivo",
       "mode_scheduled": "Programado",
       "bg_sync_label": "Sincronización en segundo plano",
-      "bg_sync_desc": "Se ejecuta cada hora en segundo plano aunque NutriTrace esté cerrada, así los datos del wearable de hoy ya están en el servidor cuando abres NutriTrace en otro dispositivo. Si las sincronizaciones dejan de ejecutarse, revisa Ajustes de Android → Aplicaciones → NutriTrace → Batería y ponlo en \"Sin restricciones\". Algunas capas (Samsung, Xiaomi, OnePlus) además necesitan que agregues NutriTrace a la lista de \"aplicaciones que nunca duermen\" o de inicio automático.",
+      "bg_sync_desc": "Se ejecuta cada hora en segundo plano aunque NutriAgent esté cerrada, así los datos del wearable de hoy ya están en el servidor cuando abres NutriAgent en otro dispositivo. Si las sincronizaciones dejan de ejecutarse, revisa Ajustes de Android → Aplicaciones → NutriAgent → Batería y ponlo en \"Sin restricciones\". Algunas capas (Samsung, Xiaomi, OnePlus) además necesitan que agregues NutriAgent a la lista de \"aplicaciones que nunca duermen\" o de inicio automático.",
       "synced_count": "Se sincronizaron {count} métrica(s) de Health Connect del {date}",
       "sync_failed": "Falló la sincronización con Health Connect: "
     },
@@ -1678,7 +1678,7 @@
       "user_mgmt_required": "Hace falta la gestión de usuarios",
       "user_mgmt_required_desc": "El inicio de sesión único está vinculado a las cuentas de usuario, así que primero hay que activar la gestión de usuarios. Configúrala en Ajustes → Gestión de usuarios y después vuelve aquí.",
       "admin_only": "Solo administradores",
-      "admin_only_desc": "Solo los administradores pueden configurar proveedores de identidad. Si necesitas este acceso, pídele al administrador de esta instancia de NutriTrace que promueva tu cuenta."
+      "admin_only_desc": "Solo los administradores pueden configurar proveedores de identidad. Si necesitas este acceso, pídele al administrador de esta instancia de NutriAgent que promueva tu cuenta."
     },
     "providers": {
       "section_title": "Proveedores OIDC (inicio de sesión único)",
@@ -1708,7 +1708,7 @@
       "client_secret_edit": "Client Secret (déjalo vacío para conservar el actual)",
       "redirect_uris": "URIs de redirección *",
       "add_redirect": "+ Agregar URI de redirección",
-      "redirect_note": "Tiene que coincidir exactamente con lo que configuraste en tu IdP. La ruta es /api/auth/oidc/callback/<id-del-proveedor> bajo la URL base de tu NutriTrace.",
+      "redirect_note": "Tiene que coincidir exactamente con lo que configuraste en tu IdP. La ruta es /api/auth/oidc/callback/<id-del-proveedor> bajo la URL base de tu NutriAgent.",
       "remove_title": "Quitar",
       "scope": "Scope",
       "token_auth": "Método de autenticación del endpoint de token",
@@ -1716,16 +1716,16 @@
       "token_auth_basic": "client_secret_basic",
       "token_auth_none": "none (cliente público solo con PKCE)",
       "auto_link": "Vincular automáticamente usuarios existentes (correo verificado)",
-      "auto_link_desc": "Cuando el IdP informa email_verified=true y el correo coincide con un usuario de NutriTrace que ya existe, los vincula en silencio en el primer inicio con SSO. Conviene activarlo con cualquier IdP en el que confíes para verificar correos.",
+      "auto_link_desc": "Cuando el IdP informa email_verified=true y el correo coincide con un usuario de NutriAgent que ya existe, los vincula en silencio en el primer inicio con SSO. Conviene activarlo con cualquier IdP en el que confíes para verificar correos.",
       "auto_register": "Registrar automáticamente usuarios nuevos",
-      "auto_register_desc": "Permite que cualquiera con cuenta en este IdP se cree una cuenta nueva de NutriTrace en su primer inicio de sesión. Desactivado = un administrador tiene que invitar primero. Déjalo desactivado con IdP compartidos (Google, SSO del trabajo) salvo que realmente quieras dar de alta a cualquiera.",
+      "auto_register_desc": "Permite que cualquiera con cuenta en este IdP se cree una cuenta nueva de NutriAgent en su primer inicio de sesión. Desactivado = un administrador tiene que invitar primero. Déjalo desactivado con IdP compartidos (Google, SSO del trabajo) salvo que realmente quieras dar de alta a cualquiera.",
       "provider_active": "Proveedor activo",
       "provider_active_desc": "Los proveedores inactivos no aparecen en la pantalla de inicio de sesión.",
       "admin_group_claim": "Claim del grupo de administradores (opcional)",
       "admin_group_claim_ph": "groups",
       "admin_group_claim_desc": "Nombre del claim que lista los grupos del usuario. Lo habitual: groups.",
       "admin_group_value": "Valor del grupo de administradores (opcional)",
-      "admin_group_value_ph": "NutriTraceAdmins",
+      "admin_group_value_ph": "NutriAgentAdmins",
       "admin_group_value_desc": "Si el claim de grupos de un usuario contiene este valor, se lo marca como administrador en cada inicio de sesión.",
       "logo_url": "URL del logo (opcional)",
       "logo_url_ph": "https://…/authentik.png",
@@ -1825,7 +1825,7 @@
       "change_pass_title": "Cambiar la contraseña",
       "pass_saved_hint": "Contraseña guardada. Toca \"Cambiar\" para reemplazarla.",
       "from": "Dirección del remitente",
-      "from_ph": "NutriTrace <noreply@ejemplo.com>",
+      "from_ph": "NutriAgent <noreply@ejemplo.com>",
       "saved": "Guardado",
       "saving": "Guardando…",
       "save": "Guardar"
@@ -1892,7 +1892,7 @@
     }
   },
   "settings_webhooks": {
-    "intro": "Los webhooks salientes avisan a otro servicio en el instante en que algo pasa en NutriTrace: se registra un alimento, agua o una medida corporal, o se alcanza una meta de nutrición. Cada webhook envía un HTTP POST firmado a la URL que indiques.",
+    "intro": "Los webhooks salientes avisan a otro servicio en el instante en que algo pasa en NutriAgent: se registra un alimento, agua o una medida corporal, o se alcanza una meta de nutrición. Cada webhook envía un HTTP POST firmado a la URL que indiques.",
     "disabled_notice": "Los webhooks no están activados en este servidor. Igual puedes crear uno, pero no se va a disparar hasta que se configure WEBHOOKS_ENABLED=1.",
     "just_created": {
       "title": "Webhook creado:",
@@ -1980,9 +1980,9 @@
       "export_activity_csv_desc": "Descarga todo tu registro manual de actividad (nombre, calorías, duración, distancia y MET) como hoja de cálculo."
     }
   },
-  "settings_trace": {
+  "settings_agent": {
     "toast": {
-      "connected": "Trace AI conectado, el asistente está listo",
+      "connected": "NutriAgent AI conectado, el asistente está listo",
       "test_failed": "Falló la prueba",
       "empty_response": "Respuesta vacía de la IA"
     },
@@ -2013,7 +2013,7 @@
       "key_hint_gemini": "Consigue tu clave en",
       "key_hint_oai_compat": "Los endpoints locales (Ollama, LM Studio, etc.) por lo general no necesitan clave. Los proveedores en la nube como DeepSeek o Groq sí: consíguela en su panel.",
       "assistant_name": "Nombre del asistente",
-      "assistant_name_ph": "Trace",
+      "assistant_name_ph": "NutriAgent",
       "smart_log": "Smart Log",
       "smart_log_desc": "Mantén pulsado el botón del asistente, di qué comiste, la IA identifica los ítems y la comida, los cruza con tu base de alimentos y te pide confirmación antes de guardar",
       "voice_lang": "Idioma de entrada por voz",
@@ -2024,7 +2024,7 @@
       "trigger_yesterday": "\"lo mismo que ayer en el almuerzo\" → copia los ítems de ayer",
       "smart_log_readme": "Mira la sección \"Smart Log\" del README para ver ejemplos completos y detalles de privacidad.",
       "activity_estimate": "Estimar las calorías de la actividad",
-      "activity_estimate_desc": "Cuando registras un entrenamiento con Trace sin dar un número de calorías (\"caminé 10 km\"), deja que Trace estime el gasto a partir de tu perfil corporal. Para estimar hacen falta tu peso, altura, edad y sexo; si falta alguno, el estimador se detiene y Trace te va a pedir un número.",
+      "activity_estimate_desc": "Cuando registras un entrenamiento con NutriAgent sin dar un número de calorías (\"caminé 10 km\"), deja que NutriAgent estime el gasto a partir de tu perfil corporal. Para estimar hacen falta tu peso, altura, edad y sexo; si falta alguno, el estimador se detiene y NutriAgent te va a pedir un número.",
       "goal_insights": "Análisis de objetivos",
       "goal_insights_desc": "El asistente analiza las tendencias de tu ingesta y sugiere ajustes de objetivos cuando detecta patrones consistentes"
     },
@@ -2080,7 +2080,7 @@
       "delete_local": "¿Eliminar \"{name}\"? No se puede deshacer."
     },
     "share": {
-      "title": "Respaldo de NutriTrace",
+      "title": "Respaldo de NutriAgent",
       "dialog_title": "Compartir respaldo"
     },
     "progress": {
@@ -2182,7 +2182,7 @@
       "apprise_url": "URL del servidor Apprise",
       "apprise_url_ph": "https://apprise.ejemplo.com",
       "apprise_tag": "Etiqueta (opcional)",
-      "apprise_tag_ph": "p. ej. nutritrace",
+      "apprise_tag_ph": "p. ej. nutriagent",
       "gotify_url": "URL del servidor Gotify",
       "gotify_url_ph": "https://gotify.ejemplo.com",
       "gotify_token": "Token de la aplicación",
@@ -2190,7 +2190,7 @@
       "ntfy_url": "URL del servidor ntfy",
       "ntfy_url_ph": "https://ntfy.sh",
       "ntfy_topic": "Tema",
-      "ntfy_topic_ph": "p. ej. mi-nutritrace",
+      "ntfy_topic_ph": "p. ej. mi-nutriagent",
       "ntfy_token": "Token de acceso (opcional, para temas privados)",
       "ntfy_token_ph": "Token Bearer",
       "hide": "Ocultar",
@@ -2267,7 +2267,7 @@
       "no_integrations": "No hay integraciones activas",
       "no_integrations_desc": "Activa Fitbit o Withings en <strong>Ajustes → Bienestar</strong> para empezar a sincronizar datos de salud.",
       "no_device": "No hay ningún dispositivo conectado",
-      "no_device_native_desc": "Conéctate a tu servidor de NutriTrace en <strong>Ajustes → Conexión al servidor</strong> y vincula un dispositivo de bienestar para ver tus datos aquí.",
+      "no_device_native_desc": "Conéctate a tu servidor de NutriAgent en <strong>Ajustes → Conexión al servidor</strong> y vincula un dispositivo de bienestar para ver tus datos aquí.",
       "no_device_desc": "Conecta un dispositivo de bienestar en <strong>Ajustes → Bienestar</strong> para empezar a registrar tus datos de salud."
     },
     "chip": {
@@ -2282,7 +2282,7 @@
     },
     "connect": {
       "fitbit_title": "Conectar Fitbit",
-      "fitbit_desc": "Autoriza a NutriTrace a leer tus datos de Fitbit vía Google Health. Te vamos a redirigir a Google para que apruebes el acceso y después vuelves aquí.",
+      "fitbit_desc": "Autoriza a NutriAgent a leer tus datos de Fitbit vía Google Health. Te vamos a redirigir a Google para que apruebes el acceso y después vuelves aquí.",
       "fitbit_button": "Conectar Fitbit",
       "connecting": "Conectando…"
     },
@@ -2303,13 +2303,13 @@
     }
   },
   "settings_support": {
-    "lead": "NutriTrace es gratis y siempre lo va a ser. Apoyar es opcional y nunca desbloquea nada.",
+    "lead": "NutriAgent es gratis y siempre lo va a ser. Apoyar es opcional y nunca desbloquea nada.",
     "other_ways": "Otras formas de ayudar",
     "star": "Estrella en GitHub",
     "star_desc": "Las estrellas son lo que hace que la gente encuentre los proyectos que se instalan en un servidor propio.",
     "report_bug": "Reportar un error",
     "report_bug_desc": "Un reporte claro lo arregla para todos los que se topan con lo mismo.",
     "translate": "Ayudar a traducir",
-    "translate_desc": "Haz que NutriTrace se pueda usar en tu idioma, en Weblate."
+    "translate_desc": "Haz que NutriAgent se pueda usar en tu idioma, en Weblate."
   }
 }

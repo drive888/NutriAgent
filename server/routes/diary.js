@@ -10,6 +10,7 @@ import { dailyTotalsCore } from '../lib/mcp/tools/daily-totals.js';
 import { checkNutritionGoalCrossing, checkWaterGoalCrossing } from '../lib/goal-webhook.js';
 import { Nutrition } from '../../src/lib/nutrition.js';
 import { clientClock, parseUtc, pushWins, editStamp, resolveNote, sqlTime } from '../lib/sync-clock.js';
+import { validateDiary } from '../lib/business-validation.js';
 
 const router = Router();
 router.use(requireAuth);
@@ -89,7 +90,7 @@ function _stripDataUrlImages(items) {
 // Merge-based upsert. Prior implementation replaced items/water wholesale,
 // which let a stale client (mobile SQLite reset, cache truncated) silently
 // wipe the day when it pushed its empty local copy. See
-// project_nutritrace_diary_persist_gap for the 2026-07-23 and 2026-08-11
+// project_nutriagent_diary_persist_gap for the 2026-07-23 and 2026-08-11
 // incidents. New behavior:
 //
 //   items/water:   per-uuid merge via server/lib/diary-merge. Server state
@@ -109,6 +110,8 @@ function _stripDataUrlImages(items) {
 // The whole write runs inside a single db.transaction so a crash mid-merge
 // leaves the row untouched.
 router.put('/:date', wrap((req, res) => {
+  const invalid = validateDiary(req.params.date, req.body);
+  if (invalid) return res.status(400).json({ error: invalid });
   const receivedAt = Date.now();
   const { body_stats, water, notes } = req.body;
   const items = _stripDataUrlImages(req.body.items);

@@ -8,8 +8,8 @@
   } from '../../stores/settings.js';
 
   const ENERGY_OPTS = [
-    { value: 'kcal', label: 'Calories (kcal)' },
-    { value: 'kJ',   label: 'Kilojoules (kJ)'  },
+    { value: 'kcal', labelKey: 'settings.regional.calories' },
+    { value: 'kJ',   labelKey: 'settings.regional.kilojoules' },
   ];
 
   // Save-on-change helper — matches parent's `set()` helper.
@@ -31,14 +31,14 @@
 <div class="section-body">
 
   <!-- Group: Language & Formats -->
-  <p class="settings-group-heading">Language &amp; Formats</p>
-  <p class="settings-group-sub">Interface language and how dates and times are shown.</p>
+  <p class="settings-group-heading">{$_('settings.regional.language_formats')}</p>
+  <p class="settings-group-sub">{$_('settings.regional.language_formats_desc')}</p>
   <div class="card settings-card">
     <div class="setting-row">
       <span class="setting-label">{$_('settings.regional.language')}</span>
       <div class="select-wrap" style="width:150px">
         <select class="select sel-sm" bind:value={$language}>
-          {#each AVAILABLE_LOCALES as l}<option value={l.code}>{l.label}</option>{/each}
+          {#each AVAILABLE_LOCALES as l}<option value={l.code}>{l.labelKey ? $_(l.labelKey) : l.label}</option>{/each}
         </select>
       </div>
     </div>
@@ -47,10 +47,10 @@
       <span class="setting-label">{$_('settings.regional.date_format')}</span>
       <div class="select-wrap" style="width:160px">
         <select class="select sel-sm" value={$dateFormat} on:change={e => dateFormat.set(e.target.value)}>
-          <option value="ISO">YYYY-MM-DD</option>
+          <option value="ISO">{$_('ui.m6c48580bf8e9')}</option>
           <option value="US">MM/DD/YYYY</option>
           <option value="EU">DD/MM/YYYY</option>
-          <option value="natural">D MMM YYYY</option>
+          <option value="natural">{$_('ui.ma96113e69831')}</option>
         </select>
       </div>
     </div>
@@ -67,14 +67,14 @@
   </div>
 
   <!-- Group: Units — metric / imperial preferences across the app -->
-  <p class="settings-group-heading">Units</p>
-  <p class="settings-group-sub">Unit choices apply everywhere the value shows.</p>
+  <p class="settings-group-heading">{$_('settings.regional.units')}</p>
+  <p class="settings-group-sub">{$_('settings.regional.units_desc')}</p>
   <div class="card settings-card">
     <div class="setting-row">
       <span class="setting-label">{$_('settings.regional.energy')}</span>
       <div class="select-wrap" style="width:160px">
         <select class="select sel-sm" value={$energyUnit} on:change={e => energyUnit.set(e.target.value)}>
-          {#each ENERGY_OPTS as o}<option value={o.value}>{o.label}</option>{/each}
+          {#each ENERGY_OPTS as o}<option value={o.value}>{$_(o.labelKey)}</option>{/each}
         </select>
       </div>
     </div>
@@ -83,9 +83,9 @@
       <span class="setting-label">{$_('settings.regional.weight')}</span>
       <div class="select-wrap" style="width:100px">
         <select class="select sel-sm" bind:value={weightUnit}>
-          <option value="kg">kg</option>
-          <option value="lb">lbs</option>
-          <option value="st">st</option>
+          <option value="kg">{$_('ui.m131ed734290d')}</option>
+          <option value="lb">{$_('ui.m568cff4e709d')}</option>
+          <option value="st">{$_('ui.m56af4bde70a4')}</option>
         </select>
       </div>
     </div>
@@ -94,8 +94,8 @@
       <span class="setting-label">{$_('settings.regional.height')}</span>
       <div class="select-wrap" style="width:100px">
         <select class="select sel-sm" bind:value={heightUnit}>
-          <option value="cm">cm</option>
-          <option value="ft">ft / in</option>
+          <option value="cm">{$_('ui.mb5039c325d71')}</option>
+          <option value="ft">{$_('ui.m2b61475ad51e')}</option>
         </select>
       </div>
     </div>
@@ -104,8 +104,8 @@
       <span class="setting-label">{$_('settings.regional.circumference')}</span>
       <div class="select-wrap" style="width:100px">
         <select class="select sel-sm" bind:value={lengthUnit}>
-          <option value="in">in</option>
-          <option value="cm">cm</option>
+          <option value="in">{$_('ui.m582967534d0f')}</option>
+          <option value="cm">{$_('ui.mb5039c325d71')}</option>
         </select>
       </div>
     </div>
@@ -114,8 +114,8 @@
       <span class="setting-label">{$_('settings.regional.distance')}</span>
       <div class="select-wrap" style="width:100px">
         <select class="select sel-sm" bind:value={distUnitVal}>
-          <option value="km">km</option>
-          <option value="mi">mi</option>
+          <option value="km">{$_('ui.m1f34503f65b4')}</option>
+          <option value="mi">{$_('ui.meee1c1ade652')}</option>
         </select>
       </div>
     </div>

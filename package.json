@@ -1,5 +1,5 @@
 {
-  "name": "nutritrace",
+  "name": "nutriagent",
   "version": "1.4.0",
   "private": true,
   "type": "module",
@@ -14,7 +14,8 @@
     "cap:add:android": "npx cap add android",
     "i18n:check": "node scripts/i18n-check.cjs",
     "test": "node --test scripts/*.test.js",
-    "postinstall": "node scripts/postinstall.cjs"
+    "postinstall": "node scripts/postinstall.cjs",
+    "i18n:check:zh": "node --test scripts/i18n-zh.test.js"
   },
   "dependencies": {
     "@aparajita/capacitor-biometric-auth": "^10.0.0",

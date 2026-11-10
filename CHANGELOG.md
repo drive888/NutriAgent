@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to NutriTrace are documented here.
+All notable changes to NutriAgent are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
@@ -17,8 +17,8 @@ Minor release. Big themes: offline mode in the browser, an Android app whose syn
 
 ### Added
 
-- **Offline mode** ([#211](https://github.com/TraceApps/nutritrace/issues/211)). Your diary, your own foods, meals and recipes, manual activity, settings and goals, the fasting timer and your profile are kept in the browser, so the app opens in a dead zone and the day still adds up. What you change goes up on its own when the connection returns, merged the same way the Android app's changes are, and the menu button shows an amber cloud while anything is waiting. Your own foods are searchable offline from the first load. Searches beyond them, lookups, the wellness providers, Trace and admin need a connection and say so. Works on iPhone too. [What works offline](https://traceapps.github.io/docs/nutritrace/features/#offline).
-- **Preliminary foldable support.** NutriTrace knows where a foldable's crease is, in the Android app and in browsers that report it. Half open like a book, the day's meals fall onto the two pages with the summary below, Goals puts targets and preview a page each, and Settings puts its list on one side; dialogs, sheets, menus and Trace keep off the fold; in laptop posture Trace sits on the half lying flat. Opened flat, the wider layouts turn on.
+- **Offline mode** ([#211](https://github.com/TraceApps/nutritrace/issues/211)). Your diary, your own foods, meals and recipes, manual activity, settings and goals, the fasting timer and your profile are kept in the browser, so the app opens in a dead zone and the day still adds up. What you change goes up on its own when the connection returns, merged the same way the Android app's changes are, and the menu button shows an amber cloud while anything is waiting. Your own foods are searchable offline from the first load. Searches beyond them, lookups, the wellness providers, NutriAgent and admin need a connection and say so. Works on iPhone too. [What works offline](https://traceapps.github.io/docs/nutritrace/features/#offline).
+- **Preliminary foldable support.** NutriAgent knows where a foldable's crease is, in the Android app and in browsers that report it. Half open like a book, the day's meals fall onto the two pages with the summary below, Goals puts targets and preview a page each, and Settings puts its list on one side; dialogs, sheets, menus and NutriAgent keep off the fold; in laptop posture NutriAgent sits on the half lying flat. Opened flat, the wider layouts turn on.
 - **Body composition through MCP and the REST API** ([#234](https://github.com/TraceApps/nutritrace/pull/234)). A `get_body_composition` tool and `/api/v1/body-composition` return your scale readings over a date range, each source kept separate. Contributed by @kgenerozov.
 - **Settings has a Support page**, next to About: Ko-fi and GitHub Sponsors, plus free ways to help (star the repo, report a bug, translate). About also links to the TraceApps family.
 
@@ -27,10 +27,10 @@ Minor release. Big themes: offline mode in the browser, an Android app whose syn
 - **Update checks are off until you turn them on.** Every browser and phone used to ask GitHub directly every 4 hours. Setup now asks, and a fresh install contacts nothing on its own; the web app asks through your server, and the Android app asks only once you say yes. Existing installs keep checking as before, and `UPDATE_CHECK=off` turns the server's checks off for good. Reported on r/selfhosted.
 - **Fonts are served by your own instance.** The app loaded its fonts from Google on every page load, so Google saw the address of everyone who opened it. Reported on r/selfhosted.
 - **Search ignores accents.** "platano" finds "Plátano" and "cafe" finds "Café" everywhere you search, offline and on a local Open Food Facts mirror too.
-- **Trace's attach button offers Camera or Gallery on phones and in the Android app** ([#254](https://github.com/TraceApps/nutritrace/pull/254)), like the other Trace apps. Thanks @librarian.
-- **Trace's new-food card no longer picks a meal for you.** It starts on Don't Log, so saving a food touches only your foods.
+- **NutriAgent's attach button offers Camera or Gallery on phones and in the Android app** ([#254](https://github.com/TraceApps/nutritrace/pull/254)), like the other NutriAgent apps. Thanks @librarian.
+- **NutriAgent's new-food card no longer picks a meal for you.** It starts on Don't Log, so saving a food touches only your foods.
 - **The in-app updater reuses an update it already downloaded**, and the button says Install.
-- **Trace's model lists are current.** Claude Haiku 5.5 is the new default, Claude Sonnet 5.5 and Opus 5.5, GPT-6 Luna, and Gemini 3.8 Flash and 3.1 Flash Lite are added, Gemini 3.1 Pro is listed as the preview it is, and Gemini 2.5 leaves the list (open to existing Google users only). A model you already chose keeps working; shut-down Gemini models switch to the default.
+- **NutriAgent's model lists are current.** Claude Haiku 5.5 is the new default, Claude Sonnet 5.5 and Opus 5.5, GPT-6 Luna, and Gemini 3.8 Flash and 3.1 Flash Lite are added, Gemini 3.1 Pro is listed as the preview it is, and Gemini 2.5 leaves the list (open to existing Google users only). A model you already chose keeps working; shut-down Gemini models switch to the default.
 
 ### Fixed
 
@@ -51,18 +51,18 @@ Minor release. Big themes: offline mode in the browser, an Android app whose syn
 - **A saved meal that logs a food you've since deleted names those ingredients**, and one failing ingredient no longer drops the rest of the meal.
 - **Refresh from OFF brings a food up to date with Open Food Facts** ([#241](https://github.com/TraceApps/nutritrace/issues/241)), products with both "as sold" and "as prepared" values come in "as sold", and products with no values no longer come in as 0 kcal. Thanks @fatman00 for the report.
 - **Open Food Facts products with no name in their main language are found** ([#238](https://github.com/TraceApps/nutritrace/issues/238)), and show in your chosen Open Food Facts language when they have one. Thanks @meggiman for the report.
-- **Searches and scans on a local Open Food Facts mirror no longer fail now and then**, and Trace, Smart Log and the meal editor use a product's real values when a search result leaves them out.
+- **Searches and scans on a local Open Food Facts mirror no longer fail now and then**, and NutriAgent, Smart Log and the meal editor use a product's real values when a search result leaves them out.
 - **Opening a recipe or food from CookTrace, Mealie, Open Food Facts or USDA no longer shows the one you opened before** ([#260](https://github.com/TraceApps/nutritrace/issues/260)). Thanks @herver1971.
-- **Trace shows your newest messages when you open it.** Past 100 messages, the latest ones never appeared.
-- **Trace works with OpenAI-compatible endpoints that stream unless told not to** ([#258](https://github.com/TraceApps/nutritrace/issues/258)) **and with ones that check every field** ([#259](https://github.com/TraceApps/nutritrace/issues/259)). Thanks @jsapede for the reports.
-- **Trace can create a food without adding it to your diary.**
-- **The Trace button no longer covers what's on top of it, and the Copy sheet's buttons no longer sit under Android's navigation bar** ([#233](https://github.com/TraceApps/nutritrace/issues/233)). Thanks @nomad64 for the report.
+- **NutriAgent shows your newest messages when you open it.** Past 100 messages, the latest ones never appeared.
+- **NutriAgent works with OpenAI-compatible endpoints that stream unless told not to** ([#258](https://github.com/TraceApps/nutritrace/issues/258)) **and with ones that check every field** ([#259](https://github.com/TraceApps/nutritrace/issues/259)). Thanks @jsapede for the reports.
+- **NutriAgent can create a food without adding it to your diary.**
+- **The NutriAgent button no longer covers what's on top of it, and the Copy sheet's buttons no longer sit under Android's navigation bar** ([#233](https://github.com/TraceApps/nutritrace/issues/233)). Thanks @nomad64 for the report.
 - **SSO with an email that already has an account no longer creates a second account.** When the provider doesn't mark the email verified (Authentik's default since 2025.10), sign-in is refused with a pointer to link the provider from your profile.
 - **SSO works with Authelia 4.39 and later out of the box**, the SSO callback works at `/api/oidc/callback` and without the provider number, and `OIDC_ENABLE_EMAIL_PASSWORD_LOGIN` works for providers added in Settings.
 - **Signing in on a plain-HTTP address explains what's wrong instead of looping**, and the app no longer loads behind the sign-in screen.
 - **The weekly summary email is sent.** It failed every time, so no one received it.
 - **"A New Version Is Available" on the web says what it means, and Reload works.**
-- **The installed app keeps working when NutriTrace is served from a subpath** ([#250](https://github.com/TraceApps/nutritrace/pull/250)). Thanks @kgenerozov.
+- **The installed app keeps working when NutriAgent is served from a subpath** ([#250](https://github.com/TraceApps/nutritrace/pull/250)). Thanks @kgenerozov.
 - **A file of the wrong type, or over the size limit, is turned away with a clear message** instead of a server error.
 - **Settings pages line up with the section list, and the list keeps its place**, on desktop and foldables.
 
@@ -78,16 +78,16 @@ A few newer labels show in English until they're translated.
 
 - **Sync can no longer change another account's data.** Any account could overwrite or delete another account's foods, meals, activities or fasts through sync by naming their ids.
 - **Signing in to another account on the same phone no longer shows or sends the previous account's data**, its settings and unsaved drafts included. If that account left changes that never synced, the app asks before discarding them.
-- **The server answers as the account whose token a request carries, never as the one a leftover sign-in cookie names.** After an account switch on Android, Health Connect data could go to the previous account. The app now forgets NutriTrace's sign-in cookie on every switch and sign-out, and keeps other sites' cookies, such as a sign-in gate in front of your server.
+- **The server answers as the account whose token a request carries, never as the one a leftover sign-in cookie names.** After an account switch on Android, Health Connect data could go to the previous account. The app now forgets NutriAgent's sign-in cookie on every switch and sign-out, and keeps other sites' cookies, such as a sign-in gate in front of your server.
 - **Diary items no longer show another account's food details.** Only your own foods, foods shared with you, and ingredients of meals shared with you fill an item in.
 - **The CookTrace and Mealie connections forward only the requests the app makes.** Any account could send any request through them, including to other services on your network.
 - **A photo given as a link is only kept when it is an image**, downloads never reach cloud-metadata addresses and check every redirect, and only an admin can download from your network unless `ALLOW_PRIVATE_IMAGE_URLS=1`. Push notifications and `/api/proxy` follow the same rules.
 - **The image proxy passes images only**, and images can't act as a page.
 - **A password reset link can no longer be pointed at someone else's site.** Reset, invite and sharing emails link to `PUBLIC_URL` when set, or to an address an admin uses.
 - **Names in emails can no longer carry markup.** Everything an email shows is escaped.
-- **The Android app's SSO sign-in no longer passes the session token through the `nutritrace://` link.** It carries a single-use code only the app that started the sign-in can redeem.
+- **The Android app's SSO sign-in no longer passes the session token through the `nutriagent://` link.** It carries a single-use code only the app that started the sign-in can redeem.
 - **Uploaded files get unguessable names.**
-- **Dependency updates:** Capacitor 8.5.3 in the Android app ([GHSA-rvm3-566m-v7fv](https://github.com/advisories/GHSA-rvm3-566m-v7fv), critical: remote content could be loaded as part of the app), proxy-addr 2.0.8 ([GHSA-jqcg-44mw-7w3h](https://github.com/advisories/GHSA-jqcg-44mw-7w3h), critical; NutriTrace trusts no proxies, so it wasn't exposed), nodemailer 10.0.12 ([GHSA-6vj9-mwq6-2f5v](https://github.com/advisories/GHSA-6vj9-mwq6-2f5v)), @modelcontextprotocol/sdk 1.32.1 ([GHSA-6qxp-vccf-f47h](https://github.com/advisories/GHSA-6qxp-vccf-f47h); NutriTrace uses only its server side), undici 6.29.0 ([GHSA-3wwx-pv8p-q78v](https://github.com/advisories/GHSA-3wwx-pv8p-q78v)) and ip-address 10.7.2 ([GHSA-2vr4-cq9g-pvrc](https://github.com/advisories/GHSA-2vr4-cq9g-pvrc)), plus build tools. `npm audit` reports 0 vulnerabilities for the app and the server.
+- **Dependency updates:** Capacitor 8.5.3 in the Android app ([GHSA-rvm3-566m-v7fv](https://github.com/advisories/GHSA-rvm3-566m-v7fv), critical: remote content could be loaded as part of the app), proxy-addr 2.0.8 ([GHSA-jqcg-44mw-7w3h](https://github.com/advisories/GHSA-jqcg-44mw-7w3h), critical; NutriAgent trusts no proxies, so it wasn't exposed), nodemailer 10.0.12 ([GHSA-6vj9-mwq6-2f5v](https://github.com/advisories/GHSA-6vj9-mwq6-2f5v)), @modelcontextprotocol/sdk 1.32.1 ([GHSA-6qxp-vccf-f47h](https://github.com/advisories/GHSA-6qxp-vccf-f47h); NutriAgent uses only its server side), undici 6.29.0 ([GHSA-3wwx-pv8p-q78v](https://github.com/advisories/GHSA-3wwx-pv8p-q78v)) and ip-address 10.7.2 ([GHSA-2vr4-cq9g-pvrc](https://github.com/advisories/GHSA-2vr4-cq9g-pvrc)), plus build tools. `npm audit` reports 0 vulnerabilities for the app and the server.
 
 ---
 
@@ -97,11 +97,11 @@ A dev pre-release of the 1.4.0 minor. Russian, Android sync rebuilt so accounts,
 
 ### Added
 
-- **Russian.** NutriTrace can be used in Russian: pick it in Settings → Regional & Units. Translated almost in full by Михаил Малов on Weblate; only the new account-switch prompts are still in English. Thank you!
+- **Russian.** NutriAgent can be used in Russian: pick it in Settings → Regional & Units. Translated almost in full by Михаил Малов on Weblate; only the new account-switch prompts are still in English. Thank you!
 
 ### Changed
 
-- **Trace's attach button offers Camera or Gallery on phones and in the Android app** ([#254](https://github.com/TraceApps/nutritrace/pull/254)), like the other Trace apps. On a computer it opens the file picker. Thanks @librarian.
+- **NutriAgent's attach button offers Camera or Gallery on phones and in the Android app** ([#254](https://github.com/TraceApps/nutritrace/pull/254)), like the other NutriAgent apps. On a computer it opens the file picker. Thanks @librarian.
 
 ### Fixed
 
@@ -112,12 +112,12 @@ A dev pre-release of the 1.4.0 minor. Russian, Android sync rebuilt so accounts,
 - **`OIDC_ENABLE_EMAIL_PASSWORD_LOGIN` works for providers added in Settings.**
 - **Signing in on a plain-HTTP address explains what's wrong instead of looping**, links to the fix (`INSECURE_COOKIES=1`), and says so in the server log.
 - **The app no longer loads behind the sign-in screen.** It waits to learn who is signed in.
-- **The installed app keeps working when NutriTrace is served from a subpath** ([#250](https://github.com/TraceApps/nutritrace/pull/250)). Thanks @kgenerozov.
+- **The installed app keeps working when NutriAgent is served from a subpath** ([#250](https://github.com/TraceApps/nutritrace/pull/250)). Thanks @kgenerozov.
 - **Recipe servings set in the Android app survive syncing** ([#255](https://github.com/TraceApps/nutritrace/pull/255)). Thanks @librarian.
 - **Editing a food or recipe in the Android app no longer clears its photo** ([#256](https://github.com/TraceApps/nutritrace/pull/256)). Thanks @librarian.
 - **The diagnostics note about GitHub issues translates as a whole sentence** ([#253](https://github.com/TraceApps/nutritrace/pull/253)), and the German translation is complete. Thanks @KAiSER086.
-- **Trace works with OpenAI-compatible endpoints that stream unless told not to** ([#258](https://github.com/TraceApps/nutritrace/issues/258), reported by @jsapede). Chat and Smart Log failed with "Unexpected non-whitespace character after JSON".
-- **Trace's tools work with OpenAI-compatible endpoints that check every field** ([#259](https://github.com/TraceApps/nutritrace/issues/259), reported by @jsapede).
+- **NutriAgent works with OpenAI-compatible endpoints that stream unless told not to** ([#258](https://github.com/TraceApps/nutritrace/issues/258), reported by @jsapede). Chat and Smart Log failed with "Unexpected non-whitespace character after JSON".
+- **NutriAgent's tools work with OpenAI-compatible endpoints that check every field** ([#259](https://github.com/TraceApps/nutritrace/issues/259), reported by @jsapede).
 - **Opening a recipe or food from CookTrace, Mealie, Open Food Facts or USDA no longer shows the one you opened before** ([#260](https://github.com/TraceApps/nutritrace/issues/260)). Unsaved typing still comes back when you reopen the same item. Thanks @herver1971.
 - **The Diary's Mark Day Complete bar sits below the date bar** instead of running into it, at every screen size, in the browser and the Android app.
 - **Syncing the Android app no longer wipes the day's note or a food's CookTrace origin.** The newer note wins, a cleared note included. Older servers and older apps keep working.
@@ -139,13 +139,13 @@ A dev pre-release of the 1.4.0 minor. Russian, Android sync rebuilt so accounts,
 - **The CookTrace and Mealie connections forward only the requests the app makes.** Any account could send any request through them, including to other services on your network.
 - **A photo given as a link is only kept when it is an image.** Downloads never reach cloud-metadata addresses and check every redirect; only an admin can download from your network, other accounts only with `ALLOW_PRIVATE_IMAGE_URLS=1`.
 - **Push notifications never reach cloud-metadata addresses** and follow redirects only on the same server. The open `/api/proxy` checks every redirect too.
-- **The Android app's SSO sign-in no longer passes the session token through the `nutritrace://` link.** It carries a single-use code only the app that started the sign-in can redeem.
+- **The Android app's SSO sign-in no longer passes the session token through the `nutriagent://` link.** It carries a single-use code only the app that started the sign-in can redeem.
 - **Uploaded files get unguessable names.**
 - **Signing in to another account on the same phone no longer shows or sends the previous account's data**, its settings and unsaved drafts included. If that account left changes that never synced, the app asks before discarding them. The same user id on another server counts as another account.
-- **The server answers as the account whose token a request carries, never as the one a leftover sign-in cookie names.** After an account switch on Android, Health Connect data could go to the previous account. The app also forgets NutriTrace's sign-in cookie on every switch, connect, disconnect and sign-out, and keeps other sites' cookies, such as a sign-in gate in front of your server.
+- **The server answers as the account whose token a request carries, never as the one a leftover sign-in cookie names.** After an account switch on Android, Health Connect data could go to the previous account. The app also forgets NutriAgent's sign-in cookie on every switch, connect, disconnect and sign-out, and keeps other sites' cookies, such as a sign-in gate in front of your server.
 - **Capacitor** bumped 8.3.4 to 8.5.3 in the Android app, closes [GHSA-rvm3-566m-v7fv](https://github.com/advisories/GHSA-rvm3-566m-v7fv) (critical: remote content could be loaded as part of the app through Capacitor's internal HTTP proxy path).
-- **proxy-addr** bumped 2.0.7 to 2.0.8 on the server, closes [GHSA-jqcg-44mw-7w3h](https://github.com/advisories/GHSA-jqcg-44mw-7w3h) (critical: an IPv4-mapped IPv6 address could pass as a trusted proxy). NutriTrace trusts no proxy addresses, so it wasn't exposed.
-- **@modelcontextprotocol/sdk** bumped 1.30.0 to 1.32.1, closes [GHSA-6qxp-vccf-f47h](https://github.com/advisories/GHSA-6qxp-vccf-f47h) (high: its OAuth client could send credentials to a server an MCP server picked). NutriTrace only uses its MCP server side.
+- **proxy-addr** bumped 2.0.7 to 2.0.8 on the server, closes [GHSA-jqcg-44mw-7w3h](https://github.com/advisories/GHSA-jqcg-44mw-7w3h) (critical: an IPv4-mapped IPv6 address could pass as a trusted proxy). NutriAgent trusts no proxy addresses, so it wasn't exposed.
+- **@modelcontextprotocol/sdk** bumped 1.30.0 to 1.32.1, closes [GHSA-6qxp-vccf-f47h](https://github.com/advisories/GHSA-6qxp-vccf-f47h) (high: its OAuth client could send credentials to a server an MCP server picked). NutriAgent only uses its MCP server side.
 - **brace-expansion** and **source-map-js** bumped, closing [GHSA-q2hr-2g5m-vwhr](https://github.com/advisories/GHSA-q2hr-2g5m-vwhr), [GHSA-qhr7-859c-m2p7](https://github.com/advisories/GHSA-qhr7-859c-m2p7), [GHSA-6j4f-fj2g-mc7p](https://github.com/advisories/GHSA-6j4f-fj2g-mc7p) and [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q) (high: denial of service). Both are only used to build the app.
 - `npm audit` reports 0 vulnerabilities for the app and the server.
 
@@ -157,7 +157,7 @@ A dev pre-release of the 1.4.0 minor. Spanish, a Support page in Settings, uploa
 
 ### Added
 
-- **Spanish.** NutriTrace can be used in Spanish: pick it in Settings → Regional & Units. Translated almost in full by @herver1971 on Weblate; only the new Support page is still in English. Thank you!
+- **Spanish.** NutriAgent can be used in Spanish: pick it in Settings → Regional & Units. Translated almost in full by @herver1971 on Weblate; only the new Support page is still in English. Thank you!
 - **Settings has a Support page**, next to About: Ko-fi and GitHub Sponsors, plus free ways to help (star the repo, report a bug, translate). It replaces the support row that used to sit in About.
 - **About links to the TraceApps family.**
 
@@ -173,8 +173,8 @@ A dev pre-release of the 1.4.0 minor. Spanish, a Support page in Settings, uploa
 
 ### Security
 
-- **undici** bumped 6.28.0 to 6.29.0, closes [GHSA-3wwx-pv8p-q78v](https://github.com/advisories/GHSA-3wwx-pv8p-q78v) (moderate: a WebSocket server could crash the process). NutriTrace opens no WebSocket connections.
-- **ip-address** bumped 10.4.0 to 10.7.2, closes [GHSA-2vr4-cq9g-pvrc](https://github.com/advisories/GHSA-2vr4-cq9g-pvrc) (moderate: one IPv6 range was not recognized as local). It only comes in through the MCP server's rate limiter; NutriTrace's own SSRF guard does not use it.
+- **undici** bumped 6.28.0 to 6.29.0, closes [GHSA-3wwx-pv8p-q78v](https://github.com/advisories/GHSA-3wwx-pv8p-q78v) (moderate: a WebSocket server could crash the process). NutriAgent opens no WebSocket connections.
+- **ip-address** bumped 10.4.0 to 10.7.2, closes [GHSA-2vr4-cq9g-pvrc](https://github.com/advisories/GHSA-2vr4-cq9g-pvrc) (moderate: one IPv6 range was not recognized as local). It only comes in through the MCP server's rate limiter; NutriAgent's own SSRF guard does not use it.
 - **nodemailer** bumped 9.1.1 to 10.0.12 on the server, closes [GHSA-6vj9-mwq6-2f5v](https://github.com/advisories/GHSA-6vj9-mwq6-2f5v) (moderate: separate mail transports could share one TLS server name). Removed from the web app's own dependencies, where nothing used it.
 - `npm audit` reports 0 vulnerabilities for the app and the server.
 
@@ -186,10 +186,10 @@ Third dev pre-release of 1.4.0: preliminary foldable support, search that ignore
 
 ### Added
 
-- **Preliminary foldable support.** NutriTrace knows where a foldable's crease is, in the Android app and in browsers that report it, and lays out around it:
+- **Preliminary foldable support.** NutriAgent knows where a foldable's crease is, in the Android app and in browsers that report it, and lays out around it:
   - Half open like a book, Settings puts its section list on one side and the section on the other, and the day's meals fall onto the two pages.
-  - Dialogs, sheets, pickers, menus and Trace keep off the fold, and a menu opened near it takes the roomier side.
-  - In laptop posture, Trace sits on the half lying flat, leaving the day readable on the half standing up.
+  - Dialogs, sheets, pickers, menus and NutriAgent keep off the fold, and a menu opened near it takes the roomier side.
+  - In laptop posture, NutriAgent sits on the half lying flat, leaving the day readable on the half standing up.
   - Opened flat, or on any screen that size, the wider layouts turn on: Settings in two panes, Foods two cards across, side rails on Diary and Goals, the food and meal editors side by side, and Wellness insights alongside.
   - Diagnostics shows what the hinge reports.
 
@@ -197,16 +197,16 @@ Third dev pre-release of 1.4.0: preliminary foldable support, search that ignore
 
 ### Changed
 
-- **Trace's new-food card no longer picks a meal for you.** It starts on Don't Log, so saving a food touches only your foods, and Save & Add to Diary turns on once you choose a meal under Log to.
+- **NutriAgent's new-food card no longer picks a meal for you.** It starts on Don't Log, so saving a food touches only your foods, and Save & Add to Diary turns on once you choose a meal under Log to.
 
 ### Fixed
 
-- **Search ignores accents.** "platano" finds "Plátano" and "cafe" finds "Café" wherever you search: your foods, meals and recipes, activities, Settings, Smart Log, Trace, the public API and MCP, offline too. A local Open Food Facts mirror finds accented names as well. Text without accents matches as before.
+- **Search ignores accents.** "platano" finds "Plátano" and "cafe" finds "Café" wherever you search: your foods, meals and recipes, activities, Settings, Smart Log, NutriAgent, the public API and MCP, offline too. A local Open Food Facts mirror finds accented names as well. Text without accents matches as before.
 - **Searches and scans on a local Open Food Facts mirror no longer fail now and then.** Two at once could fail, and the server then asked Open Food Facts instead, or answered nothing when air-gapped.
 - **Refresh from OFF brings a food up to date with Open Food Facts** ([#241](https://github.com/TraceApps/nutritrace/issues/241)). It only filled empty fields, and a server with a local Open Food Facts mirror answered from its older copy. It now updates the values Open Food Facts has, converted to the food's portion. Thanks @fatman00 for the report.
-- **Open Food Facts products with both "as sold" and "as prepared" values come in "as sold"** ([#241](https://github.com/TraceApps/nutritrace/issues/241)). Open Food Facts' API gave NutriTrace only the "as prepared" values for these, such as canned beans, drink powders and baby formula.
-- **Open Food Facts products with no values no longer come in as 0 kcal** ([#241](https://github.com/TraceApps/nutritrace/issues/241)). Search results say "No values listed", the product can't be added to the diary or a meal until it has values, and Trace and Smart Log say so. If Open Food Facts only has "as prepared" values, the food editor offers them and notes it on the food.
-- **Trace, Smart Log and the meal editor use a product's real values when a search result leaves them out.** They used to save it as 0 kcal.
+- **Open Food Facts products with both "as sold" and "as prepared" values come in "as sold"** ([#241](https://github.com/TraceApps/nutritrace/issues/241)). Open Food Facts' API gave NutriAgent only the "as prepared" values for these, such as canned beans, drink powders and baby formula.
+- **Open Food Facts products with no values no longer come in as 0 kcal** ([#241](https://github.com/TraceApps/nutritrace/issues/241)). Search results say "No values listed", the product can't be added to the diary or a meal until it has values, and NutriAgent and Smart Log say so. If Open Food Facts only has "as prepared" values, the food editor offers them and notes it on the food.
+- **NutriAgent, Smart Log and the meal editor use a product's real values when a search result leaves them out.** They used to save it as 0 kcal.
 
 ### Security
 
@@ -228,7 +228,7 @@ Second dev pre-release of 1.4.0, all fixes: food logged through MCP no longer do
 - **Health Connect counts every part of a night's sleep, and sleep stages show up** ([#236](https://github.com/TraceApps/nutritrace/issues/236)). Samsung Health splits a night wherever you woke, and only the last piece counted, so 00:46-05:00 plus 05:45-06:53 read as 68 minutes. Every piece counts now, a night recorded by two apps counts once, and a nap no longer replaces it. Deep, Light, REM and the Sleep Quality cards now fill in when you sync from the app, not just from the hourly background sync. Thanks @kgenerozov for the report and the analysis behind it.
 - **Changing a diary entry from a household unit to grams converts instead of multiplying** ([#237](https://github.com/TraceApps/nutritrace/issues/237)). A slice of bread changed to 66 g read about 8,700 kcal instead of 159. Entries already saved on Android are fixed too. Thanks @herver1971 for the report, the root cause and the test.
 - **Open Food Facts products with no name in their main language are found** ([#238](https://github.com/TraceApps/nutritrace/issues/238)). They were reported as missing even with a name in another language, and some dropped out of searches. If you picked a language other than English for Open Food Facts, names show in that language when a product has one. Thanks @meggiman for the report.
-- **Trace can create a food without adding it to your diary.** Asking it to save a food and not log it got you a diary entry anyway. It now shows the review card with Save to Foods.
+- **NutriAgent can create a food without adding it to your diary.** Asking it to save a food and not log it got you a diary entry anyway. It now shows the review card with Save to Foods.
 - **A saved meal that logs a food you've since deleted now tells you which ingredients those are**, so you can fix the meal.
 - **One ingredient failing no longer drops the rest of the meal.** Every ingredient is attempted, and anything that didn't make it is named.
 
@@ -247,7 +247,7 @@ First dev pre-release of the 1.4.0 minor. The headline is offline mode: your dia
 - **Body composition through MCP and the REST API** ([#234](https://github.com/TraceApps/nutritrace/pull/234)). A new `get_body_composition` read tool returns your saved scale readings over a date range, keeping each source separate rather than merging them. Also at `/api/v1/body-composition` when the Public API is on. Contributed by @kgenerozov. [MCP tools](https://traceapps.github.io/docs/reference/mcp-tools/).
 - **Offline mode** ([#211](https://github.com/TraceApps/nutritrace/issues/211)). Your diary and your own foods are kept in the browser, so the app opens in a dead zone, the day still adds up, and what you log goes up on its own when the connection returns, merged the same way the Android app's changes are. The menu button shows an amber cloud while anything is waiting. Works the same on iPhone, since it doesn't rely on Background Sync. [What works offline](https://traceapps.github.io/docs/nutritrace/features/#offline).
 - **What else works in offline mode** ([#211](https://github.com/TraceApps/nutritrace/issues/211)). Your own foods, meals and recipes, manual activity, settings and goals, the fasting timer, your profile and picture, and the wellness figures you have already seen. Anything you make offline can be used straight away and keeps its identity when the queue goes up.
-- **Offline mode says what it cannot reach** ([#211](https://github.com/TraceApps/nutritrace/issues/211)). Searches, lookups, photos, the wellness providers, Trace and anything admin need a connection, and each says so where you would otherwise see an empty screen or a wrong answer. If your server refuses what is waiting, it says why and keeps trying.
+- **Offline mode says what it cannot reach** ([#211](https://github.com/TraceApps/nutritrace/issues/211)). Searches, lookups, photos, the wellness providers, NutriAgent and anything admin need a connection, and each says so where you would otherwise see an empty screen or a wrong answer. If your server refuses what is waiting, it says why and keeps trying.
 
 ### Changed
 
@@ -255,9 +255,9 @@ First dev pre-release of the 1.4.0 minor. The headline is offline mode: your dia
 
 ### Fixed
 
-- **"A New Version Is Available" on the web now says what it means, and Reload works.** The browser banner used the Android wording and its Reload button could do nothing at all, and a tab left open never noticed a new version. Same fix in all four Trace apps.
+- **"A New Version Is Available" on the web now says what it means, and Reload works.** The browser banner used the Android wording and its Reload button could do nothing at all, and a tab left open never noticed a new version. Same fix in all four NutriAgent apps.
 - **The Copy sheet's buttons no longer sit under Android's navigation bar** ([#233](https://github.com/TraceApps/nutritrace/issues/233)). That one sheet overwrote the spacing that keeps content clear of the bar. Thanks @nomad64 for the report.
-- **The Trace button no longer covers what's on top of it** ([#233](https://github.com/TraceApps/nutritrace/issues/233)). It floated above every sheet and dialog, so wherever you had dragged it, it could sit over a title or a button. Thanks @nomad64 for the report.
+- **The NutriAgent button no longer covers what's on top of it** ([#233](https://github.com/TraceApps/nutritrace/issues/233)). It floated above every sheet and dialog, so wherever you had dragged it, it could sit over a title or a button. Thanks @nomad64 for the report.
 - **Something deleted while online stays deleted when the connection goes.** An older copy of the list could be carried over from before you signed in, so what you removed came back the moment you were offline. Reported in testing.
 - **A photo kept offline is scaled to something a request comfortably carries**, so your server never turns it away after you have been told it was saved.
 - **Adding a photo with no connection no longer fails on an installed app.** The part of the app that keeps a photo was fetched from your server at the exact moment there was nothing to fetch from. It travels with the app now.
@@ -275,7 +275,7 @@ First dev pre-release of the 1.4.0 minor. The headline is offline mode: your dia
 
 ## [1.3.1] - 2026-09-20
 
-Patch release. A Default Field setting for the add and edit sheets, and a round of Android fixes: the back button closes what's open first, dragging the Trace button no longer refreshes the page, Settings categories open at their top, and sheets and dialogs stay below the status bar.
+Patch release. A Default Field setting for the add and edit sheets, and a round of Android fixes: the back button closes what's open first, dragging the NutriAgent button no longer refreshes the page, Settings categories open at their top, and sheets and dialogs stay below the status bar.
 
 ### Changed
 
@@ -283,7 +283,7 @@ Patch release. A Default Field setting for the add and edit sheets, and a round 
 
 ### Fixed
 
-- **Moving the Trace button no longer refreshes the page** ([#225](https://github.com/TraceApps/nutritrace/issues/225)). In the Android app connected to a server, dragging the Trace button downward while the page was scrolled to the top was treated as pull-to-refresh and synced. The same could happen when dragging a reorder handle down (meal names, nutrients, body stats, Statistics categories, Meal Editor ingredients) or moving the photo cropper. Dragging those no longer counts as a pull; pulling down anywhere else still refreshes as before. Thanks @nomad64 for the report.
+- **Moving the NutriAgent button no longer refreshes the page** ([#225](https://github.com/TraceApps/nutritrace/issues/225)). In the Android app connected to a server, dragging the NutriAgent button downward while the page was scrolled to the top was treated as pull-to-refresh and synced. The same could happen when dragging a reorder handle down (meal names, nutrients, body stats, Statistics categories, Meal Editor ingredients) or moving the photo cropper. Dragging those no longer counts as a pull; pulling down anywhere else still refreshes as before. Thanks @nomad64 for the report.
 - **The Android back button closes what's open first** ([#226](https://github.com/TraceApps/nutritrace/issues/226)). Back only knew how to go back a page, so with a sheet like Body Stats open it did nothing visible, and elsewhere it could leave the page with a sheet or dialog still up. Back now closes the newest sheet, dialog, menu, picker or panel first, one at a time, the same as its own close button (a dialog closes as Cancel, and a camera stops). The sync merge questions still need an answer, so back leaves them open. It also closes the slide-out sidebar if that's showing. With nothing open, back goes back a page and then offers to exit, as before. Thanks @nomad64 for the report.
 - **A Settings category now opens at its top** ([#227](https://github.com/TraceApps/nutritrace/issues/227)). On a phone, picking a category from lower down the Settings list (Import & Export, for example) opened it at the bottom, because the category kept the list's scroll position. Categories now open at their top, and going back to the list returns you to where you were on it. A setting found through Settings search still scrolls straight to its match. Thanks @nomad64 for the report.
 - **Body Stats no longer slides under the status bar** ([#228](https://github.com/TraceApps/nutritrace/issues/228)). In the Android app, opening Body Stats from the Diary brings up the keyboard, and the sheet grew taller than the space above it, so its title and close button ended up under the status bar where they couldn't be tapped. The sheet now stays below the status bar and scrolls its fields instead, with the title and close button always in reach. The other Diary sheets built the same way (Save to Library, Copy To, the date picker) and the Wellness date picker got the same limit. Thanks @nomad64 for the report.
@@ -301,7 +301,7 @@ Patch release. A Default Field setting for the add and edit sheets, and a round 
 
 ## [1.3.1-dev01] - 2026-09-19 (pre-release)
 
-First dev pre-release of the 1.3.1 patch cycle. Adds a Default Field setting for the add and edit sheets, and a round of Android fixes: the back button closes what's open first, dragging the Trace button no longer refreshes the page, Settings categories open at their top, and sheets and dialogs stay below the status bar.
+First dev pre-release of the 1.3.1 patch cycle. Adds a Default Field setting for the add and edit sheets, and a round of Android fixes: the back button closes what's open first, dragging the NutriAgent button no longer refreshes the page, Settings categories open at their top, and sheets and dialogs stay below the status bar.
 
 ### Changed
 
@@ -309,7 +309,7 @@ First dev pre-release of the 1.3.1 patch cycle. Adds a Default Field setting for
 
 ### Fixed
 
-- **Moving the Trace button no longer refreshes the page** ([#225](https://github.com/TraceApps/nutritrace/issues/225)). In the Android app connected to a server, dragging the Trace button downward while the page was scrolled to the top was treated as pull-to-refresh and synced. The same could happen when dragging a reorder handle down (meal names, nutrients, body stats, Statistics categories, Meal Editor ingredients) or moving the photo cropper. Dragging those no longer counts as a pull; pulling down anywhere else still refreshes as before. Thanks @nomad64 for the report.
+- **Moving the NutriAgent button no longer refreshes the page** ([#225](https://github.com/TraceApps/nutritrace/issues/225)). In the Android app connected to a server, dragging the NutriAgent button downward while the page was scrolled to the top was treated as pull-to-refresh and synced. The same could happen when dragging a reorder handle down (meal names, nutrients, body stats, Statistics categories, Meal Editor ingredients) or moving the photo cropper. Dragging those no longer counts as a pull; pulling down anywhere else still refreshes as before. Thanks @nomad64 for the report.
 - **The Android back button closes what's open first** ([#226](https://github.com/TraceApps/nutritrace/issues/226)). Back only knew how to go back a page, so with a sheet like Body Stats open it did nothing visible, and elsewhere it could leave the page with a sheet or dialog still up. Back now closes the newest sheet, dialog, menu, picker or panel first, one at a time, the same as its own close button (a dialog closes as Cancel, and a camera stops). The sync merge questions still need an answer, so back leaves them open. It also closes the slide-out sidebar if that's showing. With nothing open, back goes back a page and then offers to exit, as before. Thanks @nomad64 for the report.
 - **A Settings category now opens at its top** ([#227](https://github.com/TraceApps/nutritrace/issues/227)). On a phone, picking a category from lower down the Settings list (Import & Export, for example) opened it at the bottom, because the category kept the list's scroll position. Categories now open at their top, and going back to the list returns you to where you were on it. A setting found through Settings search still scrolls straight to its match. Thanks @nomad64 for the report.
 - **Body Stats no longer slides under the status bar** ([#228](https://github.com/TraceApps/nutritrace/issues/228)). In the Android app, opening Body Stats from the Diary brings up the keyboard, and the sheet grew taller than the space above it, so its title and close button ended up under the status bar where they couldn't be tapped. The sheet now stays below the status bar and scrolls its fields instead, with the title and close button always in reach. The other Diary sheets built the same way (Save to Library, Copy To, the date picker) and the Wellness date picker got the same limit. Thanks @nomad64 for the report.
@@ -333,10 +333,10 @@ Minor release. Big themes: recipes and pantry items from CookTrace, an opt-in wa
 
 ### Added
 
-- **CookTrace recipes and pantry items.** If you also run CookTrace, a CookTrace chip on the Foods screen searches it: pick a recipe to open it in the Meal Editor with its ingredients, servings, photo and nutrition, or a pantry item to open it in the Food Editor. Settings, Connected Services, CookTrace can also import every recipe or every pantry item in one go. Imported items stay linked to CookTrace, so importing again updates what you already have instead of making a copy, and when a recipe changes in CookTrace, NutriTrace offers to pull the update rather than overwriting anything. Opt-in, with a token you create in CookTrace.
+- **CookTrace recipes and pantry items.** If you also run CookTrace, a CookTrace chip on the Foods screen searches it: pick a recipe to open it in the Meal Editor with its ingredients, servings, photo and nutrition, or a pantry item to open it in the Food Editor. Settings, Connected Services, CookTrace can also import every recipe or every pantry item in one go. Imported items stay linked to CookTrace, so importing again updates what you already have instead of making a copy, and when a recipe changes in CookTrace, NutriAgent offers to pull the update rather than overwriting anything. Opt-in, with a token you create in CookTrace.
 - **Mark diary days complete** ([#207](https://github.com/TraceApps/nutritrace/issues/207)). Off by default (Settings, Diary, Show Day Completion). Close a day from the date bar, or tick meals one at a time and the day closes when they're all done. Completed days get a check on the week strip and date picker, Statistics counts them, the weekly summary includes them, and on Android the bedtime notification has a Close today button. Marks sync between your devices. Thanks @tellis82 for the suggestion.
 - **A REST API for your own scripts and automations.** `/api/v1/diary`, `/api/v1/goals`, `/api/v1/meals`, `/api/v1/steps` and `/api/v1/profile`. Off by default (`PUBLIC_API_ENABLED=1`; `PUBLIC_API_WRITE_ENABLED=1` also allows logging food, water, meals and body stats). Uses the same tokens as MCP. See `docs/public-api.md`.
-- **Outgoing webhooks.** Set a URL in Settings, Webhooks and NutriTrace sends a signed HTTP POST when you log a food, water or a body stat, or reach a daily nutrition goal. Off by default (`WEBHOOKS_ENABLED=1`). Failed deliveries are retried, a send button next to each webhook fires a test event, and addresses on your local network are refused unless `ALLOW_PRIVATE_WEBHOOK_URLS=1`. See `docs/webhooks.md`.
+- **Outgoing webhooks.** Set a URL in Settings, Webhooks and NutriAgent sends a signed HTTP POST when you log a food, water or a body stat, or reach a daily nutrition goal. Off by default (`WEBHOOKS_ENABLED=1`). Failed deliveries are retried, a send button next to each webhook fires a test event, and addresses on your local network are refused unless `ALLOW_PRIVATE_WEBHOOK_URLS=1`. See `docs/webhooks.md`.
 - **More MCP tools** ([#215](https://github.com/TraceApps/nutritrace/pull/215), [#219](https://github.com/TraceApps/nutritrace/pull/219)). Diary entries and daily totals over a date range, optional dates on recent foods and recent meals, daily steps from connected wearables, and your gender and date of birth. Any `mcp:read` token can read your date of birth, so an AI client connected over MCP can see it. Thanks @kgenerozov for contributing both.
 - **Average Heart Rate card in Wellness** ([#205](https://github.com/TraceApps/nutritrace/issues/205)). Health Connect already recorded it; now it shows, next to Resting Heart Rate. Thanks @kgenerozov for the report.
 - **Health Connect weight can fill in Body Stats** ([#200](https://github.com/TraceApps/nutritrace/issues/200)). Optional (Settings, Wellness, Mirror wellness weight to Body Stats). Your scale reading fills that day's Body Stats weight, so the Diary widget and the Weight goal use it too. A weight you entered yourself is never overwritten. Thanks @tmzhuang for the suggestion.
@@ -350,15 +350,15 @@ Minor release. Big themes: recipes and pantry items from CookTrace, an opt-in wa
 
 - **Open Food Facts search keeps the best match on top** ([#213](https://github.com/TraceApps/nutritrace/issues/213), [#192](https://github.com/TraceApps/nutritrace/issues/192)). Results with a photo and more complete data used to be moved up across the whole page, which could bury the product you searched for when it had no photo. Now OFF's own order wins whenever one result is clearly a better match, and photos and completeness only sort results that match about equally well. With a local OFF mirror, results are sorted by completeness instead of photos, since mirror entries rarely have them. Thanks @NoBackups and @systems-monitor for the reports.
 - **Typing over a filled-in number replaces it** ([#170](https://github.com/TraceApps/nutritrace/issues/170)). Sheets that open with a value already in the box select it, so you type the new number instead of adding to the old one. The remaining sheets, including the Goals editors, also focus their first box and save on Enter.
-- **Claude Fable 5.1 in Trace's model list.** It is now the most capable Claude option; Fable 5 stays available, marked as previous.
+- **Claude Fable 5.1 in NutriAgent's model list.** It is now the most capable Claude option; Fable 5 stays available, marked as previous.
 
 ### Fixed
 
 - **iPhone and iPad no longer zoom in when you tap a text field** ([#212](https://github.com/TraceApps/nutritrace/issues/212)). Other devices are unchanged. Thanks @Sanket-Pati-007 for the report.
-- **Diary's summary bar sits at the bottom of the iPhone screen** ([#208](https://github.com/TraceApps/nutritrace/issues/208)). It could float with a see-through gap underneath. Opening NutriTrace from the Home Screen could also leave a black strip along the bottom until you scrolled; there's now a workaround for that too. Thanks @zen-pavel for the report.
+- **Diary's summary bar sits at the bottom of the iPhone screen** ([#208](https://github.com/TraceApps/nutritrace/issues/208)). It could float with a see-through gap underneath. Opening NutriAgent from the Home Screen could also leave a black strip along the bottom until you scrolled; there's now a workaround for that too. Thanks @zen-pavel for the report.
 - **Copy buttons work over plain http.** On an http address, such as a LAN IP, every Copy button failed. They now work there too.
 - **Foods panels no longer cover the header when you scroll** ([#217](https://github.com/TraceApps/nutritrace/issues/217)). On a wide window, loading more search results could move the Sources and food details panels over the search bar. Coming back from the food editor also returns you to where you were in the list instead of the top. Thanks @fatman00 for the report.
-- **Cronometer imports work again.** Cronometer stopped including nutrition in its per-food export on at least some accounts, so importing it failed. NutriTrace now also imports the Daily Nutrition export, as one entry per meal (tick "Include diary group rows") or one per day. Evening entries are no longer saved as morning, supplements and spices are no longer skipped, dates in your account's own format are read correctly, and the daily Total row isn't counted twice.
+- **Cronometer imports work again.** Cronometer stopped including nutrition in its per-food export on at least some accounts, so importing it failed. NutriAgent now also imports the Daily Nutrition export, as one entry per meal (tick "Include diary group rows") or one per day. Evening entries are no longer saved as morning, supplements and spices are no longer skipped, dates in your account's own format are read correctly, and the daily Total row isn't counted twice.
 - **"As percent" macro goals show and convert correctly** ([#209](https://github.com/TraceApps/nutritrace/issues/209), [#210](https://github.com/TraceApps/nutritrace/pull/210)). Applying a macro preset could turn a gram target into a huge percentage, and the Goals page showed percent goals as grams. If you hit this, applying your preset again fixes it. Thanks @drunkenpeleg for the report and the fix.
 - **Health Connect body composition no longer saves as 0** ([#206](https://github.com/TraceApps/nutritrace/issues/206)). Bone mass, lean mass, body fat, temperature, breathing rate, VO2 max and BMR were stored as 0, and BMR was in the wrong unit. Existing zeros are cleared on the next launch and your next sync fills in the real values. Thanks @kgenerozov for the report.
 - **Health Connect asks for every permission it needs** ([#204](https://github.com/TraceApps/nutritrace/issues/204)). If you only granted some before, you'll see one prompt for the rest the next time you turn it on. Thanks @kgenerozov for the report.
@@ -373,7 +373,7 @@ Minor release. Big themes: recipes and pantry items from CookTrace, an opt-in wa
 - **Mealie recipe images load when Mealie is on your home network.**
 - **Reordering items within a meal is kept after syncing.**
 - **Password reset and invite links use https behind a reverse proxy.**
-- **Turning on user management keeps everything from single-user mode.** Activity, fasting, Trace chat history, wearable data and wearable connections were left behind when the first account was created; they now move to it. Instances that already switched get them back on the next start.
+- **Turning on user management keeps everything from single-user mode.** Activity, fasting, NutriAgent chat history, wearable data and wearable connections were left behind when the first account was created; they now move to it. Instances that already switched get them back on the next start.
 - **Deleting an account removes its wearable data and connections**, and single-user mode shows all of its wearable data again.
 - **MCP tools refuse dates that don't exist.** A date such as 2026-02-31 read back as an empty day, and logging to it created a diary entry for it. It's now an error.
 
@@ -396,27 +396,27 @@ Second dev pre-release of the 1.3.0 minor. Adds MCP date-range reads, outgoing w
 
 - **MCP date-range reads** ([#215](https://github.com/TraceApps/nutritrace/pull/215)). New `list_diary_entries_range` and `get_daily_totals_range` tools, and optional `start`/`end` dates on `get_recent_foods` and `get_recent_meals`. Bounds are inclusive and either can be left out to leave that side open; with neither, the range tools cover the last 90 days. `list_diary_entries_range` returns at most 366 logged days per call, since full item lists get large; `get_daily_totals_range` has no limit. The existing single-day tools are unchanged. Thanks @kgenerozov.
 - **General-purpose public REST API** at `/api/v1/diary`, `/api/v1/goals`, and `/api/v1/meals`, for your own scripts and automations rather than the sister-app federation contract the rest of `/api/v1` documents. Off by default (`PUBLIC_API_ENABLED=1`; `PUBLIC_API_WRITE_ENABLED=1` additionally unlocks logging a food, water, a meal, or a body stat). Reuses the `mcp:read`/`mcp:write` token scopes MCP already defines, one token works for both interfaces. See `docs/public-api.md`.
-- **Outgoing webhooks.** Configure a target URL in Settings, Webhooks and NutriTrace fires a signed HTTP POST the instant a food is logged, water is logged, a body stat is logged, or a daily nutrition goal is reached. Off by default (`WEBHOOKS_ENABLED=1`). HMAC-SHA256 signed, 3 delivery attempts with backoff, a "send test event" button to verify a target without waiting for a real event. Target URLs are validated against a shared SSRF guard (blocks loopback/private/link-local/cloud-metadata addresses unless `ALLOW_PRIVATE_WEBHOOK_URLS=1`). See `docs/webhooks.md`.
-- **Diagnostic logs now record screen layout.** With Diagnostic Mode on (Settings, Diagnostics), NutriTrace writes a one-line snapshot of the layout at startup, on each page change, when a field gains or loses focus, when the keyboard or browser toolbar changes the visible area, on zoom and rotation, on returning to the app, and when scrolling stops. Each line has the screen, window, visible-area and page sizes, zoom level, the device's safe-area insets, where the tab bar and Diary's summary bar sit, and the focused field's font size. It helps sort out display problems on phones I can't test on directly, like the iPhone reports in [#208](https://github.com/TraceApps/nutritrace/issues/208) and [#212](https://github.com/TraceApps/nutritrace/issues/212): turn logging on, reproduce the problem, then Copy the logs and send them. Only sizes and positions are recorded, never what you type, and nothing is measured while logging is off.
+- **Outgoing webhooks.** Configure a target URL in Settings, Webhooks and NutriAgent fires a signed HTTP POST the instant a food is logged, water is logged, a body stat is logged, or a daily nutrition goal is reached. Off by default (`WEBHOOKS_ENABLED=1`). HMAC-SHA256 signed, 3 delivery attempts with backoff, a "send test event" button to verify a target without waiting for a real event. Target URLs are validated against a shared SSRF guard (blocks loopback/private/link-local/cloud-metadata addresses unless `ALLOW_PRIVATE_WEBHOOK_URLS=1`). See `docs/webhooks.md`.
+- **Diagnostic logs now record screen layout.** With Diagnostic Mode on (Settings, Diagnostics), NutriAgent writes a one-line snapshot of the layout at startup, on each page change, when a field gains or loses focus, when the keyboard or browser toolbar changes the visible area, on zoom and rotation, on returning to the app, and when scrolling stops. Each line has the screen, window, visible-area and page sizes, zoom level, the device's safe-area insets, where the tab bar and Diary's summary bar sit, and the focused field's font size. It helps sort out display problems on phones I can't test on directly, like the iPhone reports in [#208](https://github.com/TraceApps/nutritrace/issues/208) and [#212](https://github.com/TraceApps/nutritrace/issues/212): turn logging on, reproduce the problem, then Copy the logs and send them. Only sizes and positions are recorded, never what you type, and nothing is measured while logging is off.
 
 ### Changed
 
-- **Claude Fable 5.1 in Trace's model list.** It is now the most capable Claude option; Fable 5 stays selectable, marked as previous.
+- **Claude Fable 5.1 in NutriAgent's model list.** It is now the most capable Claude option; Fable 5 stays selectable, marked as previous.
 
 ### Fixed
 
-- **iPhone and iPad no longer zoom in when you tap a text field** ([#212](https://github.com/TraceApps/nutritrace/issues/212)). Safari on iOS zooms the page into any field whose text is smaller than 16px as soon as it gets focus, and leaves it zoomed, which pushed sheets like Body Stats partly off screen. NutriTrace's fields are 15px, so on iPhone and iPad they are now 16px (the Foods search, Settings search, Body Stats and every other field). Fields that are larger on purpose, like the calorie box in Quick Calories, keep their size. Android, desktop and Mac are unchanged. Thanks @Sanket-Pati-007 for the report.
-- **Copy buttons work when NutriTrace is opened over plain http** ([#212](https://github.com/TraceApps/nutritrace/issues/212)). Browsers only provide the clipboard to secure (HTTPS) pages, so on an http address, such as a LAN IP or a tailnet without HTTPS, every Copy button failed: diagnostic logs, the calibration export, API tokens, webhook secrets, the Docker update command and the wellness redirect URIs. They now fall back to the browser's older copy command, which still works there. The wellness redirect URI buttons also show an error now if copying fails, instead of doing nothing.
-- **Open Food Facts search keeps its best matches at the top** ([#213](https://github.com/TraceApps/nutritrace/issues/213)). NutriTrace reorders each page of OFF results so entries with a photo and more complete data come first, but it did that across the whole page, overriding how well each result matched the search. A product with no photo and sparse data, common for regions OFF contributors photograph less, could sink far down the list: searching "Blue Label Marie Biscuits", which OFF ranks first by a wide margin, put it 38th, under a beef steak. Results now keep OFF's order wherever its relevance scores are clearly different, and photos, completeness and Nutri-Score only sort results that match about equally well (such as the dozen identical "Nutella" entries). A Nutri-Score of "unknown" no longer counts as having one. Separately, the check added in #192 to tell a local OFF mirror's results from public ones didn't work, because OFF's public search responds in the same format, so public results were being sorted as mirror results; mirror results are now recognised by having no relevance score. Local mirror ordering is otherwise unchanged. Thanks @NoBackups for the report and the digging.
+- **iPhone and iPad no longer zoom in when you tap a text field** ([#212](https://github.com/TraceApps/nutritrace/issues/212)). Safari on iOS zooms the page into any field whose text is smaller than 16px as soon as it gets focus, and leaves it zoomed, which pushed sheets like Body Stats partly off screen. NutriAgent's fields are 15px, so on iPhone and iPad they are now 16px (the Foods search, Settings search, Body Stats and every other field). Fields that are larger on purpose, like the calorie box in Quick Calories, keep their size. Android, desktop and Mac are unchanged. Thanks @Sanket-Pati-007 for the report.
+- **Copy buttons work when NutriAgent is opened over plain http** ([#212](https://github.com/TraceApps/nutritrace/issues/212)). Browsers only provide the clipboard to secure (HTTPS) pages, so on an http address, such as a LAN IP or a tailnet without HTTPS, every Copy button failed: diagnostic logs, the calibration export, API tokens, webhook secrets, the Docker update command and the wellness redirect URIs. They now fall back to the browser's older copy command, which still works there. The wellness redirect URI buttons also show an error now if copying fails, instead of doing nothing.
+- **Open Food Facts search keeps its best matches at the top** ([#213](https://github.com/TraceApps/nutritrace/issues/213)). NutriAgent reorders each page of OFF results so entries with a photo and more complete data come first, but it did that across the whole page, overriding how well each result matched the search. A product with no photo and sparse data, common for regions OFF contributors photograph less, could sink far down the list: searching "Blue Label Marie Biscuits", which OFF ranks first by a wide margin, put it 38th, under a beef steak. Results now keep OFF's order wherever its relevance scores are clearly different, and photos, completeness and Nutri-Score only sort results that match about equally well (such as the dozen identical "Nutella" entries). A Nutri-Score of "unknown" no longer counts as having one. Separately, the check added in #192 to tell a local OFF mirror's results from public ones didn't work, because OFF's public search responds in the same format, so public results were being sorted as mirror results; mirror results are now recognised by having no relevance score. Local mirror ordering is otherwise unchanged. Thanks @NoBackups for the report and the digging.
 - **Macro goals set "As percent" now show and convert correctly** ([#209](https://github.com/TraceApps/nutritrace/issues/209), [#210](https://github.com/TraceApps/nutritrace/pull/210)). Applying a macro preset kept a stale "As percent" flag, so the preset's gram target was read as a percentage and Diary and Statistics showed it hugely inflated (a 137 g protein target became 626 g). Presets now clear the flag. Separately, the Goals page's Macros card, preview ring and preset chip read a percent goal as grams (30% showed as "30 g"), and ticking "As percent" only changed the label instead of converting the value. Both now convert, so Goals, Diary and Statistics agree. If you already hit the preset bug, re-applying your preset once clears it. Thanks @drunkenpeleg for the report and the fix.
-- **Cronometer import now handles the Daily Nutrition export, because the per-food one no longer has nutrition.** Cronometer has stopped including the nutrient columns in its "Export Food & Recipe Entries" file, at least on free accounts: it arrives as just `Day, Time, Group, Food Name, Amount, Category`, confirmed on three separate accounts in August and September 2026. NutriTrace previously rejected that file with a generic error and its instructions named an export button ("Servings") that Cronometer had renamed, so there was no way to get Cronometer data in at all. NutriTrace now imports **Export Daily Nutrition** as well: tick "Include diary group rows" and each day's meals import as one entry per meal, otherwise you get one entry per day. That is coarser than per-food, but it is the only export Cronometer still fills with numbers. The per-food import stays for files that do have nutrition, and a per-food file without it now says exactly that and points to the export that works. Two bugs found by running real exports through the importer are fixed along the way: Cronometer writes 12-hour times ("7:45 PM") and the AM/PM was being dropped, so every evening entry was saved as morning; and entries Cronometer exports with blank calories, such as supplements and most spices, were skipped along with their vitamins and minerals. Dates are no longer assumed to be month-first, since Cronometer writes them in the account's own format, and the day's "Total" row is left out so a day's calories are not counted twice (recognised by its numbers as well as its name, so a translated total doesn't slip through). ZIP detection reads the file's contents instead of trusting its name.
+- **Cronometer import now handles the Daily Nutrition export, because the per-food one no longer has nutrition.** Cronometer has stopped including the nutrient columns in its "Export Food & Recipe Entries" file, at least on free accounts: it arrives as just `Day, Time, Group, Food Name, Amount, Category`, confirmed on three separate accounts in August and September 2026. NutriAgent previously rejected that file with a generic error and its instructions named an export button ("Servings") that Cronometer had renamed, so there was no way to get Cronometer data in at all. NutriAgent now imports **Export Daily Nutrition** as well: tick "Include diary group rows" and each day's meals import as one entry per meal, otherwise you get one entry per day. That is coarser than per-food, but it is the only export Cronometer still fills with numbers. The per-food import stays for files that do have nutrition, and a per-food file without it now says exactly that and points to the export that works. Two bugs found by running real exports through the importer are fixed along the way: Cronometer writes 12-hour times ("7:45 PM") and the AM/PM was being dropped, so every evening entry was saved as morning; and entries Cronometer exports with blank calories, such as supplements and most spices, were skipped along with their vitamins and minerals. Dates are no longer assumed to be month-first, since Cronometer writes them in the account's own format, and the day's "Total" row is left out so a day's calories are not counted twice (recognised by its numbers as well as its name, so a translated total doesn't slip through). ZIP detection reads the file's contents instead of trusting its name.
 - **Diary's summary bar sits flush with the bottom of the screen on iPhone** ([#208](https://github.com/TraceApps/nutritrace/issues/208)). On an iPhone the summary bar could float with a see-through strip below it. With the tab bar on, the two bars were positioned separately (the summary bar at a distance worked out from the tab bar's height plus the home-indicator area), so anything that moved one without the other pulled them apart; they now sit together in one container anchored to the bottom of the screen. With the menu button instead of the tab bar, the bar was lifted clear of the home indicator but nothing painted the space underneath, so the diary showed through; the bar's own background now fills it. Layout on Android and desktop is unchanged. Thanks @zen-pavel for the report and the screenshots.
-- **Workaround for a black strip along the bottom of the iPhone home-screen app** ([#208](https://github.com/TraceApps/nutritrace/issues/208)). When NutriTrace is opened from the Home Screen, iOS can size the app shorter than the screen by the height of the status bar, leaving a black strip at the bottom (about 62px on a Pro Max) until something is scrolled. The reporter's screenshots show exactly that, and the strip is gone in the one taken after scrolling. On Home Screen launches only, the page now starts out a full screen tall, which should make iOS correct the size straight away instead of waiting for a scroll. This could not be tested on an iPhone here, so the new layout lines in the diagnostic logs record the screen, window and page heights to confirm whether it works. Safari tabs, Android and desktop are unaffected.
+- **Workaround for a black strip along the bottom of the iPhone home-screen app** ([#208](https://github.com/TraceApps/nutritrace/issues/208)). When NutriAgent is opened from the Home Screen, iOS can size the app shorter than the screen by the height of the status bar, leaving a black strip at the bottom (about 62px on a Pro Max) until something is scrolled. The reporter's screenshots show exactly that, and the strip is gone in the one taken after scrolling. On Home Screen launches only, the page now starts out a full screen tall, which should make iOS correct the size straight away instead of waiting for a scroll. This could not be tested on an iPhone here, so the new layout lines in the diagnostic logs record the screen, window and page heights to confirm whether it works. Safari tabs, Android and desktop are unaffected.
 
 ### Security
 
 - **Backup archives are no longer reachable from the public uploads directory.** `BACKUPS_PATH` defaults to a directory inside `UPLOADS_PATH`, and `/uploads` is served ahead of the auth middleware so an Android WebView `<img>` can load images without an `Authorization` header. A full-backup ZIP sitting in that directory was therefore fetchable by URL, while every `/api/full-backup` route is admin-only. It now returns 404 like anything else outside the served set. Scheduled backups are off by default, so an install that never enabled them and never created one by hand had nothing there to reach; there is no directory listing either, so a filename had to be known or guessed. The archive holds a full database dump, so if yours has been internet-facing with backups enabled, a look through your access log for `/uploads/backups/` will settle it either way. The exclusion tests the resolved filesystem path rather than the request URL, since `express.static` percent-decodes a path before opening the file while a route prefix matches the raw one, and the two disagree on exactly the inputs an attacker would pick.
-- **Uploaded files can no longer be served as web pages.** Uploads were saved under whatever file extension the uploader sent, and the extension decides what type a file is served as, so a file uploaded as audio but named `.html` would be served as a page from your NutriTrace address. Uploads are now saved under an extension that matches their actual type (anything unrecognised becomes `.bin` and downloads instead of opening), and every file under `/uploads` is served with `X-Content-Type-Options: nosniff` and a sandboxing content security policy, so nothing stored there can run script. Uploaded images still load as before.
+- **Uploaded files can no longer be served as web pages.** Uploads were saved under whatever file extension the uploader sent, and the extension decides what type a file is served as, so a file uploaded as audio but named `.html` would be served as a page from your NutriAgent address. Uploads are now saved under an extension that matches their actual type (anything unrecognised becomes `.bin` and downloads instead of opening), and every file under `/uploads` is served with `X-Content-Type-Options: nosniff` and a sandboxing content security policy, so nothing stored there can run script. Uploaded images still load as before.
 - **Server dependency updates clear five packages with known vulnerabilities.** multer 2.4.0 ([GHSA-wc9g-mqfw-jrwm](https://github.com/advisories/GHSA-wc9g-mqfw-jrwm), [GHSA-qfvm-cv95-jqjf](https://github.com/advisories/GHSA-qfvm-cv95-jqjf), [GHSA-535w-7cp7-47q4](https://github.com/advisories/GHSA-535w-7cp7-47q4), high: denial of service through crafted multipart uploads; [GHSA-qvfw-j98x-7q72](https://github.com/advisories/GHSA-qvfw-j98x-7q72), low), fast-uri 3.1.8 ([GHSA-5jgf-p345-68v8](https://github.com/advisories/GHSA-5jgf-p345-68v8), [GHSA-f65p-4m7j-42xc](https://github.com/advisories/GHSA-f65p-4m7j-42xc), [GHSA-fph4-wmhf-6fwf](https://github.com/advisories/GHSA-fph4-wmhf-6fwf), [GHSA-jqff-g426-hqxp](https://github.com/advisories/GHSA-jqff-g426-hqxp), high: URL host confusion), hono 4.13.8 (three moderate advisories), qs 6.16.0 (two moderate advisories), and adm-zip 0.6.1 ([GHSA-vwc7-r8mq-g2x9](https://github.com/advisories/GHSA-vwc7-r8mq-g2x9), moderate: extraction follows symlinks). All are minor or patch updates; the full test suite passes on them, and uploads were retested against a running server with identical results. `npm audit --omit=dev` now reports 0 vulnerabilities for both the app and the server. Pulling the new image is all that's needed.
 ---
 
@@ -424,7 +424,7 @@ Second dev pre-release of the 1.3.0 minor. Adds MCP date-range reads, outgoing w
 
 Minor release. Big themes: two-way catalog federation with CookTrace, opt-in diary day completion, a cluster of Open Food Facts local-mirror search fixes, and correctness fixes for Health Connect body composition and per-weekday calorie targets.
 
-CookTrace federation, in short: if you run CookTrace alongside NutriTrace, the two catalogs now talk to each other. Recipes you build in CookTrace import into NutriTrace's recipe catalog, one at a time from the Foods search or all at once from Settings. Pantry items come across into the foods library the same way, individually through a new CookTrace chip on the Foods tab or in bulk. Imported rows keep a link back to their source, so an edit on the CookTrace side surfaces a refresh prompt instead of silently drifting, and re-importing updates the same row rather than duplicating it. Opt-in and per-user, using a token you mint in CookTrace.
+CookTrace federation, in short: if you run CookTrace alongside NutriAgent, the two catalogs now talk to each other. Recipes you build in CookTrace import into NutriAgent's recipe catalog, one at a time from the Foods search or all at once from Settings. Pantry items come across into the foods library the same way, individually through a new CookTrace chip on the Foods tab or in bulk. Imported rows keep a link back to their source, so an edit on the CookTrace side surfaces a refresh prompt instead of silently drifting, and re-importing updates the same row rather than duplicating it. Opt-in and per-user, using a token you mint in CookTrace.
 
 Community translations are open on Weblate.
 
@@ -434,9 +434,9 @@ Community translations are open on Weblate.
 
 ### Added
 
-- **Import CookTrace recipes.** On the Foods screen's Recipes tab, a CookTrace chip searches your CookTrace instance and opens the picked recipe in the Meal Editor, pre-filled with its ingredients, servings, photo and totals. Settings, Connected Services, CookTrace, Import All Recipes does the whole catalog at once, with live progress and per-recipe failures counted as skips rather than aborting the batch. Recipes keep the totals CookTrace computed: its rollup does density-aware conversion (it knows "2 cups flour" in grams via `g_per_cup`), which cannot be reproduced from the ingredient rows alone, so saving preserves those figures instead of substituting a weaker items-derived sum. Editing the ingredients yourself, or running Recompute, hands the calculation back to NutriTrace. Ingredient nutrition resolves through the CookTrace pantry the way you would expect, with a generic taking its designated variant's values, a variant with no values of its own inheriting from its generic, calories derived from carbohydrate, protein and fat when only macros were recorded, and an unlinked ingredient still matching a same-named pantry row. Each ingredient carries its pantry photo.
+- **Import CookTrace recipes.** On the Foods screen's Recipes tab, a CookTrace chip searches your CookTrace instance and opens the picked recipe in the Meal Editor, pre-filled with its ingredients, servings, photo and totals. Settings, Connected Services, CookTrace, Import All Recipes does the whole catalog at once, with live progress and per-recipe failures counted as skips rather than aborting the batch. Recipes keep the totals CookTrace computed: its rollup does density-aware conversion (it knows "2 cups flour" in grams via `g_per_cup`), which cannot be reproduced from the ingredient rows alone, so saving preserves those figures instead of substituting a weaker items-derived sum. Editing the ingredients yourself, or running Recompute, hands the calculation back to NutriAgent. Ingredient nutrition resolves through the CookTrace pantry the way you would expect, with a generic taking its designated variant's values, a variant with no values of its own inheriting from its generic, calories derived from carbohydrate, protein and fat when only macros were recorded, and an unlinked ingredient still matching a same-named pantry row. Each ingredient carries its pantry photo.
 - **Import CookTrace pantry items.** A CookTrace chip on the Foods tab searches your pantry and opens the picked row in the Food editor; Settings, Connected Services, CookTrace, Import Pantry Items brings the whole pantry across in one action. Generic parents that have variants are skipped, since the variants carry the real nutrition and a bare "Flour" next to "Flour, Bread" would be unusable; standalone items and variants both come across, with variants named "Parent, Child" so they read cleanly. Searching matches that composed name, so a variant stored as "Bread" under a "Flour" generic is still found by typing `flour`. A row whose barcode already matches a food you created yourself is left untouched rather than overwritten, and reported separately so the counts reflect what actually changed. Requires a CookTrace token carrying the new `read:pantry` scope.
-- **Imported rows stay linked to their source.** Re-importing anything from CookTrace updates the row you already have instead of creating a second copy. Open a CookTrace-imported recipe and NutriTrace quietly checks the source in the background: if CookTrace's copy is newer, a banner offers to pull the latest name, ingredients and totals, and it never overwrites without your say-so. If the source recipe has been deleted outright, a warning banner offers **Unlink** (keep your copy, drop the CookTrace link) or **Delete** (remove your copy). Being offline never triggers that banner. The provenance itself, including the From CookTrace badge and the link back to the original, survives a full-backup restore and propagates to your other devices through the normal sync path.
+- **Imported rows stay linked to their source.** Re-importing anything from CookTrace updates the row you already have instead of creating a second copy. Open a CookTrace-imported recipe and NutriAgent quietly checks the source in the background: if CookTrace's copy is newer, a banner offers to pull the latest name, ingredients and totals, and it never overwrites without your say-so. If the source recipe has been deleted outright, a warning banner offers **Unlink** (keep your copy, drop the CookTrace link) or **Delete** (remove your copy). Being offline never triggers that banner. The provenance itself, including the From CookTrace badge and the link back to the original, survives a full-backup restore and propagates to your other devices through the normal sync path.
 - **Diary day completion** ([#207](https://github.com/TraceApps/nutritrace/issues/207)). Opt-in via Settings, Diary, Show Day Completion (off by default; when off the diary looks exactly like it did before this feature). When on: a check toggle in the date bar closes the current day, marked days show a green check on the week strip / date picker / date-bar label, Statistics grows a "Marked complete: N of M days" KPI in the right rail plus a row of tiny green dots below the chart's x-axis, the weekly summary push and email both include a "Marked complete: X of 7 days" line, and the Android bedtime notification carries a Close today quick action that marks the day without opening the app. Per-meal companion: each meal card gets a check toggle, day-close confirms empty-and-unmarked slots (fasters mark breakfast skipped once and stop being re-prompted), and marking every populated meal auto-closes the day. Cross-device sync uses offline-safe rules: an offline device pushing null cannot clear a mark the other device set, and per-meal sets union-merge across devices. Storage adds `completed_at TEXT` and `completed_meals TEXT` on the diary row (both covered by full-backup export/import and by cross-device sync). First time you mark a day complete without meal reminders enabled, a one-time tip points at Settings, Notifications so you can catch a missing snack earlier next time.
 - **Average Heart Rate card in Wellness** ([#205](https://github.com/TraceApps/nutritrace/issues/205)). Health Connect was already ingesting `avg_heart_rate` into local `wellness_data`, but Wellness had no card definition for it, so the value silently existed on disk without a surface. Now shows as a distinct card in the Heart group alongside Resting Heart Rate. Distinct from Resting HR (fully at rest); this is the day's average from your wearable, useful for spotting an unusually high or low day. Thanks @kgenerozov.
 - **Opt-in "Mirror wellness weight to Body Stats" toggle** ([#200](https://github.com/TraceApps/nutritrace/issues/200)). Settings → Wellness has a new toggle (off by default). When on, weight readings that come in via Health Connect also populate that day's diary Body Stats weight, so the Body Stats widget on Diary and the Weight goal on Goals both light up from your scale reading. Manual Body Stats entries are never overwritten; the mirror only fills days that are currently empty. Withings has always applied this mirror unconditionally, so its behavior stays the same regardless of the toggle.
@@ -453,7 +453,7 @@ Community translations are open on Weblate.
 
 ### Fixed
 
-- **Mealie images now self-host when your Mealie instance is on the same LAN.** The image self-hosting step has an SSRF guard that refuses to fetch from any private or loopback host (10.x, 172.16.x, 192.168.x, 127.x, link-local, IPv6 ULA). On a home-server setup where NutriTrace and Mealie sit on the same network, that silently blocked every recipe image: the raw private-IP URL got stored instead, and any client whose network could not reach that address showed an empty slot. NutriTrace now trusts the Mealie base URL you saved in Settings for image fetches only, since configuring it proves you can reach the host. Instances on genuinely separate networks still cannot fetch the image, because the server has no route to the private address; the recipe itself imports either way.
+- **Mealie images now self-host when your Mealie instance is on the same LAN.** The image self-hosting step has an SSRF guard that refuses to fetch from any private or loopback host (10.x, 172.16.x, 192.168.x, 127.x, link-local, IPv6 ULA). On a home-server setup where NutriAgent and Mealie sit on the same network, that silently blocked every recipe image: the raw private-IP URL got stored instead, and any client whose network could not reach that address showed an empty slot. NutriAgent now trusts the Mealie base URL you saved in Settings for image fetches only, since configuring it proves you can reach the host. Instances on genuinely separate networks still cannot fetch the image, because the server has no route to the private address; the recipe itself imports either way.
 - **Health Connect body composition no longer lands as 0** ([#206](https://github.com/TraceApps/nutritrace/issues/206)). The pinned `@devmaxime/capacitor-health-connect` 1.1.0 only custom-converts a few record types (Weight, Steps, Sleep, RestingHeartRate). Everything else arrives in JavaScript as the AndroidX `connect-client` Kotlin `toString()` string. Bone Mass, Lean Body Mass, BodyFat, Body Temperature, Respiratory Rate, Vo2 Max, and Basal Metabolic Rate previously read those strings via `latest.mass?.inKilograms || 0` and stored 0 in `wellness_data`, so a real 25.4 kg Lean Mass rendered as "0.0 kg". Also, BMR arrived in Watts and was silently written as kcal/day. Fixed with a shared parser layer (`src/lib/health-connect-parsers.js`) that handles every Kotlin string shape (`mass=1.5 kilograms`, `Mass{value=1.5, unit=KILOGRAMS}`, `Mass(inKilograms=1.5)`, no-space `1.5kg`, POUNDS conversion, and the Power/Percentage/Temperature analogues). BMR Watts convert to kcal/day using the correct physical factor (1 W = 20.65 kcal/day). Values that fail to parse are OMITTED (`missing != zero`) so nothing bogus gets stored. **One-shot cleanup** on next app launch prunes existing `wellness_data` rows saved as 0 for these metrics; the next Health Connect sync writes the correct values. Thanks @kgenerozov for the crisp repro and the AndroidX / plugin-internals detective work.
 - **Health Connect: partial grants no longer skip missing permissions** ([#204](https://github.com/TraceApps/nutritrace/issues/204)). The permission request used to return early as soon as any read permission was granted, so a user who granted Steps or Sleep first never got asked for Heart Rate, Resting Heart Rate, or the four other types the read code queries (Distance, Total / Active calories, Resting Heart Rate). It now reconciles the desired list against currently granted permissions and requests just the missing ones, with a per-name fallback if the plugin rejects the batch (guards against the `@devmaxime` plugin's whole-batch-reject when a name isn't in its record-type map). **User-visible behavior change**: users who previously granted only a subset will see one Health Connect dialog asking for the missing types the next time they toggle Enable in Settings, Wellness. Fully-granted users see no dialog. Thanks @kgenerozov for the repro.
 - **Diary Remaining and Statistics goal line now honor per-weekday calorie / macro targets** ([#203](https://github.com/TraceApps/nutritrace/issues/203)). With "Different target per weekday" enabled, both surfaces were reading the weekly peak instead of the day's actual target: a Sunday=2400 / Tuesday=2700 setup showed 404 kcal Remaining on Sunday after 2296 kcal logged, when it should have been 104. Diary now resolves the target from `days[weekday]` based on the viewed calendar date (parsed as local midnight so it can't flip across time zones), and Statistics uses the seven-day average of `days[]` for its range-based chart line and "vs goal" KPI (peak was misleading for a period summary). Percent-based macros derive from the correct per-day calorie target. Shared (single-target) users see no change. Thanks @kgenerozov for the crisp repro and root-cause trace.
@@ -475,14 +475,14 @@ Community translations are open on Weblate.
 - **Mirror search never loaded more than the first page even when hundreds of results matched** ([#189](https://github.com/TraceApps/nutritrace/issues/189)). The response `count` was `rows.length` (page size), so the client's `hasMore` math could never fire. Now runs a parallel `COUNT(*)` with the same predicates and returns the real total (`Number()`-wrapped so the BigInt serializes). Both `ORDER BY` clauses also picked up `code ASC` as a final unique tiebreak so pages partition cleanly without duplicating or dropping rows across boundaries.
 - **Multi-word searches only matched exact adjacent phrases in the exact typed order** ([#190](https://github.com/TraceApps/nutritrace/issues/190)). The whole query was one `%q%` pattern, so "dunkin croissant" would silently miss a product named "Bacon Egg and Cheese Croissant (Dunkin')" because the two words are not adjacent, and reversing the words changed results. `searchByName` now tokenizes on whitespace and ANDs per-token substring matches against name, brands, and code. The prefix-rank CASE still uses the full phrase so exact-phrase starts sort first.
 - **A search returning two rows with the same barcode froze the entire app until reload** ([#191](https://github.com/TraceApps/nutritrace/issues/191)). The stock OFF snapshot contains 60 duplicated codes across 4.7M rows (two genuinely different products can share a barcode via OFF data errors), which triggered Svelte's `each_key_duplicate` on the search-results list and killed the render loop. Both search-result each blocks (`visibleApiResults` and the all-mode `_allModeItems`) now suffix their keys with the list index so a duplicate key is physically impossible. Duplicate rows stay visible on purpose so users can pick which of two barcode-collision entries matches their product.
-- **Enabling user management no longer strands data written in single-user mode** ([TraceApps/docs#2](https://github.com/TraceApps/docs/issues/2)). An instance running with no accounts writes every row under a placeholder owner. Registering the first account only re-parented foods, meals and the diary, so the Activity log, fasting sessions, Trace chat history, wearable data (wellness and workouts) and the Fitbit / Google Health / Withings / Garmin connections all became invisible to the new admin. All of them are now claimed, in one transaction. The same handover runs whether the first account is created with a password or by the first OIDC sign-in; both paths now share one implementation instead of keeping separate copies that drifted.
+- **Enabling user management no longer strands data written in single-user mode** ([TraceApps/docs#2](https://github.com/TraceApps/docs/issues/2)). An instance running with no accounts writes every row under a placeholder owner. Registering the first account only re-parented foods, meals and the diary, so the Activity log, fasting sessions, NutriAgent chat history, wearable data (wellness and workouts) and the Fitbit / Google Health / Withings / Garmin connections all became invisible to the new admin. All of them are now claimed, in one transaction. The same handover runs whether the first account is created with a password or by the first OIDC sign-in; both paths now share one implementation instead of keeping separate copies that drifted.
 - **Data left behind in single-user mode is adopted on upgrade.** Instances that already enabled user management on an earlier build had their unowned rows stranded for good, since the handover only ever ran while the first account was being created. Startup now adopts them, once, when exactly one account exists. Zero accounts is ordinary single-user mode and is left alone; two or more is reported in the log rather than guessed at.
 - **Deleting an account no longer leaves its wearable data and OAuth tokens in the database.** `wellness_data`, `workouts` and the Fitbit / Google Health / Withings / Garmin token rows carry no foreign key to `users`, so they survived both the admin delete-user action and self-service account deletion. Live refresh tokens for a deleted account stayed on disk. All four removal paths (self-delete, admin delete, disable user management, lockout recovery) now clear them. Genuinely unowned rows are untouched, since disabling returns the instance to single-user mode where they must stay readable.
 - **`/api/wellness/latest` no longer hides wearable metrics in single-user mode.** It read only the `NULL` owner while the pollers write `0`, so every Fitbit-sourced metric was invisible to that endpoint. Now reads both, matching the equivalent query in `routes/withings.js`. Wearable tables receive two different placeholder owners (the pollers write `0`, the Android sync writes `NULL`) and carry UNIQUE indexes on `user_id`, so the two sets are merged rather than colliding and aborting the registration. The same incomplete list existed a second time in the OIDC first-login bootstrap, so an instance whose first account arrives via SSO had the identical bug; both paths now share one implementation.
 
 ### Security
 
-- **nodemailer bumped to 9.1.1** ([GHSA-8m3c-c648-2xjj](https://github.com/advisories/GHSA-8m3c-c648-2xjj), high). `resolveContent()` on a `MailMessage` bypassed `disableFileAccess` / `disableUrlAccess` when called with the legacy signature. NutriTrace only sends templated transactional mail with no caller-supplied attachment paths, so practical exposure was low, but the patched release is a minor bump within 9.x with no migration. `npm audit --production` now reports 0 vulnerabilities.
+- **nodemailer bumped to 9.1.1** ([GHSA-8m3c-c648-2xjj](https://github.com/advisories/GHSA-8m3c-c648-2xjj), high). `resolveContent()` on a `MailMessage` bypassed `disableFileAccess` / `disableUrlAccess` when called with the legacy signature. NutriAgent only sends templated transactional mail with no caller-supplied attachment paths, so practical exposure was low, but the patched release is a minor bump within 9.x with no migration. `npm audit --production` now reports 0 vulnerabilities.
 
 ---
 
@@ -495,7 +495,7 @@ Community translations are open on Weblate.
 ### Added
 
 - **Wide-screen redesign at ≥1280px, first pass.** Every routed section (Diary, Foods, Statistics, Goals, Wellness, Settings) plus the Food and Meal editors got a proper desktop layout in this cycle. The goal is a genuinely useful experience on the extra horizontal real estate instead of a stretched-out phone stack. This is the starting point, not the finish line. Wider breakpoint coverage (foldables and small tablets currently fall back to the mobile layout), a per-user layout-width picker, and the full two-pane Settings shell are all on the backlog for future releases. `Force Mobile Layout` remains the opt-out for anyone who prefers the compact stack on wide screens.
-- **Model Context Protocol (MCP) server** ([#103](https://github.com/TraceApps/nutritrace/issues/103)). NutriTrace now exposes a read + write MCP endpoint so Claude, Continue, and other MCP-aware agents can search your food catalog, log entries, propose meals, and read diary history without a separate API dance. Read tools cover foods (search / list / detail), meals (search / recent / detail), diary (by date / range / averages), and body stats. Write tools cover diary logging, quick calories, food catalog creation, and meal creation. All gated behind the `mcp:read` / `mcp:write` API-key scopes. Tolerates common nutriment aliases (`protein`, `carbs`, `vitamin-b12`) automatically. See [/reference/mcp-tools/](https://traceapps.github.io/docs/reference/mcp-tools/) for the full tool list. Thanks to @javydekoning for the meal-side tool feedback.
+- **Model Context Protocol (MCP) server** ([#103](https://github.com/TraceApps/nutritrace/issues/103)). NutriAgent now exposes a read + write MCP endpoint so Claude, Continue, and other MCP-aware agents can search your food catalog, log entries, propose meals, and read diary history without a separate API dance. Read tools cover foods (search / list / detail), meals (search / recent / detail), diary (by date / range / averages), and body stats. Write tools cover diary logging, quick calories, food catalog creation, and meal creation. All gated behind the `mcp:read` / `mcp:write` API-key scopes. Tolerates common nutriment aliases (`protein`, `carbs`, `vitamin-b12`) automatically. See [/reference/mcp-tools/](https://traceapps.github.io/docs/reference/mcp-tools/) for the full tool list. Thanks to @javydekoning for the meal-side tool feedback.
 - **`POST /api/v1/activity` endpoint** ([#154](https://github.com/TraceApps/nutritrace/issues/154)). External services can log a manual activity entry via API using the new `write:activity` scope. Supports `external_id` for idempotent posts.
 - **Comma decimal separator** across all numeric inputs ([#160](https://github.com/TraceApps/nutritrace/issues/160)). Portion, quantity, nutrition per 100 g, weight and body measurements, water custom amount, Quick Calories, recipe amount, and all goal targets accept either `,` or `.`. Comma-locale users can type "2,5" without fighting the form.
 - **Shared image cropper** across Food / Meal / Recipe editors ([#159](https://github.com/TraceApps/nutritrace/pull/159), thanks @librarian). Resize handle, touch support, unified visual. Previously each editor had its own cropper and the Recipe one was stuck top-left with no resize.
@@ -522,7 +522,7 @@ Community translations are open on Weblate.
 
 ### Translations
 
-- **Weblate is open for community translations** at [hosted.weblate.org/projects/nutritrace](https://hosted.weblate.org/projects/nutritrace). Contribute a locale (or improve an existing one) without a GitHub round-trip. See [CONTRIBUTING.md](CONTRIBUTING.md#translations) for the workflow. Direct JSON pull requests still work too.
+- **Weblate is open for community translations** at [hosted.weblate.org/projects/nutriagent](https://hosted.weblate.org/projects/nutritrace). Contribute a locale (or improve an existing one) without a GitHub round-trip. See [CONTRIBUTING.md](CONTRIBUTING.md#translations) for the workflow. Direct JSON pull requests still work too.
 
 ### Security
 
@@ -600,7 +600,7 @@ issue tracker plus follow-ups on the dev05 comma decimal work.
 
 ### Translations
 
-- **Weblate is open for community translations** at [hosted.weblate.org/projects/nutritrace](https://hosted.weblate.org/projects/nutritrace). Contribute a locale (or improve an existing one) without a GitHub round-trip. Direct JSON pull requests still work too. See [CONTRIBUTING.md](CONTRIBUTING.md#translations) for the workflow.
+- **Weblate is open for community translations** at [hosted.weblate.org/projects/nutriagent](https://hosted.weblate.org/projects/nutritrace). Contribute a locale (or improve an existing one) without a GitHub round-trip. Direct JSON pull requests still work too. See [CONTRIBUTING.md](CONTRIBUTING.md#translations) for the workflow.
 - Czech translation started via Weblate (early, most strings still fall back to English).
 
 ### Security
@@ -676,7 +676,7 @@ Third dev pre-release of the 1.2.0 minor. Data-safety upgrade to how diary items
 
 ## [1.2.0-dev02] - 2026-08-10 (pre-release)
 
-Second dev pre-release of the 1.2.0 minor, and a substantial one. Every major page (Diary, Foods, Settings, Wellness, Statistics, Goals) now has a proper large-screen layout with rails, wider content areas, and page-specific extras like drag-to-copy meals and click-to-drill charts. Editors get a two-column layout. Deep-links wire the whole app to Statistics. A handful of bugs are fixed, notably an Android pull-to-refresh that fired mid-page. AI model presets are refreshed to current generations. Opt-in trace-level request diagnostics arrive server-side.
+Second dev pre-release of the 1.2.0 minor, and a substantial one. Every major page (Diary, Foods, Settings, Wellness, Statistics, Goals) now has a proper large-screen layout with rails, wider content areas, and page-specific extras like drag-to-copy meals and click-to-drill charts. Editors get a two-column layout. Deep-links wire the whole app to Statistics. A handful of bugs are fixed, notably an Android pull-to-refresh that fired mid-page. AI model presets are refreshed to current generations. Opt-in agent-level request diagnostics arrive server-side.
 
 > **Note on the large-screen redesign.** This is a first pass. Every page listed under "Large-screen layouts" below is expected to change further as feedback comes in and as I keep using it myself. If a widget placement, rail behavior, or interaction feels off, please open a Discussion or an issue with a screenshot; nothing here is locked in.
 
@@ -698,12 +698,12 @@ Second dev pre-release of the 1.2.0 minor, and a substantial one. Every major pa
 
 **Server + AI**
 
-- **Opt-in trace-level request diagnostics.** `LOG_LEVEL=trace` adds the most verbose server level, while request bodies require the separate `TRACE_REQUEST_BODIES=1` switch. Pre-parser instrumentation counts observed bytes and catches aborted or oversized requests without trusting `Content-Length`. Post-parser tracing emits bounded, credential-redacted contents for selected routes including sync pushes. API calls carry `X-Request-ID` across app and server logs, 413s emit one structured warning, static and upload traffic stays out of INFO logs, invalid logging configuration fails at startup, and the server startup line now includes its resolved NutriTrace version. Thanks to @librarian (PR #150).
-- **Model Context Protocol (MCP) server** ([#103](https://github.com/TraceApps/nutritrace/issues/103), thanks @javydekoning). *(promoted from dev01 for release-notes visibility)* 12 tools across three tiers, each gated by its own env flag AND its own token scope. Read tools (5) enabled with `MCP_ENABLED=1` and `mcp:read`. Write tools (4) add `MCP_WRITE_ENABLED=1` and `mcp:write`; everything lands as normal editable diary entries. Destructive tools (3) add `MCP_DESTROY_ENABLED=1`, `mcp:destroy`, AND every call must include `confirm: true`. Tombstoned diary days refuse writes rather than silently resurrect. Every tool query is scoped on `user_id`. Full setup + Claude Desktop config at [docs/nutritrace/mcp/](https://traceapps.github.io/docs/nutritrace/mcp/).
+- **Opt-in agent-level request diagnostics.** `LOG_LEVEL=trace` adds the most verbose server level, while request bodies require the separate `TRACE_REQUEST_BODIES=1` switch. Pre-parser instrumentation counts observed bytes and catches aborted or oversized requests without trusting `Content-Length`. Post-parser tracing emits bounded, credential-redacted contents for selected routes including sync pushes. API calls carry `X-Request-ID` across app and server logs, 413s emit one structured warning, static and upload traffic stays out of INFO logs, invalid logging configuration fails at startup, and the server startup line now includes its resolved NutriAgent version. Thanks to @librarian (PR #150).
+- **Model Context Protocol (MCP) server** ([#103](https://github.com/TraceApps/nutritrace/issues/103), thanks @javydekoning). *(promoted from dev01 for release-notes visibility)* 12 tools across three tiers, each gated by its own env flag AND its own token scope. Read tools (5) enabled with `MCP_ENABLED=1` and `mcp:read`. Write tools (4) add `MCP_WRITE_ENABLED=1` and `mcp:write`; everything lands as normal editable diary entries. Destructive tools (3) add `MCP_DESTROY_ENABLED=1`, `mcp:destroy`, AND every call must include `confirm: true`. Tombstoned diary days refuse writes rather than silently resurrect. Every tool query is scoped on `user_id`. Full setup + Claude Desktop config at [docs/nutriagent/mcp/](https://traceapps.github.io/docs/nutritrace/mcp/).
 
 ### Fixed
 
-- **AI Assistant custom model didn't persist** ([#151](https://github.com/TraceApps/nutritrace/issues/151), thanks @pliddle). Typing a model ID into the Custom field on any provider now saves on every keystroke instead of reverting to the last preset the next time you opened Settings. NutriTrace-only bug; the same code path was already correct in LiftTrace and CookTrace.
+- **AI Assistant custom model didn't persist** ([#151](https://github.com/TraceApps/nutritrace/issues/151), thanks @pliddle). Typing a model ID into the Custom field on any provider now saves on every keystroke instead of reverting to the last preset the next time you opened Settings. NutriAgent-only bug; the same code path was already correct in LiftTrace and CookTrace.
 - **Android pull-to-refresh fired mid-page.** Scrolling downward anywhere on a page could trigger the sync spinner because the gesture recognizer accepted any downward swipe. It now only fires at true top-of-scroll, matching Android's standard SwipeRefreshLayout behavior.
 - **Whole-app remount on every navigation.** The app shell was keying `<main>` on the full URL, which force-remounted on every intra-app link (flashing content, losing transient state on the incoming view). Now keys on the top-level route segment so same-shell nav stays live.
 
@@ -730,8 +730,8 @@ Patch release. Full OFF integration migration to the two current-canonical endpo
 ### Changed
 
 - **Barcode scan of an OFF-known product now shows the nutrition-facts sheet first instead of jumping into the editor.** Matches the flow when you tap an OFF search result: view nutrition, then Add to Diary or Edit. Only barcodes that OFF doesn't know go straight into the editor (nothing to view, must enter manually). Same-app-consistent UX regardless of whether you got to the food via search or scan.
-- **Open Food Facts search moved to search-a-licious for better relevance and future-proofing** (#133). NutriTrace now hits OFF's dedicated ElasticSearch-backed search service (`search.openfoodfacts.org/search`) for text queries instead of the deprecated v2 API. Multi-word queries rank more sensibly, French / German / Spanish queries respect the language preference correctly via `langs=`, and barcode lookups moved from `/api/v0/` to the current `/api/v3/` product endpoint (v2 was officially deprecated by OFF). Local OFF mirror (`OFF_LOCAL_DB`) unaffected. The proxy still intercepts both URL shapes and the frontend accepts both response envelopes so mirror + live paths keep working identically. NutriTrace is now on the two endpoints OFF actively recommends and matches CookTrace's OFF codepath so future fixes port cleanly between the two apps.
-- **Add-time hydration for OFF foods.** Because search-a-licious deliberately drops `serving_size`, `serving_quantity`, `nutrition_data_per`, and the `_serving` variants of nutriments (index space savings), NutriTrace now fetches full product detail via v3 the moment a user taps an OFF search result. Restores the Import Portion As setting, alt-units convenience picker ("1 slice (35g)"), and the cross-system nutrition-basis warning. Cached in-session per barcode so second taps are instant. Adds an invisible ~200-500ms once per unique food.
+- **Open Food Facts search moved to search-a-licious for better relevance and future-proofing** (#133). NutriAgent now hits OFF's dedicated ElasticSearch-backed search service (`search.openfoodfacts.org/search`) for text queries instead of the deprecated v2 API. Multi-word queries rank more sensibly, French / German / Spanish queries respect the language preference correctly via `langs=`, and barcode lookups moved from `/api/v0/` to the current `/api/v3/` product endpoint (v2 was officially deprecated by OFF). Local OFF mirror (`OFF_LOCAL_DB`) unaffected. The proxy still intercepts both URL shapes and the frontend accepts both response envelopes so mirror + live paths keep working identically. NutriAgent is now on the two endpoints OFF actively recommends and matches CookTrace's OFF codepath so future fixes port cleanly between the two apps.
+- **Add-time hydration for OFF foods.** Because search-a-licious deliberately drops `serving_size`, `serving_quantity`, `nutrition_data_per`, and the `_serving` variants of nutriments (index space savings), NutriAgent now fetches full product detail via v3 the moment a user taps an OFF search result. Restores the Import Portion As setting, alt-units convenience picker ("1 slice (35g)"), and the cross-system nutrition-basis warning. Cached in-session per barcode so second taps are instant. Adds an invisible ~200-500ms once per unique food.
 - **User queries with special characters no longer break OFF search.** `Ben & Jerry's`, `M&M's`, `Häagen-Dazs` etc. are now Lucene-escaped before being sent, so reserved operators (`+`, `"`, `&&`, `||`, brackets, etc.) don't trip the search parser.
 
 ---
@@ -750,14 +750,14 @@ Patch release. Restores OFF food-name search for the majority of self-hosters (b
 
 ## [1.1.0] - 2026-08-04
 
-> **⚠ Upgrade note.** The Android app identifier change (`app.nutritrace.local`, see "Changed" below) invalidates the WebView's cached auth cookie. Server-connected Android users will need to re-enter their server URL and sign back in once after upgrading; standalone Android users lose their theme / accent / display prefs but keep all food, meal, and diary data (that lives in local SQLite, unaffected). PWA / browser users are not affected.
+> **⚠ Upgrade note.** The Android app identifier change (`app.nutriagent.local`, see "Changed" below) invalidates the WebView's cached auth cookie. Server-connected Android users will need to re-enter their server URL and sign back in once after upgrading; standalone Android users lose their theme / accent / display prefs but keep all food, meal, and diary data (that lives in local SQLite, unaffected). PWA / browser users are not affected.
 
 ### Added
 
 - **Editable log time on diary entries** (#135, thanks @caioqv-dev). Tap any diary item to edit and the sheet shows a Logged Time picker next to Number of Servings (or above Save on Quick Calories entries). Fixes the common "ate lunch at 2pm but only logged it at 10pm" case where the entry's timestamp was stuck at whenever you added it. The picker only appears when **Settings → Diary → Show Timestamps** is on, keeping the edit sheet clean for users who don't care about per-item times. Uses the same in-app time picker as Fasting / Notifications / Backup schedules. Moving an entry to a different day is a separate feature and stays out of scope here.
 - **Foods page: configurable default search source** (#128, thanks @sunjam). New setting under **Settings → Foods → Default Search Source** picks which chip the Foods page opens with — All, My Foods, OFF, USDA, or Mealie. Existing users keep the current default (My Foods); power users who add new foods often can switch to All to fan out to OFF/USDA/Mealie on every visit.
 - **Optional email on the "Create Admin Account" form.** Shows up only when SMTP is configured via environment variables (`SMTP_HOST`/`SMTP_USER`/etc. in docker-compose), so we know the server can actually reach that address at that point. Stored on the admin's user record for password-reset and invite emails later. Missing this field was called out in #122 — thanks @sunjam.
-- **Accent-tinted browser chrome.** The browser's tab bar / address strip now picks up your current accent color via `<meta name="theme-color">`. Running multiple instances side by side (personal + family, or NT + CT + LT together) — pick a distinct accent per install and the tabs are visually different at a glance. Favicon and icons stay the branded NutriTrace mark.
+- **Accent-tinted browser chrome.** The browser's tab bar / address strip now picks up your current accent color via `<meta name="theme-color">`. Running multiple instances side by side (personal + family, or NT + CT + LT together) — pick a distinct accent per install and the tabs are visually different at a glance. Favicon and icons stay the branded NutriAgent mark.
 - **Pull-to-refresh sync + smarter connection banner (Android).** In native server mode, swipe down from the top of any page to trigger a manual sync. When sync fails, the on-screen banner now analyzes what went wrong (no network vs cellular-only vs server unreachable vs HTTP error) with actionable copy and a Retry button, instead of a generic "sync error". Contributed by @librarian (#124).
 
 - **In-app updates.** New Settings → Updates panel checks GitHub Releases
@@ -772,7 +772,7 @@ Patch release. Restores OFF food-name search for the majority of self-hosters (b
 ### Changed
 
 - **Redesigned Settings with per-section drill-in and search.** The single scrolling Settings page has been replaced with a per-section drill-in layout: each section (Appearance, Diary, Foods, Goals, Notifications, Backup, etc.) opens on its own sub-page with a smooth back-arrow animation. New in-Settings search jumps directly to any specific field across all sections, with deep-link support so the target row scroll-highlights on arrival. Sidebar keeps the current section highlighted while you're inside its sub-pages. Same settings, much less scroll.
-- **Bitwarden / password managers now show a real app identifier instead of "localhost" (Android).** The Android app used to serve its WebView from `https://localhost/`, so autofill entries saved through Bitwarden / 1Password / etc. showed up as "localhost" — indistinguishable from any other localhost app. NutriTrace now identifies itself as `app.nutritrace.local`, which reads clearly in autofill dialogs and in your saved-credentials list. **One-time upgrade cost:** the origin change orphans locally cached web-only state, so on first launch after upgrading you'll need to re-enter your server URL + log in again (server-connected users), and your theme / accent / display prefs will reset to defaults (standalone users). **Your food, meal, and diary data is unaffected** — that lives in a local SQLite database that's separate from the WebView.
+- **Bitwarden / password managers now show a real app identifier instead of "localhost" (Android).** The Android app used to serve its WebView from `https://localhost/`, so autofill entries saved through Bitwarden / 1Password / etc. showed up as "localhost" — indistinguishable from any other localhost app. NutriAgent now identifies itself as `app.nutriagent.local`, which reads clearly in autofill dialogs and in your saved-credentials list. **One-time upgrade cost:** the origin change orphans locally cached web-only state, so on first launch after upgrading you'll need to re-enter your server URL + log in again (server-connected users), and your theme / accent / display prefs will reset to defaults (standalone users). **Your food, meal, and diary data is unaffected** — that lives in a local SQLite database that's separate from the WebView.
 - **SMTP "Username" field relabeled to "Email or Username".** Most SMTP providers (Gmail, Outlook, etc.) want the full email as the username. Label change removes the guesswork.
 - **Fitbit connect card hidden for new users.** Fitbit's Web API is being
   wound down; Google Health is the recommended path forward. Users who
@@ -848,7 +848,7 @@ Patch release. Restores OFF food-name search for the majority of self-hosters (b
   disable password login server-wide, so users must sign in via an OIDC
   provider. Locks the corresponding admin UI toggle with an env-lock
   note. Mirrors the pattern of other env-locked settings. Applies to
-  NutriTrace, LiftTrace, and CookTrace since all three share the same
+  NutriAgent, LiftTrace, and CookTrace since all three share the same
   shape (asked for on LT #16).
 - **Per-source tier filter dropdowns on the Foods search bar.** A caret
   next to the OFF and USDA source chips opens a checkbox panel to
@@ -936,7 +936,7 @@ Patch release. Restores OFF food-name search for the majority of self-hosters (b
 
 ### Fixed
 
-- **Backups, SMTP config, and other admin panels now work in single-user mode.** With User Management turned off, `POST /api/full-backup`, `PUT /api/app-config`, `POST /api/app-config/test-email`, `POST /api/off-local/refresh`, `GET /api/updates/server-status`, and related admin routes all returned 403 "Admin only" even though NutriTrace's own frontend correctly identifies the sole owner as effectively-admin. `requireAdmin` middleware now passes through when User Management is off, mirroring `requireAuth`. Fourteen previously-broken admin routes come back to life. LiftTrace already had this fix; parity restored. Reported in [#118](https://github.com/traceapps/nutritrace/issues/118).
+- **Backups, SMTP config, and other admin panels now work in single-user mode.** With User Management turned off, `POST /api/full-backup`, `PUT /api/app-config`, `POST /api/app-config/test-email`, `POST /api/off-local/refresh`, `GET /api/updates/server-status`, and related admin routes all returned 403 "Admin only" even though NutriAgent's own frontend correctly identifies the sole owner as effectively-admin. `requireAdmin` middleware now passes through when User Management is off, mirroring `requireAuth`. Fourteen previously-broken admin routes come back to life. LiftTrace already had this fix; parity restored. Reported in [#118](https://github.com/traceapps/nutritrace/issues/118).
 
 ---
 
@@ -1016,7 +1016,7 @@ Patch release. Restores OFF food-name search for the majority of self-hosters (b
   disable password login server-wide, so users must sign in via an OIDC
   provider. Locks the corresponding admin UI toggle with an env-lock
   note. Mirrors the pattern of other env-locked settings. Applies to
-  NutriTrace, LiftTrace, and CookTrace since all three share the same
+  NutriAgent, LiftTrace, and CookTrace since all three share the same
   shape (asked for on LT #16).
 - **Per-source tier filter dropdowns on the Foods search bar.** A caret
   next to the OFF and USDA source chips opens a checkbox panel to
@@ -1373,7 +1373,7 @@ specific rc release is unaffected.
 
 ### Added
 
-- **Trace AI Now Logs Real Foods.** Asking the AI Assistant to "add
+- **NutriAgent AI Now Logs Real Foods.** Asking the AI Assistant to "add
   an apple to snacks" or "log Greek yogurt for breakfast" now
   creates a real food entry with full nutrition (protein, carbs,
   fat, fiber, vitamins) instead of a Quick Calories row with just
@@ -1452,7 +1452,7 @@ specific rc release is unaffected.
 
 ### Added
 
-- **AI Meal Photos.** Attach a meal photo in Trace and get an editable
+- **AI Meal Photos.** Attach a meal photo in NutriAgent and get an editable
   Nutrition Facts card to review before anything writes to your diary.
   Two card variants depending on what you ask for: Quick Calories
   (one-off entry, just kcal + macros for today) or Food entry (saves a
@@ -1491,13 +1491,13 @@ specific rc release is unaffected.
   shape regression in how VARCHAR fields are returned. Searching the
   local mirror returns real products again. Server-side fix; restart
   the container to pick it up.
-- **Tapping a reminder notification on Android now opens NutriTrace.**
+- **Tapping a reminder notification on Android now opens NutriAgent.**
   Meal / water / weigh-in reminders had no tap target, so tapping just
   dismissed the notification. Now they launch the app via the standard
   task-resume path.
-- **Env-locked AI deployments now support the full Trace tool set.**
+- **Env-locked AI deployments now support the full NutriAgent tool set.**
   The server-side AI proxy used when `AI_API_KEY` is set in env was
-  built before tool use shipped, so on env-locked installs Trace
+  built before tool use shipped, so on env-locked installs NutriAgent
   silently dropped every tool call (`get_diary`, `get_wellness`,
   `log_quick_calories`, etc.) and replied with text only. Now full
   parity with the direct-key configuration across Claude, OpenAI, and
@@ -1512,7 +1512,7 @@ specific rc release is unaffected.
 
 - New shared loading spinner with reduced-motion fallback; adopted in
   API Tokens loading row + Meal Editor food picker.
-- Trace AI can now see manually-entered Body Water %, matching how it
+- NutriAgent AI can now see manually-entered Body Water %, matching how it
   already saw Body Fat %.
 - Settings search now finds the body-stat visibility toggles via
   keywords like "body water", "hydration", "muscle", "bone".
@@ -1592,7 +1592,7 @@ specific rc release is unaffected.
 - **OIDC RP-initiated logout (PWA + Android).** Signing out now also ends the
   session at your identity provider, so the next sign-in isn't silently
   completed by a still-alive IdP session. Requires registering two Post Logout
-  Redirect URIs at your IdP (HTTPS root for PWA, `nutritrace://oidc-callback`
+  Redirect URIs at your IdP (HTTPS root for PWA, `nutriagent://oidc-callback`
   for Android). Thanks to @jimmielightner. (Issue #48, PR #49)
 - **Edit any Quick Calories entry.** Tap a Quick Calories row in the diary to
   change the kcal, name, or any of the three optional macros.
@@ -1626,8 +1626,8 @@ specific rc release is unaffected.
 ### Added
 
 - **Gradient page banners.** New Settings → Appearance → Page Banners dropdown (Animated / Gradient / Off). Gradient is a compact, accent-tinted header with a glassy backdrop: middle ground between the tall illustrated banners and the bare compact header. New installs default to Gradient; existing users keep whatever they had. Header action buttons (water, stats, kebab, etc.) get a frosted-pill treatment in Gradient mode so they stay readable against the accent backdrop.
-- **Quick Calories** (Issue #42). Bolt button on each meal section opens a fast-entry sheet for logging just calories without food or portion data, Fitbit-style. Honors your energy unit (kcal / kJ). Optional protein / carbs / fat fields under the kcal input for MFP-style "log the macros from the label" use. Settings → Diary toggles to show/hide the button and choose Summed or Separate display when you have multiple Quick Calorie entries in one meal. Trace AI can also log entries via voice or chat ("log 240 kcal for lunch with 20g protein").
-- **Logging streak in Trace.** Ask "what's my food logging streak" and Trace answers from the actual diary: consecutive days walking back from today (or yesterday if today isn't logged yet) until the first gap. Counts any diary engagement (food, water, body stats, notes), matching the typical user mental model of "I tracked today."
+- **Quick Calories** (Issue #42). Bolt button on each meal section opens a fast-entry sheet for logging just calories without food or portion data, Fitbit-style. Honors your energy unit (kcal / kJ). Optional protein / carbs / fat fields under the kcal input for MFP-style "log the macros from the label" use. Settings → Diary toggles to show/hide the button and choose Summed or Separate display when you have multiple Quick Calorie entries in one meal. NutriAgent AI can also log entries via voice or chat ("log 240 kcal for lunch with 20g protein").
+- **Logging streak in NutriAgent.** Ask "what's my food logging streak" and NutriAgent answers from the actual diary: consecutive days walking back from today (or yesterday if today isn't logged yet) until the first gap. Counts any diary engagement (food, water, body stats, notes), matching the typical user mental model of "I tracked today."
 
 ### Changed
 
@@ -1637,7 +1637,7 @@ specific rc release is unaffected.
 
 ### Fixed
 
-- **AI assistant streak hallucinations.** Mini-class models would invent streak numbers instead of calling the streak tool. Your streak is now pre-computed into Trace's context block on every chat round, so the answer is right in front of the model and doesn't depend on it picking the right tool.
+- **AI assistant streak hallucinations.** Mini-class models would invent streak numbers instead of calling the streak tool. Your streak is now pre-computed into NutriAgent's context block on every chat round, so the answer is right in front of the model and doesn't depend on it picking the right tool.
 
 ---
 
@@ -1645,14 +1645,14 @@ specific rc release is unaffected.
 
 ### Added
 
-- **Local Open Food Facts mirror** (self-hoster opt-in, env-gated). Point NutriTrace at a local DuckDB copy of OFF and barcode + name lookups hit it first for instant, network-free responses. Stale-mirror false negatives auto-heal by falling through to the public OFF API on a miss, so a week-old mirror still feels live. True air-gap mode (`OFF_LOCAL_ONLY=1`) blocks all remote traffic, including OFF account uploads. See `DEPLOY.md` → Local Open Food Facts mirror for the full setup. (Issue #22)
+- **Local Open Food Facts mirror** (self-hoster opt-in, env-gated). Point NutriAgent at a local DuckDB copy of OFF and barcode + name lookups hit it first for instant, network-free responses. Stale-mirror false negatives auto-heal by falling through to the public OFF API on a miss, so a week-old mirror still feels live. True air-gap mode (`OFF_LOCAL_ONLY=1`) blocks all remote traffic, including OFF account uploads. See `DEPLOY.md` → Local Open Food Facts mirror for the full setup. (Issue #22)
 - **In-app refresh control for the OFF mirror.** Settings → Connected Services → Open Food Facts (admin only) shows mirror size, last refresh, and an Auto-Refresh schedule (Off / Daily / Weekly / Monthly, default Weekly). A Refresh Now button kicks an immediate full download with live progress in the banner. Initial download happens automatically on first boot when the env var is set; no manual `wget` required. Refreshes use atomic swap, so no container restart is needed and a failed mid-flight download never corrupts the running mirror.
 - **Connection status banner for push notifications**, matching the pattern used by USDA / Mealie / AI / Wellness integrations. Top-of-card pill shows the configured provider; a Send Test button posts a test notification through whichever delivery method is active.
 
 ### Changed
 
 - **Sleep score tuning.** Very short nights (under 5 hours) no longer balloon the deep+REM percentage above realistic ceilings (35% under 5h, 40% under 6h), bringing calculated scores closer to Fitbit's own.
-- **About → Disclaimer strengthened.** Spells out the medical conditions NutriTrace is not designed for (diabetes, eating disorders, allergies, pregnancy, breastfeeding, pediatric needs, kidney/liver disease, metabolic disorders), and underscores that Trace AI answers and Open Food Facts data can be incorrect.
+- **About → Disclaimer strengthened.** Spells out the medical conditions NutriAgent is not designed for (diabetes, eating disorders, allergies, pregnancy, breastfeeding, pediatric needs, kidney/liver disease, metabolic disorders), and underscores that NutriAgent AI answers and Open Food Facts data can be incorrect.
 
 ### Fixed
 
@@ -1680,7 +1680,7 @@ specific rc release is unaffected.
 
 - **kcal/kJ inconsistencies when energy unit was set to kJ.** Food editor, diary footer, meal totals, statistics charts, goals, weekly summary email, and push notifications all respect the chosen unit now. Internal storage stays kcal; only the display converts. (Issue #38)
 - **Single-user mode: only the first food item added each day was visible** in the UI. A SQLite quirk meant NULL user_id rows never collided on upsert, so each save inserted a new row instead of updating. A one-time migration on first boot recovers items already in the database. (Issue #37)
-- **AI features failed on Android when configured via server env vars.** Smart Log voice (Trace hold-to-record), Scan Label, the chat panel, and Goal Insights all routed through a code path that didn't send the auth token Android needs, so calls returned 401 even though the env-lock was set correctly. The voice path also threw "AI provider not configured" before it ever reached the proxy. Both gaps are closed. (Issue #36 followup)
+- **AI features failed on Android when configured via server env vars.** Smart Log voice (NutriAgent hold-to-record), Scan Label, the chat panel, and Goal Insights all routed through a code path that didn't send the auth token Android needs, so calls returned 401 even though the env-lock was set correctly. The voice path also threw "AI provider not configured" before it ever reached the proxy. Both gaps are closed. (Issue #36 followup)
 
 ---
 
@@ -1688,7 +1688,7 @@ specific rc release is unaffected.
 
 ### Fixed
 
-- **Trace AI chat showed "API key required" when AI was configured via env vars but no per-user key was set.** The chat panel's setup gate was checking the per-user key only and didn't know about env-locked configuration. Users who only set `AI_API_KEY` in env (never opened Settings to configure a per-user key) couldn't get past the setup screen even though the proxy was correctly handling auth on the server side. (Issue #36)
+- **NutriAgent AI chat showed "API key required" when AI was configured via env vars but no per-user key was set.** The chat panel's setup gate was checking the per-user key only and didn't know about env-locked configuration. Users who only set `AI_API_KEY` in env (never opened Settings to configure a per-user key) couldn't get past the setup screen even though the proxy was correctly handling auth on the server side. (Issue #36)
 
 ---
 
@@ -1696,7 +1696,7 @@ specific rc release is unaffected.
 
 ### Fixed
 
-- **Trace AI chat said "API key required" even with `AI_API_KEY` set in env.** The chat path was using a separate code path from Settings → Test, which is why the test button said "Connected" but the actual chat refused to send. (Issue #36)
+- **NutriAgent AI chat said "API key required" even with `AI_API_KEY` set in env.** The chat path was using a separate code path from Settings → Test, which is why the test button said "Connected" but the actual chat refused to send. (Issue #36)
 
 ---
 
@@ -1758,7 +1758,7 @@ specific rc release is unaffected.
 - **Live nutrition preview** on the Add to Diary sheet. Calories plus protein, carbs, and fat update as you change serving size, unit, or number of servings. (Issue #30)
 - **Mass-aware unit conversion** when scaling nutrition. Changing the unit on a food (g, mg, kg, oz, lb, ml, l, tsp, tbsp, fl oz, cup) now actually converts the nutrition values. Previously the unit was just a label and the math ignored it. The full list of which units convert is documented in the project README. (Issue #29)
 - **Custom Units**. Add your own units (e.g. "shot", "scoop", "stick") in Settings → Custom Units. They appear under a Custom group in every unit picker. Custom units do not get mass conversion since they have no fixed gram weight; they scale by portion count only. The Settings card explains this on the spot.
-- **Day rollover**. If you leave NutriTrace open overnight and reopen it the next morning, the diary now auto-advances to the new today. Same for tabs that stay open across midnight.
+- **Day rollover**. If you leave NutriAgent open overnight and reopen it the next morning, the diary now auto-advances to the new today. Same for tabs that stay open across midnight.
 - **Connection status banners** across every integration. AI Assistant, Mealie, USDA, SMTP, Fitbit, Garmin, Withings, and Health Connect each show a consistent banner with current status and a one-tap Test / Sync / Disconnect button.
 - **Sync Now** button on the Settings cards for Withings, Garmin, and Health Connect. Previously only Fitbit had one in Settings.
 
@@ -1853,7 +1853,7 @@ specific rc release is unaffected.
 - User management: invite by email, revoke pending invites, block invites to existing accounts. Optional zxcvbn-backed password strength policy.
 - Wizard summary clarifies the TDEE label and shows the goal-factor math.
 - Android local-only mode reaches feature parity with server mode for Adaptive TDEE and the Fasting tracker.
-- AI Assistant (Trace) gains two new tools: `get_adaptive_tdee` and `get_activity_log`.
+- AI Assistant (NutriAgent) gains two new tools: `get_adaptive_tdee` and `get_activity_log`.
 - `INSECURE_COOKIES` env var is now documented in `.env.example` and the README env-vars table. Required for self-hosters on plain HTTP without TLS in front.
 
 ### Fixes
@@ -1898,7 +1898,7 @@ specific rc release is unaffected.
 
 ### Energy units (kJ vs kcal)
 - The energy-unit setting is now respected throughout the UI. Previously it was honored for goals and storage, but Diary food rows, the daily summary, the macro ring, the Foods picker, Meal editor, Smart Log, Wizard summary, the Wellness "Calories Burned" tile, the Withings BMR tile, and the Nutrition Import preview all rendered "kcal" regardless of the setting. Reported by an Australian user on Lemmy. Internal storage stays in kcal, only the display layer flips.
-- The AI assistant (Trace) now speaks in your chosen energy unit when summarizing workouts and basal metabolic rate, instead of always saying "kcal".
+- The AI assistant (NutriAgent) now speaks in your chosen energy unit when summarizing workouts and basal metabolic rate, instead of always saying "kcal".
 - Statistics now defaults its energy metric to **Kilojoules** when your energy unit is kJ, instead of always defaulting to Calories.
 
 ### Wizard
@@ -1909,9 +1909,9 @@ specific rc release is unaffected.
 ## [1.0.0-rc.14] — 2026-05-03 — Android app available
 
 ### Android app
-- NutriTrace is now available as a native Android app, alongside the existing PWA. Download the signed APK directly from the GitHub Releases page.
-- **Standalone or connected** — use it pure-offline with everything stored on the device, or connect it to a NutriTrace server for sync.
-- **Wellness via deep links** — Fitbit, Garmin, and Withings OAuth flows open the system browser and return to the app via `nutritrace://`.
+- NutriAgent is now available as a native Android app, alongside the existing PWA. Download the signed APK directly from the GitHub Releases page.
+- **Standalone or connected** — use it pure-offline with everything stored on the device, or connect it to a NutriAgent server for sync.
+- **Wellness via deep links** — Fitbit, Garmin, and Withings OAuth flows open the system browser and return to the app via `nutriagent://`.
 - **Health Connect** — read steps, sleep, heart rate, body weight, and more from any Health Connect-compatible source. No external account required.
 - **Native barcode scanning** via Google's ML Kit, with a Code Scanner fallback.
 - **Native notifications** — water reminders, meal reminders, weigh-in prompts, and goal celebrations all schedule through Android's notification system, including in deep doze.
@@ -1951,7 +1951,7 @@ Issues and feedback welcome on GitHub.
 - Switching between single-user and multi-user no longer loses your wizard-configured settings or profile data.
 
 ### AI Assistant
-- Trace now has always-available access to your profile: name, nickname, age, gender, height, weight, target weight, activity level. Ask "what's my name" or "how old am I" and you get an answer without a tool round-trip.
+- NutriAgent now has always-available access to your profile: name, nickname, age, gender, height, weight, target weight, activity level. Ask "what's my name" or "how old am I" and you get an answer without a tool round-trip.
 
 ---
 
@@ -1959,7 +1959,7 @@ Issues and feedback welcome on GitHub.
 
 ### AI Assistant
 - New "OpenAI Compatible" provider — point at Ollama, LM Studio, DeepSeek, Groq, or any `/v1/chat/completions` endpoint. Local endpoints don't need an API key.
-- Trace greets you by name when you've set one in your Profile.
+- NutriAgent greets you by name when you've set one in your Profile.
 
 ### Diary
 - Portable JSON export now has a self-describing header (version, counts) and restores Activity entries on import.
@@ -2019,7 +2019,7 @@ Issues and feedback welcome on GitHub.
 - Client secrets encrypted at rest. Discovery cached, PKCE + state + nonce validated on every callback.
 
 ### Import from another app *(experimental)*
-- Bring past days into NutriTrace from **MyFitnessPal**, **Lose It!**, **Cronometer**, or a generic spreadsheet. Settings → Import from another app.
+- Bring past days into NutriAgent from **MyFitnessPal**, **Lose It!**, **Cronometer**, or a generic spreadsheet. Settings → Import from another app.
 - Preview shows day count, date range, and any unmapped meal labels before commit. Per-date conflict policy: skip, merge, or replace.
 
 ### Settings reorganization
@@ -2075,10 +2075,10 @@ exercise calories without a wearable. Closes [#3](https://github.com/TraceApps/n
   (replaces the wearable's burn for the day), or *Add together*
   (with a double-count warning). The policy section only appears when
   the earn-back toggle is on.
-- **Trace can log activity for you.** New `add_activity_entry`
+- **NutriAgent can log activity for you.** New `add_activity_entry`
   tool — say *"I hiked 10 miles, about 1000 calories"* in chat or
-  hold-to-record on the FAB and Trace logs it directly. If you don't
-  supply a number, Trace can estimate one from your body profile —
+  hold-to-record on the FAB and NutriAgent logs it directly. If you don't
+  supply a number, NutriAgent can estimate one from your body profile —
   gated by a separate "Estimate activity calories" toggle in Settings
   → AI Assistant, which only enables when your weight, height, date
   of birth, and sex are all set.
@@ -2100,12 +2100,12 @@ exercise calories without a wearable. Closes [#3](https://github.com/TraceApps/n
 ## [1.0.0-rc.6] — 2026-04-28 — i18n scaffolding, subpath support, wizard cleanup
 
 ### Added
-- **Internationalization (i18n) scaffolding.** `svelte-i18n` wired up with a JSON-per-locale model under `src/i18n/`. New "Language" picker in Settings → Regional & Units that drives the active locale reactively. ~210 source strings extracted across navigation, page titles, full auth flow (Login / ForgotPassword / ResetPassword / AcceptInvite / Profile), the wizard, primary actions in Diary / Foods / Goals / FoodEditor / MealEditor, common toasts/buttons, and the Trace AI assistant FAB. New `npm run i18n:check` script reports per-locale coverage. Translation contributor guide added to `CONTRIBUTING.md → Translations` (covers adding a new language, conventions, and the "use regulatory nutrient terms not literal translations" gotcha for nutrition labels). Server-side strings (email subjects, push bodies, AI system prompts) intentionally out of scope for now.
-- **Reverse-proxy / subpath support via `BASE_URL` env var.** Lets users mount NutriTrace at `/your-prefix/` for reverse-proxy deployments without URL rewriting. Server mounts all middleware + routes inside an Express sub-router at the prefix; the client reads the basePath from `window.__NT_CONFIG__` (injected at HTML serve time). `apiUrl()` and `resolveAssetUrl()` in `src/lib/platform.js` are the single point where the prefix gets applied. Vite `base: './'` so generated asset URLs are relative; PWA manifest `start_url` and `scope` are `'./'` so PWA install works at any subpath. Default empty `BASE_URL` is identical to pre-feature behavior — existing deployments don't migrate. New "Reverse Proxy with Subpath" section in `DEPLOY.md` with Caddy / nginx / Traefik configs and OAuth callback guidance. Closes the feature request from issue #3 (tellis82).
+- **Internationalization (i18n) scaffolding.** `svelte-i18n` wired up with a JSON-per-locale model under `src/i18n/`. New "Language" picker in Settings → Regional & Units that drives the active locale reactively. ~210 source strings extracted across navigation, page titles, full auth flow (Login / ForgotPassword / ResetPassword / AcceptInvite / Profile), the wizard, primary actions in Diary / Foods / Goals / FoodEditor / MealEditor, common toasts/buttons, and the NutriAgent AI assistant FAB. New `npm run i18n:check` script reports per-locale coverage. Translation contributor guide added to `CONTRIBUTING.md → Translations` (covers adding a new language, conventions, and the "use regulatory nutrient terms not literal translations" gotcha for nutrition labels). Server-side strings (email subjects, push bodies, AI system prompts) intentionally out of scope for now.
+- **Reverse-proxy / subpath support via `BASE_URL` env var.** Lets users mount NutriAgent at `/your-prefix/` for reverse-proxy deployments without URL rewriting. Server mounts all middleware + routes inside an Express sub-router at the prefix; the client reads the basePath from `window.__NT_CONFIG__` (injected at HTML serve time). `apiUrl()` and `resolveAssetUrl()` in `src/lib/platform.js` are the single point where the prefix gets applied. Vite `base: './'` so generated asset URLs are relative; PWA manifest `start_url` and `scope` are `'./'` so PWA install works at any subpath. Default empty `BASE_URL` is identical to pre-feature behavior — existing deployments don't migrate. New "Reverse Proxy with Subpath" section in `DEPLOY.md` with Caddy / nginx / Traefik configs and OAuth callback guidance. Closes the feature request from issue #3 (tellis82).
 - **Shared `DatePicker` + `DateInput` components.** New `src/components/ui/DatePicker.svelte` extracted from inline calendar duplicates in Diary and Wellness — month/year nav, year/month grid pickers, day grid, locale-aware. `src/components/ui/DateInput.svelte` wraps DatePicker with a masked text input + calendar trigger button for form-style date entry (Profile birthday, Wizard dob step). Manual entry is now masked: only digits accepted, separators auto-inserted in the user's chosen format (ISO / US / EU), capped at 8 digits.
 
 ### Changed
-- **Wizard cleanup pass.** Removed duplicate birthday + gender fields from the Create Account form — the dedicated `dob` and `gender` wizard steps already capture both. Eliminates the previous mismatch where the auth form offered M/F/Non-binary/Prefer-not but the BMR-bound dedicated step only accepts M/F. Variant-logic comment added in source explaining the three usermgmt-step variants (native local skip / PWA force-create / PWA toggle). Top-bar Skip button now routes through the same confirmation modal as the welcome screen's "I'll do this later" link instead of bailing immediately. Per-integration "Skip" buttons relabeled to "Skip this" so they're visually distinct from the wizard-level skip. AI provider card renamed from "AI Buddy" (legacy waistline-ai-buddy naming) to "AI Assistant" with description mentioning Trace.
+- **Wizard cleanup pass.** Removed duplicate birthday + gender fields from the Create Account form — the dedicated `dob` and `gender` wizard steps already capture both. Eliminates the previous mismatch where the auth form offered M/F/Non-binary/Prefer-not but the BMR-bound dedicated step only accepts M/F. Variant-logic comment added in source explaining the three usermgmt-step variants (native local skip / PWA force-create / PWA toggle). Top-bar Skip button now routes through the same confirmation modal as the welcome screen's "I'll do this later" link instead of bailing immediately. Per-integration "Skip" buttons relabeled to "Skip this" so they're visually distinct from the wizard-level skip. AI provider card renamed from "AI Buddy" (legacy waistline-ai-buddy naming) to "AI Assistant" with description mentioning NutriAgent.
 
 ### Fixed
 - **Subpath-mode bypass paths.** Several modules constructed API URLs locally instead of going through `apiUrl()`: `src/stores/auth.js` had a duplicate `_apiUrl` helper, `src/lib/api.js` used `_resolveBaseUrl()`, `src/lib/api-cached.js` had `_base()`, `src/lib/sync.js` had `_baseUrl()`, `src/stores/settings.js` had `_settingsUrl()`, and Wizard / AcceptInvite / ResetPassword had raw `fetch('/api/...')` calls. All consolidated through `platform.apiUrl()` so the BASE_URL prefix gets applied uniformly. Prevents the 404 wave seen during the first subpath test.
@@ -2129,7 +2129,7 @@ exercise calories without a wearable. Closes [#3](https://github.com/TraceApps/n
 ### Fixed
 - **Disconnect from server now fully clears cached auth state.** Disconnecting was leaving `wl:userId`, `nt:cachedUser`, `nt:cachedUserMgmt`, and `nt:csrf` behind in localStorage, so the app continued to think the user was signed in (showing only Logout instead of Connect/Login). `disconnectServer` now wipes the cached auth keys and resets the `currentUser` and `userMgmtActive` stores.
 - **Logout actually invalidates the server session.** The previous logout flow only cleared client state, leaving the JWT cookie valid; the next page load would silently re-authenticate. Logout now calls `auth.js logout()` which posts `/api/auth/logout` to invalidate the session server-side. `_refreshAuthFromServer` also treats a 401 from `/api/auth/me` as logged-out (clearing local state) instead of "server error, keep cached", so the Login route appears as expected.
-- **Settings restore after re-login.** After a logout + re-login on the same device, settings like Trace FAB visibility and the Wellness section toggle weren't reapplying even though the server returned them. Per-user-scoped localStorage keys (`wl_u<id>_<key>`) survive logout, so `DB.setSetting` was early-exiting on unchanged JSON values and never dispatching the `wl:setting` event the stores listen for. Added a `force=true` flag to `setSetting` and routed `loadServerSettings` through it after re-login.
+- **Settings restore after re-login.** After a logout + re-login on the same device, settings like NutriAgent FAB visibility and the Wellness section toggle weren't reapplying even though the server returned them. Per-user-scoped localStorage keys (`wl_u<id>_<key>`) survive logout, so `DB.setSetting` was early-exiting on unchanged JSON values and never dispatching the `wl:setting` event the stores listen for. Added a `force=true` flag to `setSetting` and routed `loadServerSettings` through it after re-login.
 
 ### Notes
 - New `Internationalization (i18n)` section in `FUTURE.md` covering svelte-i18n + Weblate as the planned translation contribution path. Tracked as v1.1 / v1.2 work.
@@ -2165,7 +2165,7 @@ exercise calories without a wearable. Closes [#3](https://github.com/TraceApps/n
 
 ## [1.0.0-rc.1] — 2026-04-26 — First public release candidate
 
-After many months of development as the v0.x-beta series, NutriTrace is going public for wider testing. This release candidate is a snapshot of the v0.39.x line that has been running stably in single-user and multi-user setups, with all major feature work complete. The full beta history is preserved below.
+After many months of development as the v0.x-beta series, NutriAgent is going public for wider testing. This release candidate is a snapshot of the v0.39.x line that has been running stably in single-user and multi-user setups, with all major feature work complete. The full beta history is preserved below.
 
 ### What's in v1.0.0-rc.1
 
@@ -2175,8 +2175,8 @@ Aggregate feature surface (everything below is shipped):
 - **Foods & Meals** — personal food database with photos, barcodes, categories; barcode scanner; meal/recipe builder; OFF + USDA + Mealie import; fuzzy search
 - **Statistics** — charts for any tracked metric, average / trend / goal overlays, dynamic-goal "Base Goal" line
 - **Goals** — calorie + nutrient goals with templates, Wizard TDEE calculation, optional Dynamic Calorie Goal (Experimental)
-- **AI Assistant (Trace)** — Claude / OpenAI / Gemini, tool use across all providers (real diary + meals + wellness + workouts + goals queries), Smart Log voice food entry (hold-to-record), Goal Insights (Experimental)
-- **Wellness Integrations** — Fitbit, Withings, Garmin, Health Connect (Android). Computed Trace Sleep / Readiness / Stress scores prioritizing day-to-day consistency
+- **AI Assistant (NutriAgent)** — Claude / OpenAI / Gemini, tool use across all providers (real diary + meals + wellness + workouts + goals queries), Smart Log voice food entry (hold-to-record), Goal Insights (Experimental)
+- **Wellness Integrations** — Fitbit, Withings, Garmin, Health Connect (Android). Computed NutriAgent Sleep / Readiness / Stress scores prioritizing day-to-day consistency
 - **Notifications** — device notifications + push services (Apprise / Gotify / ntfy), water / meal / weigh-in / bedtime / wellness alerts / weekly summary
 - **Backup & Restore** — full ZIP backup, JSON export/import, CSV diary export, Waistline import
 - **Multi-user + sharing** — optional account system, food sharing with private / group / specific visibility
@@ -2185,8 +2185,8 @@ Aggregate feature surface (everything below is shipped):
 
 ### Distribution
 
-- Source: [github.com/traceapps/nutritrace](https://github.com/traceapps/nutritrace) (AGPL-3.0)
-- Docker image: `ghcr.io/traceapps/nutritrace:1.0.0-rc.1` and `:latest`
+- Source: [github.com/traceapps/nutriagent](https://github.com/traceapps/nutritrace) (AGPL-3.0)
+- Docker image: `ghcr.io/traceapps/nutriagent:1.0.0-rc.1` and `:latest`
 
 ### Known limitations (post-1.0 work — see FUTURE.md)
 
@@ -2201,10 +2201,10 @@ Aggregate feature surface (everything below is shipped):
 
 ---
 
-## [0.39.36-beta] — 2026-04-26 — Trace FAB self-heals off-screen positions
+## [0.39.36-beta] — 2026-04-26 — NutriAgent FAB self-heals off-screen positions
 
 ### Fixed
-- **Trace FAB invisible on desktop PWA after viewport changes.** The FAB position is persisted in `localStorage` (`wl:aiFabPos`), but clamping was only applied during a drag — never on load or window resize. A position dragged on a wider monitor (or saved at a different viewport size) could end up off-screen on a smaller one, with no way to recover short of clearing localStorage. Mobile devices weren't affected because they have separate localStorage origins. Fix: added `_clampFabPos()` helper that clamps to current viewport bounds; runs on mount (writes back the corrected value) and inside `_updatePanelPos` on every resize. LiftTrace already had this guard — NutriTrace was the lone outlier.
+- **NutriAgent FAB invisible on desktop PWA after viewport changes.** The FAB position is persisted in `localStorage` (`wl:aiFabPos`), but clamping was only applied during a drag — never on load or window resize. A position dragged on a wider monitor (or saved at a different viewport size) could end up off-screen on a smaller one, with no way to recover short of clearing localStorage. Mobile devices weren't affected because they have separate localStorage origins. Fix: added `_clampFabPos()` helper that clamps to current viewport bounds; runs on mount (writes back the corrected value) and inside `_updatePanelPos` on every resize. LiftTrace already had this guard — NutriAgent was the lone outlier.
 
 ### Added
 - **Collapsible "Yesterday's Meals" + "Saved Meals" sections** in Foods → Meals tab. Each section header is now a clickable row with a chevron; collapse state persists per-section (`foodsYesterdayCollapsed`, `foodsSavedCollapsed`, both default expanded). The new "Saved Meals" header only renders when "Yesterday's Meals" is also visible — acts as a divider between the two parallel sections rather than a redundant label on a single tab. Search behavior unchanged: typing hides both headers and results take over; user-set collapse state preserved across search clears.
@@ -2214,25 +2214,25 @@ Aggregate feature surface (everything below is shipped):
 - **Long-press selecting surrounding text.** Diary items and Foods rows opened the action sheet but also visually selected nearby words. Added `user-select: none`, `-webkit-user-select: none`, `-webkit-touch-callout: none` to `.diary-item` and `.food-item-btn` so the long-press gesture only triggers the menu — no text selection, no copy/paste callout.
 
 ### Changed
-- **Component + symbol rename completes the FitBot → Trace work** from v0.39.34. User-facing strings were already done; this bump aligns the internals so the codebase reads consistently and matches LiftTrace's `Trace.svelte` / `TraceFace.svelte` / `SettingsTrace.svelte` layout. No behavior change.
-  - Files: `AIFitBot.svelte` → `Trace.svelte`, `FitBotFace.svelte` → `TraceFace.svelte`, `SettingsAI.svelte` → `SettingsTrace.svelte` (renamed via `git mv`, history preserved).
-  - Symbols + tags: `<AIFitBot />` → `<Trace />`, `<FitBotFace />` → `<TraceFace />`, `<SettingsAI />` → `<SettingsTrace />`.
-  - CSS class `.fitbot-face` → `.trace-face`. Global `window.__fitbotHoldRec` → `__traceHoldRec`. Console tags `[fitbot-hold]` → `[trace-hold]`. Settings search keyword `'fitbot'` → `'trace'`.
-  - Migration code at `App.svelte` and `stores/settings.js` still references the literal `'FitBot'` — required so existing installs detect the legacy name and bump it to `'Trace'`.
-- **LiftTrace label parity** (cross-app cohesion, applied in LiftTrace v0.10.0-beta.3): both apps now share the exact same AI Assistant section UX — section label "AI Assistant", toggle "Enable AI Assistant", description "Adds a floating chat button to all pages". The brand name "Trace" appears only as the default value of the user-customizable assistant-name field, so renaming the assistant doesn't leave stale labels around the rest of the UI.
+- **Component + symbol rename completes the FitBot → NutriAgent work** from v0.39.34. User-facing strings were already done; this bump aligns the internals so the codebase reads consistently and matches LiftTrace's `NutriAgent.svelte` / `AgentFace.svelte` / `SettingsAgent.svelte` layout. No behavior change.
+  - Files: `AIFitBot.svelte` → `NutriAgent.svelte`, `FitBotFace.svelte` → `AgentFace.svelte`, `SettingsAI.svelte` → `SettingsAgent.svelte` (renamed via `git mv`, history preserved).
+  - Symbols + tags: `<AIFitBot />` → `<NutriAgent />`, `<FitBotFace />` → `<AgentFace />`, `<SettingsAI />` → `<SettingsAgent />`.
+  - CSS class `.fitbot-face` → `.agent-face`. Global `window.__fitbotHoldRec` → `__traceHoldRec`. Console tags `[fitbot-hold]` → `[agent-hold]`. Settings search keyword `'fitbot'` → `'trace'`.
+  - Migration code at `App.svelte` and `stores/settings.js` still references the literal `'FitBot'` — required so existing installs detect the legacy name and bump it to `'NutriAgent'`.
+- **LiftTrace label parity** (cross-app cohesion, applied in LiftTrace v0.10.0-beta.3): both apps now share the exact same AI Assistant section UX — section label "AI Assistant", toggle "Enable AI Assistant", description "Adds a floating chat button to all pages". The brand name "NutriAgent" appears only as the default value of the user-customizable assistant-name field, so renaming the assistant doesn't leave stale labels around the rest of the UI.
 
 ---
 
 ## [0.39.34-beta] — 2026-04-26 — AI Assistant rename + Wizard skip + diagnostic logs Share
 
 ### Changed
-- **AI Assistant default name "FitBot" → "Trace"** — ties to the broader brand (TraceApps + NutriTrace + "Trace Every Bite") and drops the dated "[X]Bot" pattern. Existing users on the literal default ("FitBot") get auto-migrated to "Trace" in `App.svelte`. Users who picked their own custom name keep it. The setting label is "Assistant name" — change to anything you like in Settings → AI Assistant.
+- **AI Assistant default name "FitBot" → "NutriAgent"** — ties to the broader brand (TraceApps + NutriAgent + "Your AI Nutrition Assistant") and drops the dated "[X]Bot" pattern. Existing users on the literal default ("FitBot") get auto-migrated to "NutriAgent" in `App.svelte`. Users who picked their own custom name keep it. The setting label is "Assistant name" — change to anything you like in Settings → AI Assistant.
 - **Wizard "I'll do this later" skip link** added to the welcome step. Confirmation modal explains "calorie targets won't be calculated automatically" and that Settings can finish setup any time. Link is hidden when forced account creation is required (multi-user mode setup).
 - **Bedtime reminder sub-controls now slide in/out** when toggled — was abrupt show/hide. Wrapped the `_notifBedtime` and `_notifBedtimeWindDown` conditional bodies in `transition:slide` divs.
 - **Diagnostic logs viewer adds a Share button** next to Copy/Clear (borrowed from LiftTrace). On native uses `@capacitor/share` to open the Android share sheet (Gmail, Files, Drive, etc.); on PWA uses Web Share API; falls back to clipboard. Lets users send logs straight from the app to their email or a GitHub issue without manual paste-juggling.
 
 ### Notes
-- All user-facing "FitBot" strings in source + docs are now "Trace" or "AI Assistant" depending on context. Internal symbol rename followed in v0.39.35-beta.
+- All user-facing "FitBot" strings in source + docs are now "NutriAgent" or "AI Assistant" depending on context. Internal symbol rename followed in v0.39.35-beta.
 
 ---
 
@@ -2273,7 +2273,7 @@ Aggregate feature surface (everything below is shipped):
 
 ### Added
 - **In-app log capture** — `src/lib/log-capture.js` wraps `console.{log,info,warn,error,debug}` into a 500-line in-memory ring buffer, captured from app boot. Includes uncaught errors and unhandled promise rejections automatically.
-- **Settings → Help Improve NutriTrace → View diagnostic logs** — opens a sheet with the buffer contents, plus Copy and Clear buttons. User pastes into a GitHub issue when filing a bug. Nothing leaves the device automatically.
+- **Settings → Help Improve NutriAgent → View diagnostic logs** — opens a sheet with the buffer contents, plus Copy and Clear buttons. User pastes into a GitHub issue when filing a bug. Nothing leaves the device automatically.
 - **Verbose diagnostic logging toggle** in the same Settings section — turns ON the high-detail `_dlog` calls in `sync.js`, `notifications.js`, `health-connect.js`, and the settings store (these were dev-build-only before). Off by default. Ideal flow: turn on → reproduce the bug → View logs → Copy → file issue → turn off.
 
 ### Changed
@@ -2296,7 +2296,7 @@ Aggregate feature surface (everything below is shipped):
 
 ### Added
 - **Yesterday's meal info button** in the Foods picker — tap the (i) icon next to a yesterday's-meal card to open a sheet listing every item in that meal (name, brand, quantity, kcal each). The "Add this meal" button at the bottom is the same action as the main row tap.
-- **Calibration data export** in Settings → Help Improve NutriTrace — generates an anonymized JSON of the last 30 days of Fitbit/Garmin readings (no user ID, no exact dates — just day-of-week and offset). User reviews the JSON before sharing in GitHub Discussions to help tune the score formulas.
+- **Calibration data export** in Settings → Help Improve NutriAgent — generates an anonymized JSON of the last 30 days of Fitbit/Garmin readings (no user ID, no exact dates — just day-of-week and offset). User reviews the JSON before sharing in GitHub Discussions to help tune the score formulas.
 - **GitHub issue templates** — `bug_report.md`, `feature_request.md`, and `integration_test_report.md` (the last specifically for community-tested wearables/scales/Health Connect setups). Each includes log location guidance and a redaction reminder.
 - **README** — new "Principles", "Roadmap", "Help us test", and "Troubleshooting" sections. Sets the values story up front, names the testing gaps honestly, and gives contributors a clear on-ramp.
 
@@ -2349,7 +2349,7 @@ Aggregate feature surface (everything below is shipped):
 ### Changed
 - **Reverted SQLCipher encryption from v0.39.20** — `@capacitor-community/sqlite` v8's secret-store semantics are unreliable in practice. The error sequence we hit:
   1. v0.39.20: `setEncryptionSecret` called every launch → "file is not a database (26)" on second launch (passphrase rebinding bug)
-  2. v0.39.22: switched to `isSecretStored` gating → "setEncryptionSecret: state for nutritrace_localSQLdb not correct" (plugin requires no connections, but state tracking is fragile)
+  2. v0.39.22: switched to `isSecretStored` gating → "setEncryptionSecret: state for nutriagent_localSQLdb not correct" (plugin requires no connections, but state tracking is fragile)
 - Modern Android encrypts the entire app data directory at the OS level (file-based encryption, default since Android 7), so the local SQLite is not in cleartext on a locked device anyway. SQLCipher was a defense-in-depth layer; losing it doesn't materially change the threat model for normal users.
 - New behavior in `db-native.js`: one-shot cleanup on first launch — clears the encrypted DB file, secure-store secret, and `nt:db_*` localStorage markers from any prior v0.39.20–22 install. Then opens unencrypted as before. Server-connected devices re-sync from the server (your phone will see a brief empty state then everything flows back).
 - `capacitor.config.ts`: `iosIsEncryption`/`androidIsEncryption` back to `false`.
@@ -2416,9 +2416,9 @@ This brings the audit punch list to **complete** except for two intentionally-de
 ## [0.39.18-beta] — 2026-04-25 — Docker image org rename
 
 ### Changed
-- **Docker image canonical path is now `ghcr.io/traceapps/nutritrace`** — `docker-compose.yml`, `README.md`, and `DEPLOY.md` all reference the new path.
-- **CI publishes Docker image** to `ghcr.io/traceapps/nutritrace` on push to `main`.
-- **FUTURE.md repo-split notes updated** to reflect actual current structure (`traceapps/nutritrace-dev` private monorepo, `traceapps/nutritrace` public-on-1.0).
+- **Docker image canonical path is now `ghcr.io/traceapps/nutriagent`** — `docker-compose.yml`, `README.md`, and `DEPLOY.md` all reference the new path.
+- **CI publishes Docker image** to `ghcr.io/traceapps/nutriagent` on push to `main`.
+- **FUTURE.md repo-split notes updated** to reflect actual current structure (`traceapps/nutriagent-dev` private monorepo, `traceapps/nutriagent` public-on-1.0).
 
 ---
 
@@ -2553,7 +2553,7 @@ This brings the audit punch list to **complete** except for two intentionally-de
 - **Full backup + JSON import** now round-trip the new `diary.notes` column. Previous backups (without notes) still restore fine.
 
 ### Fixed
-- Client-side local-backup flow always included notes via `NtApi.getAllDiary()`; the matching server import paths were missing `notes` in their INSERT statements — restoring a backup with notes used to silently drop them. Fixed in both `/api/data/import` and `/api/full-backup/restore`.
+- Client-side local-backup flow always included notes via `NaApi.getAllDiary()`; the matching server import paths were missing `notes` in their INSERT statements — restoring a backup with notes used to silently drop them. Fixed in both `/api/data/import` and `/api/full-backup/restore`.
 
 ---
 
@@ -2679,7 +2679,7 @@ This brings the audit punch list to **complete** except for two intentionally-de
 
 ### Fixed
 - **Android: app now works correctly when server is unreachable but phone has internet** — previously the background auth refresh could clear the cached user on server error (e.g., 502 from Cloudflare tunnel), causing the app to show a login screen and preventing cached data from loading. The native auth refresh now never clears `currentUser`; it only updates on a valid server response.
-- **API pass-through timeout** — `NtApiCached` pass-through methods (`get`, `post`, `put`, `del`) now use an 8-second timeout so they fail fast instead of hanging when the server is unreachable.
+- **API pass-through timeout** — `NaApiCached` pass-through methods (`get`, `post`, `put`, `del`) now use an 8-second timeout so they fail fast instead of hanging when the server is unreachable.
 
 ---
 
@@ -2769,7 +2769,7 @@ This brings the audit punch list to **complete** except for two intentionally-de
 - **CSRF protection** — synchronizer token pattern. A random 16-byte hex token is embedded in the JWT at issue time. The server verifies the `X-CSRF-Token` request header against the decoded token on all state-changing requests (POST/PUT/PATCH/DELETE). Bearer token requests (native app) are exempt — they're inherently CSRF-safe. Single-user mode and legacy tokens (issued before this version) are also exempt for a seamless migration window. New sessions are fully protected.
 - Token added to JWT in `server/middleware/auth.js` (`signToken`); returned from `/api/auth/me`; verified in new `server/middleware/csrf.js`.
 - `X-CSRF-Token` added to CORS `Access-Control-Allow-Headers`.
-- Client injects header in `_NtApiHttp._fetch` (covers all NtApi calls), `Settings._fetchOpts` (backup/restore/full-backup), `aiChat.callAIProxy`, `notifications` push-test calls, and `mealieApi` proxy calls.
+- Client injects header in `_NaApiHttp._fetch` (covers all NaApi calls), `Settings._fetchOpts` (backup/restore/full-backup), `aiChat.callAIProxy`, `notifications` push-test calls, and `mealieApi` proxy calls.
 
 ### Docs
 - **README: Environment variables** — added `RECOVERY_TOKEN`, `LOG_LEVEL`, `AI_PROVIDER`, `AI_API_KEY`, `AI_MODEL`, `AI_ENABLED` to the env vars reference table.
@@ -2995,7 +2995,7 @@ Smart Log can now match against three new record types in addition to individual
 - **Fitbit OAuth `location` scope** — added to authorize request for GPS/TCX route access
 - **FitBot AI tool use** — FitBot now fetches real data on demand via function calling instead of hallucinating from context; tools: `get_wellness_data`, `get_body_composition`, `get_diary`, `get_workouts`, `get_goals`; supports Claude, OpenAI, and Gemini; queries any date range; tool execution loop up to 5 rounds
 - **FitBot image attachments** — attach images to FitBot messages; camera on native (via `@capacitor/camera`), file picker always available on PWA, camera option shown on PWA if webcam is detected
-- **Mobile OAuth via system browser** — Fitbit, Garmin, and Withings OAuth on Android now opens the system browser via `@capacitor/browser` with callback via `nutritrace://` deep link (AndroidManifest intent filter for `nutritrace://callback`)
+- **Mobile OAuth via system browser** — Fitbit, Garmin, and Withings OAuth on Android now opens the system browser via `@capacitor/browser` with callback via `nutriagent://` deep link (AndroidManifest intent filter for `nutriagent://callback`)
 - **PWA settings poll** — PWA polls server for setting changes every 30 seconds and on tab focus (`visibilitychange`) for near-real-time sync
 - **Diary scroll position save/restore** — diary saves and restores exact scroll position when adding food (page-transition is a fixed scroll container)
 - **Notification system** — 10 notification types (water reminders, meal reminders, weigh-in, goal celebrations, calorie goal, step goal progress, wellness alerts, workout summaries, weekly summary, sync failures); delivery via device notifications + push service
@@ -3029,7 +3029,7 @@ Smart Log can now match against three new record types in addition to individual
 
 ### Added
 - **Phase 2: Differential sync infrastructure** — push/pull endpoints with timestamp tracking; only changed records sync instead of full merge
-- **Phase 2: Offline cache layer** — `NtApiCached` tries server first, falls back to local SQLite when offline
+- **Phase 2: Offline cache layer** — `NaApiCached` tries server first, falls back to local SQLite when offline
 - **Phase 2: Image caching for offline mode** — downloads server images to device storage for offline access
 - **Sync status bar** — progress phases (pushing/pulling/caching images) with visual feedback
 - **Connection badge on hamburger menu** — green dot when connected to server, red when offline
@@ -3044,7 +3044,7 @@ Smart Log can now match against three new record types in addition to individual
 - **Score locking** — readiness/stress snapshot on first sync of the day; recalculate button for manual tuning
 - **Wellness date calculations** — use local timezone instead of UTC
 - **Profile page** — missing `resolveAssetUrl` import broke profile loading
-- **Images survive server disconnect** — `loadImageMap` awaited, `NtApiNative` uses `resolveAssetUrl`
+- **Images survive server disconnect** — `loadImageMap` awaited, `NaApiNative` uses `resolveAssetUrl`
 - **Sync bar portalled to body** — stays fixed at top, doesn't scroll with page content
 - **Server: soft deletes on all tables** — `updated_at` tracking for differential sync
 - **Server: /uploads served before auth middleware** — Android WebView can load images without token
@@ -3093,7 +3093,7 @@ Smart Log can now match against three new record types in addition to individual
 - **Food & meal sharing** — multi-user groups can now share foods, meals, and recipes between members; admin enables sharing via Settings → Sharing; each item can be set to Private / Everyone / Specific People; shared items appear in a "Group Catalogue" tab in Foods; adding a shared item to diary auto-copies it to your own catalogue first (copy-on-use model; originals remain unaffected); `_shared_by` badge shows contributor attribution
 - **FoodEditor/MealEditor sharing section** — new Sharing card at bottom of food and meal/recipe editors; shows visibility selector (Private / Everyone / Specific) and user-picker chips when Specific is selected; only visible when multi-user is active and item is owned by the current user
 - **Settings → Sharing section** — admin toggle to enable/disable food sharing instance-wide; per-user default visibility preference
-- **Tab favicon** — browser tab and bookmark now show the NutriTrace logo (SVG preferred, PNG fallback)
+- **Tab favicon** — browser tab and bookmark now show the NutriAgent logo (SVG preferred, PNG fallback)
 - **Edit credentials button** — Fitbit, Withings, and Garmin connection cards now show a pencil icon button when configured but not connected, allowing API credentials to be updated without needing to disable the integration entirely
 
 ### Fixed
@@ -3337,7 +3337,7 @@ Smart Log can now match against three new record types in addition to individual
 - **OFF upload verification** — after contributing to Open Food Facts, app waits 3 seconds then does a follow-up barcode lookup to confirm the product is live; shows "Confirmed" or "Submitted — may take a few minutes" with a direct link to the product page
 - **OFF duplicate check** — before uploading to Open Food Facts, checks if the barcode already exists; warns the user that uploading will update an existing community entry, with option to cancel or continue
 - **Hover tooltips** — every icon-only button across the app now shows a description on hover (native `title` attribute); covers all navigation, action, editor, and utility buttons
-- **Branded email templates** — invite and password reset emails redesigned with NutriTrace logo, "Trace Every Bite" tagline, mint accent stripe, and CTA button; automatically switches between dark and light layouts based on the recipient's OS preference (`prefers-color-scheme`); copyright footer
+- **Branded email templates** — invite and password reset emails redesigned with NutriAgent logo, "Your AI Nutrition Assistant" tagline, mint accent stripe, and CTA button; automatically switches between dark and light layouts based on the recipient's OS preference (`prefers-color-scheme`); copyright footer
 
 ### Changed
 - Thumbnails increased from 40–44 px → 52 px across Foods, Diary, and MealEditor for improved readability
@@ -3430,7 +3430,7 @@ Smart Log can now match against three new record types in addition to individual
 - **README** — setup and configuration guide
 
 ### Changed
-- Renamed from Waistline Web to **NutriTrace** — new logo, name, and Docker image
+- Renamed from Waistline Web to **NutriAgent** — new logo, name, and Docker image
 - Serving size editable directly in the add-to-diary prompt and diary edit sheet
 
 ### Fixed

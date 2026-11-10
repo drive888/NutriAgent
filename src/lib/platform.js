@@ -15,8 +15,8 @@ import { originalUrlForCachedImage } from './image-cache-map.js';
 export const isNative = Capacitor.isNativePlatform();
 
 /**
- * Server-injected base path (when NutriTrace is mounted at a subpath via
- * BASE_URL env var, e.g. `/nutritrace`). Empty string when running at root,
+ * Server-injected base path (when NutriAgent is mounted at a subpath via
+ * BASE_URL env var, e.g. `/nutriagent`). Empty string when running at root,
  * or in native where API calls go through getServerUrl() which already
  * carries any path component the user configured.
  */
@@ -277,7 +277,7 @@ export function apiUrl(path) {
   if (isNative) {
     const url = getServerUrl();
     if (url) return url + path; // server URL already carries any subpath the user configured
-    return path; // native local — caller redirects to NtApiNative
+    return path; // native local — caller redirects to NaApiNative
   }
   return _basePath + path;
 }

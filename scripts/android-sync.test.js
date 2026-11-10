@@ -95,7 +95,7 @@ test("another account's sign-in cookie left on the phone never decides whose dat
     p.done({ jar, who, foods: (await p.api.getFoods()).map(f => f.name).filter(n => /Web Food$/.test(n)).sort() });`);
   const host = new URL(base).host;
   assert.deepEqual(r, { jar: { [host]: { authelia_session: 'gate' }, 'gate.example.com': { CF_Authorization: 'gate' }, localhost: {} }, who: 'gina', foods: ['Gina Web Food'] },
-    "only NutriTrace's cookies go, at the server and at the app's own address; a gate's stay");
+    "only NutriAgent's cookies go, at the server and at the app's own address; a gate's stay");
   assert.deepEqual(q(`SELECT u.username FROM wellness_data w JOIN users u ON u.id = w.user_id WHERE w.metric_type = 'steps' AND w.value = 4321`), [{ username: 'gina' }]);
 });
 

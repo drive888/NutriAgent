@@ -26,5 +26,5 @@ test('warming the copy reads foods, meals and recipes through the wrapped API, a
 test('the web app warms it once per account after sign-in, not on Android', () => {
   const app = readFileSync(new URL('../src/App.svelte', import.meta.url), 'utf8');
   assert.match(app, /\$: if \(!isNative && authLoaded && \$currentUser\?\.id != null && _catalogWarmedFor !== \$currentUser\.id\) \{/);
-  assert.match(app, /off\.warmOfflineCatalog\(NtApi\)/);
+  assert.match(app, /off\.warmOfflineCatalog\(NaApi\)/);
 });

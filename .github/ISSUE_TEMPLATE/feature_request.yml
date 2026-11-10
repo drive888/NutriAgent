@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest something new for NutriTrace, or a change to how something works.
+description: Suggest something new for NutriAgent, or a change to how something works.
 title: '[Feature] '
 labels:
 - enhancement
@@ -55,7 +55,7 @@ body:
     - Goals and Adaptive TDEE
     - Wellness integrations
     - Activity and intermittent fasting
-    - Trace AI
+    - NutriAgent AI
     - Importing from another app
     - Sync between devices
     - Reminders and notifications

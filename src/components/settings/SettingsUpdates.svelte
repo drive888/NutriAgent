@@ -352,7 +352,7 @@
         </span>
       {:else if primaryState === 'install'}
         <span class="btn-label">
-          <span class="material-symbols-rounded">{apkStaged ? 'install_mobile' : 'download'}</span>
+          <span class="material-symbols-rounded">{apkStaged ? "install_mobile" : "download"}</span>
           {apkStaged ? $_('updates.install_downloaded') : $_('updates.download_install')}
         </span>
       {:else}

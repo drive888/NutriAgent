@@ -63,7 +63,7 @@ router.get('/', async (req, res) => {
     // server's own network or to cloud metadata.
     const response = await fetchChecked(url, {
       signal: controller.signal,
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NutriTrace/1.0)' },
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NutriAgent/1.0)' },
     }, { maxRedirects: 3 });
 
     if (!response.ok) {

@@ -24,7 +24,7 @@
   // NT sub-components are body-only — the section-toggle button is
   // rendered externally in Settings.svelte. This component only renders
   // its body, gated by `expanded` from the parent (no `visible`/`onToggle`
-  // contract here, matches SettingsAuth / SettingsBackup / SettingsTrace).
+  // contract here, matches SettingsAuth / SettingsBackup / SettingsAgent).
   export let expanded = false;
   export async function loadData() { return load(); }
 
@@ -245,10 +245,10 @@
                 <label class="form-label">{$_('settings_api_tokens.form.scopes')}</label>
                 {#if mcpState.enabled || mcpState.write || mcpState.destroy}
                   <div class="mcp-status">
-                    MCP on this server:
-                    <span class:on={mcpState.enabled}>read {mcpState.enabled ? '✓' : '✗'}</span>
-                    · <span class:on={mcpState.write}>write {mcpState.write ? '✓' : '✗'}</span>
-                    · <span class:on={mcpState.destroy}>destroy {mcpState.destroy ? '✓' : '✗'}</span>
+                    {$_('ui.mada19fce1d0b')}
+                    <span class:on={mcpState.enabled}>{$_('ui.m3316348dbadf')} {mcpState.enabled ? '✓' : '✗'}</span>
+                    · <span class:on={mcpState.write}>{$_('ui.m10fd874b68da')} {mcpState.write ? '✓' : '✗'}</span>
+                    · <span class:on={mcpState.destroy}>{$_('ui.m6f61ec5c7a0a')} {mcpState.destroy ? '✓' : '✗'}</span>
                   </div>
                 {/if}
                 <div class="scope-grid">

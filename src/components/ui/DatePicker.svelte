@@ -16,6 +16,8 @@
   years back so a date 30+ years prior is reachable in two taps.
 -->
 <script>
+  import { locale } from 'svelte-i18n';
+  import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   import { localDateStr } from '../../lib/db.js';
 
@@ -59,7 +61,7 @@
 
   let showYearPicker  = false;
   let showMonthPicker = false;
-  $: calMonthName = new Date(calYear, calMonth, 1).toLocaleDateString(undefined, { month: 'long' });
+  $: calMonthName = new Date(calYear, calMonth, 1).toLocaleDateString($locale || undefined, { month: 'long' });
 
   // Year-grid range: respect min/max if set, otherwise default ±10 years from
   // today (suitable for date-jumping in Diary). When max is set without min
@@ -114,18 +116,18 @@
 <div class="date-picker">
   <!-- Month / year navigation -->
   <div class="dp-nav">
-    <button class="btn-icon dp-nav-btn" on:click={calPrevMonth} disabled={calAtMin} aria-label="Previous month">
+    <button class="btn-icon dp-nav-btn" on:click={calPrevMonth} disabled={calAtMin} aria-label={$_('ui.m6a2769502a5d')}>
       <span class="material-symbols-rounded">chevron_left</span>
     </button>
     <div class="dp-month-year">
-      <button class="dp-month-btn" on:click={() => { showMonthPicker = !showMonthPicker; showYearPicker = false; }} title="Pick month">
-        {calMonthName}<span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle;margin-left:2px">{showMonthPicker ? 'expand_less' : 'expand_more'}</span>
+      <button class="dp-month-btn" on:click={() => { showMonthPicker = !showMonthPicker; showYearPicker = false; }} title={$_('ui.md78452cc78f1')}>
+        {calMonthName}<span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle;margin-left:2px">{showMonthPicker ? "expand_less" : "expand_more"}</span>
       </button>
-      <button class="dp-year-btn" on:click={() => { showYearPicker = !showYearPicker; showMonthPicker = false; }} title="Pick year">
-        {calYear}<span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle;margin-left:2px">{showYearPicker ? 'expand_less' : 'expand_more'}</span>
+      <button class="dp-year-btn" on:click={() => { showYearPicker = !showYearPicker; showMonthPicker = false; }} title={$_('ui.m7c457d530584')}>
+        {calYear}<span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle;margin-left:2px">{showYearPicker ? "expand_less" : "expand_more"}</span>
       </button>
     </div>
-    <button class="btn-icon dp-nav-btn" on:click={calNextMonth} disabled={calAtMax} aria-label="Next month">
+    <button class="btn-icon dp-nav-btn" on:click={calNextMonth} disabled={calAtMax} aria-label={$_('ui.m74e53211fef4')}>
       <span class="material-symbols-rounded">chevron_right</span>
     </button>
   </div>

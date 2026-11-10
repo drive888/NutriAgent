@@ -99,8 +99,8 @@
 <div class="section-body">
 
   <!-- Group: Visible Nutrients -->
-  <p class="settings-group-heading">Visible Nutrients</p>
-  <p class="settings-group-sub">Drag to reorder. Toggle off any nutrient you don't want shown in the diary and food editor.</p>
+  <p class="settings-group-heading">{$_('ui.m19ba2d2a1817')}</p>
+  <p class="settings-group-sub">{$_('ui.mb4bf7fbce9ac')}</p>
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div class="card settings-card drag-list"
     on:pointermove={onNutDragMove}
@@ -118,7 +118,7 @@
           : ''}>
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <span class="drag-handle material-symbols-rounded" on:pointerdown={e => onNutDragDown(e, i)}>drag_indicator</span>
-        <span class="setting-label">{n.label} <span class="text-3 text-sm">({n.unit})</span></span>
+        <span class="setting-label">{n.labelKey ? $_(n.labelKey) : n.label} <span class="text-3 text-sm">({n.unit})</span></span>
         <Toggle checked={isNutrientVisible(n.id)} on:change={() => toggleNutrientVisible(n.id)} />
       </div>
     {/each}
@@ -126,14 +126,14 @@
 
   <!-- Group: Custom Nutrients -->
   <p class="settings-group-heading">{$_('settings_stats.custom_nutrients')}</p>
-  <p class="settings-group-sub">Track nutrients not covered by the built-in list (e.g. Omega-3).</p>
+  <p class="settings-group-sub">{$_('ui.m15851cbca63e')}</p>
   <div class="card settings-card">
     {#each ($customNutriments || []) as cn, i}
       {#if i > 0}<div class="setting-divider"></div>{/if}
       <div class="setting-row">
-        <span class="setting-label">{cn.label} ({cn.unit})</span>
+        <span class="setting-label">{cn.labelKey ? $_(cn.labelKey) : cn.label} ({cn.unit})</span>
         <button class="btn-icon" style="width:32px;height:32px;color:var(--danger)"
-          on:click={() => removeCustomNutrient(cn.id)} title="Remove nutrient">
+          on:click={() => removeCustomNutrient(cn.id)} title={$_('ui.m2d05391183f8')}>
           <span class="material-symbols-rounded" style="font-size:18px">delete</span>
         </button>
       </div>
@@ -146,29 +146,29 @@
       <button class="btn btn-secondary" style="height:36px;font-size:13px"
         on:click={() => showNutrientSheet = true}>
         <span class="material-symbols-rounded" style="font-size:18px">add</span>
-        Add custom nutrient
+        {$_('ui.m5de4a51bc2c0')}
       </button>
     </div>
   </div>
 </div>
 
 <!-- Custom nutrient sheet -->
-<Sheet bind:open={showNutrientSheet} title="Add Custom Nutrient">
+<Sheet bind:open={showNutrientSheet} title={$_('ui.mf16cd544154c')}>
   <div style="display:flex;flex-direction:column;gap:16px;padding-top:8px">
     <div class="form-group">
       <label class="form-label" for="cn-label">{$_('settings_custom_nutrient.name')}</label>
-      <input id="cn-label" class="input" placeholder="e.g. Omega-3" bind:value={newNutrient.label} />
+      <input id="cn-label" class="input" placeholder={$_('ui.mc69126d564ba')} bind:value={newNutrient.label} />
     </div>
     <div class="form-group">
-      <label class="form-label" for="cn-unit">Unit</label>
+      <label class="form-label" for="cn-unit">{$_('ui.m4e545960f1bf')}</label>
       <div class="select-wrap">
         <select id="cn-unit" class="select" bind:value={newNutrient.unit}>
           <option value="g">g</option>
-          <option value="mg">mg</option>
-          <option value="mcg">mcg</option>
+          <option value="mg">{$_('ui.me9949d904d43')}</option>
+          <option value="mcg">{$_('ui.mc1b046d0ec1c')}</option>
           <option value="IU">IU</option>
           <option value="kcal">kcal</option>
-          <option value="kJ">kJ</option>
+          <option value="kJ">{$_('ui.m39e575dcf28e')}</option>
           <option value="%">%</option>
         </select>
       </div>

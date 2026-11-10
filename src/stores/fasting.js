@@ -15,7 +15,7 @@
  */
 
 import { writable, get } from 'svelte/store';
-import { NtApi } from '../lib/api.js';
+import { NaApi } from '../lib/api.js';
 import { showSuccess, showError } from './toast.js';
 
 export const activeFast = writable(null);
@@ -56,8 +56,8 @@ export async function loadFasting() {
   const gen = _userGen;
   try {
     const [active, history] = await Promise.all([
-      NtApi.get('/api/fasts/active').catch(() => null),
-      NtApi.get('/api/fasts?limit=60').catch(() => []),
+      NaApi.get('/api/fasts/active').catch(() => null),
+      NaApi.get('/api/fasts?limit=60').catch(() => []),
     ]);
     if (gen !== _userGen) return; // read for the account before
     activeFast.set(active && active.id ? active : null);
@@ -70,7 +70,7 @@ export async function loadFasting() {
 /** Start a new fast. goal_hours optional; falls back to server default. */
 export async function startFast(goal_hours) {
   try {
-    const r = await NtApi.post('/api/fasts/start', { goal_hours });
+    const r = await NaApi.post('/api/fasts/start', { goal_hours });
     activeFast.set(r);
     _startTicking();
     showSuccess(`Fasting started · goal ${goal_hours || 16}h`);
@@ -86,7 +86,7 @@ export async function endFast() {
   const f = get(activeFast);
   if (!f) return null;
   try {
-    const r = await NtApi.post(`/api/fasts/${f.id}/end`, {});
+    const r = await NaApi.post(`/api/fasts/${f.id}/end`, {});
     activeFast.set(null);
     _stopTicking();
     // Prepend the now-completed fast to history
@@ -103,7 +103,7 @@ export async function endFast() {
 /** Soft-delete a fast from history. */
 export async function deleteFast(id) {
   try {
-    await NtApi.del(`/api/fasts/${id}`);
+    await NaApi.del(`/api/fasts/${id}`);
     fastHistory.update(list => list.filter(f => f.id !== id));
     showSuccess('Fast removed');
   } catch (e) {

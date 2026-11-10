@@ -2,7 +2,7 @@
  * db-native.js — SQLite database layer for the Capacitor native app.
  *
  * Uses @capacitor-community/sqlite to provide a local SQLite database that
- * mirrors the NutriTrace server schema. All data in standalone mode lives here.
+ * mirrors the NutriAgent server schema. All data in standalone mode lives here.
  *
  * The local user_id is always 1 (single-user standalone mode).
  */
@@ -13,6 +13,7 @@ import { parseAltUnits } from './units.js';
 import { itemSourceRef } from './item-source.js';
 
 const LOCAL_USER_ID = 1;
+// Existing native database filename is a compatibility key, not the app brand.
 const DB_NAME = 'nutritrace_local';
 const DB_VERSION = 1;
 

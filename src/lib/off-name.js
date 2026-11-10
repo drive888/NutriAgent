@@ -4,7 +4,7 @@
  * `product_name` is the name in the product's main language, and OFF leaves
  * it blank when that language has no name, even though other languages do.
  * Barcode 7623186629037 is French-main with an empty French name and a
- * German and English name, so `product_name` is "" and NutriTrace reported
+ * German and English name, so `product_name` is "" and NutriAgent reported
  * a product that exists as not found. Asking OFF for another language (lc=,
  * langs=) does not fill `product_name` in; the localized names only arrive
  * as `product_name_<lang>`.

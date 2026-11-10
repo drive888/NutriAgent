@@ -1,12 +1,12 @@
-<h1 align="center">NutriTrace</h1>
+<h1 align="center">NutriAgent</h1>
 
-<p align="center"><b>Trace Every Bite</b></p>
+<p align="center"><b>Your AI Nutrition Assistant</b></p>
 
 <p align="center">A self-hosted personal nutrition tracker.<br/>
 No accounts, no telemetry, no cloud sync unless you opt in.</p>
 
 <p align="center">
-  <img src="public/icons/logo-transparent.png" alt="NutriTrace" width="180" />
+  <img src="public/icons/logo-transparent.png" alt="NutriAgent" width="180" />
 </p>
 
 <p align="center">
@@ -23,30 +23,30 @@ No accounts, no telemetry, no cloud sync unless you opt in.</p>
 </p>
 
 <p align="center">
-  <b>Coming to Apple devices:</b> the Trace apps have no iPhone app yet, because building and testing one needs a Mac and an iPhone.
+  <b>Coming to Apple devices:</b> the NutriAgent apps have no iPhone app yet, because building and testing one needs a Mac and an iPhone.
   <a href="https://ko-fi.com/traceapps">Chip in on Ko-fi</a>. Self-hosting stays free either way.
 </p>
 
 ---
 
-**Jump to:** [What it is](#what-nutritrace-is) · [Features](#features) · [Install](#install) · [Env vars](#env-vars) · [Docs](https://traceapps.github.io/docs/nutritrace/)
+**Jump to:** [What it is](#what-nutriagent-is) · [Features](#features) · [Install](#install) · [Env vars](#env-vars) · [Docs](https://traceapps.github.io/docs/nutritrace/)
 
 ---
 
-## What NutriTrace is
+## What NutriAgent is
 
-NutriTrace runs as a single Docker container on your own hardware, with a PWA for the browser and a native Android app for your phone. No accounts on external services, no data leaving your network, no subscriptions.
+NutriAgent runs as a single Docker container on your own hardware, with a PWA for the browser and a native Android app for your phone. No accounts on external services, no data leaving your network, no subscriptions.
 
 ## Principles
 
 - **Self-hosting is and will remain free.** The server, PWA, and source code will never be paywalled.
-- **No trackers, no analytics, no telemetry.** NutriTrace doesn't phone home; your usage is invisible to anyone but you.
+- **No trackers, no analytics, no telemetry.** NutriAgent doesn't phone home; your usage is invisible to anyone but you.
 - **Your data stays on your hardware.** No central server, no cloud sync that can read it; nothing leaves your network unless you opt into a third-party integration (OFF, USDA, Fitbit, etc.).
 - **Open source under AGPL-3.0.** Every line that touches your data is readable.
 
 ---
 
-![NutriTrace diary view: a full day of food logging with macro bar, per-meal breakdowns, and water tracking](docs/screenshots/01-diary.png)
+![NutriAgent diary view: a full day of food logging with macro bar, per-meal breakdowns, and water tracking](docs/screenshots/01-diary.png)
 
 ---
 
@@ -55,49 +55,50 @@ NutriTrace runs as a single Docker container on your own hardware, with a PWA fo
 - **Diary + meal logging.** Configurable meal slots, per-meal ⋮ menu, Split Recipe, IF tracker widget. [Full guide](https://traceapps.github.io/docs/nutritrace/diary/).
 - **Foods, meals, recipes.** Personal database, source filter chips, OFF + USDA quality signals (v1.0.3), Scan Label AI OCR. [Full guide](https://traceapps.github.io/docs/nutritrace/foods/).
 - **Goals + Adaptive TDEE.** Fixed/Dynamic/Adaptive modes, 7,700 kcal/kg regression math. [Full guide](https://traceapps.github.io/docs/nutritrace/goals/).
-- **Wellness integrations (4).** Fitbit (via Google Health), Withings, Garmin, Health Connect, plus Trace-computed Sleep/Readiness/Resilience scores. [Full guide](https://traceapps.github.io/docs/nutritrace/wellness/).
+- **Wellness integrations (4).** Fitbit (via Google Health), Withings, Garmin, Health Connect, plus NutriAgent-computed Sleep/Readiness/Resilience scores. [Full guide](https://traceapps.github.io/docs/nutritrace/wellness/).
 - **Activity + Intermittent Fasting.** Manual workouts + IF widget with presets and streaks. [Full guide](https://traceapps.github.io/docs/nutritrace/activity-if/).
 - **Open Food Facts.** Cloud + local Parquet mirror for air-gap. [Full guide](https://traceapps.github.io/docs/nutritrace/off/).
 - **USDA + Mealie.** Free API key USDA lookups + Mealie recipe import. [Full guide](https://traceapps.github.io/docs/nutritrace/usda-mealie/).
-- **Trace AI.** Reads your diary, meals, wellness, fasting streaks, and Adaptive TDEE state; can log a food, propose one from a photo (you confirm), or add an activity entry, all conversationally. 16 tools total. Smart Log voice/text, propose_food photo flow. [Full guide](https://traceapps.github.io/docs/nutritrace/trace/).
+- **NutriAgent AI.** Reads your diary, meals, wellness, fasting streaks, and Adaptive TDEE state; can log a food, propose one from a photo (you confirm), or add an activity entry, all conversationally. 16 tools total. Smart Log voice/text, propose_food photo flow. [Full guide](https://traceapps.github.io/docs/nutritrace/trace/).
 - **Federation API.** `/api/v1/*` scoped Bearer tokens for CT + LT + external clients. [Full guide](https://traceapps.github.io/docs/nutritrace/federation-api/).
 - **Model Context Protocol (MCP).** Expose your diary, goals, foods, steps and body composition to external AI agents (Claude Desktop, Cursor, Codex) via the standard MCP Streamable HTTP transport. 20 tools: 13 read tools, plus logging tools behind `MCP_WRITE_ENABLED=1` and the `mcp:write` scope, and delete, edit and create-food tools behind `MCP_DESTROY_ENABLED=1`, the `mcp:destroy` scope and a confirm on every call. Off by default; opt in with `MCP_ENABLED=1`. [Full guide](https://traceapps.github.io/docs/nutritrace/mcp/).
 - **Migrations.** MyFitnessPal (with nomad64 scraper), Lose It, Cronometer, Waistline. [Full guide](https://traceapps.github.io/docs/nutritrace/migrate-mfp/).
 - **Multi-user + OIDC SSO.** Authentik/Keycloak/Pocket ID/Authelia/Google/Auth0. [Full guide](https://traceapps.github.io/docs/auth/oidc/).
-- **Offline mode in the browser.** Your diary, your own foods, meals and recipes, manual activity, settings and goals, the fasting timer and your profile are kept in the browser, so the app opens without a connection and the day still adds up. Changes go up on their own when the connection returns. Open Food Facts, USDA, Mealie and CookTrace lookups, wellness providers, Trace and admin need a connection. Works on iPhone too. [What works offline](https://traceapps.github.io/docs/nutritrace/features/#offline).
+- **Offline mode in the browser.** Your diary, your own foods, meals and recipes, manual activity, settings and goals, the fasting timer and your profile are kept in the browser, so the app opens without a connection and the day still adds up. Changes go up on their own when the connection returns. Open Food Facts, USDA, Mealie and CookTrace lookups, wellness providers, NutriAgent and admin need a connection. Works on iPhone too. [What works offline](https://traceapps.github.io/docs/nutritrace/features/#offline).
 - **Native Android app.** Offline mode or server-sync, WorkManager native reminders. [Full guide](https://traceapps.github.io/docs/mobile/install/).
-- **Foldables (preliminary).** Half open like a book, Settings puts its section list on one side of the crease and the section on the other, the day's meals fall onto the two pages, and dialogs, sheets, pickers and Trace keep off the fold. Opened flat or on a tablet, the wider layouts turn on: Foods two cards across, side rails on Diary and Goals, and the food and meal editors side by side.
+- **Foldables (preliminary).** Half open like a book, Settings puts its section list on one side of the crease and the section on the other, the day's meals fall onto the two pages, and dialogs, sheets, pickers and NutriAgent keep off the fold. Opened flat or on a tablet, the wider layouts turn on: Foods two cards across, side rails on Diary and Goals, and the food and meal editors side by side.
 
 ---
 
 ## Apps
 
 - **Web (PWA).** Runs in any modern browser; add to home screen for full-screen use. Keeps working offline: your diary, foods and settings stay on the device and sync when the connection returns.
-- **Android.** Native Capacitor build; works standalone or connected to your NutriTrace server. Signed APK on the [Releases page](https://github.com/traceapps/nutritrace/releases/latest).
+- **Android.** Native Capacitor build; works standalone or connected to your NutriAgent server. Signed APK on the [Releases page](https://github.com/traceapps/nutritrace/releases/latest).
 - **iOS.** Not currently available (requires Mac + Apple Developer account; see [Support](#support)).
 
 ---
 
 ## Install
 
-Published to two registries with identical tag sets: `ghcr.io/traceapps/nutritrace` (primary) and `traceapps/nutritrace` on [Docker Hub](https://hub.docker.com/r/traceapps/nutritrace) (mirror). The snippet below uses GHCR; swap in `traceapps/nutritrace:latest` if that suits your setup.
+Build NutriAgent locally from this checkout with `docker compose up -d --build`. The local image is `nutriagent:local`; no published NutriAgent registry image is assumed. Upstream repositories, translation services and license links keep their original identities.
 
-**Unraid:** NutriTrace is in Community Applications. Search for NutriTrace in the Apps tab; the template sets the port, the appdata folders and the settings. Fill in JWT Secret before the first start.
+For Unraid, build this checkout and configure the database, uploads and JWT secret in the same way as the Compose example below.
 
 Minimum viable `docker-compose.yml`:
 
 ```yaml
 services:
-  nutritrace:
-    image: ghcr.io/traceapps/nutritrace:latest
-    container_name: nutritrace
+  nutriagent:
+    build: .
+    image: nutriagent:local
+    container_name: nutriagent
     ports:
       - "3001:3001"
     volumes:
       - ./data/db:/data/db
       - ./data/uploads:/data/uploads
     environment:
-      - DB_PATH=/data/db/nutritrace.db
+      - DB_PATH=/data/db/nutriagent.db
       - UPLOADS_PATH=/data/uploads
       - JWT_SECRET=change-me-to-a-long-random-string
       # OIDC_ISSUER=https://auth.example.com  # optional single-provider SSO
@@ -129,7 +130,7 @@ Pre-release testers can grab the rolling `dev-latest` APK; occasional milestone 
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `JWT_SECRET` | If using users |  | Signing key for auth tokens. Long random string. |
-| `DB_PATH` | Yes | `/data/db/nutritrace.db` | SQLite database file inside the container. |
+| `DB_PATH` | Yes | `/data/db/nutriagent.db` | SQLite database file inside the container. |
 | `UPLOADS_PATH` | Yes | `/data/uploads` | Upload directory inside the container. |
 | `PORT` | No | `3001` | Container-side port the server listens on. |
 | `BASE_URL` | No |  | Subpath prefix when mounted behind a reverse proxy (e.g. `/nt`). |
@@ -145,7 +146,7 @@ Pre-release testers can grab the rolling `dev-latest` APK; occasional milestone 
 | `USDA_API_KEY` | No |  | Optional server-side USDA FoodData Central key (users can also enter their own in Settings). |
 | `MEALIE_URL` | No |  | Base URL of a Mealie instance for recipe import. |
 | `MEALIE_API_KEY` | No |  | Mealie API key. |
-| `AI_PROVIDER` | No |  | Lock Trace to a provider: `claude` \| `openai` \| `gemini` \| `oai-compat`. |
+| `AI_PROVIDER` | No |  | Lock NutriAgent to a provider: `claude` \| `openai` \| `gemini` \| `oai-compat`. |
 | `OIDC_ISSUER` | No |  | Enable a single OIDC provider by setting `OIDC_ISSUER` + `OIDC_CLIENT_ID` + `OIDC_CLIENT_SECRET`. Numbered form (`OIDC_PROVIDER_2_*`) for multi-provider. |
 | `SMTP_HOST` | No |  | SMTP server for password reset & invites; also `SMTP_PORT` (587), `SMTP_SECURE` (false), `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`. |
 
@@ -192,7 +193,7 @@ The database schema migrates automatically on startup.
 
 ---
 
-## Trace family
+## NutriAgent family
 
 Part of the **TraceApps** family. Sister apps: [CookTrace](https://github.com/traceapps/cooktrace) for recipes and pantry, [LiftTrace](https://github.com/traceapps/lifttrace) for weightlifting, [NoteTrace](https://github.com/traceapps/notetrace) for notes, tasks and reminders. Docs for the family at [traceapps.github.io/docs](https://traceapps.github.io/docs/).
 
@@ -200,11 +201,11 @@ Part of the **TraceApps** family. Sister apps: [CookTrace](https://github.com/tr
 
 ## Translations
 
-NutriTrace is translated with [Weblate](https://weblate.org/), a free web platform for libre translation projects. No coding required — pick your language, translate the strings, submit. Missing keys fall back to English at runtime, so partial translations are safe to release.
+NutriAgent is translated with [Weblate](https://weblate.org/), a free web platform for libre translation projects. No coding required — pick your language, translate the strings, submit. Missing keys fall back to English at runtime, so partial translations are safe to release.
 
 [![Translation status](https://hosted.weblate.org/widget/nutritrace/svg-badge.svg)](https://hosted.weblate.org/engage/nutritrace/)
 
-Start translating at [hosted.weblate.org/projects/nutritrace/](https://hosted.weblate.org/projects/nutritrace/). See [CONTRIBUTING.md](CONTRIBUTING.md#translations) for domain-specific guidance (regulatory nutrition terms, proper nouns, tone).
+Start translating at [hosted.weblate.org/projects/nutriagent/](https://hosted.weblate.org/projects/nutritrace/). See [CONTRIBUTING.md](CONTRIBUTING.md#translations) for domain-specific guidance (regulatory nutrition terms, proper nouns, tone).
 
 ---
 
@@ -217,9 +218,9 @@ Start translating at [hosted.weblate.org/projects/nutritrace/](https://hosted.we
 
 ## Support
 
-NutriTrace is free to self-host and always will be. No paid tier, nothing behind a donation, no telemetry. It's built and maintained by one person.
+NutriAgent is free to self-host and always will be. No paid tier, nothing behind a donation, no telemetry. It's built and maintained by one person.
 
-**The current goal is a Mac and an iPhone.** None of the Trace apps run properly on an iPhone, because building and testing for iOS needs Apple hardware, plus the developer accounts for both app stores. That comes to about $1,300, and the itemised breakdown is on the [Support page](https://traceapps.github.io/docs/support/).
+**The current goal is a Mac and an iPhone.** None of the NutriAgent apps run properly on an iPhone, because building and testing for iOS needs Apple hardware, plus the developer accounts for both app stores. That comes to about $1,300, and the itemised breakdown is on the [Support page](https://traceapps.github.io/docs/support/).
 
 Helping doesn't have to cost anything: starring the repo, reporting bugs with detail, and translating all count, and stars are how self-hosted projects get found.
 
@@ -227,15 +228,15 @@ Helping doesn't have to cost anything: starring the repo, reporting bugs with de
 
 ## Credits
 
-NutriTrace was inspired by two self-hosted nutrition trackers:
+NutriAgent was inspired by two self-hosted nutrition trackers:
 
 - **[Waistline](https://github.com/davidhealey/waistline)** by David Healey. A privacy-focused Android nutrition diary that proved a great open-source nutrition tracker is possible.
 - **[SparkyFitness](https://github.com/CodeWithCJ/SparkyFitness)** by CodeWithCJ. A self-hosted fitness and nutrition tracker that influenced the wellness integrations and goal-tracking approach.
 
 ## Disclaimer
 
-NutriTrace is not medical, health, or nutrition-professional software. It does not provide medical advice, diagnosis, treatment, or personalized nutrition prescriptions. Food entries, calorie and macro tracking, Trace AI suggestions, Smart Log parsing, Scan Label output, Goal Insights, Adaptive TDEE recommendations, wellness scores, and any analytical output are for informational and self-tracking purposes only.
+NutriAgent is not medical, health, or nutrition-professional software. It does not provide medical advice, diagnosis, treatment, or personalized nutrition prescriptions. Food entries, calorie and macro tracking, NutriAgent AI suggestions, Smart Log parsing, Scan Label output, Goal Insights, Adaptive TDEE recommendations, wellness scores, and any analytical output are for informational and self-tracking purposes only.
 
 Nutrition decisions can interact with medical conditions (diabetes, eating disorders, food allergies, pregnancy, breastfeeding, pediatric needs, kidney or liver disease, metabolic disorders) in ways this app cannot assess. Consult a qualified healthcare professional, registered dietitian, or licensed nutritionist before starting a new eating plan, calorie target, or making significant dietary changes.
 
-Trace AI answers can be incorrect or incomplete; treat them as a starting point, not a substitute for human judgment or professional advice. Food nutrition data from Open Food Facts is community-curated and may contain inaccuracies. **Use at your own risk.**
+NutriAgent AI answers can be incorrect or incomplete; treat them as a starting point, not a substitute for human judgment or professional advice. Food nutrition data from Open Food Facts is community-curated and may contain inaccuracies. **Use at your own risk.**

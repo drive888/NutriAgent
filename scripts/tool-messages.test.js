@@ -1,4 +1,4 @@
-// Tool results reach each provider in the shape it accepts (TraceApps/nutritrace#259).
+// Tool results reach each provider in the shape it accepts (TraceApps/nutriagent#259).
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';

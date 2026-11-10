@@ -16,8 +16,8 @@
 <div class="section-body">
 
   <!-- Group: Food Row Display — what shows on each row in the Foods / Meals list -->
-  <p class="settings-group-heading">Food Row Display</p>
-  <p class="settings-group-sub">Fields shown on each row in the Foods, Meals, and Recipes tabs.</p>
+  <p class="settings-group-heading">{$_('ui.m8cc31ce8306a')}</p>
+  <p class="settings-group-sub">{$_('ui.m639bebde42ea')}</p>
   <div class="card settings-card">
     <div class="setting-row">
       <div><span class="setting-label">{$_('settings_foods_picker.show_thumbnails')}</span><div class="setting-desc">{$_('settings_foods_picker.show_thumbnails_desc')}</div></div>
@@ -40,14 +40,14 @@
     </div>
     <div class="setting-divider"></div>
     <div class="setting-row">
-      <div><span class="setting-label">Show Yesterday's Meals</span><div class="setting-desc">Pin yesterday's meals as quick-add cards in the Meals tab. Tap the info icon to see what's in each one.</div></div>
+      <div><span class="setting-label">{$_('ui.md2ee3b0e06c4')}</span><div class="setting-desc">{$_('ui.m5d92bd0d49e4')}</div></div>
       <Toggle checked={$foodsShowYesterdayMeals} on:change={e => foodsShowYesterdayMeals.set(e.detail)} />
     </div>
   </div>
 
   <!-- Group: Sort & Source — default search source + per-tab sort order -->
-  <p class="settings-group-heading">Sort &amp; Source</p>
-  <p class="settings-group-sub">Default source when searching, and ordering on each list.</p>
+  <p class="settings-group-heading">{$_('ui.m2234d28f3e74')}</p>
+  <p class="settings-group-sub">{$_('ui.m547530654523')}</p>
   <div class="card settings-card">
     <div class="setting-row">
       <div>
@@ -60,7 +60,7 @@
           <option value="local">{$_('foods.sources.local')}</option>
           {#if $offEnabled}<option value="off">OFF</option>{/if}
           {#if $usdaEnabled}<option value="usda">USDA</option>{/if}
-          {#if _mealieEnabled}<option value="mealie">Mealie</option>{/if}
+          {#if _mealieEnabled}<option value="mealie">{$_('ui.m8666e7993c20')}</option>{/if}
         </select>
       </div>
     </div>
@@ -68,7 +68,7 @@
     <div class="setting-row">
       <div>
         <span class="setting-label">{$_('settings_foods_picker.foods_sort')}</span>
-        <div class="setting-desc">How items are ordered in the Foods tab. Favorites are always pinned at the top regardless of sort.</div>
+        <div class="setting-desc">{$_('ui.m03ae8f235555')}</div>
       </div>
       <div class="select-wrap" style="width:160px">
         <select class="select sel-sm" value={$foodsSort} on:change={e => foodsSort.set(e.target.value)}>
@@ -82,7 +82,7 @@
     <div class="setting-row">
       <div>
         <span class="setting-label">{$_('settings_foods_picker.meals_sort')}</span>
-        <div class="setting-desc">How items are ordered in the Meals tab.</div>
+        <div class="setting-desc">{$_('ui.mac491d174d6a')}</div>
       </div>
       <div class="select-wrap" style="width:160px">
         <select class="select sel-sm" value={$mealsSort} on:change={e => mealsSort.set(e.target.value)}>
@@ -96,7 +96,7 @@
     <div class="setting-row">
       <div>
         <span class="setting-label">{$_('settings_scanner.recipes_sort')}</span>
-        <div class="setting-desc">How items are ordered in the Recipes tab.</div>
+        <div class="setting-desc">{$_('ui.mbf1f97983c58')}</div>
       </div>
       <div class="select-wrap" style="width:160px">
         <select class="select sel-sm" value={$recipesSort} on:change={e => recipesSort.set(e.target.value)}>
@@ -109,8 +109,8 @@
   </div>
 
   <!-- Group: Camera & Scanning — barcode scanner UX -->
-  <p class="settings-group-heading">Camera &amp; Scanning</p>
-  <p class="settings-group-sub">Barcode scanner audio, flashlight, and photo crop preferences.</p>
+  <p class="settings-group-heading">{$_('ui.mabab4a874c9e')}</p>
+  <p class="settings-group-sub">{$_('ui.mfeb0b36ae0b5')}</p>
   <div class="card settings-card">
     <div class="setting-row"><span class="setting-label">{$_('settings_scanner.beep_on_scan')}</span><Toggle checked={$barcodeBeep} on:change={e => barcodeBeep.set(e.detail)} /></div>
     {#if isNative}

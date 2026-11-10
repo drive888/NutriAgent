@@ -53,16 +53,16 @@
   <!-- Fork handle -->
   <rect x="161" y="257" width="22" height="166" rx="11" fill="url(#forkGrad)"/>
 
-  <!-- ── Trace line (starts at fork base, sweeps upper-right) ── -->
+  <!-- ── NutriAgent line (starts at fork base, sweeps upper-right) ── -->
   <!-- Area fill beneath curve -->
   <path d="M 172 423 C 224 402 302 318 422 148 L 422 423 Z"
         fill="url(#areaGrad)"/>
 
-  <!-- Trace line — soft glow layer -->
+  <!-- NutriAgent line — soft glow layer -->
   <path d="M 172 423 C 224 402 302 318 422 148"
         fill="none" stroke="#4FFFB0" stroke-width="32" stroke-linecap="round" opacity="0.15"/>
 
-  <!-- Trace line — main stroke -->
+  <!-- NutriAgent line — main stroke -->
   <path d="M 172 423 C 224 402 302 318 422 148"
         fill="none" stroke="url(#lineGrad)" stroke-width="20" stroke-linecap="round" filter="url(#glow)"/>
 

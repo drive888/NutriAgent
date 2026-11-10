@@ -1,9 +1,9 @@
 # Outgoing Webhooks
 
-Point NutriTrace at a URL and it fires a signed HTTP POST the instant
+Point NutriAgent at a URL and it fires a signed HTTP POST the instant
 something happens: a food is logged, water is logged, a body stat is
 logged, or a daily nutrition goal is reached. The push counterpart to
-the [general public API](public-api.md), for wiring NutriTrace into
+the [general public API](public-api.md), for wiring NutriAgent into
 n8n, Home Assistant, or any other automation without polling. Off by
 default.
 
@@ -65,9 +65,9 @@ Every delivery is a JSON POST with this envelope:
 Each request carries:
 
 ```
-X-NutriTrace-Signature: sha256=<hex hmac-sha256 of the exact raw request body, using your webhook's secret>
-X-NutriTrace-Event: meal.logged
-X-NutriTrace-Delivery: <a uuid unique to this specific delivery attempt>
+X-NutriAgent-Signature: sha256=<hex hmac-sha256 of the exact raw request body, using your webhook's secret>
+X-NutriAgent-Event: meal.logged
+X-NutriAgent-Delivery: <a uuid unique to this specific delivery attempt>
 ```
 
 Recompute the HMAC over the raw body bytes you received (not a

@@ -6,6 +6,7 @@
   numbers + a 14-day mini chart of fasting hours.
 -->
 <script>
+  import { locale } from 'svelte-i18n';
   import { onMount } from 'svelte';
   import { slide } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
@@ -20,9 +21,9 @@
     const hrs = f.end_at ? ((new Date(f.end_at) - new Date(f.start_at)) / 3600000).toFixed(1) : '?';
     const day = new Date(f.start_at).toLocaleDateString();
     const ok = await confirmDialog({
-      title: 'Remove this fast?',
-      message: `${hrs}h fast on ${day} will be deleted from your history. This can't be undone.`,
-      confirmText: 'Remove',
+      title: $_('ui.ma978fdbb8c5b'), titleKey: 'ui.ma978fdbb8c5b',
+      message: $_('ui.m20ee93c939d6', {values: {value0: (hrs), value1: (day)}}),
+      confirmText: $_('ui.mc3812fc4acb8'),
       dangerous: true,
     });
     if (!ok) return;
@@ -32,7 +33,7 @@
   function _fmtDayLabel(iso) {
     if (!iso) return '—';
     const d = new Date(iso);
-    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    return d.toLocaleDateString($locale || undefined, { month: 'short', day: 'numeric' });
   }
   function _fmtDuration(start, end) {
     if (!start || !end) return '—';
@@ -64,7 +65,7 @@
       const d = new Date(today);
       d.setUTCDate(d.getUTCDate() - i);
       const day = d.toISOString().slice(0, 10);
-      out.push({ day, label: d.toLocaleDateString(undefined, { weekday: 'narrow' }), hours: map.get(day) || 0 });
+      out.push({ day, label: d.toLocaleDateString($locale || undefined, { weekday: 'narrow' }), hours: map.get(day) || 0 });
     }
     return out;
   })();
@@ -105,18 +106,18 @@
           <div class="fi-chart-bar" style="height:{(d.hours / _maxHours * 100).toFixed(1)}%"
             title="{d.day} · {d.hours.toFixed(1)}h"></div>
         </div>
-        <div class="fi-chart-label">{d.label}</div>
+        <div class="fi-chart-label">{d.labelKey ? $_(d.labelKey) : d.label}</div>
       </div>
     {/each}
   </div>
-  <div class="fi-chart-caption">Last 14 days · {_stats.count} fast{_stats.count === 1 ? '' : 's'} logged</div>
+  <div class="fi-chart-caption">{$_('ui.mf3231514ede1')} {_stats.count} {$_('ui.m115dc3606fbf')}{_stats.count === 1 ? '' : 's'} {$_('ui.m7baa99652be2')}</div>
 
   {#if $fastHistory && $fastHistory.length > 0}
     <button class="fi-history-toggle" type="button"
       on:click={() => _showHistory = !_showHistory}
       aria-expanded={_showHistory}>
       <span class="material-symbols-rounded" class:rot={_showHistory}>expand_more</span>
-      {_showHistory ? 'Hide' : 'Show'} Recent Fasts
+      {_showHistory ? $_('ui.mac20a57bfde0') : $_('ui.m0df6f1cad36c')} {$_('ui.m56e99ea92fd2')}
     </button>
     {#if _showHistory}
       <div class="fi-history" transition:slide={{ duration: 180 }}>
@@ -127,11 +128,11 @@
               <span class="fi-history-day">{_fmtDayLabel(f.start_at)}</span>
               <span class="fi-history-dur">{_fmtDuration(f.start_at, f.end_at)}</span>
               <span class="fi-history-goal" class:met={goalMet}>
-                Goal {f.goal_hours}h{goalMet ? ' ✓' : ''}
+                {$_('ui.mcdbf6975e8a3')} {f.goal_hours}h{goalMet ? ' ✓' : ''}
               </span>
             </div>
             <button class="btn-icon fi-history-del" on:click={() => _removeFast(f)}
-              aria-label="Remove this fast" title="Remove this fast">
+              aria-label={$_('ui.m8d016dfac330')} title={$_('ui.m8d016dfac330')}>
               <span class="material-symbols-rounded">close</span>
             </button>
           </div>

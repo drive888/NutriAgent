@@ -26,7 +26,8 @@
   // /foods/edit/123, etc.) still light up the parent tab. Root '/'
   // is exact-match only — otherwise every route would trigger it.
   $: activeIdx = (() => {
-    const base = $location.split('?')[0];
+    const route = $location.split('?')[0];
+    const base = route === '/recognition' ? '/foods' : route;
     let idx = tabs.findIndex(t => t.path !== '/' && (base === t.path || base.startsWith(t.path + '/')));
     if (idx < 0) idx = tabs.findIndex(t => t.path === base);
     return idx >= 0 ? idx : 0;
@@ -35,7 +36,7 @@
   function go(path) { push(path); }
 </script>
 
-<nav class="bottom-nav" role="navigation" aria-label="Main navigation">
+<nav class="bottom-nav" role="navigation" aria-label={$_('ui.meb355944b92d')}>
   <!-- Sliding pill indicator -->
   <div
     class="nav-pill"
@@ -47,7 +48,7 @@
       class="nav-tab"
       class:active={i === activeIdx}
       on:click={() => go(tab.path)}
-      aria-label={tab.label}
+      aria-label={tab.labelKey ? $_(tab.labelKey) : tab.label}
       aria-current={i === activeIdx ? 'page' : undefined}
     >
       {#if tab.customIcon}
@@ -56,11 +57,11 @@
         <span class="material-symbols-rounded nav-icon">
           {tab.icon}
           {#if tab.path === '/settings' && ($updateAvailable.available || $pwaUpdateReady)}
-            <span class="nav-update-dot" aria-label="Update available"></span>
+            <span class="nav-update-dot" aria-label={"Update available"}></span>
           {/if}
         </span>
       {/if}
-      <span class="nav-label">{tab.label}</span>
+      <span class="nav-label">{tab.labelKey ? $_(tab.labelKey) : tab.label}</span>
     </button>
   {/each}
 </nav>
@@ -86,9 +87,10 @@
     left: 0; /* overridden by inline style */
     /* width overridden by inline style */
     height: calc(100% - 12px - var(--safe-bottom));
-    background: linear-gradient(135deg, var(--accent-dim), rgba(79,255,176,0.22));
+    background: var(--accent-dim);
+    border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
     border-radius: var(--radius-md);
-    box-shadow: 0 0 16px var(--accent-dim);
+    box-shadow: none;
     transition: left var(--dur-base) var(--ease-inout);
     pointer-events: none;
   }
@@ -106,7 +108,7 @@
     padding: 8px 0 4px;
     position: relative;
     transition: color var(--dur-fast) var(--ease-out);
-    color: var(--text-3);
+    color: var(--text-2);
     -webkit-tap-highlight-color: transparent;
   }
   .nav-tab.active  { color: var(--accent); }
@@ -137,7 +139,7 @@
   }
 
   .nav-label {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;

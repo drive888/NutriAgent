@@ -189,7 +189,7 @@ router.get('/callback', wrap(async (req, res) => {
   if (!stored) {
     return res.redirect('/?garmin=error&msg=token_expired#/wellness');
   }
-  const _redir = (path) => stored.isNative ? `nutritrace://callback${path}` : path;
+  const _redir = (path) => stored.isNative ? `nutriagent://callback${path}` : path;
 
   const u              = stored.userId;
   const consumerKey    = _userCfg('garmin_consumer_key',    u);

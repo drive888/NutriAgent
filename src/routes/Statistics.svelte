@@ -1,4 +1,5 @@
 <script>
+  import { locale } from 'svelte-i18n';
   import { closeOnBack } from '../lib/back-stack.js';
   import { onMount, onDestroy } from 'svelte';
   import { slide } from 'svelte/transition';
@@ -8,7 +9,7 @@
   import { dragScroll } from '../lib/drag-scroll.js';
   import Chart from 'chart.js/auto';
   import { DB, localDateStr } from '../lib/db.js';
-  import { NtApi } from '../lib/api.js';
+  import { NaApi } from '../lib/api.js';
   import { currentDate } from '../stores/diary.js';
   import { NUTRIMENTS, Nutrition } from '../lib/nutrition.js';
   import { readBodyStat } from '../lib/body-stats-unit.js';
@@ -115,30 +116,30 @@
   }
   $: WELLNESS_METRICS = [
     ...(_hasWellness ? [
-      ...(_wlVisible('steps')             ? [{ value: 'wl_steps',  label: 'Steps',        unit: 'steps', apiSource: 'fitgarm', apiField: 'steps' }] : []),
-      ...(_wlVisible('active_minutes')    ? [{ value: 'wl_active', label: 'Active Min.',   unit: 'min',   apiSource: 'fitgarm', apiField: 'active_minutes' }] : []),
-      ...(_wlVisible('sleep_duration_min')? [{ value: 'wl_sleep',  label: 'Sleep',         unit: 'hr',    apiSource: 'fitgarm', apiField: 'sleep_duration_min', fmtVal: v => Math.round(v / 6) / 10 }] : []),
-      ...(_wlVisible('resting_hr')        ? [{ value: 'wl_rhr',    label: 'Resting HR',    unit: 'bpm',   apiSource: 'fitgarm', apiField: 'resting_hr' }] : []),
-      ...(_wlVisible('hrv_daily_rmssd')   ? [{ value: 'wl_hrv',    label: 'HRV',           unit: 'ms',    apiSource: 'fitgarm', apiField: 'hrv_daily_rmssd' }] : []),
-      ...(_wlVisible('spo2_avg')          ? [{ value: 'wl_spo2',   label: 'SpO2',          unit: '%',     apiSource: 'fitgarm', apiField: 'spo2_avg' }] : []),
+      ...(_wlVisible('steps')             ? [{ value: 'wl_steps',  label: 'Steps', labelKey: 'ui.m1de3df70ddf4',        unit: 'steps', apiSource: 'fitgarm', apiField: 'steps' }] : []),
+      ...(_wlVisible('active_minutes')    ? [{ value: 'wl_active', label: 'Active Min.', labelKey: 'ui.mf6c7802ca69e',   unit: 'min',   apiSource: 'fitgarm', apiField: 'active_minutes' }] : []),
+      ...(_wlVisible('sleep_duration_min')? [{ value: 'wl_sleep',  label: 'Sleep', labelKey: 'ui.md466bcf52eb6',         unit: 'hr',    apiSource: 'fitgarm', apiField: 'sleep_duration_min', fmtVal: v => Math.round(v / 6) / 10 }] : []),
+      ...(_wlVisible('resting_hr')        ? [{ value: 'wl_rhr',    label: 'Resting HR', labelKey: 'ui.m4ed409fa03f5',    unit: 'bpm',   apiSource: 'fitgarm', apiField: 'resting_hr' }] : []),
+      ...(_wlVisible('hrv_daily_rmssd')   ? [{ value: 'wl_hrv',    label: 'HRV', labelKey: 'ui.maf6c7c3df3fc',           unit: 'ms',    apiSource: 'fitgarm', apiField: 'hrv_daily_rmssd' }] : []),
+      ...(_wlVisible('spo2_avg')          ? [{ value: 'wl_spo2',   label: 'SpO2', labelKey: 'ui.mfb0a260fbed1',          unit: '%',     apiSource: 'fitgarm', apiField: 'spo2_avg' }] : []),
     ] : []),
     ...(($withingsEnabled || $fitbitFamilyEnabled) && _wlVisible('muscle_mass_kg') ? [
-      { value: 'wl_muscle', label: 'Muscle Mass',   unit: '',      apiSource: 'withings', apiField: 'muscle_mass_kg', isWeight: true },
+      { value: 'wl_muscle', label: 'Muscle Mass', labelKey: 'ui.mde6012251ab0',   unit: '',      apiSource: 'withings', apiField: 'muscle_mass_kg', isWeight: true },
     ] : []),
   ];
 
   // All available metrics = NUTRIMENTS + body stats + wellness
   $: BODY_STATS = [
-    { value: 'weight',     label: 'Weight',     unit: $weightUnit || 'lb' },
-    { value: 'neck',       label: 'Neck',       unit: $lengthUnit || 'in' },
-    { value: 'waist',      label: 'Waist',      unit: $lengthUnit || 'in' },
-    { value: 'hips',       label: 'Hips',       unit: $lengthUnit || 'in' },
-    { value: 'chest',      label: 'Chest',      unit: $lengthUnit || 'in' },
-    { value: 'thighs',     label: 'Thighs',     unit: $lengthUnit || 'in' },
-    { value: 'biceps',     label: 'Biceps',     unit: $lengthUnit || 'in' },
-    { value: 'calves',     label: 'Calves',     unit: $lengthUnit || 'in' },
-    { value: 'body_fat',   label: 'Body Fat',   unit: '%'  },
-    { value: 'body_water', label: 'Body Water', unit: '%'  },
+    { value: 'weight',     label: 'Weight', labelKey: 'ui.m81d27ef6d503',     unit: $weightUnit || 'lb' },
+    { value: 'neck',       label: 'Neck', labelKey: 'ui.m6b27a97151bb',       unit: $lengthUnit || 'in' },
+    { value: 'waist',      label: 'Waist', labelKey: 'ui.m8470df662662',      unit: $lengthUnit || 'in' },
+    { value: 'hips',       label: 'Hips', labelKey: 'ui.mb004098c1134',       unit: $lengthUnit || 'in' },
+    { value: 'chest',      label: 'Chest', labelKey: 'ui.m378d83808237',      unit: $lengthUnit || 'in' },
+    { value: 'thighs',     label: 'Thighs', labelKey: 'ui.mcc3653998568',     unit: $lengthUnit || 'in' },
+    { value: 'biceps',     label: 'Biceps', labelKey: 'ui.m49f08df6459e',     unit: $lengthUnit || 'in' },
+    { value: 'calves',     label: 'Calves', labelKey: 'ui.mb94a4523f488',     unit: $lengthUnit || 'in' },
+    { value: 'body_fat',   label: 'Body Fat', labelKey: 'ui.m03cfbaa9c32f',   unit: '%'  },
+    { value: 'body_water', label: 'Body Water', labelKey: 'ui.m7a976b062eaa', unit: '%'  },
   ];
   // Metric identifier: nutriments use `.id`, everything else uses `.value`.
   // Coalesce so the ordering + hide stores work with a single string key.
@@ -146,7 +147,7 @@
   $: _rawMetrics = [
     ...NUTRIMENTS.filter(n => n.default),
     ...BODY_STATS.filter(s => !($hiddenBodyStats||[]).includes(s.value)),
-    ...(_waterShowInStats ? [{ value: 'water', label: 'Water', unit: _waterUnit }] : []),
+    ...(_waterShowInStats ? [{ value: 'water', label: 'Water', labelKey: 'ui.m7ca7dea90680', unit: _waterUnit }] : []),
     ...WELLNESS_METRICS,
   ];
   // Apply the user's Statistics-specific hide list, then reorder by the
@@ -192,7 +193,7 @@
     { value: '90',  label: '3M'  },
     { value: '180', label: '6M'  },
     { value: '365', label: '1Y'  },
-    { value: 'all', label: 'All' },
+    { value: 'all', label: 'All', labelKey: 'ui.ma52ace420f21' },
   ];
 
   async function loadData() {
@@ -225,7 +226,7 @@
       }
       fromStr = dates[0]; toStr = dates[dates.length - 1];
     } else if (range === 'all') {
-      const all = await NtApi.getAllDiary();
+      const all = await NaApi.getAllDiary();
       dates = [...new Set(all.map(e => e.date))].sort();
       fromStr = dates[0] || toStr;
     } else if (range === 'custom') {
@@ -261,8 +262,8 @@
         // 'health_connect') server-side, and Google Health Web API rows are
         // tagged source='fitbit', so one call covers fitbit + google-health
         // + health-connect for all server-mode users (browser + Android).
-        try { if ($fitbitFamilyEnabled)  fitbitData  = await NtApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
-        try { if ($garminEnabled)        garminData  = await NtApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`); } catch {}
+        try { if ($fitbitFamilyEnabled)  fitbitData  = await NaApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
+        try { if ($garminEnabled)        garminData  = await NaApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`); } catch {}
         // Android local-only mode (no server): fall back to the local
         // SQLite where on-device Health Connect data is stored directly.
         if ($healthConnectEnabled && isNative) {
@@ -279,11 +280,11 @@
         });
       } else if (wlMeta.apiSource === 'withings') {
         let withingsData = {}, fitbitData = {}, hcData = {};
-        try { if ($withingsEnabled) withingsData = await NtApi.get(`/api/wellness/withings/data?from=${fromStr}&to=${toStr}`); } catch {}
+        try { if ($withingsEnabled) withingsData = await NaApi.get(`/api/wellness/withings/data?from=${fromStr}&to=${toStr}`); } catch {}
         // The fitbit /data endpoint surfaces HC body-comp metrics too
         // (weight, body_fat, muscle_mass) since it returns source IN
         // ('fitbit', 'health_connect') for every metric_type.
-        try { if ($fitbitFamilyEnabled) fitbitData = await NtApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
+        try { if ($fitbitFamilyEnabled) fitbitData = await NaApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
         if ($healthConnectEnabled && isNative) {
           try {
             const { dbGetWellnessGrouped } = await import('../lib/db-native.js');
@@ -306,8 +307,8 @@
       // and Google Health server-side; local SQLite covers Android offline.
       let withingsData = {}, fitbitBodyData = {}, hcBodyData = {};
       if (isBodyDevice) {
-        try { if ($withingsEnabled) withingsData = await NtApi.get(`/api/wellness/withings/data?from=${fromStr}&to=${toStr}`); } catch {}
-        try { if ($fitbitFamilyEnabled) fitbitBodyData = await NtApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
+        try { if ($withingsEnabled) withingsData = await NaApi.get(`/api/wellness/withings/data?from=${fromStr}&to=${toStr}`); } catch {}
+        try { if ($fitbitFamilyEnabled) fitbitBodyData = await NaApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
         if ($healthConnectEnabled && isNative) {
           try {
             const { dbGetWellnessGrouped } = await import('../lib/db-native.js');
@@ -317,7 +318,7 @@
       }
 
       if (ver !== _loadVer) { loading = false; return; }
-      const allEntries = await NtApi.getAllDiary();
+      const allEntries = await NaApi.getAllDiary();
       entryMap = Object.fromEntries(allEntries.map(e => [e.date, e]));
 
       for (const date of dates) {
@@ -413,7 +414,7 @@
     // #207: completion tally across the viewed range. Master-gated so
     // users who never enabled the feature don't pay the extra lookup.
     // `entryMap` is built in every non-body-device branch above from
-    // NtApi.getAllDiary(), but body-device metrics take an early exit
+    // NaApi.getAllDiary(), but body-device metrics take an early exit
     // that skips it; fall back to a lightweight second lookup so the
     // rail KPI shows on weight / body-fat charts too. Cheap: the
     // getAllDiary call is already cached client-side.
@@ -423,7 +424,7 @@
     } else try {
       let map = entryMap;
       if (!map) {
-        const all = await NtApi.getAllDiary().catch(() => []);
+        const all = await NaApi.getAllDiary().catch(() => []);
         map = Object.fromEntries((all || []).map(e => [e.date, e]));
       }
       const set = new Set();
@@ -482,7 +483,7 @@
       : data.filter(d => Number.isFinite(d.val));
     const labels = displayData.map(d => {
       const dt = new Date(d.date + 'T12:00:00');
-      return dt.toLocaleDateString(undefined, { month:'short', day:'numeric' });
+      return dt.toLocaleDateString($locale || undefined, { month:'short', day:'numeric' });
     });
     const values = displayData.map(d => d.val);
     const datasets = [{
@@ -505,7 +506,7 @@
     if ($statsAvgLine && summary) {
       datasets.push({
         type: 'line',
-        label: 'Average',
+        label: $_('ui.mb38ae2c5b845'),
         data: displayData.map(() => summary.avg),
         borderColor: isDark ? 'rgba(255,193,7,0.7)' : 'rgba(217,119,6,0.7)',
         borderWidth: 1.5,
@@ -544,7 +545,7 @@
       const isAdaptiveOrDynamic = metric === 'calories' && ($calorieGoalMode === 'dynamic' || $calorieGoalMode === 'adaptive');
       datasets.push({
         type: 'line',
-        label: isAdaptiveOrDynamic ? 'Base Goal' : 'Goal',
+        label: $_(isAdaptiveOrDynamic ? 'ui.m1a710c4f76fa' : 'ui.mcdbf6975e8a3'),
         data: displayData.map(() => _goalVal),
         borderColor: isDark ? 'rgba(129,140,248,0.8)' : 'rgba(99,102,241,0.8)',
         borderWidth: 1.5,
@@ -568,7 +569,7 @@
         });
         datasets.push({
           type: 'line',
-          label: 'Trend',
+          label: $_('ui.m9e217716c4e0'),
           data: trendData,
           borderColor: isDark ? 'rgba(251,146,60,0.8)' : 'rgba(234,88,12,0.8)',
           borderWidth: 2,
@@ -694,7 +695,7 @@
     // the raw lowercase metric ID (e.g. "calories" instead of "Calories")
     // in the chart legend and tooltips.
     const m = METRICS.find(x => x.value === metric || x.id === metric);
-    return m ? m.label : metric;
+    return m ? (m.labelKey ? $_(m.labelKey) : m.label) : metric;
   }
 
   function getMetricUnit() {
@@ -743,10 +744,10 @@
       buckets[bucket].push({ ...m, _key: key });
     }
     const groups = [];
-    if (buckets.nutrient.length) groups.push({ label: 'Nutrition', metrics: buckets.nutrient });
-    if (buckets.body.length)     groups.push({ label: 'Body',      metrics: buckets.body });
-    if (buckets.water.length)    groups.push({ label: 'Water',     metrics: buckets.water });
-    if (buckets.wellness.length) groups.push({ label: 'Wellness',  metrics: buckets.wellness });
+    if (buckets.nutrient.length) groups.push({ label: 'Nutrition', labelKey: 'ui.m7ab78b7058dd', metrics: buckets.nutrient });
+    if (buckets.body.length)     groups.push({ label: 'Body', labelKey: 'ui.m6ccaa6415b5e',      metrics: buckets.body });
+    if (buckets.water.length)    groups.push({ label: 'Water', labelKey: 'ui.m7ca7dea90680',     metrics: buckets.water });
+    if (buckets.wellness.length) groups.push({ label: 'Wellness', labelKey: 'ui.m018d49bcf016',  metrics: buckets.wellness });
     return groups;
   })();
 
@@ -788,7 +789,7 @@
     }
     const arr = [...map.entries()].map(([key, entries]) => {
       const dt = new Date(key + '-01T12:00:00');
-      const label = dt.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+      const label = dt.toLocaleDateString($locale || undefined, { month: 'long', year: 'numeric' });
       return { key, label, count: entries.length, entries: entries.slice().reverse() };
     });
     arr.sort((a, b) => b.key.localeCompare(a.key));
@@ -838,9 +839,9 @@
       .filter(c => METRICS.find(m => (m.value ?? m.id) === c))
       .slice(0, 3);
   })();
-  function _altLabel(key) {
+  function _altLabel(key, translate) {
     const m = METRICS.find(x => (x.value ?? x.id) === key);
-    return m ? m.label : key;
+    return m ? (m.labelKey ? translate(m.labelKey) : m.label) : key;
   }
 
   // CSV export (#8). Uses the same rows Chart.js is looking at, not
@@ -883,6 +884,8 @@
   $: { metric; range; customStart; customEnd; $statsIncludeToday; $statsShowEmptyDays; $statsChartType; $statsYZero; $statsAvgLine; $statsGoalLine; $statsTrendLine;
        if (canvasEl) loadData(); }
 
+  $: { $locale; if (canvasEl) renderChart(); }
+
   onDestroy(() => { if (chart) chart.destroy(); });
 
   // ── Custom range calendar ──────────────────────────────────────────────────
@@ -894,7 +897,7 @@
 
   $: calFirstDay    = new Date(calYear, calMonth, 1).getDay();
   $: calDaysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-  $: calMonthName   = new Date(calYear, calMonth, 1).toLocaleDateString(undefined, { month: 'long' });
+  $: calMonthName   = new Date(calYear, calMonth, 1).toLocaleDateString($locale || undefined, { month: 'long' });
   const _yearRange  = Array.from({ length: 22 }, (_, i) => new Date().getFullYear() - 10 + i);
   const _monthNames = [
     {idx:0,s:'Jan'},{idx:1,s:'Feb'},{idx:2,s:'Mar'},{idx:3,s:'Apr'},
@@ -928,7 +931,7 @@
 
   function fmtDate(iso) {
     if (!iso) return 'Pick date';
-    return new Date(iso + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    return new Date(iso + 'T12:00:00').toLocaleDateString($locale || undefined, { month: 'short', day: 'numeric', year: 'numeric' });
   }
   function openCal(which) {
     showCalFor = which; showYearPicker = false; showMonthPicker = false;
@@ -967,16 +970,16 @@
   <!-- Desktop left rail: grouped metric picker. Hidden on mobile; the
        horizontal metric-scroll below still owns metric selection there. -->
   <aside class="stats-left-rail">
-    <div class="stats-rail-heading">Metrics</div>
-    <input class="stats-rail-search" type="search" placeholder="Filter metrics…" bind:value={_railQuery} />
+    <div class="stats-rail-heading">{$_('ui.ma58da793c725')}</div>
+    <input class="stats-rail-search" type="search" placeholder={$_('ui.me85d6e4ee345')} bind:value={_railQuery} />
     {#each groupedMetrics as g}
-      {@const _filtered = g.metrics.filter(m => !_railQuery || foldText(m.label).includes(foldText(_railQuery)))}
+      {@const _filtered = g.metrics.filter(m => !_railQuery || foldText([m.labelKey ? $_(m.labelKey) : '', m.label].join(' ')).includes(foldText(_railQuery)))}
       {#if _filtered.length}
-        <p class="stats-rail-group">{g.label}</p>
+        <p class="stats-rail-group">{g.labelKey ? $_(g.labelKey) : g.label}</p>
         {#each _filtered as m}
           <button class="stats-rail-metric" class:active={metric === m._key}
             on:click={() => metric = m._key}>
-            {m.label}
+            {m.labelKey ? $_(m.labelKey) : m.label}
           </button>
         {/each}
       {/if}
@@ -988,7 +991,7 @@
       {#each METRICS as m}
         <button class="pill-btn" class:active={metric === (m.id || m.value)}
           on:click={() => metric = m.id || m.value}>
-          {m.label}
+          {m.labelKey ? $_(m.labelKey) : m.label}
         </button>
       {/each}
     </div>
@@ -998,17 +1001,17 @@
       <div class="range-pills" use:dragScroll>
         {#each RANGES as r}
           <button class="range-btn" class:active={range === r.value} on:click={() => range = r.value}>
-            {r.label}
+            {r.labelKey ? $_(r.labelKey) : r.label}
           </button>
         {/each}
         <button class="range-btn" class:active={range === 'custom'} on:click={() => range = 'custom'}>
-          Custom
+          {$_('ui.m494ca78f7374')}
         </button>
       </div>
-      <button class="chart-type-btn" title="Toggle chart type"
+      <button class="chart-type-btn" title={$_('ui.m5d19a293b4a7')}
         on:click={() => statsChartType.set($statsChartType === 'bar' ? 'line' : 'bar')}>
         <span class="material-symbols-rounded" style="font-size:18px">
-          {$statsChartType === 'bar' ? 'show_chart' : 'bar_chart'}
+          {$statsChartType === 'bar' ? "show_chart" : "bar_chart"}
         </span>
       </button>
     </div>
@@ -1081,7 +1084,7 @@
         <!-- CSV export lives on the chart itself so mobile and large-screen
              both get it. Was previously desktop-rail-only. -->
         <button class="chart-csv" type="button" on:click={_exportCsv}
-          title="Export CSV" aria-label="Export CSV">
+          title={$_('ui.m91f71c14c8d6')} aria-label={$_('ui.m91f71c14c8d6')}>
           <span class="material-symbols-rounded">download</span>
         </button>
       {/if}
@@ -1109,11 +1112,11 @@
                    the current metric — the loader re-runs via the metric
                    reactive at line ~647. -->
               <div class="stats-empty-alts text-3 text-sm">
-                Try
+                {$_('ui.m85d6c0718cfe')}
                 {#each _emptyAlternatives as alt, i}
-                  <button class="stats-empty-alt-link" type="button" on:click={() => metric = alt}>{_altLabel(alt)}</button>{#if i < _emptyAlternatives.length - 2}, {:else if i === _emptyAlternatives.length - 2} or {/if}
+                  <button class="stats-empty-alt-link" type="button" on:click={() => metric = alt}>{_altLabel(alt, $_)}</button>{#if i < _emptyAlternatives.length - 2}, {:else if i === _emptyAlternatives.length - 2} {$_('ui.m7175517a370b')} {/if}
                 {/each}
-                . You may have data there.
+                {$_('ui.m63005916a73b')}
               </div>
             {/if}
           </div>
@@ -1137,7 +1140,7 @@
               <button class="stats-tl-month" type="button"
                 on:click={() => _toggleMonth(m.key)}
                 aria-expanded={_timelineExpandedMonths.has(m.key)}>
-                <span class="stats-tl-month-label">{m.label}</span>
+                <span class="stats-tl-month-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
                 <span class="stats-tl-month-count">{m.count}</span>
                 <span class="material-symbols-rounded stats-tl-chevron" class:open={_timelineExpandedMonths.has(m.key)}>expand_more</span>
               </button>
@@ -1146,14 +1149,14 @@
                   <div class="timeline-row">
                     <button class="timeline-date-link" type="button"
                       on:click={() => _drillIntoDate(row.date)}
-                      title={metric.startsWith('wl_') ? 'Open this day in Wellness' : 'Open this day in Diary'}
-                      aria-label={metric.startsWith('wl_') ? `Open Wellness for ${row.date}` : `Open Diary for ${row.date}`}>
+                      title={metric.startsWith('wl_') ? $_('ui.mabfefbe158fa') : $_('ui.m33233278b2e9')}
+                      aria-label={metric.startsWith('wl_') ? $_('ui.m963dde7aae2c', { values: { value0: (row.date) } }) : $_('ui.m2dd9fab0b6b5', { values: { value0: (row.date) } })}>
                       {(() => {
                         const dt = new Date(row.date + 'T12:00:00');
                         const fmt = $dateFormat || 'ISO';
                         if (fmt === 'US') { const mm=String(dt.getMonth()+1).padStart(2,'0'),dd=String(dt.getDate()).padStart(2,'0'); return mm+'/'+dd+'/'+dt.getFullYear(); }
                         if (fmt === 'EU') { const mm=String(dt.getMonth()+1).padStart(2,'0'),dd=String(dt.getDate()).padStart(2,'0'); return dd+'/'+mm+'/'+dt.getFullYear(); }
-                        if (fmt === 'natural') return dt.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});
+                        if (fmt === 'natural') return dt.toLocaleDateString($locale || undefined,{day:'numeric',month:'short',year:'numeric'});
                         return row.date;
                       })()}
                     </button>
@@ -1168,14 +1171,14 @@
                 <div class="timeline-row">
                   <button class="timeline-date-link" type="button"
                     on:click={() => _drillIntoDate(row.date)}
-                    title={metric.startsWith('wl_') ? 'Open this day in Wellness' : 'Open this day in Diary'}
-                    aria-label={metric.startsWith('wl_') ? `Open Wellness for ${row.date}` : `Open Diary for ${row.date}`}>
+                    title={metric.startsWith('wl_') ? $_('ui.mabfefbe158fa') : $_('ui.m33233278b2e9')}
+                    aria-label={metric.startsWith('wl_') ? $_('ui.m963dde7aae2c', { values: { value0: (row.date) } }) : $_('ui.m2dd9fab0b6b5', { values: { value0: (row.date) } })}>
                     {(() => {
                       const dt = new Date(row.date + 'T12:00:00');
                       const fmt = $dateFormat || 'ISO';
                       if (fmt === 'US') { const m=String(dt.getMonth()+1).padStart(2,'0'),d=String(dt.getDate()).padStart(2,'0'); return m+'/'+d+'/'+dt.getFullYear(); }
                       if (fmt === 'EU') { const m=String(dt.getMonth()+1).padStart(2,'0'),d=String(dt.getDate()).padStart(2,'0'); return d+'/'+m+'/'+dt.getFullYear(); }
-                      if (fmt === 'natural') return dt.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});
+                      if (fmt === 'natural') return dt.toLocaleDateString($locale || undefined,{day:'numeric',month:'short',year:'numeric'});
                       return row.date;
                     })()}
                   </button>
@@ -1196,7 +1199,7 @@
   </div>
   <!-- Desktop right rail: KPI stack + overlay toggles. Hidden on mobile. -->
   <aside class="stats-right-rail">
-    <div class="stats-rail-heading">Summary</div>
+    <div class="stats-rail-heading">{$_('ui.m8e76a94ac832')}</div>
     {#if summary}
       <div class="stats-rail-kpi">
         <span class="stats-rail-kpi-lbl">{$_('statistics_page.summary.average')}</span>
@@ -1226,7 +1229,7 @@
       {#if $diaryShowCompletion && completionStats && completionStats.total > 0}
         <!-- #207: adherence pulse; independent of the selected metric. -->
         <div class="stats-rail-kpi">
-          <span class="stats-rail-kpi-lbl" title="Days marked complete over the viewed range. Purely how consistently you closed the day, not whether goals were hit.">Marked complete</span>
+          <span class="stats-rail-kpi-lbl" title={$_('ui.m666f49c284e7')}>{$_('ui.m45f8d4e1bddb')}</span>
           <span class="stats-rail-kpi-val">
             {completionStats.marked} / {completionStats.total}
             <span class="stats-rail-delta" class:good={completionStats.pct >= 70} class:neutral={completionStats.pct < 70}>
@@ -1241,7 +1244,7 @@
              goals (goal.min only) → up is good; else lower is good. -->
         {@const _tGood = _goalValReactive == null ? null : (_goalIsMin ? _trendDelta >= 0 : _trendDelta <= 0)}
         <div class="stats-rail-kpi">
-          <span class="stats-rail-kpi-lbl" title="Last 7-day average vs the previous 7 days. Deep trend analysis lives on the chart itself — this is the quick pulse.">Weekly trend</span>
+          <span class="stats-rail-kpi-lbl" title={$_('ui.m7c0a1be6b091')}>{$_('ui.m8c0ee7b4859d')}</span>
           <span class="stats-rail-kpi-val">
             <span class="stats-rail-delta"
               class:good={_tGood === true}
@@ -1256,21 +1259,21 @@
       <p class="stats-rail-empty text-3 text-sm">{$_('statistics_page.empty.no_data')}</p>
     {/if}
 
-    <div class="stats-rail-heading" style="margin-top:16px">Overlays</div>
+    <div class="stats-rail-heading" style="margin-top:16px">{$_('ui.m975c5697ac19')}</div>
     <label class="stats-rail-check">
       <input type="checkbox" checked={$statsAvgLine}
         on:change={(e) => statsAvgLine.set(e.currentTarget.checked)} />
-      <span>Average</span>
+      <span>{$_('ui.mb38ae2c5b845')}</span>
     </label>
     <label class="stats-rail-check">
       <input type="checkbox" checked={$statsGoalLine}
         on:change={(e) => statsGoalLine.set(e.currentTarget.checked)} />
-      <span>Goal</span>
+      <span>{$_('ui.mcdbf6975e8a3')}</span>
     </label>
     <label class="stats-rail-check">
       <input type="checkbox" checked={$statsTrendLine}
         on:change={(e) => statsTrendLine.set(e.currentTarget.checked)} />
-      <span>Trend</span>
+      <span>{$_('ui.m9e217716c4e0')}</span>
     </label>
     <!-- TODO: compare mode (#5) — needs loader refactor to accept a
          metric argument (loadSeries(metricId) → { labels, values }).
@@ -1288,21 +1291,21 @@
     on:click={() => showCalFor = null} on:keydown={() => {}}>
     <div class="stat-cal-sheet" on:click|stopPropagation on:keydown={() => {}}>
       <div class="sheet-handle"></div>
-      <div class="cal-title">{showCalFor === 'start' ? 'From' : 'To'} date</div>
+      <div class="cal-title">{showCalFor === 'start' ? $_('ui.m218197693424') : $_('ui.mf4b06ef6d3c8')} {$_('ui.m0e87632cd46b')}</div>
       <!-- Month / year nav -->
       <div class="dp-nav">
-        <button class="btn-icon dp-nav-btn" on:click={calPrevMonth} aria-label="Previous month" title="Previous month">
+        <button class="btn-icon dp-nav-btn" on:click={calPrevMonth} aria-label={$_('ui.m6a2769502a5d')} title={$_('ui.m6a2769502a5d')}>
           <span class="material-symbols-rounded">chevron_left</span>
         </button>
         <div class="dp-month-year">
           <button class="dp-month-btn" on:click={() => { showMonthPicker = !showMonthPicker; showYearPicker = false; }}>
-            {calMonthName}<span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle;margin-left:2px">{showMonthPicker ? 'expand_less' : 'expand_more'}</span>
+            {calMonthName}<span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle;margin-left:2px">{showMonthPicker ? "expand_less" : "expand_more"}</span>
           </button>
           <button class="dp-year-btn" on:click={() => { showYearPicker = !showYearPicker; showMonthPicker = false; }}>
-            {calYear}<span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle;margin-left:2px">{showYearPicker ? 'expand_less' : 'expand_more'}</span>
+            {calYear}<span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle;margin-left:2px">{showYearPicker ? "expand_less" : "expand_more"}</span>
           </button>
         </div>
-        <button class="btn-icon dp-nav-btn" on:click={calNextMonth} aria-label="Next month" title="Next month">
+        <button class="btn-icon dp-nav-btn" on:click={calNextMonth} aria-label={$_('ui.m74e53211fef4')} title={$_('ui.m74e53211fef4')}>
           <span class="material-symbols-rounded">chevron_right</span>
         </button>
       </div>

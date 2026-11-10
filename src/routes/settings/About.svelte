@@ -7,41 +7,38 @@
 <div class="section-body">
   <div class="card settings-card">
     <div class="about-hero">
-      <img src={iconUrl('/icons/logo.png')} alt="NutriTrace" class="about-icon" />
+      <img src={iconUrl('/icons/logo.png')} alt={$_('ui.m2014cdd9e657')} class="about-icon" />
       <div>
-        <div class="about-name">NutriTrace</div>
+        <div class="about-name">{$_('ui.m2014cdd9e657')}</div>
         <div class="about-version text-3 text-sm">
           {APP_VERSION}
-          <span class="platform-tag">{isNative ? 'Android' : 'PWA'}</span>
+          <span class="platform-tag">{isNative ? $_('ui.m6d612a86bee4') : 'PWA'}</span>
         </div>
       </div>
     </div>
     <div class="setting-divider"></div>
     <div class="about-desc">
-      Trace Every Bite — Personal Nutrition Tracker. NutriTrace is a self-hosted nutrition,
-      wellness, and fitness tracker built for privacy. Your data lives on your server, not
-      in the cloud. Features food diary, wellness integrations (Fitbit, Garmin, Withings,
-      Health Connect), AI assistant, workout GPS maps, goal tracking, and more.
+      {$_('ui.m5b587494e7a0')}
     </div>
     <div class="setting-divider"></div>
     <div class="about-row">
       <span class="material-symbols-rounded about-feat-icon">database</span>
-      <span>Self-hosted — your data, your server</span>
+      <span>{$_('ui.md257f12fc6a7')}</span>
     </div>
     <div class="setting-divider"></div>
     <div class="about-row">
       <span class="material-symbols-rounded about-feat-icon">phone_android</span>
-      <span>Native Android app with offline support, plus a PWA for any browser</span>
+      <span>{$_('ui.m2ba85acea934')}</span>
     </div>
     <div class="setting-divider"></div>
     <div class="about-row">
       <span class="material-symbols-rounded about-feat-icon">lock</span>
-      <span>No tracking, no ads, no third-party analytics</span>
+      <span>{$_('ui.me5a0412bf425')}</span>
     </div>
     <div class="setting-divider"></div>
     <div class="about-row">
       <span class="material-symbols-rounded about-feat-icon">restaurant_menu</span>
-      <span>{$_('settings_about.food_data_from')} <a href="https://world.openfoodfacts.org" target="_blank" rel="noopener" class="about-link">Open Food Facts</a> {$_('settings_about.food_data_license')}</span>
+      <span>{$_('settings_about.food_data_from')} <a href="https://world.openfoodfacts.org" target="_blank" rel="noopener" class="about-link">{$_('ui.me5b3be5216f9')}</a> {$_('settings_about.food_data_license')}</span>
     </div>
     <div class="setting-divider"></div>
     <div class="about-row">
@@ -51,7 +48,7 @@
     <div class="setting-divider"></div>
     <div class="about-row">
       <span class="material-symbols-rounded about-feat-icon">apps</span>
-      <span>{$_('settings_about.family_line_prefix')}<a href="https://traceapps.github.io/docs/" target="_blank" rel="noopener" class="about-link">TraceApps</a>{$_('settings_about.family_line_suffix')}</span>
+      <span>{$_('settings_about.family_line_prefix')}<a href="https://traceapps.github.io/docs/" target="_blank" rel="noopener" class="about-link">{$_('ui.m4e122e39a5c2')}</a>{$_('settings_about.family_line_suffix')}</span>
     </div>
     <div class="setting-divider"></div>
     <!-- Weblate credit line (Libre plan attribution). Passive callout —
@@ -59,23 +56,11 @@
          everyone else just reads it as a credit. -->
     <div class="about-row">
       <span class="material-symbols-rounded about-feat-icon">translate</span>
-      <span>{$_('settings_about.translations_from')} <a href="https://hosted.weblate.org/engage/nutritrace/" target="_blank" rel="noopener" class="about-link">Weblate</a></span>
+      <span>{$_('settings_about.translations_from')} <a href="https://hosted.weblate.org/engage/nutritrace/" target="_blank" rel="noopener" class="about-link">{$_('ui.m46a6fb369db4')}</a></span>
     </div>
     <div class="setting-divider"></div>
     <div class="about-desc" style="font-size:11px;color:var(--text-3);line-height:1.5">
-      <strong>Disclaimer.</strong> NutriTrace is not medical, health, or nutrition-professional
-      software. It does not provide medical advice, diagnosis, treatment, or personalized nutrition
-      prescriptions. Food entries, calorie and macro tracking, Trace AI suggestions, Smart Log
-      parsing, Scan Label output, Goal Insights, Adaptive TDEE recommendations, wellness scores
-      (readiness, stress, sleep quality), and any analytical output are for informational and
-      self-tracking purposes only. Nutrition decisions can interact with medical conditions
-      (diabetes, eating disorders, food allergies, pregnancy, breastfeeding, pediatric needs,
-      kidney or liver disease, metabolic disorders) in ways this app cannot assess. Consult a
-      qualified healthcare professional, registered dietitian, or licensed nutritionist before
-      starting a new eating plan, calorie target, or making significant dietary changes. Trace
-      AI answers can be incorrect or incomplete; treat them as a starting point, not a substitute
-      for human judgment or professional advice. Food nutrition data from Open Food Facts is
-      community-curated and may contain inaccuracies. Use at your own risk.
+      <strong>{$_('ui.m42d4a5b96466')}</strong> {$_('ui.mc3b86cb99ede')}
     </div>
   </div>
 </div>

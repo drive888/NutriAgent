@@ -6,7 +6,7 @@
   import { showError, showSuccess } from '../stores/toast.js';
   import { push } from 'svelte-spa-router';
   import { slide } from 'svelte/transition';
-  import { _ } from 'svelte-i18n';
+  import { _, locale } from 'svelte-i18n';
   import { apiUrl, isNative, getServerUrl, setAuthToken, resolveAssetUrl, iconUrl } from '../lib/platform.js';
   import { cookieBlockedByHttp, droppedCookieReason } from '../lib/cookie-check.js';
   import CookieWarning from '../components/ui/CookieWarning.svelte';
@@ -22,7 +22,7 @@
 
   // OIDC providers + password-login flag are returned by /api/auth/status.
   // Native (Capacitor server-mode) routes the auth flow through
-  // @capacitor/browser; the IdP redirects back via a nutritrace://oidc-callback
+  // @capacitor/browser; the IdP redirects back via a nutriagent://oidc-callback
   // deep link which App.svelte handles. Native local mode skips OIDC entirely
   // since there's no server to talk to.
   let oidcProviders = [];
@@ -38,7 +38,7 @@
   onMount(async () => {
     if (isNative && !getServerUrl()) return; // standalone — skip
     try {
-      const r = await fetch(apiUrl('/api/auth/status'), { credentials: 'include' });
+      const r = await fetch(apiUrl('/api/auth/status'), { credentials: 'include', headers: { 'Accept-Language': $locale || 'en' } });
       if (r.ok) {
         const data = await r.json();
         authStatus = data;
@@ -96,7 +96,7 @@
     const ret = encodeURIComponent(window.location.hash || '#/');
     if (isNative) {
       // Capacitor: open in @capacitor/browser. The mobile=1 flag tells
-      // the server to redirect via the nutritrace://oidc-callback deep
+      // the server to redirect via the nutriagent://oidc-callback deep
       // link instead of setting an HttpOnly cookie + SPA hash redirect.
       const { Browser } = await import('@capacitor/browser');
       const { appChallengeParam } = await import('../lib/oidc-app-handoff.js');
@@ -116,7 +116,7 @@
       const res = await fetch(apiUrl('/api/auth/login'), {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept-Language': $locale || 'en' },
         body: JSON.stringify({ username: username.trim(), password }),
       });
       const data = await res.json();
@@ -171,7 +171,7 @@
     try {
       const res = await fetch(apiUrl('/api/auth/recover'), {
         method: 'POST', credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept-Language': $locale || 'en' },
         body: JSON.stringify({ token: recoveryToken.trim() }),
       });
       const data = await res.json();
@@ -193,8 +193,8 @@
 <div class="login-page">
   <div class="login-card card">
     <div class="login-logo">
-      <img src={iconUrl('/icons/logo.png')} alt="NutriTrace" class="logo-img" />
-      <h1 class="login-title">NutriTrace</h1>
+      <img src={iconUrl('/icons/logo.png')} alt={$_('ui.m2014cdd9e657')} class="logo-img" />
+      <h1 class="login-title">{$_('ui.m2014cdd9e657')}</h1>
       <p class="text-3 text-sm">{$_('login.subtitle')}</p>
     </div>
 

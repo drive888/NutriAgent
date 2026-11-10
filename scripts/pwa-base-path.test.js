@@ -29,13 +29,13 @@ test('the runtime config fallback is synchronous and precedes the app module', (
 
 test('a controlled raw app shell derives root and subpath from its active worker', () => {
   assert.equal(resolveRawShellConfig('https://example.test/sw.js'), '');
-  assert.equal(resolveRawShellConfig('https://example.test/nutritrace/sw.js'), '/nutritrace');
-  assert.equal(resolveRawShellConfig('https://example.test/apps/nutritrace/sw.js'), '/apps/nutritrace');
+  assert.equal(resolveRawShellConfig('https://example.test/nutriagent/sw.js'), '/nutriagent');
+  assert.equal(resolveRawShellConfig('https://example.test/apps/nutriagent/sw.js'), '/apps/nutriagent');
 });
 
 test('server-injected config wins and an uncontrolled page does not invent one', () => {
   const serverConfig = { basePath: '/server-configured' };
-  assert.equal(resolveRawShellConfig('https://example.test/nutritrace/sw.js', serverConfig), serverConfig.basePath);
+  assert.equal(resolveRawShellConfig('https://example.test/nutriagent/sw.js', serverConfig), serverConfig.basePath);
   assert.equal(resolveRawShellConfig(null), undefined);
 });
 

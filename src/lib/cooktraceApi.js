@@ -1,5 +1,5 @@
 /**
- * cooktraceApi.js: CookTrace federation client for NutriTrace.
+ * cooktraceApi.js: CookTrace federation client for NutriAgent.
  *
  * Mirrors mealieApi.js: server-side proxy through /api/cooktrace/proxy
  * (CORS + bearer token stays off the WebView), settings live in
@@ -124,7 +124,7 @@ const CookTrace = {
 
   /**
    * List all pantry items on the CT side, shaped for direct POST to
-   * NutriTrace's /api/foods endpoint. Skips generic parents that have
+   * NutriAgent's /api/foods endpoint. Skips generic parents that have
    * variants (only leaves ship). Returns:
    *   { ok: true, items: [...] }              (success, may be empty)
    *   { ok: false, reason: 'not_configured' } (no URL/token saved)

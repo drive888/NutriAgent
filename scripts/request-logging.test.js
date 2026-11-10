@@ -16,7 +16,7 @@ import {
   requestLogPath,
 } from '../server/middleware/request-logging.js';
 import { isLevelEnabled, logger, validateLogLevel } from '../server/logger.js';
-import { isNutriTraceApiUrl } from '../src/lib/request-id-fetch.js';
+import { isNutriAgentApiUrl } from '../src/lib/request-id-fetch.js';
 
 function mockRequest({
   method = 'PUT',
@@ -122,10 +122,10 @@ test('trace configuration has strict byte parsing and explicit path semantics', 
 
 test('requestLogPath excludes sensitive query strings', () => {
   assert.equal(requestLogPath({
-    baseUrl: '/nutritrace',
+    baseUrl: '/nutriagent',
     path: '/api/auth/callback',
-    originalUrl: '/nutritrace/api/auth/callback?code=secret',
-  }), '/nutritrace/api/auth/callback');
+    originalUrl: '/nutriagent/api/auth/callback?code=secret',
+  }), '/nutriagent/api/auth/callback');
 });
 
 test('invalid log levels fail validation instead of silently falling back', () => {
@@ -275,13 +275,13 @@ test('phase 2 captures a body only after phase 1 and explicit trace opt-in', () 
   }
 });
 
-test('client request-ID instrumentation targets only this NutriTrace API', () => {
+test('client request-ID instrumentation targets only this NutriAgent API', () => {
   const page = 'https://app.nutritrace.local/diary';
-  const server = 'https://food.example.test/nutritrace';
-  assert.equal(isNutriTraceApiUrl('/api/health', page, ''), true);
-  assert.equal(isNutriTraceApiUrl('https://food.example.test/nutritrace/api/sync/push', page, server), true);
-  assert.equal(isNutriTraceApiUrl('https://world.openfoodfacts.org/api/v3/product/1', page, server), false);
-  assert.equal(isNutriTraceApiUrl('/uploads/photo.jpg', page, server), false);
+  const server = 'https://food.example.test/nutriagent';
+  assert.equal(isNutriAgentApiUrl('/api/health', page, ''), true);
+  assert.equal(isNutriAgentApiUrl('https://food.example.test/nutriagent/api/sync/push', page, server), true);
+  assert.equal(isNutriAgentApiUrl('https://world.openfoodfacts.org/api/v3/product/1', page, server), false);
+  assert.equal(isNutriAgentApiUrl('/uploads/photo.jpg', page, server), false);
 });
 
 test('server wiring keeps phase 1 before parsers, phase 2 after auth, and returns structured 413s', () => {
@@ -291,5 +291,5 @@ test('server wiring keeps phase 1 before parsers, phase 2 after auth, and return
   assert.match(source, /err\.type === 'entity\.too\.large'/);
   assert.match(source, /recordParserBodyError\(req, err\)/);
   assert.match(source, /status\(413\)\.json\([\s\S]*request_id:[\s\S]*declared_bytes:[\s\S]*limit_bytes:/);
-  assert.match(source, /NutriTrace \$\{APP_VERSION\} running on port/);
+  assert.match(source, /NutriAgent \$\{APP_VERSION\} running on port/);
 });

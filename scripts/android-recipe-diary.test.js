@@ -25,6 +25,6 @@ test('recipe-only hydration resolves diary items instead of returning Promises',
 test('recipe diary entries update meal usage rather than food usage', () => {
   assert.match(
     diaryStoreSrc,
-    /item\.is_recipe\s*\?\s*NtApi\.markMealUsed\(item\.id,\s*targetDate\)\s*:\s*NtApi\.markFoodUsed\(item\.id,\s*targetDate\)/,
+    /item\.is_recipe\s*\?\s*NaApi\.markMealUsed\(item\.id,\s*targetDate\)\s*:\s*NaApi\.markFoodUsed\(item\.id,\s*targetDate\)/,
   );
 });

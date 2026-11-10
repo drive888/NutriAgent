@@ -1,11 +1,11 @@
 /**
- * api-native.js — NtApi implementation for the Capacitor native app.
+ * api-native.js — NaApi implementation for the Capacitor native app.
  *
- * Provides the same interface as NtApi in api.js but reads/writes to the
+ * Provides the same interface as NaApi in api.js but reads/writes to the
  * local SQLite database instead of making HTTP calls to the server.
  *
  * Used automatically when running in Capacitor standalone mode (no server URL set).
- * When a server URL is configured, the standard HTTP NtApi is used instead.
+ * When a server URL is configured, the standard HTTP NaApi is used instead.
  */
 
 import {
@@ -18,7 +18,7 @@ import {
 } from './db-native.js';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 
-// ── Field mapping helpers (mirror server-side NtApi in api.js) ─────────────
+// ── Field mapping helpers (mirror server-side NaApi in api.js) ─────────────
 
 import { resolveAssetUrl } from './platform.js';
 
@@ -48,9 +48,9 @@ function _mealToDb(meal) {
   return { ...rest, img_url: imgUrl || img_url || null };
 }
 
-// ── NtApi native implementation ────────────────────────────────────────────
+// ── NaApi native implementation ────────────────────────────────────────────
 
-export const NtApiNative = {
+export const NaApiNative = {
 
   // ── Foods ─────────────────────────────────────────────────────────────
 
@@ -242,14 +242,14 @@ export const NtApiNative = {
       });
       return uri; // native file URI (file:///...)
     } catch (e) {
-      console.error('[NtApiNative] uploadImage failed:', e);
+      console.error('[NaApiNative] uploadImage failed:', e);
       throw new Error('Image upload failed');
     }
   },
 
   // ── Wellness convenience wrappers ────────────────────────────────────
   //
-  // Mirror the shape on _NtApiHttp so callers using NtApi.getLatestWellness
+  // Mirror the shape on _NaApiHttp so callers using NaApi.getLatestWellness
   // work on native standalone too. Without this the proxy returns
   // undefined and the sync call inside Promise.all([...]) aborts the
   // Svelte reactive block that opens the Add Activity sheet. Issue #162.
@@ -269,18 +269,18 @@ export const NtApiNative = {
     if (path.startsWith('/api/wellness/fitbit/data'))   return _wellnessDataLocal(path, ['fitbit', 'health_connect']);
     if (path.startsWith('/api/wellness/garmin/data'))   return _wellnessDataLocal(path, ['garmin']);
     if (path.startsWith('/api/wellness/withings/data')) return _wellnessDataLocal(path, ['withings']);
-    console.warn(`[NtApiNative] GET ${path} — not available in local mode`);
+    console.warn(`[NaApiNative] GET ${path} — not available in local mode`);
     return {};
   },
   async post(path, body) {
     if (path.startsWith('/api/fasts')) return _fastsLocalPost(path, body);
-    console.warn(`[NtApiNative] POST ${path} — not available in local mode`);
+    console.warn(`[NaApiNative] POST ${path} — not available in local mode`);
     return {};
   },
-  async put(path)  { console.warn(`[NtApiNative] PUT ${path} — not available in local mode`); return {}; },
+  async put(path)  { console.warn(`[NaApiNative] PUT ${path} — not available in local mode`); return {}; },
   async patch(path, body) {
     if (path.startsWith('/api/fasts')) return _fastsLocalPatch(path, body);
-    console.warn(`[NtApiNative] PATCH ${path} — not available in local mode`);
+    console.warn(`[NaApiNative] PATCH ${path} — not available in local mode`);
     return {};
   },
   async del(path)  {
@@ -299,7 +299,7 @@ export const NtApiNative = {
       await db.run('DELETE FROM sync_meta');
       return { ok: true };
     }
-    console.warn(`[NtApiNative] DELETE ${path} — not available in local mode`);
+    console.warn(`[NaApiNative] DELETE ${path} — not available in local mode`);
     return {};
   },
 };

@@ -1,0 +1,35 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/recognition".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/recognition
+	2 container app
+		145 button Open menu
+		146 container
+			147 container Main navigation
+				148 button Diary
+					149 text book
+					150 text DIARY
+				151 button Foods
+					152 text restaurant
+					153 text FOODS
+				154 button Statistics
+					155 text bar_chart
+					156 text STATISTICS
+				157 button Goals
+					158 text flag
+					159 text GOALS
+				160 button Settings
+					161 text settings
+					162 text SETTINGS
+		163 container
+			164 heading Photo recognition review, Value: 1
+				165 text Photo recognition review
+			166 text Results are drafts. Nothing on this page automatically creates a food or diary entry. Recognition type
+			167 pop up button (collapsed, settable) Recognition type, Value: Meal photo, Secondary Actions: Expand
+				168 menu
+					169 (selected) Meal photo
+					170 Nutrition label
+			171 text Photo
+			172 button Photo
+			173 button (disabled) Recognize photo
+		144 button Description: Open AI coach (hold to dictate food), Help: AI Assistant
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/recognition

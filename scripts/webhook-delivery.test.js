@@ -55,9 +55,9 @@ test('sendWebhookRequest POSTs the exact envelope with the signature and event/d
       received = {
         method: req.method,
         headers: {
-          signature: req.headers['x-nutritrace-signature'],
-          event: req.headers['x-nutritrace-event'],
-          delivery: req.headers['x-nutritrace-delivery'],
+          signature: req.headers['x-nutriagent-signature'],
+          event: req.headers['x-nutriagent-event'],
+          delivery: req.headers['x-nutriagent-delivery'],
           contentType: req.headers['content-type'],
         },
         body,

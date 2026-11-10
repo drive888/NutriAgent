@@ -13,7 +13,7 @@
 
 import { get } from 'svelte/store';
 import { DB } from './db.js';
-import { API, NtApi } from './api.js';
+import { API, NaApi } from './api.js';
 import { offNutritionStatus, needsFullLookup } from './off-nutrition.js';
 import { callAI, callAIProxy } from './aiChat.js';
 import { envLocks } from '../stores/settings.js';
@@ -266,7 +266,7 @@ async function _matchFood(parsedItem) {
 
   // ── 1. Local foods ──────────────────────────────────────────────────────
   try {
-    const allFoods = await NtApi.getFoods();
+    const allFoods = await NaApi.getFoods();
     const ql = query.toLowerCase();
     const matches = (allFoods || []).filter(f => {
       const n = (f.name || '').toLowerCase();
@@ -277,7 +277,7 @@ async function _matchFood(parsedItem) {
     if (matches.length > 0) {
       let freqMap = {};
       try {
-        const allDiary = await NtApi.getAllDiary();
+        const allDiary = await NaApi.getAllDiary();
         for (const day of allDiary) {
           for (const it of (day.items || [])) {
             const key = it.id || it.foodId || it.name;
@@ -342,7 +342,7 @@ async function _matchMeal(parsedItem, isRecipe) {
   if (!query) return out;
 
   try {
-    const all = isRecipe ? await NtApi.getRecipes() : await NtApi.getMeals();
+    const all = isRecipe ? await NaApi.getRecipes() : await NaApi.getMeals();
     const matches = (all || []).filter(m => {
       const n = foldText(m.name);
       return query.split(/\s+/).every(tok => n.includes(tok));
@@ -384,7 +384,7 @@ async function _matchYesterday(parsedItem) {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const yDateStr = yesterday.toLocaleDateString('sv-SE');
-    const entry = await NtApi.getDiaryDate(yDateStr);
+    const entry = await NaApi.getDiaryDate(yDateStr);
     if (!entry || !entry.items || entry.items.length === 0) return out;
 
     // Resolve the requested meal slot from the user's mealNames
@@ -543,7 +543,7 @@ export async function saveItems(matchedList, { date, defaultMealSlot = 0 }) {
     // future quick-log calls find it via the local-search fast path.
     if (m.source === 'off' && !food.id) {
       try {
-        const created = await NtApi.createFood(food);
+        const created = await NaApi.createFood(food);
         if (created && created.id) food = created;
       } catch (e) {
         console.warn('[quick-log] failed to save OFF food locally:', e.message);

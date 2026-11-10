@@ -35,7 +35,7 @@ export const serverFeatures = writable({});
 
 // Synthetic local user for native standalone mode (no server configured).
 // full_name is overridden at load time from the localUserName setting (set
-// in the Wizard's name step) so the rest of the UI (Sidebar, Trace, etc.)
+// in the Wizard's name step) so the rest of the UI (Sidebar, NutriAgent, etc.)
 // can read $currentUser.full_name uniformly across server and local modes.
 const LOCAL_USER = {
   id:        1,
@@ -84,7 +84,7 @@ async function _hydrateLocalUser({ setUserId = true } = {}) {
 export async function loadAuthState() {
   // Native standalone: use the synthetic local user, skip all HTTP calls.
   // Hydrate full_name / nickname / birthday / gender / avatar from settings
-  // so Sidebar / Trace / Profile / etc. read $currentUser.* uniformly across
+  // so Sidebar / NutriAgent / Profile / etc. read $currentUser.* uniformly across
   // server and local modes. Wizard + Profile.svelte write to these keys.
   if (isNative && !getServerUrl()) {
     userMgmtActive.set(false);
@@ -130,7 +130,7 @@ async function _fetchAuthFromServer() {
 
     // PWA single-user mode (server reachable, user mgmt off): hydrate the
     // synthetic LOCAL_USER from local settings so $currentUser is never
-    // null. Mirrors native standalone — keeps Sidebar / Trace / gates that
+    // null. Mirrors native standalone — keeps Sidebar / NutriAgent / gates that
     // read $currentUser.role === 'admin' working uniformly. Don't touch
     // `wl:userId`: settings already live under the anonymous `wl_<key>`
     // prefix and switching to per-user keys would silently orphan them.
@@ -285,7 +285,7 @@ export async function logout() {
     } catch { /* never block sign-out */ }
   }
   try {
-    // Mobile flag tells the server to use the nutritrace://oidc-callback
+    // Mobile flag tells the server to use the nutriagent://oidc-callback
     // deep link as post_logout_redirect_uri so the Capacitor browser can
     // route back into the app after the IdP destroys the session. PWA
     // uses the HTTPS root URL of the deployment.
@@ -382,7 +382,7 @@ export async function logout() {
   if (logoutUrl) {
     if (isNative) {
       // Open the IdP's end-session URL in @capacitor/browser; the IdP
-      // redirects to nutritrace://oidc-callback when done, which
+      // redirects to nutriagent://oidc-callback when done, which
       // App.svelte's appUrlOpen listener catches and closes the browser.
       try {
         const { Browser } = await import('@capacitor/browser');

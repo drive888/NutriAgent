@@ -7,7 +7,7 @@
  *  2. A local OFF mirror, if the server runs one, answers from a dump taken
  *     before the edit.
  *  3. This product's edit put every value in OFF's "as prepared" column, and
- *     NutriTrace reads the "as sold" one; a missing value also came back as 0.
+ *     NutriAgent reads the "as sold" one; a missing value also came back as 0.
  */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';

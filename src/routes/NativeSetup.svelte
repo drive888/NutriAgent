@@ -33,7 +33,7 @@
       const { setLocalOwner } = await import('../lib/local-account.js');
       await setLocalOwner();
     } catch {}
-    // Reload — SQLite will initialize naturally when NtApiNative is first called
+    // Reload — SQLite will initialize naturally when NaApiNative is first called
     window.location.reload();
   }
 
@@ -128,7 +128,7 @@
         url: `${validatedUrl}/api/auth/oidc/login/${providerId}?mobile=1&return=${ret}${await appChallengeParam()}`,
         presentationStyle: 'popover',
       });
-      // Deep-link callback (nutritrace://oidc-callback?token=…) handled by
+      // Deep-link callback (nutriagent://oidc-callback?token=…) handled by
       // App.svelte's appUrlOpen listener — it sets the token, calls
       // loadAuthState, redirects to '#/', and the main app renders.
     } catch (e) {
@@ -160,8 +160,8 @@
   <div class="setup-inner">
     <!-- Logo / branding -->
     <div class="setup-brand">
-      <img src={iconUrl('/icons/icon-192.png')} alt="NutriTrace" class="setup-logo" />
-      <h1 class="setup-title">NutriTrace</h1>
+      <img src={iconUrl('/icons/icon-192.png')} alt={$_('ui.m2014cdd9e657')} class="setup-logo" />
+      <h1 class="setup-title">{$_('ui.m2014cdd9e657')}</h1>
       <p class="setup-subtitle">{$_('native_setup.subtitle')}</p>
     </div>
 
@@ -262,7 +262,7 @@
                 <input class="input" type="password" placeholder={$_('native_setup.password_placeholder')} bind:value={password} style="padding-right:40px" />
               {/if}
               <button type="button" class="pw-toggle" on:click={() => showPw = !showPw}>
-                <span class="material-symbols-rounded" style="font-size:20px">{showPw ? 'visibility_off' : 'visibility'}</span>
+                <span class="material-symbols-rounded" style="font-size:20px">{showPw ? "visibility_off" : "visibility"}</span>
               </button>
             </div>
           </div>

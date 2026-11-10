@@ -30,7 +30,7 @@
   //   here, mirror the change to LiftTrace's copy in the same commit.
   //   See `feedback_traceapps_brand.md` for the cohesion principle.
   //
-  //   NutriTrace-specific: this code lives in SettingsAuth.svelte (own
+  //   NutriAgent-specific: this code lives in SettingsAuth.svelte (own
   //   top-level Settings section). LiftTrace still has it inside
   //   SettingsUserManagement.svelte. When syncing, copy the PRESETS /
   //   editor template across; the surrounding Svelte structure differs.
@@ -48,7 +48,7 @@
         logo_url: 'https://cdn.simpleicons.org/auth0/EB5424',
       },
       issuer_hint: 'https://<your-tenant>.auth0.com/',
-      help: 'Auth0 adds custom claims under a namespaced URL like "https://nutritrace.app/roles" — leave the admin claim blank for now and contact your tenant admin to set up a rule that exposes role membership.',
+      help: 'Auth0 adds custom claims under a namespaced URL like "https://nutriagent.example.com/roles" — leave the admin claim blank for now and contact your tenant admin to set up a rule that exposes role membership.',
       hides: [],
     },
     {
@@ -418,10 +418,10 @@
           <div class="oidc-test-result" class:ok={oidcTestResult.ok}>
             {#if oidcTestResult.ok}
               <strong>{$_('settings_auth.providers.discovery_ok')}</strong>
-              <div class="text-3 text-sm">issuer: {oidcTestResult.issuer}</div>
-              <div class="text-3 text-sm">authorization_endpoint: {oidcTestResult.authorization_endpoint || '—'}</div>
-              <div class="text-3 text-sm">token_endpoint: {oidcTestResult.token_endpoint || '—'}</div>
-              <div class="text-3 text-sm">end_session_endpoint: {oidcTestResult.end_session_endpoint || '—'}</div>
+              <div class="text-3 text-sm">{$_('ui.m1347fee4f969')} {oidcTestResult.issuer}</div>
+              <div class="text-3 text-sm">{$_('ui.mdc5573c7c417')} {oidcTestResult.authorization_endpoint || '—'}</div>
+              <div class="text-3 text-sm">{$_('ui.m80369bde1848')} {oidcTestResult.token_endpoint || '—'}</div>
+              <div class="text-3 text-sm">{$_('ui.m05e08d075965')} {oidcTestResult.end_session_endpoint || '—'}</div>
             {:else}
               <strong style="color:var(--danger)">{$_('settings_auth.providers.discovery_failed')}</strong>
               <div class="text-3 text-sm">{oidcTestResult.error}</div>
@@ -480,7 +480,7 @@
               <label class="form-label">{$_('settings_auth.form.redirect_uris')}</label>
               {#each oidcEditing.redirect_uris as uri, i}
                 <div style="display:flex;gap:6px;margin-bottom:4px">
-                  <input class="input" style="flex:1" bind:value={oidcEditing.redirect_uris[i]} placeholder="https://nutritrace.app/api/auth/oidc/callback/{oidcEditing.id || ':providerId'}" />
+                  <input class="input" style="flex:1" bind:value={oidcEditing.redirect_uris[i]} placeholder={$_('ui.m5f2f4760dc0a', {values: {value0: (oidcEditing.id || ':providerId')}})} />
                   {#if oidcEditing.redirect_uris.length > 1}
                     <button class="btn-icon" on:click={() => removeRedirectUri(i)} title={$_('settings_auth.form.remove_title')}><span class="material-symbols-rounded">close</span></button>
                   {/if}

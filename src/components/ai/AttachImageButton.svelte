@@ -1,5 +1,5 @@
 <script>
-  // Trace's attach button. The same file in every Trace app, so keep the
+  // NutriAgent's attach button. The same file in every NutriAgent app, so keep the
   // copies identical: change one, change all four.
   //
   // On a phone, a tablet or the Android app it offers Camera or Gallery. On a

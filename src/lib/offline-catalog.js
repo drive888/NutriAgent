@@ -5,7 +5,7 @@
  * them works offline without the Foods screen having been opened first (it
  * used to be the only thing that filled it). The same rows the Foods screen
  * keeps, so the copy never holds more than it would anyway. `api` is the
- * wrapped API (NtApi on the web), whose reads write the copy. Only online;
+ * wrapped API (NaApi on the web), whose reads write the copy. Only online;
  * failures are left for the next load.
  */
 export async function warmOfflineCatalog(api) {

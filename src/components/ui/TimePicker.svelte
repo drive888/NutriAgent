@@ -115,8 +115,8 @@
           <div class="tp-col tp-col-ampm">
             <div class="tp-col-label">&nbsp;</div>
             <div class="tp-ampm">
-              <button class="tp-cell tp-cell-ampm" class:tp-sel={selAmPm === 'AM'} on:click={() => selAmPm = 'AM'}>AM</button>
-              <button class="tp-cell tp-cell-ampm" class:tp-sel={selAmPm === 'PM'} on:click={() => selAmPm = 'PM'}>PM</button>
+              <button class="tp-cell tp-cell-ampm" class:tp-sel={selAmPm === 'AM'} on:click={() => selAmPm = 'AM'}>{$_('ui.mc8f48a68649d')}</button>
+              <button class="tp-cell tp-cell-ampm" class:tp-sel={selAmPm === 'PM'} on:click={() => selAmPm = 'PM'}>{$_('ui.m6b987654a411')}</button>
             </div>
           </div>
         {/if}

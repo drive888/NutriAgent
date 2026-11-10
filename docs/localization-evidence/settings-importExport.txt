@@ -1,0 +1,166 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/settings/importExport".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/importExport
+	2 container app
+		71 button 打开菜单
+		72 container
+			86 container 主导航
+				87 button 饮食日记
+					88 text book
+					89 text 饮食日记
+				90 button 食物
+					91 text restaurant
+					92 text 食物
+				93 button 统计
+					94 text bar_chart
+					95 text 统计
+				96 button 目标
+					97 text flag
+					98 text 目标
+				99 button 设置
+					100 text settings
+					101 text 设置
+		102 container
+			103 container
+				104 button 返回
+				105 heading 导入与导出, Value: 1
+					106 text 导入与导出
+			107 text search
+			108 search text field (settable)
+			109 button person 个人资料
+				110 text person
+				111 text 个人资料
+			112 text 显示
+			113 button contrast 外观
+				114 text contrast
+				115 text 外观
+			116 button language 区域与单位
+				117 text language
+				118 text 区域与单位
+			119 button book 饮食日记
+				120 text book
+				121 text 饮食日记
+			122 button water_drop 饮水
+				123 text water_drop
+				124 text 饮水
+			125 button restaurant 食物
+				126 text restaurant
+				127 text 食物
+			128 text 数据与记录
+			129 button flag 热量目标
+				130 text flag
+				131 text 热量目标
+			132 button straighten 身体数据
+				133 text straighten
+				134 text 身体数据
+			135 button bar_chart 统计
+				136 text bar_chart
+				137 text 统计
+			138 button science 营养素
+				139 text science
+				140 text 营养素
+			141 button category 分类
+				142 text category
+				143 text 分类
+			144 button straighten 自定义单位
+				145 text straighten
+				146 text 自定义单位
+			147 text 集成
+			148 button link 食物来源
+				149 text link
+				150 text 食物来源
+			151 button smart_toy AI 助手
+				152 text smart_toy
+				153 text AI 助手
+			154 button favorite 健康
+				155 text favorite
+				156 text 健康
+			157 text 应用
+			158 button notifications 通知
+				159 text notifications
+				160 text 通知
+			161 button backup 备份与恢复
+				162 text backup
+				163 text 备份与恢复
+			164 button import_export 导入与导出
+				165 text import_export
+				166 text 导入与导出
+			167 button group 食物共享
+				168 text group
+				169 text 食物共享
+			170 button system_update 更新
+				171 text system_update
+				172 text 更新
+			173 button troubleshoot 诊断
+				174 text troubleshoot
+				175 text 诊断
+			176 text 管理
+			177 button group 用户
+				178 text group
+				179 text 用户
+			180 button vpn_key 身份验证
+				181 text vpn_key
+				182 text 身份验证
+			183 button mail 电子邮件 (SMTP)
+				184 text mail
+				185 text 电子邮件 (SMTP)
+			186 button key API 令牌
+				187 text key
+				188 text API 令牌
+			189 button webhook Webhook 通知
+				190 text webhook
+				191 text Webhook 通知
+			192 text NUTRITRACE
+			193 button volunteer_activism 支持
+				194 text volunteer_activism
+				195 text 支持
+			196 button info 关于
+				197 text info
+				198 text 关于
+			199 text 导入 导入数据：通过条形码列表批量添加食物，或从 NutriTrace 导出的 JSON 文件恢复。
+			200 button playlist_add 批量导入食物 粘贴 JSON 或上传 CSV，一次添加多种食物。适用于 Open Food Facts 中未收录的食物。提供模板，方便大语言模型将标签数据提取为正确的格式。 chevron_right
+				201 text playlist_add
+				202 text 批量导入食物
+				203 text 粘贴 JSON 或上传 CSV，一次添加多种食物。适用于 Open Food Facts 中未收录的食物。提供模板，方便大语言模型将标签数据提取为正确的格式。
+				204 text chevron_right
+			205 button upload 导入 JSON 备份 从之前导出的 JSON 文件恢复数据。与现有数据合并，不会清除已有内容。 chevron_right
+				206 text upload
+				207 text 导入 JSON 备份
+				208 text 从之前导出的 JSON 文件恢复数据。与现有数据合并，不会清除已有内容。
+				209 text chevron_right
+			210 text 导出 将饮食日记或活动记录导出为可移植的 JSON 快照或 CSV 文件。
+			211 button download 导出 JSON 备份 更轻量、便于迁移的格式，仅包含 JSON，不含图片。适合在账号间共享数据或快速导出为文本。 chevron_right
+				212 text download
+				213 text 导出 JSON 备份
+				214 text 更轻量、便于迁移的格式，仅包含 JSON，不含图片。适合在账号间共享数据或快速导出为文本。
+				215 text chevron_right
+			216 button table_chart 将饮食日记导出为 CSV 将完整的饮食日记历史下载为电子表格，便于在 Excel 或 Google 表格中分析。 chevron_right
+				217 text table_chart
+				218 text 将饮食日记导出为 CSV
+				219 text 将完整的饮食日记历史下载为电子表格，便于在 Excel 或 Google 表格中分析。
+				220 text chevron_right
+			221 button assessment 将完整营养数据导出为 CSV 以长表格式导出，包含每条记录的时间、餐食名称、品牌，以及所有内置和自定义营养素（含单位）。最适合用于个人数据库和长期分析。 chevron_right
+				222 text assessment
+				223 text 将完整营养数据导出为 CSV
+				224 text 以长表格式导出，包含每条记录的时间、餐食名称、品牌，以及所有内置和自定义营养素（含单位）。最适合用于个人数据库和长期分析。
+				225 text chevron_right
+			226 button directions_run 将活动导出为 CSV 将完整的手动活动记录（名称、热量、时长、距离、MET）下载为电子表格。 chevron_right
+				227 text directions_run
+				228 text 将活动导出为 CSV
+				229 text 将完整的手动活动记录（名称、热量、时长、距离、MET）下载为电子表格。
+				230 text chevron_right
+			231 text 导入营养历史记录 从其他追踪应用导入以往的记录。除非在下方选择“替换”，否则不会改动现有饮食日记。 来源应用
+			232 pop up button (collapsed, settable) Value: 通用电子表格, Secondary Actions: Expand
+				233 menu
+					234 (selected) 通用电子表格
+					235 Cronometer
+					236 Lose It!
+					237 MyFitnessPal
+			238 text 任何至少包含日期、名称和热量列的 CSV 文件均可。使用我们的模板最方便。
+			239 link Description: download 下载 CSV 模板, Value: localhost:3103/templates/nutrition-import-template.csv
+			240 text 文件
+			241 button upload_file 选择文件
+				242 text upload_file
+				243 text 选择文件
+		70 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/importExport

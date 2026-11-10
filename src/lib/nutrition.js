@@ -8,50 +8,50 @@
 // the shared NutritionFactsBox component (mirrors CookTrace).
 const NUTRIMENTS = [
   // Energy
-  { id: 'calories',      label: 'Calories',      unit: 'kcal', category: 'energy',  default: true,  bold: true,  dv: null },
-  { id: 'kilojoules',    label: 'Kilojoules',    unit: 'kJ',   category: 'energy',  default: false, bold: false, dv: null },
+  { id: 'calories',      label: 'Calories', labelKey: 'ui.m42b7dd56746d',      unit: 'kcal', category: 'energy',  default: true,  bold: true,  dv: null },
+  { id: 'kilojoules',    label: 'Kilojoules', labelKey: 'ui.m3ce2046b8f72',    unit: 'kJ',   category: 'energy',  default: false, bold: false, dv: null },
   // Total Fat + sub-rows. `subOf` indicates the indented sub-row position
   // on the FDA Nutrition Facts label (Saturated Fat / Trans Fat / etc. are
   // indented under Total Fat). The FoodEditor renders these with extra
   // padding-left so the parent-child relationship is visible at a glance.
-  { id: 'fat',                 label: 'Fat',                 unit: 'g',    category: 'macro',   default: true,  bold: true,  dv: 78 },
-  { id: 'saturated-fat',       label: 'Saturated Fat',       unit: 'g',    category: 'macro',   default: true,  bold: false, dv: 20,   subOf: 'fat' },
-  { id: 'trans-fat',           label: 'Trans Fat',           unit: 'g',    category: 'macro',   default: false, bold: false, dv: null, subOf: 'fat' },
-  { id: 'polyunsaturated-fat', label: 'Polyunsaturated Fat', unit: 'g',    category: 'macro',   default: false, bold: false, dv: null, subOf: 'fat' },
-  { id: 'monounsaturated-fat', label: 'Monounsaturated Fat', unit: 'g',    category: 'macro',   default: false, bold: false, dv: null, subOf: 'fat' },
+  { id: 'fat',                 label: 'Fat', labelKey: 'ui.mddcdda5ac2be',                 unit: 'g',    category: 'macro',   default: true,  bold: true,  dv: 78 },
+  { id: 'saturated-fat',       label: 'Saturated Fat', labelKey: 'ui.m851552423086',       unit: 'g',    category: 'macro',   default: true,  bold: false, dv: 20,   subOf: 'fat' },
+  { id: 'trans-fat',           label: 'Trans Fat', labelKey: 'ui.m77e5701bb35c',           unit: 'g',    category: 'macro',   default: false, bold: false, dv: null, subOf: 'fat' },
+  { id: 'polyunsaturated-fat', label: 'Polyunsaturated Fat', labelKey: 'ui.me496fa57fb8e', unit: 'g',    category: 'macro',   default: false, bold: false, dv: null, subOf: 'fat' },
+  { id: 'monounsaturated-fat', label: 'Monounsaturated Fat', labelKey: 'ui.m1d0bd9571614', unit: 'g',    category: 'macro',   default: false, bold: false, dv: null, subOf: 'fat' },
   // Cholesterol & Sodium
-  { id: 'cholesterol',   label: 'Cholesterol',   unit: 'mg',   category: 'other',   default: false, bold: true,  dv: 300 },
-  { id: 'sodium',        label: 'Sodium',        unit: 'mg',   category: 'mineral', default: true,  bold: true,  dv: 2300 },
-  { id: 'salt',          label: 'Salt',          unit: 'g',    category: 'macro',   default: false, bold: false, dv: null },
+  { id: 'cholesterol',   label: 'Cholesterol', labelKey: 'ui.m4cb9d5425337',   unit: 'mg',   category: 'other',   default: false, bold: true,  dv: 300 },
+  { id: 'sodium',        label: 'Sodium', labelKey: 'ui.mcbd06db64d87',        unit: 'mg',   category: 'mineral', default: true,  bold: true,  dv: 2300 },
+  { id: 'salt',          label: 'Salt', labelKey: 'ui.m150fe5514030',          unit: 'g',    category: 'macro',   default: false, bold: false, dv: null },
   // Total Carbohydrate + sub-rows
-  { id: 'carbohydrates', label: 'Carbs',         unit: 'g',    category: 'macro',   default: true,  bold: true,  dv: 275 },
-  { id: 'fiber',         label: 'Fiber',         unit: 'g',    category: 'macro',   default: true,  bold: false, dv: 28,   subOf: 'carbohydrates' },
-  { id: 'sugars',        label: 'Sugars',        unit: 'g',    category: 'macro',   default: true,  bold: false, dv: null, subOf: 'carbohydrates' },
-  { id: 'added-sugars',  label: 'Added Sugars',  unit: 'g',    category: 'macro',   default: true,  bold: false, dv: 50,   subOf: 'sugars' },
+  { id: 'carbohydrates', label: 'Carbs', labelKey: 'ui.m2c06fb68cd6e',         unit: 'g',    category: 'macro',   default: true,  bold: true,  dv: 275 },
+  { id: 'fiber',         label: 'Fiber', labelKey: 'ui.m7ed0a5e33e7b',         unit: 'g',    category: 'macro',   default: true,  bold: false, dv: 28,   subOf: 'carbohydrates' },
+  { id: 'sugars',        label: 'Sugars', labelKey: 'ui.md61b1e8b022c',        unit: 'g',    category: 'macro',   default: true,  bold: false, dv: null, subOf: 'carbohydrates' },
+  { id: 'added-sugars',  label: 'Added Sugars', labelKey: 'ui.m458d019a0733',  unit: 'g',    category: 'macro',   default: true,  bold: false, dv: 50,   subOf: 'sugars' },
   // Protein
-  { id: 'proteins',      label: 'Protein',       unit: 'g',    category: 'macro',   default: true,  bold: true,  dv: 50 },
+  { id: 'proteins',      label: 'Protein', labelKey: 'ui.m92a31f1de3df',       unit: 'g',    category: 'macro',   default: true,  bold: true,  dv: 50 },
   // Vitamins & Minerals (Nutrition Facts order)
-  { id: 'vitamin-d',     label: 'Vitamin D',     unit: 'mcg',  category: 'vitamin', default: true,  bold: false, dv: 20 },
-  { id: 'calcium',       label: 'Calcium',       unit: 'mg',   category: 'mineral', default: true,  bold: false, dv: 1300 },
-  { id: 'iron',          label: 'Iron',          unit: 'mg',   category: 'mineral', default: true,  bold: false, dv: 18 },
-  { id: 'potassium',     label: 'Potassium',     unit: 'mg',   category: 'mineral', default: true,  bold: false, dv: 4700 },
+  { id: 'vitamin-d',     label: 'Vitamin D', labelKey: 'ui.m221e4a346334',     unit: 'mcg',  category: 'vitamin', default: true,  bold: false, dv: 20 },
+  { id: 'calcium',       label: 'Calcium', labelKey: 'ui.m636f0dc2dfb9',       unit: 'mg',   category: 'mineral', default: true,  bold: false, dv: 1300 },
+  { id: 'iron',          label: 'Iron', labelKey: 'ui.mbd223c81de7e',          unit: 'mg',   category: 'mineral', default: true,  bold: false, dv: 18 },
+  { id: 'potassium',     label: 'Potassium', labelKey: 'ui.m0bf539dff60d',     unit: 'mg',   category: 'mineral', default: true,  bold: false, dv: 4700 },
   // Additional vitamins
-  { id: 'vitamin-a',     label: 'Vitamin A',     unit: 'mcg',  category: 'vitamin', default: false, bold: false, dv: 900 },
-  { id: 'vitamin-c',     label: 'Vitamin C',     unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 90 },
-  { id: 'vitamin-e',     label: 'Vitamin E',     unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 15 },
-  { id: 'vitamin-k',     label: 'Vitamin K',     unit: 'mcg',  category: 'vitamin', default: false, bold: false, dv: 120 },
-  { id: 'b1',            label: 'Vitamin B1',    unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 1.2 },
-  { id: 'b2',            label: 'Vitamin B2',    unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 1.3 },
-  { id: 'b3',            label: 'Vitamin B3',    unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 16 },
-  { id: 'b6',            label: 'Vitamin B6',    unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 1.7 },
-  { id: 'b9',            label: 'Folate (B9)',   unit: 'mcg',  category: 'vitamin', default: false, bold: false, dv: 400 },
-  { id: 'b12',           label: 'Vitamin B12',   unit: 'mcg',  category: 'vitamin', default: false, bold: false, dv: 2.4 },
-  { id: 'magnesium',     label: 'Magnesium',     unit: 'mg',   category: 'mineral', default: false, bold: false, dv: 420 },
-  { id: 'zinc',          label: 'Zinc',          unit: 'mg',   category: 'mineral', default: false, bold: false, dv: 11 },
-  { id: 'phosphorus',    label: 'Phosphorus',    unit: 'mg',   category: 'mineral', default: false, bold: false, dv: 1250 },
+  { id: 'vitamin-a',     label: 'Vitamin A', labelKey: 'ui.m7d1a247ca55b',     unit: 'mcg',  category: 'vitamin', default: false, bold: false, dv: 900 },
+  { id: 'vitamin-c',     label: 'Vitamin C', labelKey: 'ui.ma7e26234cbdd',     unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 90 },
+  { id: 'vitamin-e',     label: 'Vitamin E', labelKey: 'ui.mce3a15478c39',     unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 15 },
+  { id: 'vitamin-k',     label: 'Vitamin K', labelKey: 'ui.m07699675b70b',     unit: 'mcg',  category: 'vitamin', default: false, bold: false, dv: 120 },
+  { id: 'b1',            label: 'Vitamin B1', labelKey: 'ui.m5dab580b7996',    unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 1.2 },
+  { id: 'b2',            label: 'Vitamin B2', labelKey: 'ui.m3195411bfce7',    unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 1.3 },
+  { id: 'b3',            label: 'Vitamin B3', labelKey: 'ui.md90708d920de',    unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 16 },
+  { id: 'b6',            label: 'Vitamin B6', labelKey: 'ui.m3fa006043c4a',    unit: 'mg',   category: 'vitamin', default: false, bold: false, dv: 1.7 },
+  { id: 'b9',            label: 'Folate (B9)', labelKey: 'ui.mb79ff50aad92',   unit: 'mcg',  category: 'vitamin', default: false, bold: false, dv: 400 },
+  { id: 'b12',           label: 'Vitamin B12', labelKey: 'ui.mf402a761bdab',   unit: 'mcg',  category: 'vitamin', default: false, bold: false, dv: 2.4 },
+  { id: 'magnesium',     label: 'Magnesium', labelKey: 'ui.mb502eb348ec7',     unit: 'mg',   category: 'mineral', default: false, bold: false, dv: 420 },
+  { id: 'zinc',          label: 'Zinc', labelKey: 'ui.m4f89fdf9f1d9',          unit: 'mg',   category: 'mineral', default: false, bold: false, dv: 11 },
+  { id: 'phosphorus',    label: 'Phosphorus', labelKey: 'ui.m0fb379525dac',    unit: 'mg',   category: 'mineral', default: false, bold: false, dv: 1250 },
   // Other
-  { id: 'caffeine',      label: 'Caffeine',      unit: 'mg',   category: 'other',   default: false, bold: false, dv: null },
-  { id: 'alcohol',       label: 'Alcohol',       unit: 'g',    category: 'other',   default: false, bold: false, dv: null },
+  { id: 'caffeine',      label: 'Caffeine', labelKey: 'ui.ma9a15db4d1c3',      unit: 'mg',   category: 'other',   default: false, bold: false, dv: null },
+  { id: 'alcohol',       label: 'Alcohol', labelKey: 'ui.m670a802ebaec',       unit: 'g',    category: 'other',   default: false, bold: false, dv: null },
 ];
 
 // Default visible set — matches NUTRIMENTS rows flagged default:true.
@@ -70,7 +70,7 @@ export function dvPercent(nut, value) {
 }
 
 /** True if the given nutriment id was auto-derived on the saved object
- *  (e.g. sodium derived from salt). NutriTrace doesn't currently set
+ *  (e.g. sodium derived from salt). NutriAgent doesn't currently set
  *  the `_derived` flag, so this always returns false — kept for parity
  *  with CookTrace's NutritionFactsBox so the component can be ported
  *  byte-for-byte without divergence. */
@@ -92,7 +92,7 @@ export function energyUnitSuffix(unit) {
 // Sodium ↔ salt regulatory conversion. NaCl is sodium (23) + chloride (35.5)
 // = 58.5; sodium is 23/58.5 ≈ 39.3% of salt by mass. The EU labeling standard
 // uses the rounded factor 2.5 (or its inverse 0.4), which matches what's
-// printed on packaging. NutriTrace stores sodium in mg and salt in g, so the
+// printed on packaging. NutriAgent stores sodium in mg and salt in g, so the
 // effective factor is 400 (sodium_mg = salt_g × 400; salt_g = sodium_mg / 400).
 //
 // Derived values are flagged via `nutrition._derived` so the UI can render a

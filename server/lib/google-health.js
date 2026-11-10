@@ -14,7 +14,7 @@
  *   - Revoke:  https://oauth2.googleapis.com/revoke
  *
  * Sept 2026 cutoff for legacy Fitbit Web API. See memory:
- * project_nutritrace_google_health.md for the full migration plan.
+ * project_nutriagent_google_health.md for the full migration plan.
  */
 import db from '../db.js';
 import { encrypt, decrypt } from './token-crypto.js';
@@ -25,7 +25,7 @@ export const GOOGLE_AUTH_URL    = 'https://accounts.google.com/o/oauth2/v2/auth'
 export const GOOGLE_TOKEN_URL   = 'https://oauth2.googleapis.com/token';
 export const GOOGLE_REVOKE_URL  = 'https://oauth2.googleapis.com/revoke';
 
-// Read-only scopes — covers everything NutriTrace surfaces today. Google's
+// Read-only scopes — covers everything NutriAgent surfaces today. Google's
 // OAuth screen lets the user consent to a subset; we ask for the full set.
 export const GOOGLE_HEALTH_SCOPES = [
   'openid',
@@ -168,7 +168,7 @@ function _dateMatches(googleDate, dateStr) {
 
 // ── Generic dailyRollUp helper ────────────────────────────────────────────
 //
-// Most NutriTrace metrics use a one-day rollup. This helper performs the
+// Most NutriAgent metrics use a one-day rollup. This helper performs the
 // POST and returns the first (and only) rollupDataPoint, or null if the
 // response was empty. valueExtractor: function(point) -> { value, ... }
 // or null if the field couldn't be extracted.
@@ -690,7 +690,7 @@ export async function fetchIdentity(accessToken) {
 //  - Writes with source='fitbit' (NOT 'google_health'). The data is the
 //    same data Fitbit Web API returned; only the API pipe changed.
 //    Keeping the tag stable means existing wellness charts, calibration
-//    logs, scoring, and Trace AI prompts continue to work unchanged.
+//    logs, scoring, and NutriAgent AI prompts continue to work unchanged.
 //  - Sleep score is computed here from the same components Fitbit's old
 //    sync used (dur/deep/rem/spo2/hrv/eff). Matches the formula in
 //    server/routes/fitbit.js _syncDate() so the calibration log stays

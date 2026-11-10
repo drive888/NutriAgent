@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-import { NtApi } from '../lib/api.js';
+import { NaApi } from '../lib/api.js';
 import { currentDate } from './diary.js';
 import { manualActivityPolicy } from './settings.js';
 
@@ -30,8 +30,8 @@ export async function loadActivity(dateStr) {
   manualActivityPolicy.subscribe(v => policy = v || 'wearable_wins')();
   try {
     const [rows, summary] = await Promise.all([
-      NtApi.getActivity(dateStr),
-      NtApi.getActivitySum(dateStr, policy),
+      NaApi.getActivity(dateStr),
+      NaApi.getActivitySum(dateStr, policy),
     ]);
     if (myVer !== _loadVer) return;
     dayActivity.set(Array.isArray(rows) ? rows : []);
@@ -45,7 +45,7 @@ export async function loadActivity(dateStr) {
 
 export async function addActivity({ date, name, kcal, duration_min, distance, source, met, is_template }) {
   const targetDate = date || _currentDate();
-  await NtApi.createActivity({
+  await NaApi.createActivity({
     date: targetDate,
     name: String(name || '').trim(),
     kcal: Math.max(0, Math.round(Number(kcal) || 0)),
@@ -59,12 +59,12 @@ export async function addActivity({ date, name, kcal, duration_min, distance, so
 }
 
 export async function updateActivity(id, changes) {
-  await NtApi.updateActivity(id, changes);
+  await NaApi.updateActivity(id, changes);
   await loadActivity(_currentDate());
 }
 
 export async function deleteActivity(id) {
-  await NtApi.deleteActivity(id);
+  await NaApi.deleteActivity(id);
   await loadActivity(_currentDate());
 }
 

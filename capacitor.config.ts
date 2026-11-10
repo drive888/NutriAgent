@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.nutritrace.app',
-  appName: 'NutriTrace',
+  appId: 'com.nutriagent.app',
+  appName: 'NutriAgent',
   webDir: 'dist',
   // In dev, point to your local Vite dev server for live-reload on device
   // Uncomment and set your machine's LAN IP when doing native dev builds:
@@ -52,7 +52,7 @@ const config: CapacitorConfig = {
     // linked server will need to re-enter their server URL + credentials
     // once; native-standalone users will see their theme / prefs default
     // once. Called out in the CHANGELOG.
-    hostname: 'app.nutritrace.local',
+    hostname: 'app.nutriagent.local',
     androidScheme: 'https',
   },
   plugins: {

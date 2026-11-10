@@ -7,7 +7,7 @@ import { once } from 'node:events';
 import test, { after } from 'node:test';
 import { originalUrlForCachedImage } from '../src/lib/image-cache-map.js';
 
-const temp = mkdtempSync(join(tmpdir(), 'nutritrace-recipe-sync-'));
+const temp = mkdtempSync(join(tmpdir(), 'nutriagent-recipe-sync-'));
 process.env.DB_PATH = join(temp, 'test.db');
 process.env.UPLOADS_PATH = join(temp, 'uploads');
 process.env.NODE_ENV = 'test';
@@ -93,7 +93,7 @@ function fixture({ offline = false, useCache = true } = {}) {
       return promise;
     },
   };
-  const { NtApiCached: api } = loadClient('api-cached.js', ['NtApiCached'], bindings);
+  const { NaApiCached: api } = loadClient('api-cached.js', ['NaApiCached'], bindings);
   const { pushChanges } = loadClient('sync.js', ['pushChanges'], bindings);
   return {
     api, id, pushChanges, requests,

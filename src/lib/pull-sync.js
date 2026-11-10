@@ -4,11 +4,11 @@
  * Pull-to-refresh listens to every touch on the page (so it also works over
  * the fixed top bar). Anything that uses a downward drag for its own purpose
  * must be left out, or dragging it down while the page is at the top reads
- * as a pull and syncs (#225: moving the Trace button toward the bottom of
+ * as a pull and syncs (#225: moving the NutriAgent button toward the bottom of
  * the screen refreshed the Diary).
  *
  *   dialogs, sheets, sidebar, bottom bar and dock: their own touch handling
- *   .ai-fab       the draggable Trace button
+ *   .ai-fab       the draggable NutriAgent button
  *   .drag-handle  reorder handles (meal names, nutrients, body stats,
  *                 Statistics categories, Meal Editor ingredients)
  *   .crop-box     the photo cropper

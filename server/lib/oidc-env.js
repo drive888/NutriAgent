@@ -24,7 +24,7 @@
  * an alias for `OIDC_PROVIDER_1_*`. So:
  *
  *   OIDC_ISSUER=https://auth.example.com
- *   OIDC_CLIENT_ID=nutritrace
+ *   OIDC_CLIENT_ID=nutriagent
  *   OIDC_CLIENT_SECRET=...
  *
  * is equivalent to defining OIDC_PROVIDER_1_*.

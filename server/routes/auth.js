@@ -1,3 +1,4 @@
+import { requestLanguage } from '../lib/localization.js';
 import { Router } from 'express';
 import { linkBase } from '../lib/public-url.js';
 import { localizeImage } from '../lib/image-localizer.js';
@@ -100,7 +101,7 @@ function warnIfPlainHttp(req) {
   _plainHttpWarnedAt = Date.now();
   let page = origin;
   try { page = new URL(origin).origin; } catch {}
-  console.warn(`[WARN] Sign-in from a plain-HTTP page (${page}). The sign-in cookie only works over HTTPS, so the browser drops it and the user lands back on the login page. Serve NutriTrace over HTTPS, or set INSECURE_COOKIES=1 on a trusted LAN. See https://traceapps.github.io/docs/getting-started/lan-http/`);
+  console.warn(`[WARN] Sign-in from a plain-HTTP page (${page}). The sign-in cookie only works over HTTPS, so the browser drops it and the user lands back on the login page. Serve NutriAgent over HTTPS, or set INSECURE_COOKIES=1 on a trusted LAN. See https://traceapps.github.io/docs/getting-started/lan-http/`);
 }
 
 function safeUser(u) {
@@ -509,7 +510,7 @@ router.post('/invite', requireAuth, requireAdmin, wrap(async (req, res) => {
   if (email && isEmailConfigured()) {
     const inviter = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
     const inviterName = inviter?.nickname || inviter?.full_name || inviter?.username || 'An admin';
-    await sendInvite(email, inviteUrl, inviterName);
+    await sendInvite(email, inviteUrl, inviterName, requestLanguage(req, db));
     res.json({ ok: true, sent: true, inviteUrl });
   } else {
     res.json({ ok: true, sent: false, inviteUrl });

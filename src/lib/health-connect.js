@@ -44,7 +44,7 @@ function _getPlugin() {
 }
 
 /**
- * Every read permission NutriTrace actually consumes in readTodayData /
+ * Every read permission NutriAgent actually consumes in readTodayData /
  * readDateRange / readExerciseSessions. The requestPermissions() flow
  * reconciles this list against what's already granted so newly-added
  * types (or types the user previously denied) get re-prompted instead

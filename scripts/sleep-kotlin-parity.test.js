@@ -15,8 +15,8 @@ import { readFileSync } from 'node:fs';
 import { render, OUT } from './gen-sleep-kotlin-test.mjs';
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), 'utf8');
-const worker = read('../android/app/src/main/java/com/nutritrace/app/HealthConnectSyncWorker.kt');
-const port = read('../android/app/src/main/java/com/nutritrace/app/SleepDerivation.kt');
+const worker = read('../android/app/src/main/java/com/nutriagent/app/HealthConnectSyncWorker.kt');
+const port = read('../android/app/src/main/java/com/nutriagent/app/SleepDerivation.kt');
 
 test('the Kotlin fixture test is generated from the current fixtures', () => {
   assert.equal(readFileSync(OUT, 'utf8'), render(),

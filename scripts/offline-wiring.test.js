@@ -22,8 +22,8 @@ test('the web API is the HTTP one wrapped for offline, and native is untouched',
   assert.match(api, /import \{ createOfflineApi \} from '\.\/offline-api\.js'/);
   assert.match(api, /impl = _webApi\(\);\s+implName = 'HTTP'/);
   // Native keeps its own SQLite paths.
-  assert.match(api, /impl = NtApiNative;/);
-  assert.match(api, /impl = NtApiCached;/);
+  assert.match(api, /impl = NaApiNative;/);
+  assert.match(api, /impl = NaApiCached;/);
 });
 
 test('reads that must answer offline are mirrored', () => {
@@ -39,9 +39,9 @@ test('the queue goes up through the same sync push the phone uses', () => {
 });
 
 test('sending is guarded across tabs and retries with a backoff', () => {
-  assert.match(offline, /navigator\.locks\.request\('nutritrace-offline-flush'/);
+  assert.match(offline, /navigator\.locks\.request\('nutriagent-offline-flush'/);
   assert.match(offline, /navigator\.locks\?\.request/); // guarded for browsers without it
-  assert.match(offline, /new BroadcastChannel\('nutritrace-offline'\)/);
+  assert.match(offline, /new BroadcastChannel\('nutriagent-offline'\)/);
   assert.match(offline, /RETRY_MIN_MS = 3_000/);
   assert.match(offline, /RETRY_MAX_MS = 30_000/);
   // Safari has no Background Sync, and iPhone is the point of this work.
@@ -199,7 +199,7 @@ test('your profile and its picture work the same way here as in the sibling apps
   assert.match(offline, /embeddableDataUrl\(file\)/);
   assert.match(offline, /_queueRequest\('your profile', 'profile', 'PUT', '\/api\/auth\/profile', data\)/);
   const profile = readFileSync(new URL('../src/routes/Profile.svelte', import.meta.url), 'utf8');
-  assert.match(profile, /await NtApi\.updateProfile\(/);
+  assert.match(profile, /await NaApi\.updateProfile\(/);
   assert.ok(!/fetch\(apiUrl\('\/api\/auth\/profile'\)/.test(profile), 'no raw fetch around the API layer');
   // And the screen decides local mode reactively, so opening it before the
   // auth check answers cannot write a profile to local settings instead.

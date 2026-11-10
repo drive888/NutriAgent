@@ -2,7 +2,7 @@
  * server/lib/ssrf-guard.js
  *
  * The guard for every server-side request to an address a user can
- * influence. The same file in all four Trace apps: change one, change all.
+ * influence. The same file in all four NutriAgent apps: change one, change all.
  *
  * Address classes:
  *   - Link-local / IPv6 link-local / cloud metadata (169.254.169.254):
@@ -10,7 +10,7 @@
  *   - Loopback, RFC1918, CGNAT, IPv6 ULA (the server's own network):
  *     refused unless the caller allows them. Callers decide by purpose:
  *     features made for services on the home network (push, Mealie,
- *     CookTrace, NutriTrace, Navidrome) allow them for everyone; features
+ *     CookTrace, NutriAgent, Navidrome) allow them for everyone; features
  *     made for the public web (recipe URLs, link previews, radio streams,
  *     a user's own AI address) allow them for the owner only, unless the
  *     owner opts everyone in with that feature's ALLOW_PRIVATE_* variable.
@@ -135,7 +135,7 @@ async function _checkedTarget(url, { allowPrivate = false, allowPrivateEnvHint =
 }
 
 /**
- * The base address of a service a user configured (push server, NutriTrace,
+ * The base address of a service a user configured (push server, NutriAgent,
  * music server): origin and path only, without a trailing slash. A query or
  * fragment is dropped, so a path the app appends stays a path. Null when it
  * isn't an http(s) address.

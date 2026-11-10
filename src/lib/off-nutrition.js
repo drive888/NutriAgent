@@ -1,9 +1,9 @@
 /**
- * off-nutrition.js: can NutriTrace use an Open Food Facts product's values (#241)?
+ * off-nutrition.js: can NutriAgent use an Open Food Facts product's values (#241)?
  *
  * The OFF mapper turns every missing value into 0, so a product with no "as
  * sold" values used to arrive as a 0 kcal food: shown as 0 kcal, saved as
- * 0 kcal, and logged by Trace as 0 kcal with a success message. Some
+ * 0 kcal, and logged by NutriAgent as 0 kcal with a success message. Some
  * products have no values at all, and some only "as prepared" ones. (A
  * product with both used to look "as prepared" only too, because of how OFF's
  * API serves them; off-nutrition-sets.js finds its "as sold" values.)
@@ -12,7 +12,7 @@
  * describe the finished drink made with milk, not the powder you weigh (a
  * 20 g scoop of Nesquik read as 14 kcal instead of about 75), and for baby
  * formula the column often holds the powder's own values typed in the wrong
- * place. NutriTrace cannot tell which it is, so the user chooses, seeing the
+ * place. NutriAgent cannot tell which it is, so the user chooses, seeing the
  * number first.
  */
 import { applyOffRefresh } from './off-refresh.js';

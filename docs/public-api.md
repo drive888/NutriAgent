@@ -3,7 +3,7 @@
 General-purpose REST routes under `/api/v1`, for your own scripts and
 automations that want plain JSON over HTTP, rather than the [Model
 Context Protocol](https://traceapps.github.io/docs/nutritrace/mcp/)
-NutriTrace also speaks. Off by default. Pull-based, if you want to be
+NutriAgent also speaks. Off by default. Pull-based, if you want to be
 notified the instant something happens instead of polling, see
 [outgoing webhooks](webhooks.md).
 
@@ -95,26 +95,26 @@ use that endpoint instead of a second, overlapping route.
 ```bash
 # Today's logged food
 curl -H "Authorization: Bearer nt_pat_..." \
-  https://your-nutritrace.example.com/api/v1/diary/2026-09-12
+  https://your-nutriagent.example.com/api/v1/diary/2026-09-12
 
 # Log a food
 curl -X POST -H "Authorization: Bearer nt_pat_..." -H "Content-Type: application/json" \
   -d '{"food_id": 42, "quantity": 1}' \
-  https://your-nutritrace.example.com/api/v1/diary/2026-09-12/food
+  https://your-nutriagent.example.com/api/v1/diary/2026-09-12/food
 
 # Today's goal targets
 curl -H "Authorization: Bearer nt_pat_..." \
-  https://your-nutritrace.example.com/api/v1/goals
+  https://your-nutriagent.example.com/api/v1/goals
 
 # Step observations for a date range, one row per source
 curl -H "Authorization: Bearer nt_pat_..." \
-  "https://your-nutritrace.example.com/api/v1/steps?start=2026-09-01&end=2026-09-07"
+  "https://your-nutriagent.example.com/api/v1/steps?start=2026-09-01&end=2026-09-07"
 
 # Body-composition observations for a date range, separated by source
 curl -H "Authorization: Bearer nt_pat_..." \
-  "https://your-nutritrace.example.com/api/v1/body-composition?start=2026-09-01&end=2026-09-07"
+  "https://your-nutriagent.example.com/api/v1/body-composition?start=2026-09-01&end=2026-09-07"
 
 # Profile facts (gender, date of birth)
 curl -H "Authorization: Bearer nt_pat_..." \
-  https://your-nutritrace.example.com/api/v1/profile
+  https://your-nutriagent.example.com/api/v1/profile
 ```

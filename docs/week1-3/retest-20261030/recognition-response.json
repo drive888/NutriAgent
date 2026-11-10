@@ -1,0 +1,22 @@
+{
+  "testedAt": "2026-10-30T04:43:54.645Z",
+  "entry": "http://localhost:3103",
+  "sha256": "ded37720499ea6e6e537e457dfad501908c94f28d83d20e24bd382c9d8b83ed5",
+  "status": 200,
+  "wallTimeMs": 2215,
+  "result": {
+    "kind": "meal",
+    "status": "review",
+    "candidates": [
+      {
+        "name": "chicken",
+        "category": "chicken",
+        "confidence": 0.15883037447929382
+      }
+    ],
+    "requiresConfirmation": true,
+    "mode": "service",
+    "elapsedMs": 2185,
+    "requestId": "19dd44b5-b5e7-4daa-a2a1-bc9a3411d2e7"
+  }
+}

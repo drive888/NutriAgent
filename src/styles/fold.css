@@ -20,7 +20,7 @@ html.fold-book .tp-backdrop {
   padding-left: calc(var(--fold-end) + 16px) !important;
   padding-right: 16px !important;
 }
-/* Trace fills the panel beside the crease rather than being a card that
+/* NutriAgent fills the panel beside the crease rather than being a card that
    happens to straddle it. */
 html.fold-book .ai-panel {
   left: calc(var(--fold-end) + 16px) !important;
@@ -41,7 +41,7 @@ html.fold-tabletop .sheet-panel,
 html.fold-tabletop .as-panel {
   max-height: calc(100dvh - var(--fold-start) - 12px) !important;
 }
-/* Trace: the conversation and the box you type in on the flat half, the day
+/* NutriAgent: the conversation and the box you type in on the flat half, the day
    still readable on the half standing up. */
 html.fold-tabletop .ai-panel {
   height: calc(100dvh - var(--fold-start)) !important;

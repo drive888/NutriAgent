@@ -1,4 +1,5 @@
 <script>
+  import { locale } from 'svelte-i18n';
   import { closeOnBack } from '../lib/back-stack.js';
   import { onMount, onDestroy, tick } from 'svelte';
   import { _ } from 'svelte-i18n';
@@ -8,7 +9,7 @@
     fitbitSyncMode, withingsSyncMode, garminSyncMode, healthConnectSyncMode, timeFormat } from '../stores/settings.js';
   import { showSuccess, showError } from '../stores/toast.js';
   import { localDateStr } from '../lib/db.js';
-  import { NtApi } from '../lib/api.js';
+  import { NaApi } from '../lib/api.js';
   import { isNative, getServerUrl } from '../lib/platform.js';
   import { offlineState } from '../lib/offline-api.js';
   import { portal } from '../lib/portal.js';
@@ -22,41 +23,41 @@
   // when their only source integration is disabled.
   const ALL_METRICS = [
     // Activity — both Fitbit and Garmin
-    { id: 'steps',            label: 'Steps',             unit: 'steps', group: 'activity', icon: 'directions_walk',       fmt: v => Math.round(v).toLocaleString(),  sources: ['fitbit','garmin'], desc: 'Total steps taken today.' },
-    { id: 'distance_km',      label: 'Distance',          unit: '',      group: 'activity', icon: 'straighten',            fmt: null,                                  sources: ['fitbit','garmin'], desc: 'Total distance covered today.' },
-    { id: 'floors',           label: 'Floors Climbed',    unit: 'floors',group: 'activity', icon: 'stairs',                fmt: v => Math.round(v),                   sources: ['fitbit','garmin'], desc: 'Floors climbed based on elevation gain detected by your device.' },
-    { id: 'active_minutes',   label: 'Active Minutes',    unit: 'min',   group: 'activity', icon: 'timer',                 fmt: v => Math.round(v),                   sources: ['fitbit','garmin'], desc: 'Time spent at a moderate or higher activity level.' },
-    { id: 'calories_out',     label: 'Calories Burned',   unit: 'kcal',  group: 'activity', icon: 'local_fire_department', fmt: v => Math.round(v).toLocaleString(),  sources: ['fitbit','garmin'], desc: 'Total calories burned including your resting metabolic rate.' },
+    { id: 'steps',            label: 'Steps', labelKey: 'ui.m1de3df70ddf4',             unit: 'steps', group: 'activity', icon: 'directions_walk',       fmt: v => Math.round(v).toLocaleString(),  sources: ['fitbit','garmin'], desc: 'Total steps taken today.', descKey: 'ui.m6637067b346b' },
+    { id: 'distance_km',      label: 'Distance', labelKey: 'ui.mb7bdf7a2d6e7',          unit: '',      group: 'activity', icon: 'straighten',            fmt: null,                                  sources: ['fitbit','garmin'], desc: 'Total distance covered today.', descKey: 'ui.m94e430a9d4e3' },
+    { id: 'floors',           label: 'Floors Climbed', labelKey: 'ui.m2abd7a0bd16b',    unit: 'floors',group: 'activity', icon: 'stairs',                fmt: v => Math.round(v),                   sources: ['fitbit','garmin'], desc: 'Floors climbed based on elevation gain detected by your device.', descKey: 'ui.ma41514791c91' },
+    { id: 'active_minutes',   label: 'Active Minutes', labelKey: 'ui.m871b8584530e',    unit: 'min',   group: 'activity', icon: 'timer',                 fmt: v => Math.round(v),                   sources: ['fitbit','garmin'], desc: 'Time spent at a moderate or higher activity level.', descKey: 'ui.m5fe3844d81bb' },
+    { id: 'calories_out',     label: 'Calories Burned', labelKey: 'ui.m2d90fcb81d5f',   unit: 'kcal',  group: 'activity', icon: 'local_fire_department', fmt: v => Math.round(v).toLocaleString(),  sources: ['fitbit','garmin'], desc: 'Total calories burned including your resting metabolic rate.', descKey: 'ui.md755746cf228' },
     // Activity — Fitbit only
-    { id: 'active_zone_minutes', label: 'Active Zone Min', unit: 'min',  group: 'activity', icon: 'local_fire_department', fmt: v => Math.round(v), sources: ['fitbit'], desc: 'Minutes spent in Fat Burn, Cardio, or Peak heart rate zones — counts double for Cardio and Peak.' },
+    { id: 'active_zone_minutes', label: 'Active Zone Min', labelKey: 'ui.m31eaacff6b1d', unit: 'min',  group: 'activity', icon: 'local_fire_department', fmt: v => Math.round(v), sources: ['fitbit'], desc: 'Minutes spent in Fat Burn, Cardio, or Peak heart rate zones — counts double for Cardio and Peak.', descKey: 'ui.mf5fc4babecee' },
     // Activity — Garmin only
-    { id: 'moderate_intensity_min', label: 'Moderate Intensity', unit: 'min', group: 'activity', icon: 'directions_run', fmt: v => Math.round(v), sources: ['garmin'], desc: 'Time at moderate intensity (brisk walking, light cycling). WHO recommends 150–300 min/week.' },
-    { id: 'vigorous_intensity_min', label: 'Vigorous Intensity', unit: 'min', group: 'activity', icon: 'sprint',         fmt: v => Math.round(v), sources: ['garmin'], desc: 'Time at high intensity (running, hard effort). Counts double toward weekly activity targets.' },
+    { id: 'moderate_intensity_min', label: 'Moderate Intensity', labelKey: 'ui.mef7bc73455de', unit: 'min', group: 'activity', icon: 'directions_run', fmt: v => Math.round(v), sources: ['garmin'], desc: 'Time at moderate intensity (brisk walking, light cycling). WHO recommends 150–300 min/week.', descKey: 'ui.m9c9c345c6dd8' },
+    { id: 'vigorous_intensity_min', label: 'Vigorous Intensity', labelKey: 'ui.m750e95e5a1d6', unit: 'min', group: 'activity', icon: 'sprint',         fmt: v => Math.round(v), sources: ['garmin'], desc: 'Time at high intensity (running, hard effort). Counts double toward weekly activity targets.', descKey: 'ui.m4271bfe34aca' },
     // Sleep — both
-    { id: 'sleep_duration_min', label: 'Sleep Duration', unit: '',     group: 'sleep', icon: 'bedtime',               fmt: null,               sources: ['fitbit','garmin'], desc: 'Total time asleep last night. Adults generally need 7–9 hours.' },
-    { id: 'sleep_deep_min',     label: 'Deep Sleep',     unit: 'min',  group: 'sleep', icon: 'nights_stay',           fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Deep (slow-wave) sleep — the most restorative stage. Critical for physical recovery and immune function.' },
-    { id: 'sleep_light_min',    label: 'Light Sleep',    unit: 'min',  group: 'sleep', icon: 'cloud',                 fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Light sleep is the transition between wakefulness and deeper stages. Makes up the majority of most sleep cycles.' },
-    { id: 'sleep_rem_min',      label: 'REM Sleep',      unit: 'min',  group: 'sleep', icon: 'psychology',            fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'REM sleep supports memory consolidation, learning, and emotional regulation. Increases in later sleep cycles.' },
-    { id: 'sleep_wake_min',     label: 'Awake',          unit: 'min',  group: 'sleep', icon: 'wb_twilight',           fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Time spent awake or restless during the night. Brief awakenings are normal; frequent ones may signal poor sleep quality.' },
+    { id: 'sleep_duration_min', label: 'Sleep Duration', labelKey: 'ui.m357b84eb5784', unit: '',     group: 'sleep', icon: 'bedtime',               fmt: null,               sources: ['fitbit','garmin'], desc: 'Total time asleep last night. Adults generally need 7–9 hours.', descKey: 'ui.m19f3c0f26ee9' },
+    { id: 'sleep_deep_min',     label: 'Deep Sleep', labelKey: 'ui.m7e027eb954ed',     unit: 'min',  group: 'sleep', icon: 'nights_stay',           fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Deep (slow-wave) sleep — the most restorative stage. Critical for physical recovery and immune function.', descKey: 'ui.mec4ffa9a6dbf' },
+    { id: 'sleep_light_min',    label: 'Light Sleep', labelKey: 'ui.m5a1bf2675f1f',    unit: 'min',  group: 'sleep', icon: 'cloud',                 fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Light sleep is the transition between wakefulness and deeper stages. Makes up the majority of most sleep cycles.', descKey: 'ui.m2ab51621c5d3' },
+    { id: 'sleep_rem_min',      label: 'REM Sleep', labelKey: 'ui.m26c10f76a393',      unit: 'min',  group: 'sleep', icon: 'psychology',            fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'REM sleep supports memory consolidation, learning, and emotional regulation. Increases in later sleep cycles.', descKey: 'ui.md3e4ea20b7b3' },
+    { id: 'sleep_wake_min',     label: 'Awake', labelKey: 'ui.m9123b5f4812a',          unit: 'min',  group: 'sleep', icon: 'wb_twilight',           fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Time spent awake or restless during the night. Brief awakenings are normal; frequent ones may signal poor sleep quality.', descKey: 'ui.m1acf95bbeba9' },
     // Sleep — Fitbit only
-    { id: 'sleep_efficiency',   label: 'Sleep Efficiency', unit: '%',  group: 'sleep', icon: 'battery_charging_full', fmt: v => v.toFixed(0),  sources: ['fitbit'], desc: 'Percentage of time in bed actually spent asleep. Above 85% is generally considered good.' },
+    { id: 'sleep_efficiency',   label: 'Sleep Efficiency', labelKey: 'ui.me82ab51dc028', unit: '%',  group: 'sleep', icon: 'battery_charging_full', fmt: v => v.toFixed(0),  sources: ['fitbit'], desc: 'Percentage of time in bed actually spent asleep. Above 85% is generally considered good.', descKey: 'ui.m2500108c9687' },
     // Sleep — Garmin (device-measured); Fitbit (estimated from stages + SpO2 + HRV)
-    { id: 'sleep_score',        label: 'Sleep Score',    unit: '/100', group: 'sleep', icon: 'star',                  fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Overall sleep quality score out of 100. Factors in duration, sleep stage balance, SpO2, and HRV.' },
+    { id: 'sleep_score',        label: 'Sleep Score', labelKey: 'ui.m25bd28345d93',    unit: '/100', group: 'sleep', icon: 'star',                  fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Overall sleep quality score out of 100. Factors in duration, sleep stage balance, SpO2, and HRV.', descKey: 'ui.mf2cb9c77cbcf' },
     // Sleep Quality (Fitbit Public Preview Sleep Score redesign).
     // Order: Time to Sound Sleep, Sound Sleep, Restlessness, Interruptions.
     // Full Awakenings count is folded into the Interruptions card display
     // ("X min · N moments") rather than its own tile.
-    { id: 'sleep_time_to_fall_asleep_min', label: 'Time to Sound Sleep', unit: 'min', group: 'sleep_quality', icon: 'snooze',           fmt: v => Math.round(v), sources: ['fitbit'], desc: 'How long it took to settle into deep sleep after first falling asleep. Lower is generally better.' },
-    { id: 'sleep_sound_sleep_min',         label: 'Sound Sleep',          unit: '',    group: 'sleep_quality', icon: 'self_improvement', fmt: v => { const h = Math.floor(v / 60); const m = Math.round(v % 60); return h ? `${h}h ${m}m` : `${m}m`; }, sources: ['fitbit'], desc: 'Longest stretch of uninterrupted sleep (LIGHT, DEEP, and REM with no wake events). Approximation of Fitbit\'s Sound Sleep metric — Fitbit\'s exact algorithm is proprietary and may use motion data the API does not expose.' },
-    { id: 'sleep_restlessness_min',        label: 'Restlessness',         unit: 'min', group: 'sleep_quality', icon: 'vibration',        fmt: v => Math.round(v), sources: ['fitbit'], desc: 'Brief stirring during the night — short AWAKE segments under 5 minutes. Approximation of Fitbit\'s Restlessness metric, which also incorporates motion data the API does not expose.' },
-    { id: 'sleep_interruptions_min',       label: 'Interruptions',        unit: 'min', group: 'sleep_quality', icon: 'pause_circle',     fmt: v => Math.round(v), sources: ['fitbit'], desc: 'Wake events of 5 minutes or longer that you\'re likely to remember. Card shows total minutes and the count of awakenings.' },
+    { id: 'sleep_time_to_fall_asleep_min', label: 'Time to Sound Sleep', labelKey: 'ui.mea2881bff69c', unit: 'min', group: 'sleep_quality', icon: 'snooze',           fmt: v => Math.round(v), sources: ['fitbit'], desc: 'How long it took to settle into deep sleep after first falling asleep. Lower is generally better.', descKey: 'ui.m8227be51ed7e' },
+    { id: 'sleep_sound_sleep_min',         label: 'Sound Sleep', labelKey: 'ui.mf4db8063568f',          unit: '',    group: 'sleep_quality', icon: 'self_improvement', fmt: v => { const h = Math.floor(v / 60); const m = Math.round(v % 60); return h ? `${h}h ${m}m` : `${m}m`; }, sources: ['fitbit'], desc: 'Longest stretch of uninterrupted sleep (LIGHT, DEEP, and REM with no wake events). Approximation of Fitbit\'s Sound Sleep metric — Fitbit\'s exact algorithm is proprietary and may use motion data the API does not expose.', descKey: 'ui.m88785577e678' },
+    { id: 'sleep_restlessness_min',        label: 'Restlessness', labelKey: 'ui.m2eae39b5a109',         unit: 'min', group: 'sleep_quality', icon: 'vibration',        fmt: v => Math.round(v), sources: ['fitbit'], desc: 'Brief stirring during the night — short AWAKE segments under 5 minutes. Approximation of Fitbit\'s Restlessness metric, which also incorporates motion data the API does not expose.', descKey: 'ui.m08bdfd47ee14' },
+    { id: 'sleep_interruptions_min',       label: 'Interruptions', labelKey: 'ui.m5f1f15d3b632',        unit: 'min', group: 'sleep_quality', icon: 'pause_circle',     fmt: v => Math.round(v), sources: ['fitbit'], desc: 'Wake events of 5 minutes or longer that you\'re likely to remember. Card shows total minutes and the count of awakenings.', descKey: 'ui.m170b85c4a704' },
     // sleep_full_awakenings stays in the dataset (for chart plotting if the
     // user adds it in Statistics) but doesn't render as its own card —
     // pulled into the Interruptions card subtitle instead. Hidden via
     // `hideTile: true` so the metric grid skips it.
-    { id: 'sleep_full_awakenings',         label: 'Full Awakenings',      unit: '',    group: 'sleep_quality', icon: 'notifications_active', fmt: v => Math.round(v), sources: ['fitbit'], desc: 'Number of distinct wake events of 5 minutes or longer. Shown alongside Interruptions on the same card.', hideTile: true },
+    { id: 'sleep_full_awakenings',         label: 'Full Awakenings', labelKey: 'ui.m46824e405f82',      unit: '',    group: 'sleep_quality', icon: 'notifications_active', fmt: v => Math.round(v), sources: ['fitbit'], desc: 'Number of distinct wake events of 5 minutes or longer. Shown alongside Interruptions on the same card.', descKey: 'ui.m934497296144', hideTile: true },
     // Heart — both
-    { id: 'resting_hr',        label: 'Resting Heart Rate', unit: 'bpm',  group: 'heart', icon: 'favorite',       fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Heart rate when fully at rest. Lower is generally better — a downward trend over time reflects improving cardiovascular fitness.' },
+    { id: 'resting_hr',        label: 'Resting Heart Rate', labelKey: 'ui.m31550f530403', unit: 'bpm',  group: 'heart', icon: 'favorite',       fmt: v => Math.round(v), sources: ['fitbit','garmin'], desc: 'Heart rate when fully at rest. Lower is generally better — a downward trend over time reflects improving cardiovascular fitness.', descKey: 'ui.me3e2c68111b2' },
     // #205: Health Connect ingests a daily avg_heart_rate that had no card
     // definition, so the metric silently existed in the local DB without a
     // Wellness surface. Distinct from Resting Heart Rate (fully at rest) so
@@ -69,15 +70,15 @@
     // the Heart tab filter below so the card appears only on days a value
     // exists. When Fitbit / Garmin start writing daily avg_heart_rate, drop
     // the flag and the card behaves like every other metric.
-    { id: 'avg_heart_rate',    label: 'Average Heart Rate', unit: 'bpm',  group: 'heart', icon: 'monitor_heart',  fmt: v => Math.round(v), sources: ['fitbit','garmin'], hideIfEmpty: true, desc: 'Average heart rate across the day from your wearable. Rises with activity, stress, and elevated body temperature; useful for spotting an unusually high or low day at a glance.' },
-    { id: 'spo2_avg',          label: 'SpO2',               unit: '%',    group: 'heart', icon: 'water_drop',     fmt: v => v.toFixed(1),  sources: ['fitbit','garmin'], desc: 'Blood oxygen saturation measured overnight. Healthy range is typically 95–100%. Dips below 90% may indicate sleep apnea.' },
-    { id: 'respiratory_rate',  label: 'Respiratory Rate',   unit: 'brpm', group: 'heart', icon: 'air',            fmt: v => v.toFixed(1),  sources: ['fitbit','garmin'], desc: 'Average breaths per minute during sleep. Normal adult range is 12–20 breaths/min. Elevated values may signal illness or stress.' },
-    { id: 'hrv_daily_rmssd',   label: 'HRV (RMSSD)',        unit: 'ms',   group: 'heart', icon: 'monitor_heart',  fmt: v => v.toFixed(1),  sources: ['fitbit','garmin'], desc: 'Heart rate variability — the variation between heartbeats. Higher values indicate better recovery and autonomic nervous system balance.' },
+    { id: 'avg_heart_rate',    label: 'Average Heart Rate', labelKey: 'ui.m56b8d9ce7f33', unit: 'bpm',  group: 'heart', icon: 'monitor_heart',  fmt: v => Math.round(v), sources: ['fitbit','garmin'], hideIfEmpty: true, desc: 'Average heart rate across the day from your wearable. Rises with activity, stress, and elevated body temperature; useful for spotting an unusually high or low day at a glance.', descKey: 'ui.m9f662b58b3ef' },
+    { id: 'spo2_avg',          label: 'SpO2', labelKey: 'ui.mfb0a260fbed1',               unit: '%',    group: 'heart', icon: 'water_drop',     fmt: v => v.toFixed(1),  sources: ['fitbit','garmin'], desc: 'Blood oxygen saturation measured overnight. Healthy range is typically 95–100%. Dips below 90% may indicate sleep apnea.', descKey: 'ui.m389c62a1159a' },
+    { id: 'respiratory_rate',  label: 'Respiratory Rate', labelKey: 'ui.m27b6fcdcd1f5',   unit: 'brpm', group: 'heart', icon: 'air',            fmt: v => v.toFixed(1),  sources: ['fitbit','garmin'], desc: 'Average breaths per minute during sleep. Normal adult range is 12–20 breaths/min. Elevated values may signal illness or stress.', descKey: 'ui.m1d80b538823d' },
+    { id: 'hrv_daily_rmssd',   label: 'HRV (RMSSD)', labelKey: 'ui.m3a5658590683',        unit: 'ms',   group: 'heart', icon: 'monitor_heart',  fmt: v => v.toFixed(1),  sources: ['fitbit','garmin'], desc: 'Heart rate variability — the variation between heartbeats. Higher values indicate better recovery and autonomic nervous system balance.', descKey: 'ui.m68519188cfc9' },
     // Heart — Fitbit only
-    { id: 'skin_temp_variation', label: 'Skin Temp Var.', unit: '',     group: 'heart', icon: 'thermometer',    fmt: null, sources: ['fitbit'], desc: 'Nightly skin temperature variation from your personal baseline. Elevated readings can indicate illness or hormonal changes.' },
-    { id: 'vo2_max',             label: 'Cardio Fitness',  unit: '',     group: 'heart', icon: 'fitness_center', fmt: v => v.toFixed(1),  sources: ['fitbit'], desc: 'Estimated VO₂ Max — the maximum oxygen your body can use during exercise. Fitbit shows this as a range (e.g. 39–43 mL/kg/min). A key indicator of long-term cardiovascular health.' },
+    { id: 'skin_temp_variation', label: 'Skin Temp Var.', labelKey: 'ui.mac19b5fcf633', unit: '',     group: 'heart', icon: 'thermometer',    fmt: null, sources: ['fitbit'], desc: 'Nightly skin temperature variation from your personal baseline. Elevated readings can indicate illness or hormonal changes.', descKey: 'ui.m9aaaa262ea5e' },
+    { id: 'vo2_max',             label: 'Cardio Fitness', labelKey: 'ui.mcfc8adf1ae84',  unit: '',     group: 'heart', icon: 'fitness_center', fmt: v => v.toFixed(1),  sources: ['fitbit'], desc: 'Estimated VO₂ Max — the maximum oxygen your body can use during exercise. Fitbit shows this as a range (e.g. 39–43 mL/kg/min). A key indicator of long-term cardiovascular health.', descKey: 'ui.meb9842ac07b0' },
     // Heart — Garmin only
-    { id: 'max_hr',           label: 'Max Heart Rate',     unit: 'bpm',       group: 'heart', icon: 'favorite',       fmt: v => Math.round(v), sources: ['garmin'], desc: 'Highest heart rate recorded during the day. Useful for tracking workout intensity and your true max effort.' },
+    { id: 'max_hr',           label: 'Max Heart Rate', labelKey: 'ui.m6d00997ab69c',     unit: 'bpm',       group: 'heart', icon: 'favorite',       fmt: v => Math.round(v), sources: ['garmin'], desc: 'Highest heart rate recorded during the day. Useful for tracking workout intensity and your true max effort.', descKey: 'ui.m043b699702fc' },
   ];
 
   // Returns true if at least one of this metric's source integrations is
@@ -149,7 +150,7 @@
       }
     }
     // PWA: fetch from server
-    return NtApi.get(`/api/wellness/${source}/data?from=${from}&to=${to}`);
+    return NaApi.get(`/api/wellness/${source}/data?from=${from}&to=${to}`);
   }
 
   // ── State ──────────────────────────────────────────────────────────────────
@@ -279,28 +280,28 @@
 
   // ── Withings metric definitions ───────────────────────────────────────────
   const BODY_METRICS = [
-    { id: 'weight_kg',     label: 'Weight',       unit: '', icon: 'monitor_weight',   fmt: null, desc: 'Current body weight from your scale.' },
-    { id: 'body_fat_pct',  label: 'Body Fat',     unit: '%', icon: 'percent',          fmt: v => v.toFixed(1), desc: 'Percentage of total body weight that is fat tissue. Healthy ranges vary by age and sex.' },
-    { id: 'muscle_mass_kg',label: 'Muscle Mass',  unit: '', icon: 'fitness_center',   fmt: null, desc: 'Total skeletal muscle mass. Higher values indicate better strength and metabolic health.' },
-    { id: 'bone_mass_kg',  label: 'Bone Mass',    unit: '', icon: 'emergency',         fmt: v => v.toFixed(2), desc: 'Estimated bone mineral content. Stable values are normal; significant drops may warrant discussion with your doctor.' },
-    { id: 'body_water_pct',label: 'Body Water',   unit: '', icon: 'water_drop',       fmt: null, desc: 'Total body water as a percentage of weight. Normal range is 45–65% depending on age and sex.' },
-    { id: 'lean_mass_kg',            label: 'Lean Mass',            unit: '', icon: 'person',           fmt: null, desc: 'Everything except fat — includes muscle, bone, organs, and water.' },
-    { id: 'fat_mass_kg',             label: 'Fat Mass',             unit: '', icon: 'scale',            fmt: null, desc: 'Total fat tissue weight. Tracking trends is more useful than individual readings.' },
-    { id: 'visceral_fat',            label: 'Visceral Fat',         unit: '', icon: 'favorite_border',  fmt: v => v.toFixed(1), desc: 'Fat stored around internal organs. Higher levels are linked to increased metabolic and cardiovascular risk.' },
-    { id: 'visceral_fat_index',      label: 'Visceral Fat Index',   unit: '', icon: 'favorite_border',  fmt: v => v.toFixed(1), desc: 'Indexed rating of visceral fat. Lower is better — a score under 13 is generally considered healthy.' },
-    { id: 'extracellular_water_kg',  label: 'Extracellular Water',  unit: '', icon: 'water_drop',       fmt: null, desc: 'Water outside cells (blood, lymph, interstitial fluid). Elevated levels may indicate inflammation or fluid retention.' },
-    { id: 'intracellular_water_kg',  label: 'Intracellular Water',  unit: '', icon: 'water_drop',       fmt: null, desc: 'Water inside cells. Reflects hydration at the cellular level — higher relative to extracellular is generally healthier.' },
+    { id: 'weight_kg',     label: 'Weight', labelKey: 'ui.m81d27ef6d503',       unit: '', icon: 'monitor_weight',   fmt: null, desc: 'Current body weight from your scale.', descKey: 'ui.m676eb56d979b' },
+    { id: 'body_fat_pct',  label: 'Body Fat', labelKey: 'ui.m03cfbaa9c32f',     unit: '%', icon: 'percent',          fmt: v => v.toFixed(1), desc: 'Percentage of total body weight that is fat tissue. Healthy ranges vary by age and sex.', descKey: 'ui.mb78001ffd0ce' },
+    { id: 'muscle_mass_kg',label: 'Muscle Mass', labelKey: 'ui.mde6012251ab0',  unit: '', icon: 'fitness_center',   fmt: null, desc: 'Total skeletal muscle mass. Higher values indicate better strength and metabolic health.', descKey: 'ui.m586b85a33b89' },
+    { id: 'bone_mass_kg',  label: 'Bone Mass', labelKey: 'ui.mce5b605c7e9a',    unit: '', icon: 'emergency',         fmt: v => v.toFixed(2), desc: 'Estimated bone mineral content. Stable values are normal; significant drops may warrant discussion with your doctor.', descKey: 'ui.m362c65c112d2' },
+    { id: 'body_water_pct',label: 'Body Water', labelKey: 'ui.m7a976b062eaa',   unit: '', icon: 'water_drop',       fmt: null, desc: 'Total body water as a percentage of weight. Normal range is 45–65% depending on age and sex.', descKey: 'ui.m00a793d9b2f8' },
+    { id: 'lean_mass_kg',            label: 'Lean Mass', labelKey: 'ui.m2614b56f380c',            unit: '', icon: 'person',           fmt: null, desc: 'Everything except fat — includes muscle, bone, organs, and water.', descKey: 'ui.m9b28a79c54f3' },
+    { id: 'fat_mass_kg',             label: 'Fat Mass', labelKey: 'ui.mc9d614dce521',             unit: '', icon: 'scale',            fmt: null, desc: 'Total fat tissue weight. Tracking trends is more useful than individual readings.', descKey: 'ui.mceb3ee1a8dff' },
+    { id: 'visceral_fat',            label: 'Visceral Fat', labelKey: 'ui.m3074446e23e6',         unit: '', icon: 'favorite_border',  fmt: v => v.toFixed(1), desc: 'Fat stored around internal organs. Higher levels are linked to increased metabolic and cardiovascular risk.', descKey: 'ui.m0b2137e4d586' },
+    { id: 'visceral_fat_index',      label: 'Visceral Fat Index', labelKey: 'ui.m35dc648ab78b',   unit: '', icon: 'favorite_border',  fmt: v => v.toFixed(1), desc: 'Indexed rating of visceral fat. Lower is better — a score under 13 is generally considered healthy.', descKey: 'ui.m6d49a90bbd2d' },
+    { id: 'extracellular_water_kg',  label: 'Extracellular Water', labelKey: 'ui.mbd4ebb079ea0',  unit: '', icon: 'water_drop',       fmt: null, desc: 'Water outside cells (blood, lymph, interstitial fluid). Elevated levels may indicate inflammation or fluid retention.', descKey: 'ui.ma27e05344807' },
+    { id: 'intracellular_water_kg',  label: 'Intracellular Water', labelKey: 'ui.m869ae8c3e05a',  unit: '', icon: 'water_drop',       fmt: null, desc: 'Water inside cells. Reflects hydration at the cellular level — higher relative to extracellular is generally healthier.', descKey: 'ui.m07c959538d56' },
   ];
 
   const BODY_SCORE_METRICS = [
-    { id: 'vascular_age',       label: 'Vascular Age',     unit: 'yrs',  icon: 'cardiology',   fmt: v => Math.round(v), desc: 'Estimated age of your arteries based on pulse wave velocity. Lower than your actual age indicates healthier blood vessels.' },
-    { id: 'metabolic_age',      label: 'Metabolic Age',    unit: 'yrs',  icon: 'trending_up',  fmt: v => Math.round(v), desc: 'Your body\'s metabolic efficiency compared to age norms. Lower than your actual age means your metabolism is performing well.' },
-    { id: 'basal_metabolic_rate', label: 'Basal Metabolic Rate', unit: 'kcal/day', icon: 'local_fire_department', fmt: v => Math.round(v).toLocaleString(), desc: 'Calories your body burns at complete rest over 24 hours. Influenced by muscle mass, age, and body composition.' },
-    { id: 'nerve_health_score', label: 'Nerve Health Score',  unit: '/100', icon: 'neurology',    fmt: v => Math.round(v), desc: 'Monthly nerve health score from your Withings scale. Calculated from daily EDA readings over the month. Above 50 = Normal, below 50 = Low. Final score confirmed at month-end.' },
-    { id: 'eda_feet',           label: 'EDA (Daily)',        unit: 'µS',   icon: 'neurology',    fmt: v => v.toFixed(1), desc: 'Daily electrodermal activity reading from your Withings scale. Measures sweat gland nerve conductance in your feet. These daily readings feed into the monthly Nerve Health Score.' },
-    { id: 'pulse_wave_velocity',label: 'Pulse Wave Vel.',  unit: 'm/s',  icon: 'show_chart',    fmt: v => v.toFixed(1), desc: 'Speed of blood pressure pulse along arteries. Lower values indicate more elastic, healthier blood vessels.' },
-    { id: 'ecg_heart_rate',     label: 'Heart Rate',       unit: 'bpm',  icon: 'ecg_heart',     fmt: v => Math.round(v), desc: 'Heart rate measured during ECG recording on your scale. More accurate than optical wrist sensors.' },
-    { id: 'ecg_afib',           label: 'AFib Detection',   unit: '',     icon: 'ecg',           fmt: v => v === 1 ? 'Detected' : 'Normal', desc: 'Atrial fibrillation screening from ECG recording. "Normal" means no irregular rhythm detected during this reading.' },
+    { id: 'vascular_age',       label: 'Vascular Age', labelKey: 'ui.mc2b308574ed8',     unit: 'yrs',  icon: 'cardiology',   fmt: v => Math.round(v), desc: 'Estimated age of your arteries based on pulse wave velocity. Lower than your actual age indicates healthier blood vessels.', descKey: 'ui.m3275ae8350c4' },
+    { id: 'metabolic_age',      label: 'Metabolic Age', labelKey: 'ui.mfcc2105fb979',    unit: 'yrs',  icon: 'trending_up',  fmt: v => Math.round(v), desc: 'Your body\'s metabolic efficiency compared to age norms. Lower than your actual age means your metabolism is performing well.', descKey: 'ui.m9302d35a5ce8' },
+    { id: 'basal_metabolic_rate', label: 'Basal Metabolic Rate', labelKey: 'ui.mc04bf5c7ee10', unit: 'kcal/day', icon: 'local_fire_department', fmt: v => Math.round(v).toLocaleString(), desc: 'Calories your body burns at complete rest over 24 hours. Influenced by muscle mass, age, and body composition.', descKey: 'ui.m05f7a936b934' },
+    { id: 'nerve_health_score', label: 'Nerve Health Score', labelKey: 'ui.m0732bb23a3f5',  unit: '/100', icon: 'neurology',    fmt: v => Math.round(v), desc: 'Monthly nerve health score from your Withings scale. Calculated from daily EDA readings over the month. Above 50 = Normal, below 50 = Low. Final score confirmed at month-end.', descKey: 'ui.m63db72508ca3' },
+    { id: 'eda_feet',           label: 'EDA (Daily)', labelKey: 'ui.m7c8a4d0a6c97',        unit: 'µS',   icon: 'neurology',    fmt: v => v.toFixed(1), desc: 'Daily electrodermal activity reading from your Withings scale. Measures sweat gland nerve conductance in your feet. These daily readings feed into the monthly Nerve Health Score.', descKey: 'ui.m7971d306e592' },
+    { id: 'pulse_wave_velocity',label: 'Pulse Wave Vel.', labelKey: 'ui.m10da901d8884',  unit: 'm/s',  icon: 'show_chart',    fmt: v => v.toFixed(1), desc: 'Speed of blood pressure pulse along arteries. Lower values indicate more elastic, healthier blood vessels.', descKey: 'ui.m64deb7e1bee1' },
+    { id: 'ecg_heart_rate',     label: 'Heart Rate', labelKey: 'ui.mab10381165e3',       unit: 'bpm',  icon: 'ecg_heart',     fmt: v => Math.round(v), desc: 'Heart rate measured during ECG recording on your scale. More accurate than optical wrist sensors.', descKey: 'ui.m35cdc3116bc6' },
+    { id: 'ecg_afib',           label: 'AFib Detection', labelKey: 'ui.mcf963f357e9a',   unit: '',     icon: 'ecg',           fmt: v => v === 1 ? 'Detected' : 'Normal', desc: 'Atrial fibrillation screening from ECG recording. "Normal" means no irregular rhythm detected during this reading.', descKey: 'ui.m0200d89fa369' },
   ];
 
   function fmtWeight(kg) {
@@ -327,7 +328,7 @@
   // ── Withings init / sync / connect / disconnect ────────────────────────────
   async function initWithings() {
     try {
-      withingsStatus = await NtApi.get('/api/wellness/withings/status');
+      withingsStatus = await NaApi.get('/api/wellness/withings/status');
     } catch { withingsStatus = { connected: false, configured: false }; }
 
     if (withingsStatus.connected) {
@@ -337,7 +338,7 @@
 
   async function loadWithingsData() {
     try {
-      const result = await NtApi.get(`/api/wellness/withings/data?date=${dateStr}`);
+      const result = await NaApi.get(`/api/wellness/withings/data?date=${dateStr}`);
       withingsData = {};
       for (const [, metrics] of Object.entries(result)) {
         for (const [key, { value }] of Object.entries(metrics)) {
@@ -359,7 +360,7 @@
         start.setDate(start.getDate() - (range - 1));
         from = start.toLocaleDateString('sv-SE');
       }
-      const result = await NtApi.post('/api/wellness/withings/sync', { from, to });
+      const result = await NaApi.post('/api/wellness/withings/sync', { from, to });
       await _pullWellnessToLocal();
       if (isNative) {
         await loadLocalWellnessData();
@@ -369,11 +370,11 @@
       _checkWellnessGoals(data, withingsData);
       withingsLastSync = new Date();
       _markSynced('Withings');
-      if (!silent) showSuccess(`Synced ${result.dates} day${result.dates === 1 ? '' : 's'} from Withings`);
+      if (!silent) showSuccess($_('ui.m3e1db04dcab0', { values: { value0: (result.dates), value1: (result.dates === 1 ? '' : 's') } }));
     } catch(e) {
       if (!silent) {
         if (e.message?.includes('revoked') || e.message?.includes('Not connected') || e.status === 401) {
-          showError('Withings disconnected — reconnect in Settings → Wellness');
+          showError($_('ui.mfc4f570e7ceb'));
           withingsStatus = { ...withingsStatus, connected: false };
         } else {
           showError('Withings sync failed: ' + e.message);
@@ -386,7 +387,7 @@
   async function connectWithings() {
     withingsConnecting = true;
     try {
-      const { url } = await NtApi.get('/api/wellness/withings/authorize' + (isNative ? '?native=1' : ''));
+      const { url } = await NaApi.get('/api/wellness/withings/authorize' + (isNative ? '?native=1' : ''));
       if (isNative) {
         const { openOAuth } = await import('../lib/oauth-native.js');
         await openOAuth(url);
@@ -401,31 +402,31 @@
 
   async function disconnectWithings() {
     try {
-      await NtApi.del('/api/wellness/withings/disconnect');
+      await NaApi.del('/api/wellness/withings/disconnect');
       withingsStatus = { ...withingsStatus, connected: false };
       withingsData = {};
-      showSuccess('Disconnected from Withings');
+      showSuccess($_('ui.me2ca13a175b9'));
     } catch(e) { showError(e.message); }
   }
 
   // ── Garmin ─────────────────────────────────────────────────────────────────
   // Garmin-specific metrics (supplements the shared ALL_METRICS)
   const GARMIN_METRICS = [
-    { id: 'body_battery_high', label: 'Body Battery (Peak)', unit: '',    icon: 'battery_full',    fmt: v => Math.round(v), desc: 'Highest Body Battery level today (0–100). Charges during rest and sleep, drains during activity and stress.' },
-    { id: 'body_battery_low',  label: 'Body Battery (Low)',  unit: '',    icon: 'battery_alert',   fmt: v => Math.round(v), desc: 'Lowest Body Battery level today. If it drops below 20, your body may need rest or recovery.' },
-    { id: 'stress_avg',        label: 'Avg Stress',          unit: '/100',icon: 'sentiment_stressed', fmt: v => Math.round(v), desc: 'Average stress level from Garmin (0–100). Measured via heart rate variability throughout the day. Lower is calmer.' },
+    { id: 'body_battery_high', label: 'Body Battery (Peak)', labelKey: 'ui.m890191364352', unit: '',    icon: 'battery_full',    fmt: v => Math.round(v), desc: 'Highest Body Battery level today (0–100). Charges during rest and sleep, drains during activity and stress.', descKey: 'ui.me9d983ddcdac' },
+    { id: 'body_battery_low',  label: 'Body Battery (Low)', labelKey: 'ui.m4dcc875a7a36',  unit: '',    icon: 'battery_alert',   fmt: v => Math.round(v), desc: 'Lowest Body Battery level today. If it drops below 20, your body may need rest or recovery.', descKey: 'ui.m8d83a2accfe3' },
+    { id: 'stress_avg',        label: 'Avg Stress', labelKey: 'ui.mcfcdf93e7898',          unit: '/100',icon: 'sentiment_stressed', fmt: v => Math.round(v), desc: 'Average stress level from Garmin (0–100). Measured via heart rate variability throughout the day. Lower is calmer.', descKey: 'ui.m3e4f8fed22fc' },
   ];
 
   async function initGarmin() {
     try {
-      garminStatus = await NtApi.get('/api/wellness/garmin/status');
+      garminStatus = await NaApi.get('/api/wellness/garmin/status');
     } catch { garminStatus = { connected: false, configured: false }; }
     if (garminStatus.connected) await loadGarminData();
   }
 
   async function loadGarminData() {
     try {
-      const result = await NtApi.get(`/api/wellness/garmin/data?date=${dateStr}`);
+      const result = await NaApi.get(`/api/wellness/garmin/data?date=${dateStr}`);
       garminData = result[dateStr] || {};
     } catch { garminData = {}; }
   }
@@ -442,7 +443,7 @@
         start.setDate(start.getDate() - (range - 1));
         from = start.toLocaleDateString('sv-SE');
       }
-      const result = await NtApi.post('/api/wellness/garmin/sync', { from, to });
+      const result = await NaApi.post('/api/wellness/garmin/sync', { from, to });
       await _pullWellnessToLocal();
       if (isNative) {
         await loadLocalWellnessData();
@@ -450,11 +451,11 @@
         await loadGarminData();
       }
       _markSynced('Garmin');
-      if (!silent) showSuccess(`Synced ${result.synced ?? 0} day${result.synced === 1 ? '' : 's'} from Garmin`);
+      if (!silent) showSuccess($_('ui.mc1479beb1f59', { values: { value0: (result.synced ?? 0), value1: (result.synced === 1 ? '' : 's') } }));
     } catch(e) {
       if (!silent) {
         if (e.message?.includes('revoked') || e.message?.includes('Not connected') || e.status === 401) {
-          showError('Garmin disconnected — reconnect in Settings → Wellness');
+          showError($_('ui.m367c4db0528a'));
           garminStatus = { ...garminStatus, connected: false };
         } else {
           showError('Garmin sync failed: ' + e.message);
@@ -469,7 +470,7 @@
   async function connectGarmin() {
     garminConnecting = true;
     try {
-      const { url } = await NtApi.get('/api/wellness/garmin/authorize' + (isNative ? '?native=1' : ''));
+      const { url } = await NaApi.get('/api/wellness/garmin/authorize' + (isNative ? '?native=1' : ''));
       if (isNative) {
         const { openOAuth } = await import('../lib/oauth-native.js');
         await openOAuth(url);
@@ -484,10 +485,10 @@
 
   async function disconnectGarmin() {
     try {
-      await NtApi.del('/api/wellness/garmin/disconnect');
+      await NaApi.del('/api/wellness/garmin/disconnect');
       garminStatus = { ...garminStatus, connected: false };
       garminData = {};
-      showSuccess('Disconnected from Garmin');
+      showSuccess($_('ui.m3ccd0f71a62b'));
     } catch(e) { showError(e.message); }
   }
 
@@ -506,7 +507,7 @@
         const { dbGetWorkouts } = await import('../lib/db-native.js');
         _workouts = await dbGetWorkouts(dateStr, dateStr);
       } else {
-        _workouts = await NtApi.get(`/api/wellness/fitbit/workouts?date=${dateStr}`);
+        _workouts = await NaApi.get(`/api/wellness/fitbit/workouts?date=${dateStr}`);
       }
     } catch (e) {
       console.warn('[wellness] load workouts failed:', e.message);
@@ -543,7 +544,7 @@
       await syncHealthConnect(dateStr);
       if (isNative) await loadLocalWellnessData();
       console.log('[wellness] HC sync done, data keys:', Object.keys(data), '_hasLocalData:', _hasLocalData, 'displayData keys:', Object.keys(displayData));
-      showSuccess('Health Connect synced');
+      showSuccess($_('ui.m5489172f5b6d'));
       _markSynced('Health Connect');
       // Check step + wellness goals after HC sync (works in local mode too)
       if (dateStr === localDateStr()) {
@@ -576,7 +577,7 @@
       const end = new Date(dateStr + 'T12:00:00');
       const start = new Date(end);
       start.setDate(start.getDate() - (range - 1));
-      await NtApi.post('/api/wellness/fitbit/workouts/sync', {
+      await NaApi.post('/api/wellness/fitbit/workouts/sync', {
         from: start.toLocaleDateString('sv-SE'),
         to: dateStr,
       });
@@ -600,7 +601,7 @@
   async function _loadGpsData(w) {
     _loadingGps = true;
     try {
-      const result = await NtApi.post(`/api/wellness/fitbit/workouts/${w.source_id}/gps`);
+      const result = await NaApi.post(`/api/wellness/fitbit/workouts/${w.source_id}/gps`);
       if (result.gps_data) {
         _workoutGps = result.gps_data;
         w.gps_data = result.gps_data;
@@ -659,11 +660,11 @@
 
   function _classifyChronotype(avgMidMin) {
     const h = avgMidMin / 60;
-    if (h < 2.0) return { label: 'Early Bird',   emoji: '🌅', desc: 'You naturally wake early and feel most energized in the morning. Your body clock runs ahead of most — mornings are your prime time.' };
-    if (h < 3.5) return { label: 'Morning Type',  emoji: '☀️', desc: 'You do your best work in the first half of the day and tend to wake up feeling refreshed. Most schedules suit you well.' };
-    if (h < 5.0) return { label: 'Intermediate',  emoji: '⚖️', desc: 'Your body clock is well-aligned with typical schedules — you adapt easily between early mornings and late evenings.' };
-    if (h < 6.5) return { label: 'Evening Type',  emoji: '🌆', desc: 'You come alive in the afternoon and evening. Mornings can be a challenge — your peak energy arrives later in the day.' };
-    return        { label: 'Night Owl',           emoji: '🦉', desc: "Your body clock runs late. You're at your sharpest in the evening and may struggle with early alarms. Late nights feel natural." };
+    if (h < 2.0) return { label: 'Early Bird', labelKey: 'ui.m1513c235f4ae',   emoji: '🌅', desc: 'You naturally wake early and feel most energized in the morning. Your body clock runs ahead of most — mornings are your prime time.', descKey: 'ui.ma3583e4eb000' };
+    if (h < 3.5) return { label: 'Morning Type', labelKey: 'ui.m1bf4c1e1efe0',  emoji: '☀️', desc: 'You do your best work in the first half of the day and tend to wake up feeling refreshed. Most schedules suit you well.', descKey: 'ui.me4d3a6155150' };
+    if (h < 5.0) return { label: 'Intermediate', labelKey: 'ui.m3b1cfa63d7d9',  emoji: '⚖️', desc: 'Your body clock is well-aligned with typical schedules — you adapt easily between early mornings and late evenings.', descKey: 'ui.m71f994e2fb0e' };
+    if (h < 6.5) return { label: 'Evening Type', labelKey: 'ui.m7ac0b8ed6c5f',  emoji: '🌆', desc: 'You come alive in the afternoon and evening. Mornings can be a challenge — your peak energy arrives later in the day.', descKey: 'ui.ma5259eeedc88' };
+    return        { label: 'Night Owl', labelKey: 'ui.m6b9164eea389',           emoji: '🦉', desc: "Your body clock runs late. You're at your sharpest in the evening and may struggle with early alarms. Late nights feel natural.", descKey: 'ui.me78f7f152e6f' };
   }
 
   function fmtTimeMin(min) {
@@ -689,8 +690,8 @@
     } else {
       // /api/wellness/fitbit/data also returns Health Connect rows (see rc.24),
       // so fire the fetch whenever Fitbit OR Health Connect is enabled.
-      try { if ($fitbitFamilyEnabled) fitbitRows = await NtApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
-      try { if ($garminEnabled)  garminRows  = await NtApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`); } catch {}
+      try { if ($fitbitFamilyEnabled) fitbitRows = await NaApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
+      try { if ($garminEnabled)  garminRows  = await NaApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`); } catch {}
     }
 
     // Build merged per-date sleep records, most recent last
@@ -848,8 +849,8 @@
 
     let fitbitRows = {}, garminRows = {};
     // /api/wellness/fitbit/data also returns Health Connect rows (see rc.24).
-    try { if ($fitbitFamilyEnabled) fitbitRows = await NtApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
-    try { if ($garminEnabled) garminRows = await NtApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`); } catch {}
+    try { if ($fitbitFamilyEnabled) fitbitRows = await NaApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
+    try { if ($garminEnabled) garminRows = await NaApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`); } catch {}
 
     // History = all days EXCEPT today (today's values come from displayData)
     const history = dates.slice(0, -1).map(d => {
@@ -911,9 +912,9 @@
 
     const totalPen = (r.activity_penalty || 0) + (r.interaction_penalty || 0);
     const subs = [
-      { key: 'hrv',   val: r.hrv_score,        label: 'HRV' },
-      { key: 'rhr',   val: r.rhr_score,        label: 'Resting HR' },
-      { key: 'sleep', val: r.sleep_score_used, label: 'Sleep' },
+      { key: 'hrv',   val: r.hrv_score,        label: 'HRV', labelKey: 'ui.maf6c7c3df3fc' },
+      { key: 'rhr',   val: r.rhr_score,        label: 'Resting HR', labelKey: 'ui.m4ed409fa03f5' },
+      { key: 'sleep', val: r.sleep_score_used, label: 'Sleep', labelKey: 'ui.md466bcf52eb6' },
     ];
     // Lowest sub-score; ties broken by HRV > RHR > Sleep (most actionable first)
     const lowest = subs.reduce((m, c) => c.val < m.val ? c : m);
@@ -966,8 +967,8 @@
       try { fitbitRange = await _getWellnessRange(null, fromStr, toStr); } catch {}
     } else {
       // /api/wellness/fitbit/data also returns Health Connect rows (see rc.24).
-      try { if ($fitbitFamilyEnabled) fitbitRange = await NtApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
-      try { if ($garminEnabled)  garminRange  = await NtApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`); } catch {}
+      try { if ($fitbitFamilyEnabled) fitbitRange = await NaApi.get(`/api/wellness/fitbit/data?from=${fromStr}&to=${toStr}`); } catch {}
+      try { if ($garminEnabled)  garminRange  = await NaApi.get(`/api/wellness/garmin/data?from=${fromStr}&to=${toStr}`); } catch {}
     }
 
     const result = {};
@@ -1067,7 +1068,7 @@
     const yest  = (() => { const d = new Date(Date.now() - 86400000); return localDateStr(d); })();
     if (ds === today) return 'Today';
     if (ds === yest)  return 'Yesterday';
-    return dt.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+    return dt.toLocaleDateString($locale || undefined, { weekday: 'short', month: 'short', day: 'numeric' });
   }
 
   function fmtDateSub(ds) {
@@ -1130,7 +1131,7 @@
 
     // PWA: sequential status checks then load
     try {
-      status = await NtApi.get('/api/wellness/fitbit/status');
+      status = await NaApi.get('/api/wellness/fitbit/status');
     } catch { status = { connected: false, configured: false }; }
 
     await initWithings();
@@ -1166,13 +1167,13 @@
   /** Native: check server status in background and auto-sync if connected */
   async function _initServerStatus() {
     try {
-      status = await NtApi.get('/api/wellness/fitbit/status');
+      status = await NaApi.get('/api/wellness/fitbit/status');
     } catch { status = { connected: false, configured: false }; }
     try {
-      withingsStatus = await NtApi.get('/api/wellness/withings/status');
+      withingsStatus = await NaApi.get('/api/wellness/withings/status');
     } catch { withingsStatus = { connected: false, configured: false }; }
     try {
-      garminStatus = await NtApi.get('/api/wellness/garmin/status');
+      garminStatus = await NaApi.get('/api/wellness/garmin/status');
     } catch { garminStatus = { connected: false, configured: false }; }
 
     // Auto-sync if connected and due (per-device mode, fallback to legacy)
@@ -1236,7 +1237,7 @@
       return;
     }
     try {
-      const byDate = await NtApi.get(`/api/wellness/fitbit/data?date=${dateStr}`);
+      const byDate = await NaApi.get(`/api/wellness/fitbit/data?date=${dateStr}`);
       data = byDate[dateStr] || {};
     } catch { data = {}; }
     await loadWithingsData();
@@ -1264,7 +1265,7 @@
         const start = new Date(end);
         start.setDate(start.getDate() - (range - 1));
         const from = start.toLocaleDateString('sv-SE');
-        result = await NtApi.post('/api/wellness/fitbit/sync', { from, to: dateStr });
+        result = await NaApi.post('/api/wellness/fitbit/sync', { from, to: dateStr });
         await _pullWellnessToLocal();
         await loadData(); // reload displayed date from DB after range sync
         lastSync = new Date();
@@ -1275,7 +1276,7 @@
         showSuccess(msg);
       } else {
         // Auto-sync or 1-day range: single day
-        result = await NtApi.post('/api/wellness/fitbit/sync', { date: dateStr });
+        result = await NaApi.post('/api/wellness/fitbit/sync', { date: dateStr });
         await _pullWellnessToLocal();
         if (isNative) {
           await loadData();
@@ -1286,13 +1287,13 @@
         }
         lastSync = new Date();
         localStorage.setItem(`wl_wellness_lastSync_${dateStr}`, String(Date.now()));
-        if (!silent) showSuccess('Synced');
+        if (!silent) showSuccess($_('ui.m5da22fe4f7ac'));
       }
       _markSynced('Fitbit');
     } catch (e) {
       if (!silent) {
         if (e.message?.includes('revoked') || e.message?.includes('Not connected') || e.status === 401) {
-          showError('Fitbit disconnected — reconnect in Settings → Wellness');
+          showError($_('ui.m14a41b79f741'));
           status = { ...status, connected: false };
         } else {
           showError('Fitbit sync failed: ' + e.message);
@@ -1312,7 +1313,7 @@
     // was missed in that pass.
     connecting = true;
     try {
-      const { url } = await NtApi.get('/api/wellness/google-health/authorize' + (isNative ? '?native=1' : ''));
+      const { url } = await NaApi.get('/api/wellness/google-health/authorize' + (isNative ? '?native=1' : ''));
       if (isNative) {
         const { openOAuth } = await import('../lib/oauth-native.js');
         await openOAuth(url);
@@ -1328,12 +1329,12 @@
   async function disconnect() {
     try {
       await Promise.all([
-        NtApi.del('/api/wellness/google-health/disconnect'),
-        NtApi.del('/api/wellness/fitbit/disconnect'),
+        NaApi.del('/api/wellness/google-health/disconnect'),
+        NaApi.del('/api/wellness/fitbit/disconnect'),
       ]);
       status = { ...status, connected: false };
       data = {};
-      showSuccess('Disconnected from Fitbit');
+      showSuccess($_('ui.mbfa8639539a7'));
     } catch (e) { showError(e.message); }
   }
 
@@ -1355,19 +1356,19 @@
     } catch {}
     if (params.get('fitbit') === 'connected') {
       history.replaceState({}, '', '/#/wellness');
-      showSuccess('Fitbit connected!');
+      showSuccess($_('ui.me840570e87fd'));
     } else if (params.get('fitbit') === 'error') {
       showError('Fitbit: ' + (params.get('msg') || 'Authorization failed'));
       history.replaceState({}, '', '/#/wellness');
     } else if (params.get('withings') === 'connected') {
       history.replaceState({}, '', '/#/wellness');
-      showSuccess('Withings connected!');
+      showSuccess($_('ui.me89b1376df77'));
     } else if (params.get('withings') === 'error') {
       showError('Withings: ' + (params.get('msg') || 'Authorization failed'));
       history.replaceState({}, '', '/#/wellness');
     } else if (params.get('garmin') === 'connected') {
       history.replaceState({}, '', '/#/wellness');
-      showSuccess('Garmin connected!');
+      showSuccess($_('ui.mf46d7a811f41'));
     } else if (params.get('garmin') === 'error') {
       showError('Garmin: ' + (params.get('msg') || 'Authorization failed'));
       history.replaceState({}, '', '/#/wellness');
@@ -1454,10 +1455,10 @@
   // ── Sleep stage breakdown ──────────────────────────────────────────────────
   $: sleepTotal = (displayData.sleep_deep_min || 0) + (displayData.sleep_light_min || 0) + (displayData.sleep_rem_min || 0) + (displayData.sleep_wake_min || 0);
   $: sleepStages = [
-    { label: 'Deep',  key: 'sleep_deep_min',  color: '#6366f1' },
-    { label: 'REM',   key: 'sleep_rem_min',   color: '#8b5cf6' },
-    { label: 'Light', key: 'sleep_light_min', color: '#06b6d4' },
-    { label: 'Awake', key: 'sleep_wake_min',  color: '#f59e0b' },
+    { label: 'Deep', labelKey: 'ui.mc54e3625467b',  key: 'sleep_deep_min',  color: '#6366f1' },
+    { label: 'REM', labelKey: 'ui.mca1a9546e25a',   key: 'sleep_rem_min',   color: '#8b5cf6' },
+    { label: 'Light', labelKey: 'ui.mdbcd5e7bb7a0', key: 'sleep_light_min', color: '#06b6d4' },
+    { label: 'Awake', labelKey: 'ui.m9123b5f4812a', key: 'sleep_wake_min',  color: '#f59e0b' },
   ];
 </script>
 
@@ -1562,15 +1563,15 @@
         <!-- ── Left rail: providers list + Sync All (desktop only; replaces .wl-topbar-actions) ── -->
         <aside class="wl-left-rail">
           {#if _providerCount > 1}
-            <div class="wl-rail-heading">Providers</div>
+            <div class="wl-rail-heading">{$_('ui.m996c32b35f21')}</div>
           {/if}
 
           {#if $healthConnectEnabled && isNative}
             <div class="wl-provider-row">
               <span class="wl-brand-icon wl-provider-icon"><HealthConnectIcon /></span>
-              <span class="wl-provider-name">Health Connect</span>
+              <span class="wl-provider-name">{$_('ui.m83ec67ff390e')}</span>
               <span class="wl-status-pill" class:pill-syncing={hcSyncing} class:pill-connected={!hcSyncing}>
-                {hcSyncing ? 'Syncing…' : 'Connected'}
+                {hcSyncing ? $_('ui.m8a046cc90ab0') : $_('ui.m22965568d22a')}
               </span>
               <button class="wl-rail-sync-btn" on:click={syncHealthConnectManual} disabled={hcSyncing}
                 title={$_('wellness_page.sync.health_connect')} aria-label={$_('wellness_page.sync.health_connect')}>
@@ -1581,9 +1582,9 @@
           {#if status?.connected}
             <div class="wl-provider-row">
               <span class="wl-brand-icon wl-provider-icon"><FitbitIcon /></span>
-              <span class="wl-provider-name">Fitbit</span>
+              <span class="wl-provider-name">{$_('ui.m4bd6a14e7fb4')}</span>
               <span class="wl-status-pill" class:pill-syncing={syncing} class:pill-connected={!syncing}>
-                {syncing ? 'Syncing…' : 'Connected'}
+                {syncing ? $_('ui.m8a046cc90ab0') : $_('ui.m22965568d22a')}
               </span>
               <button class="wl-rail-sync-btn" on:click={() => sync()} disabled={syncing}
                 title={status.fitbitUserId ? $_('wellness_page.sync.fitbit_with_user', { values: { user: status.fitbitUserId } }) : $_('wellness_page.sync.fitbit')}
@@ -1595,9 +1596,9 @@
           {#if garminStatus?.connected}
             <div class="wl-provider-row">
               <span class="wl-brand-icon wl-provider-icon"><GarminIcon /></span>
-              <span class="wl-provider-name">Garmin</span>
+              <span class="wl-provider-name">{$_('ui.m11278b7fa8d9')}</span>
               <span class="wl-status-pill" class:pill-syncing={garminSyncing} class:pill-connected={!garminSyncing}>
-                {garminSyncing ? 'Syncing…' : 'Connected'}
+                {garminSyncing ? $_('ui.m8a046cc90ab0') : $_('ui.m22965568d22a')}
               </span>
               <button class="wl-rail-sync-btn" on:click={() => syncGarmin()} disabled={garminSyncing}
                 title={garminStatus.garminUserId ? $_('wellness_page.sync.garmin_with_user', { values: { user: garminStatus.garminUserId } }) : $_('wellness_page.sync.garmin')}
@@ -1609,9 +1610,9 @@
           {#if withingsStatus?.connected}
             <div class="wl-provider-row">
               <span class="wl-brand-icon wl-provider-icon"><WithingsIcon /></span>
-              <span class="wl-provider-name">Withings</span>
+              <span class="wl-provider-name">{$_('ui.mdf59a920368a')}</span>
               <span class="wl-status-pill" class:pill-syncing={withingsSyncing} class:pill-connected={!withingsSyncing}>
-                {withingsSyncing ? 'Syncing…' : 'Connected'}
+                {withingsSyncing ? $_('ui.m8a046cc90ab0') : $_('ui.m22965568d22a')}
               </span>
               <button class="wl-rail-sync-btn" on:click={() => syncWithings()} disabled={withingsSyncing}
                 title={withingsStatus.withingsUserId ? $_('wellness_page.sync.withings_with_user', { values: { user: withingsStatus.withingsUserId } }) : $_('wellness_page.sync.withings')}
@@ -1632,7 +1633,7 @@
               }}
               disabled={syncing || garminSyncing || withingsSyncing || hcSyncing}>
               <span class="material-symbols-rounded" class:wl-spin-icon={syncing || garminSyncing || withingsSyncing || hcSyncing}>autorenew</span>
-              Sync All
+              {$_('ui.maa7701cce44c')}
             </button>
           {/if}
           <!-- Last-synced footer. _lastSyncedAt is bumped by
@@ -1656,7 +1657,7 @@
                sidebar to reach Settings → Wellness. -->
           <a class="wl-manage-link" href="#/settings/wellness">
             <span class="material-symbols-rounded">tune</span>
-            Manage Providers
+            {$_('ui.m2380be98114d')}
           </a>
         </aside>
 
@@ -1737,9 +1738,9 @@
                 {@const fmt = fmtMetric(m, displayData[m.id])}
                 {@const spark = sparklinePath(_sparklineData[m.id] ?? [])}
                 {@const _statsKey = _statsMetricFor(m.id)}
-                <div class="metric-card" class:no-data={fmt == null && !loadingData} class:celebrating={_celebratingMetrics.has(m.id)} title={m.desc}>
+                <div class="metric-card" class:no-data={fmt == null && !loadingData} class:celebrating={_celebratingMetrics.has(m.id)} title={m.descKey ? $_(m.descKey) : m.desc}>
                   {#if _statsKey && fmt}
-                    <button class="metric-trend" title="View trend" aria-label="View trend in Statistics"
+                    <button class="metric-trend" title={$_('ui.m94a01f4ccff8')} aria-label={$_('ui.m921faee67326')}
                       on:click|stopPropagation={() => _openStatsFor(m.id)}>
                       <span class="material-symbols-rounded">trending_up</span>
                     </button>
@@ -1748,7 +1749,7 @@
                     <span class="material-symbols-rounded metric-icon">{m.icon}</span>
                   </div>
                   <div class="metric-body">
-                    <span class="metric-label">{m.label}</span>
+                    <span class="metric-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
                     {#if loadingData}
                       <span class="metric-value skeleton">—</span>
                     {:else if fmt}
@@ -1777,7 +1778,7 @@
               <div class="wl-center-only wl-center-workouts">
               <div class="section-title" style="margin-top:20px">
                 <span class="material-symbols-rounded" style="font-size:18px;vertical-align:middle;margin-right:4px">fitness_center</span>
-                Today's Workouts
+                {$_('ui.m86291b5e2d49')}
               </div>
               <div class="workout-list">
                 {#each _workouts as w}
@@ -1798,13 +1799,13 @@
                       {#if w.avg_hr}
                         <span class="workout-hr">
                           <span class="material-symbols-rounded" style="font-size:14px;color:var(--danger)">favorite</span>
-                          {w.avg_hr} avg{#if w.max_hr} · {w.max_hr} peak{/if} bpm
+                          {w.avg_hr} {$_('ui.mca5c8585b076')}{#if w.max_hr} · {w.max_hr} {$_('ui.m9ee9e606474e')}{/if} {$_('ui.m1072d2ef52b3')}
                         </span>
                       {/if}
                     </div>
                     <div class="workout-trail">
                       {#if w.has_gps}
-                        <span class="material-symbols-rounded" style="font-size:18px;color:var(--accent)" title="GPS route available">map</span>
+                        <span class="material-symbols-rounded" style="font-size:18px;color:var(--accent)" title={"GPS route available"}>map</span>
                       {/if}
                       <span class="material-symbols-rounded" style="font-size:18px;color:var(--text-3)">chevron_right</span>
                     </div>
@@ -1833,7 +1834,7 @@
                     {#each sleepStages as stage}
                       {@const pct = sleepTotal > 0 ? ((displayData[stage.key] || 0) / sleepTotal * 100) : 0}
                       {#if pct > 0}
-                        <div class="stage-seg" style="width:{pct.toFixed(1)}%;background:{stage.color}" title="{stage.label}: {fmtSleepStr(displayData[stage.key])}"></div>
+                        <div class="stage-seg" style="width:{pct.toFixed(1)}%;background:{stage.color}" title="{stage.labelKey ? $_(stage.labelKey) : stage.label}: {fmtSleepStr(displayData[stage.key])}"></div>
                       {/if}
                     {/each}
                   </div>
@@ -1843,7 +1844,7 @@
                       {@const pct = sleepTotal > 0 ? ((displayData[stage.key] || 0) / sleepTotal * 100) : 0}
                       {#if pct >= 3}
                         <div class="stage-leg-seg" style="width:{pct.toFixed(1)}%">
-                          <span class="stage-leg-label" style="color:{stage.color}">{stage.label}</span>
+                          <span class="stage-leg-label" style="color:{stage.color}">{stage.labelKey ? $_(stage.labelKey) : stage.label}</span>
                           <span class="stage-leg-val">{fmtSleepStr(displayData[stage.key])}</span>
                         </div>
                       {/if}
@@ -1857,7 +1858,7 @@
                       {#if val > 0}
                         <div class="stage-list-row">
                           <span class="stage-list-dot" style="background:{stage.color}"></span>
-                          <span class="stage-list-label">{stage.label}</span>
+                          <span class="stage-list-label">{stage.labelKey ? $_(stage.labelKey) : stage.label}</span>
                           <span class="stage-list-val">{fmtSleepStr(val)}</span>
                           <span class="stage-list-pct">{Math.round(pct)}%</span>
                         </div>
@@ -1874,9 +1875,9 @@
                 {@const fmt = fmtMetric(m, displayData[m.id])}
                 {@const spark = sparklinePath(_sparklineData[m.id] ?? [])}
                 {@const _statsKey = _statsMetricFor(m.id)}
-                <div class="metric-card" class:no-data={fmt == null && !loadingData} class:celebrating={_celebratingMetrics.has(m.id)} title={m.desc}>
+                <div class="metric-card" class:no-data={fmt == null && !loadingData} class:celebrating={_celebratingMetrics.has(m.id)} title={m.descKey ? $_(m.descKey) : m.desc}>
                   {#if _statsKey && fmt}
-                    <button class="metric-trend" title="View trend" aria-label="View trend in Statistics"
+                    <button class="metric-trend" title={$_('ui.m94a01f4ccff8')} aria-label={$_('ui.m921faee67326')}
                       on:click|stopPropagation={() => _openStatsFor(m.id)}>
                       <span class="material-symbols-rounded">trending_up</span>
                     </button>
@@ -1885,7 +1886,7 @@
                     <span class="material-symbols-rounded metric-icon">{m.icon}</span>
                   </div>
                   <div class="metric-body">
-                    <span class="metric-label">{m.label}</span>
+                    <span class="metric-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
                     {#if loadingData}
                       <span class="metric-value skeleton">—</span>
                     {:else if fmt}
@@ -1910,25 +1911,25 @@
             {#if _sqHasAny}
               <div class="section-title" style="margin-top:20px">
                 <span class="material-symbols-rounded" style="font-size:18px;vertical-align:middle;margin-right:4px">spa</span>
-                Sleep Quality
+                {$_('ui.m2f02617d1d4c')}
               </div>
               <div class="metric-grid">
                 {#each _sqMetrics as m}
                   {@const fmt = fmtMetric(m, displayData[m.id])}
                   {@const spark = sparklinePath(_sparklineData[m.id] ?? [])}
                   {@const _interruptCount = m.id === 'sleep_interruptions_min' ? displayData['sleep_full_awakenings'] : null}
-                  <div class="metric-card" class:no-data={fmt == null && !loadingData} title={m.desc}>
+                  <div class="metric-card" class:no-data={fmt == null && !loadingData} title={m.descKey ? $_(m.descKey) : m.desc}>
                     <div class="metric-icon-wrap">
                       <span class="material-symbols-rounded metric-icon">{m.icon}</span>
                     </div>
                     <div class="metric-body">
-                      <span class="metric-label">{m.label}</span>
+                      <span class="metric-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
                       {#if loadingData}
                         <span class="metric-value skeleton">—</span>
                       {:else if fmt}
                         <span class="metric-value">{fmt.value}<span class="metric-unit">{fmt.unit}</span></span>
                         {#if _interruptCount != null && _interruptCount > 0}
-                          <span class="metric-sub">{Math.round(_interruptCount)} {Math.round(_interruptCount) === 1 ? 'moment' : 'moments'}</span>
+                          <span class="metric-sub">{Math.round(_interruptCount)} {Math.round(_interruptCount) === 1 ? $_('ui.m72110207b649') : $_('ui.m690a8d18f75d')}</span>
                         {/if}
                       {:else}
                         <span class="metric-value no-val">—</span>
@@ -1946,24 +1947,24 @@
 
             <!-- Sleep Debt card -->
             {#if sleepDebt != null}
-              <div class="card sleep-insight-card wl-center-only" style="margin-bottom:10px" title="Sleep Debt — the total sleep you've missed relative to your goal over the selected window. Calculated as a rolling total from today backwards — always reflects the most recent nights, not the date you're viewing."  >
+              <div class="card sleep-insight-card wl-center-only" style="margin-bottom:10px" title={$_('ui.mce465c36e628')}  >
                 <div class="si-header">
                   <span class="material-symbols-rounded si-icon">battery_low</span>
                   <div class="si-title-wrap">
                     <span class="si-title">{$_('wellness_page.metric_group.sleep_debt')}</span>
-                    <span class="si-sub">Last {sleepDebt.nights} nights</span>
+                    <span class="si-sub">{$_('ui.meb970eb0951c')} {sleepDebt.nights} {$_('ui.mde5c9050dc18')}</span>
                   </div>
                   <span class="si-value {sleepDebt.debtMin === 0 ? 'si-good' : sleepDebt.debtMin < 120 ? 'si-warn' : 'si-bad'}">
-                    {sleepDebt.debtMin === 0 ? 'On track' : fmtSleepStr(sleepDebt.debtMin)}
+                    {sleepDebt.debtMin === 0 ? $_('ui.meb54d22db02b') : fmtSleepStr(sleepDebt.debtMin)}
                   </span>
                 </div>
                 {#if sleepDebt.debtMin > 0}
                   <p class="si-desc">
-                    You're {fmtSleepStr(sleepDebt.debtMin)} short of your {fmtSleepStr(sleepDebt.goalMin)} sleep goal across the last {sleepDebt.nights} nights.
-                    {#if sleepDebt.debtMin >= 120}Prioritize early bedtimes this week to recover.{:else}A consistent schedule should close the gap quickly.{/if}
+                    {$_('ui.mc0212a81b08c')} {fmtSleepStr(sleepDebt.debtMin)} {$_('ui.m503791a6ada8')} {fmtSleepStr(sleepDebt.goalMin)} {$_('ui.m4bb5f432fe33')} {sleepDebt.nights} {$_('ui.m74c82acc13f7')}
+                    {#if sleepDebt.debtMin >= 120}{$_('ui.mb736a4aca898')}{:else}{$_('ui.me82ec924b3f0')}{/if}
                   </p>
                 {:else}
-                  <p class="si-desc">You're meeting your sleep goal. Keep it up!</p>
+                  <p class="si-desc">{$_('ui.mf4aca1aba858')}</p>
                 {/if}
                 <div class="si-range-chips">
                   {#each [7, 14, 30] as n}
@@ -1975,21 +1976,21 @@
 
             <!-- Chronotype card -->
             {#if chronotype != null}
-              <div class="card sleep-insight-card wl-center-only" title="Chronotype — your natural sleep timing preference, derived from your average sleep midpoint over all available nights. This is a long-term trait that updates as more nights are synced — it always reflects your full history, not the specific date you're viewing."  >
+              <div class="card sleep-insight-card wl-center-only" title={$_('ui.mc33d09d2dbe7')}  >
                 <div class="si-header">
                   <span class="si-emoji">{chronotype.emoji ?? '⏳'}</span>
                   <div class="si-title-wrap">
                     <span class="si-title">{chronotype.label ?? 'Building Profile…'}</span>
                     <span class="si-sub">
-                      {#if chronotype.label}Avg sleep midpoint: {fmtTimeMin(chronotype.midpointMin)} · {chronotype.nights} nights
-                      {:else}{chronotype.nights}/{chronotype.needed} nights collected{/if}
+                      {#if chronotype.label}{$_('ui.m1b3b16dbbdcb')} {fmtTimeMin(chronotype.midpointMin)} · {chronotype.nights} {$_('ui.mde5c9050dc18')}
+                      {:else}{chronotype.nights}/{chronotype.needed} {$_('ui.md9f490b31973')}{/if}
                     </span>
                   </div>
                 </div>
                 {#if chronotype.label}
-                  <p class="si-desc">{chronotype.desc}</p>
+                  <p class="si-desc">{chronotype.descKey ? $_(chronotype.descKey) : chronotype.desc}</p>
                 {:else}
-                  <p class="si-desc">Syncing more nights will unlock your chronotype. Once {chronotype.needed} nights of sleep timing are available your profile will appear here.</p>
+                  <p class="si-desc">{$_('ui.m57b11625576d')} {chronotype.needed} {$_('ui.m518846b8aa56')}</p>
                 {/if}
               </div>
             {/if}
@@ -2001,9 +2002,9 @@
                 {@const fmt = fmtMetric(m, displayData[m.id])}
                 {@const spark = sparklinePath(_sparklineData[m.id] ?? [])}
                 {@const _statsKey = _statsMetricFor(m.id)}
-                <div class="metric-card" class:no-data={fmt == null && !loadingData} class:celebrating={_celebratingMetrics.has(m.id)} title={m.desc}>
+                <div class="metric-card" class:no-data={fmt == null && !loadingData} class:celebrating={_celebratingMetrics.has(m.id)} title={m.descKey ? $_(m.descKey) : m.desc}>
                   {#if _statsKey && fmt}
-                    <button class="metric-trend" title="View trend" aria-label="View trend in Statistics"
+                    <button class="metric-trend" title={$_('ui.m94a01f4ccff8')} aria-label={$_('ui.m921faee67326')}
                       on:click|stopPropagation={() => _openStatsFor(m.id)}>
                       <span class="material-symbols-rounded">trending_up</span>
                     </button>
@@ -2012,7 +2013,7 @@
                     <span class="material-symbols-rounded metric-icon" style="color:#ef4444">{m.icon}</span>
                   </div>
                   <div class="metric-body">
-                    <span class="metric-label">{m.label}</span>
+                    <span class="metric-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
                     {#if loadingData}
                       <span class="metric-value skeleton">—</span>
                     {:else if fmt}
@@ -2040,12 +2041,12 @@
                   {#each GARMIN_METRICS.filter(m => isVisible(m.id)) as m}
                     {@const raw = garminData[m.id]}
                     {#if raw != null}
-                      <div class="metric-card" title={m.desc}>
+                      <div class="metric-card" title={m.descKey ? $_(m.descKey) : m.desc}>
                         <div class="metric-icon-wrap">
                           <span class="material-symbols-rounded metric-icon">{m.icon}</span>
                         </div>
                         <div class="metric-body">
-                          <span class="metric-label">{m.label}</span>
+                          <span class="metric-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
                           <span class="metric-value">{m.fmt(raw)}<span class="metric-unit">{m.unit}</span></span>
                         </div>
                       </div>
@@ -2057,16 +2058,16 @@
 
             <!-- Daily Readiness card -->
             {#if readiness != null}
-              <div class="card sleep-insight-card readiness-card wl-center-only" style="margin-top:10px" title="Daily Readiness — how recovered and prepared your body is for today, scored 1–100. Calculated from today's HRV and RHR compared to your 30-day personal baseline, plus last night's sleep score. Always reflects today's data — not the date you're viewing."  >
+              <div class="card sleep-insight-card readiness-card wl-center-only" style="margin-top:10px" title={$_('ui.mddc34fcfa43a')}  >
                 {#if readiness.calibrating}
                   <div class="si-header">
                     <span class="material-symbols-rounded si-icon">battery_charging_full</span>
                     <div class="si-title-wrap">
                       <span class="si-title">{$_('wellness_deep.daily_readiness')}</span>
-                      <span class="si-sub">Calibrating… {readiness.data_days}/{readiness.needed} nights with HRV data</span>
+                      <span class="si-sub">{$_('ui.mefae1ac51239')} {readiness.data_days}/{readiness.needed} {$_('ui.m0eaeadaca6f1')}</span>
                     </div>
                   </div>
-                  <p class="si-desc">Needs {readiness.needed} nights where your device recorded HRV during sleep. Fitbit only captures HRV on nights with a clean optical reading — wearing the device snugly helps.</p>
+                  <p class="si-desc">{$_('ui.m5f9bbdd124f8')} {readiness.needed} {$_('ui.m384191261acf')}</p>
                 {:else}
                   <div class="readiness-header">
                     <div class="readiness-header-left">
@@ -2074,13 +2075,13 @@
                       <div class="si-title-wrap">
                         <span class="si-title">{$_('wellness_deep.daily_readiness')}</span>
                         <span class="si-sub">
-                          HRV baseline {readiness.hrv_baseline} ms{readiness.rhr_baseline != null ? ` · RHR baseline ${readiness.rhr_baseline} bpm` : ''} · {readiness.data_days} days
+                          {$_('ui.mf5a99cbcc42d')} {readiness.hrv_baseline} {$_('ui.mf785c3ce1d58')}{readiness.rhr_baseline != null ? ` · RHR baseline ${readiness.rhr_baseline} bpm` : ''} · {readiness.data_days} {$_('ui.mab51004e9d71')}
                         </span>
                       </div>
                     </div>
                     <div class="readiness-score-wrap">
                       <span class="readiness-score" style="color:{readiness.color}">{readiness.score}</span>
-                      <span class="readiness-label" style="color:{readiness.color}">{readiness.label}</span>
+                      <span class="readiness-label" style="color:{readiness.color}">{readiness.labelKey ? $_(readiness.labelKey) : readiness.label}</span>
                     </div>
                   </div>
                   <div class="readiness-drivers">
@@ -2113,7 +2114,7 @@
                   {#if readiness.data_days < 30}
                     <div class="si-calibration-note">
                       <span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle">info</span>
-                      Based on {readiness.data_days} days — accuracy improves as more data is collected.
+                      {$_('ui.me90a77266e29')} {readiness.data_days} {$_('ui.mb46f7cf5b401')}
                     </div>
                   {/if}
                 {/if}
@@ -2122,20 +2123,20 @@
 
             <!-- Resilience card -->
             {@const _resCat       = displayData.resilience_category}
-            {@const _resCatLabel  = _resCat === 3 ? 'Optimal' : _resCat === 2 ? 'Balanced' : _resCat === 1 ? 'Low' : null}
-            {@const _resColor     = _resCatLabel === 'Optimal' ? 'var(--accent)' : _resCatLabel === 'Balanced' ? '#f59e0b' : _resCatLabel === 'Low' ? '#ef4444' : 'var(--text-3)'}
-            {@const _resText      = _resCatLabel === 'Optimal' ? "Your body is showing strong signs of recovery and balance. A great day to take on what matters to you."
-                                  : _resCatLabel === 'Balanced' ? "Your body is in a steady state today. A good day to maintain your routine and stay consistent."
-                                  : _resCatLabel === 'Low' ? "Your body is asking for a bit more rest today. Taking it easier is a kind way to help yourself recharge."
+            {@const _resCatLabel  = _resCat === 3 ? $_('ui.md34775bf1b81') : _resCat === 2 ? $_('ui.m5386ea5db81c') : _resCat === 1 ? $_('ui.mf793de205ead') : null}
+            {@const _resColor     = _resCatLabel === 'Optimal' ? $_('ui.m7094c75c6cdd') : _resCatLabel === 'Balanced' ? '#f59e0b' : _resCatLabel === 'Low' ? "#ef4444" : $_('ui.m2bd057416dc0')}
+            {@const _resText      = _resCatLabel === 'Optimal' ? $_('ui.mbdb1cb957c60')
+                                  : _resCatLabel === 'Balanced' ? $_('ui.m2eff085262fa')
+                                  : _resCatLabel === 'Low' ? $_('ui.m7618863a974a')
                                   : null}
             {#if _resCatLabel}
-              <div class="card sleep-insight-card readiness-card wl-center-only" style="margin-top:10px" title="Resilience — how your body is handling daily stress, classified as Optimal, Balanced, or Low. Combines physical calmness (HRV + resting heart rate), activity balance (step + active-minute target adherence), and sleep patterns (last night plus 7-day reservoir).">
+              <div class="card sleep-insight-card readiness-card wl-center-only" style="margin-top:10px" title={$_('ui.m911e1e3f1b43')}>
                 <div class="readiness-header">
                   <div class="readiness-header-left">
                     <span class="material-symbols-rounded si-icon">self_improvement</span>
                     <div class="si-title-wrap">
                       <span class="si-title">{$_('wellness_deep.resilience')}</span>
-                      <span class="si-sub">Score: {Math.round(displayData.resilience_score ?? 0)} / 100</span>
+                      <span class="si-sub">{$_('ui.m9689a814f358')} {Math.round(displayData.resilience_score ?? 0)} / 100</span>
                     </div>
                   </div>
                   <div class="readiness-score-wrap">
@@ -2165,11 +2166,11 @@
           {#if !loadingData && Object.keys(displayData).length === 0}
             <div class="empty-state">
               <span class="material-symbols-rounded" style="font-size:48px;opacity:0.18">monitor_heart</span>
-              <p>No data for {isToday ? 'today' : fmtDate(dateStr)}.</p>
+              <p>{$_('ui.m6e4c2630bcfd')} {isToday ? $_('ui.me0f4f767ac88') : fmtDate(dateStr)}.</p>
               {#if $offlineState.online === false}
                 <p class="text-3 text-sm">{$_('wellness_page.empty.offline')}</p>
               {:else}
-                <p class="text-3 text-sm">Tap <strong>Sync</strong> to pull the latest from your device.</p>
+                <p class="text-3 text-sm">{$_('ui.m464d23b54f26')} <strong>{$_('ui.m8d261a372fde')}</strong> {$_('ui.m1da99f68d322')}</p>
               {/if}
             </div>
           {/if}
@@ -2182,12 +2183,12 @@
             {#each BODY_METRICS.filter(m => isVisible(m.id)) as m}
               {@const raw = withingsData[m.id] ?? data[m.id] ?? null}
               {@const formatted = fmtBodyMetric(m, raw)}
-              <div class="metric-card" class:no-data={formatted == null && !loadingData} class:celebrating={_celebratingMetrics.has(m.id)} title={m.desc}>
+              <div class="metric-card" class:no-data={formatted == null && !loadingData} class:celebrating={_celebratingMetrics.has(m.id)} title={m.descKey ? $_(m.descKey) : m.desc}>
                 <div class="metric-icon-wrap">
                   <span class="material-symbols-rounded metric-icon">{m.icon}</span>
                 </div>
                 <div class="metric-body">
-                  <span class="metric-label">{m.label}</span>
+                  <span class="metric-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
                   {#if loadingData}
                     <span class="metric-value skeleton">—</span>
                   {:else if formatted}
@@ -2210,12 +2211,12 @@
                 {#each BODY_SCORE_METRICS.filter(m => isVisible(m.id)) as m}
                   {@const raw = withingsData[m.id] ?? data[m.id] ?? null}
                   {#if raw != null}
-                    <div class="metric-card" title={m.desc}>
+                    <div class="metric-card" title={m.descKey ? $_(m.descKey) : m.desc}>
                       <div class="metric-icon-wrap">
                         <span class="material-symbols-rounded metric-icon">{m.icon}</span>
                       </div>
                       <div class="metric-body">
-                        <span class="metric-label">{m.label}</span>
+                        <span class="metric-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
                         <span class="metric-value">{m.fmt(raw)}<span class="metric-unit">{m.unit}</span></span>
                       </div>
                     </div>
@@ -2239,7 +2240,7 @@
                 <div class="seg-header">
                   <span></span>
                   <span>{$_('wellness_deep.muscle')}</span>
-                  <span>Lean</span>
+                  <span>{$_('ui.mfa3a0bd53dd1')}</span>
                 </div>
                 {#each [
                   { label: 'Left Arm',  muscle: 'muscle_mass_left_arm_kg',  lean: 'lean_mass_left_arm_kg'  },
@@ -2252,7 +2253,7 @@
                     {@const mKg = withingsData[seg.muscle] ?? data[seg.muscle]}
                     {@const lKg = withingsData[seg.lean] ?? data[seg.lean]}
                     <div class="seg-row">
-                      <span class="seg-label">{seg.label}</span>
+                      <span class="seg-label">{seg.labelKey ? $_(seg.labelKey) : seg.label}</span>
                       <span class="seg-val">{mKg != null ? fmtWeight(mKg).value + ' ' + fmtWeight(mKg).unit : '—'}</span>
                       <span class="seg-val">{lKg != null ? fmtWeight(lKg).value + ' ' + fmtWeight(lKg).unit : '—'}</span>
                     </div>
@@ -2265,11 +2266,11 @@
           {#if !loadingData && Object.keys(withingsData).length === 0 && !BODY_METRICS.some(m => data[m.id] != null)}
             <div class="empty-state">
               <span class="material-symbols-rounded" style="font-size:48px;opacity:0.18">scale</span>
-              <p>No body composition data for {isToday ? 'today' : fmtDate(dateStr)}.</p>
+              <p>{$_('ui.me9b56169b15a')} {isToday ? $_('ui.me0f4f767ac88') : fmtDate(dateStr)}.</p>
               {#if $offlineState.online === false}
                 <p class="text-3 text-sm">{$_('wellness_page.empty.offline')}</p>
               {:else}
-                <p class="text-3 text-sm">Sync your scale or fitness tracker to see body stats here.</p>
+                <p class="text-3 text-sm">{$_('ui.m3ea5092b2c39')}</p>
               {/if}
             </div>
           {/if}
@@ -2281,21 +2282,21 @@
             </div>
             <h2 class="connect-title">{$_('wellness_deep.connect_withings')}</h2>
             <p class="connect-desc">
-              Sync body composition from your Withings scale. Weight, body fat %, muscle mass, bone mass, and more — automatically filled into your diary.
+              {$_('ui.m570dd4b0f088')}
             </p>
             <div class="connect-chips">
-              <span class="connect-chip"><span class="material-symbols-rounded">monitor_weight</span> Weight</span>
-              <span class="connect-chip"><span class="material-symbols-rounded">percent</span> Body Fat %</span>
-              <span class="connect-chip"><span class="material-symbols-rounded">fitness_center</span> Muscle Mass</span>
-              <span class="connect-chip"><span class="material-symbols-rounded">water_drop</span> Body Water</span>
-              <span class="connect-chip"><span class="material-symbols-rounded">emergency</span> Bone Mass</span>
-              <span class="connect-chip"><span class="material-symbols-rounded">ecg_heart</span> ECG &amp; AFib</span>
+              <span class="connect-chip"><span class="material-symbols-rounded">monitor_weight</span> {$_('ui.m81d27ef6d503')}</span>
+              <span class="connect-chip"><span class="material-symbols-rounded">percent</span> {$_('ui.m9c0e4652a292')}</span>
+              <span class="connect-chip"><span class="material-symbols-rounded">fitness_center</span> {$_('ui.mde6012251ab0')}</span>
+              <span class="connect-chip"><span class="material-symbols-rounded">water_drop</span> {$_('ui.m7a976b062eaa')}</span>
+              <span class="connect-chip"><span class="material-symbols-rounded">emergency</span> {$_('ui.mce5b605c7e9a')}</span>
+              <span class="connect-chip"><span class="material-symbols-rounded">ecg_heart</span> {$_('ui.m7573415b42a3')}</span>
             </div>
             <button class="btn btn-primary connect-btn" on:click={connectWithings} disabled={withingsConnecting}>
               {#if withingsConnecting}
-                <span class="material-symbols-rounded spin">autorenew</span> Connecting…
+                <span class="material-symbols-rounded spin">autorenew</span> {$_('ui.m72021eb70e91')}
               {:else}
-                <span class="material-symbols-rounded">link</span> Connect Withings
+                <span class="material-symbols-rounded">link</span> {$_('ui.m53fc0f42fdce')}
               {/if}
             </button>
           </div>
@@ -2316,19 +2317,19 @@
           {#if readiness != null && !readiness.calibrating && readiness.score != null}
             <button type="button" class="wl-readiness-strip"
               on:click={() => activeTab = 'heart'}
-              title="Daily Readiness — how recovered and prepared your body is for today. Tap for details.">
+              title={$_('ui.mf1421c0cbd20')}>
               <div class="wl-rs-icon" style="background:{readiness.color || 'var(--accent)'}22;color:{readiness.color || 'var(--accent)'}">
                 <span class="material-symbols-rounded">bolt</span>
               </div>
               <div class="wl-rs-copy">
-                <span class="wl-rs-label">Today's Readiness</span>
+                <span class="wl-rs-label">{$_('ui.md8d6fff45a9f')}</span>
                 <span class="wl-rs-band">{readiness.band || ''}</span>
               </div>
               <span class="wl-rs-score" style="color:{readiness.color || 'var(--accent)'}">{Math.round(readiness.score)}</span>
             </button>
           {/if}
 
-          <div class="wl-rail-heading">Insights</div>
+          <div class="wl-rail-heading">{$_('ui.m2a932f90172e')}</div>
 
           {#if activeTab === 'activity'}
             <!-- Activity rail: derived weekly aggregates from the
@@ -2345,35 +2346,35 @@
             {@const _goalHits   = _stepSeries.filter(v => (Number(v) || 0) >= 10000).length}
             {#if _stepSeries.some(v => v != null) || _amSeries.some(v => v != null)}
               <div class="wl-rail-only">
-                <div class="card sleep-insight-card" style="margin-bottom:10px" title="7-day activity totals from your synced data.">
+                <div class="card sleep-insight-card" style="margin-bottom:10px" title={$_('ui.md9df975745c7')}>
                   <div class="si-header">
                     <span class="material-symbols-rounded si-icon">calendar_view_week</span>
                     <div class="si-title-wrap">
-                      <span class="si-title">This Week</span>
-                      <span class="si-sub">Last 7 days</span>
+                      <span class="si-title">{$_('ui.m017cb5682cc3')}</span>
+                      <span class="si-sub">{$_('ui.m0603deca4fcb')}</span>
                     </div>
                   </div>
                   <div class="wl-rail-stat-grid">
                     <div class="wl-rail-stat">
                       <span class="wl-rail-stat-val">{_stepsTotal.toLocaleString()}</span>
-                      <span class="wl-rail-stat-lbl">Total steps</span>
+                      <span class="wl-rail-stat-lbl">{$_('ui.m3e3d627f94ea')}</span>
                     </div>
                     <div class="wl-rail-stat">
                       <span class="wl-rail-stat-val">{_stepsAvg.toLocaleString()}</span>
-                      <span class="wl-rail-stat-lbl">Daily avg</span>
+                      <span class="wl-rail-stat-lbl">{$_('ui.m503c777e5e5d')}</span>
                     </div>
                     <div class="wl-rail-stat">
                       <span class="wl-rail-stat-val">{_goalHits}/7</span>
-                      <span class="wl-rail-stat-lbl">≥ 10k days</span>
+                      <span class="wl-rail-stat-lbl">{$_('ui.m3d3631bb2e4a')}</span>
                     </div>
                     <div class="wl-rail-stat">
                       <span class="wl-rail-stat-val">{Math.round(_amTotal).toLocaleString()}</span>
-                      <span class="wl-rail-stat-lbl">Active min</span>
+                      <span class="wl-rail-stat-lbl">{$_('ui.md45c1490473b')}</span>
                     </div>
                   </div>
                   {#if _calTotal > 0}
                     <p class="si-desc" style="margin-top:8px">
-                      Burned <strong>{Math.round(_calTotal).toLocaleString()} kcal</strong> total this week.
+                      {$_('ui.m6d747b334438')} <strong>{Math.round(_calTotal).toLocaleString()} kcal</strong> {$_('ui.mde4a6d475ac6')}
                     </p>
                   {/if}
                 </div>
@@ -2389,8 +2390,8 @@
                   <div class="si-header">
                     <span class="material-symbols-rounded si-icon">fitness_center</span>
                     <div class="si-title-wrap">
-                      <span class="si-title">Today's Workouts</span>
-                      <span class="si-sub">{_workouts.length} {_workouts.length === 1 ? 'session' : 'sessions'}</span>
+                      <span class="si-title">{$_('ui.m86291b5e2d49')}</span>
+                      <span class="si-sub">{_workouts.length} {_workouts.length === 1 ? $_('ui.m3f3af1ecebbd') : $_('ui.m1225ae6c1ae6')}</span>
                     </div>
                   </div>
                   <div class="wl-rail-workouts">
@@ -2409,7 +2410,7 @@
                           </span>
                         </div>
                         {#if w.has_gps}
-                          <span class="material-symbols-rounded wl-rail-workout-gps" title="GPS route available">map</span>
+                          <span class="material-symbols-rounded wl-rail-workout-gps" title={"GPS route available"}>map</span>
                         {/if}
                       </button>
                     {/each}
@@ -2421,24 +2422,24 @@
             <!-- Sleep Debt (rail duplicate) -->
             {#if sleepDebt != null}
               <div class="wl-rail-only">
-                <div class="card sleep-insight-card" style="margin-bottom:10px" title="Sleep Debt — the total sleep you've missed relative to your goal over the selected window. Calculated as a rolling total from today backwards — always reflects the most recent nights, not the date you're viewing.">
+                <div class="card sleep-insight-card" style="margin-bottom:10px" title={$_('ui.mce465c36e628')}>
                   <div class="si-header">
                     <span class="material-symbols-rounded si-icon">battery_low</span>
                     <div class="si-title-wrap">
                       <span class="si-title">{$_('wellness_page.metric_group.sleep_debt')}</span>
-                      <span class="si-sub">Last {sleepDebt.nights} nights</span>
+                      <span class="si-sub">{$_('ui.meb970eb0951c')} {sleepDebt.nights} {$_('ui.mde5c9050dc18')}</span>
                     </div>
                     <span class="si-value {sleepDebt.debtMin === 0 ? 'si-good' : sleepDebt.debtMin < 120 ? 'si-warn' : 'si-bad'}">
-                      {sleepDebt.debtMin === 0 ? 'On track' : fmtSleepStr(sleepDebt.debtMin)}
+                      {sleepDebt.debtMin === 0 ? $_('ui.meb54d22db02b') : fmtSleepStr(sleepDebt.debtMin)}
                     </span>
                   </div>
                   {#if sleepDebt.debtMin > 0}
                     <p class="si-desc">
-                      You're {fmtSleepStr(sleepDebt.debtMin)} short of your {fmtSleepStr(sleepDebt.goalMin)} sleep goal across the last {sleepDebt.nights} nights.
-                      {#if sleepDebt.debtMin >= 120}Prioritize early bedtimes this week to recover.{:else}A consistent schedule should close the gap quickly.{/if}
+                      {$_('ui.mc0212a81b08c')} {fmtSleepStr(sleepDebt.debtMin)} {$_('ui.m503791a6ada8')} {fmtSleepStr(sleepDebt.goalMin)} {$_('ui.m4bb5f432fe33')} {sleepDebt.nights} {$_('ui.m74c82acc13f7')}
+                      {#if sleepDebt.debtMin >= 120}{$_('ui.mb736a4aca898')}{:else}{$_('ui.me82ec924b3f0')}{/if}
                     </p>
                   {:else}
-                    <p class="si-desc">You're meeting your sleep goal. Keep it up!</p>
+                    <p class="si-desc">{$_('ui.mf4aca1aba858')}</p>
                   {/if}
                   <div class="si-range-chips">
                     {#each [7, 14, 30] as n}
@@ -2451,21 +2452,21 @@
             <!-- Chronotype (rail duplicate) -->
             {#if chronotype != null}
               <div class="wl-rail-only">
-                <div class="card sleep-insight-card" title="Chronotype — your natural sleep timing preference, derived from your average sleep midpoint over all available nights. This is a long-term trait that updates as more nights are synced — it always reflects your full history, not the specific date you're viewing.">
+                <div class="card sleep-insight-card" title={$_('ui.mc33d09d2dbe7')}>
                   <div class="si-header">
                     <span class="si-emoji">{chronotype.emoji ?? '⏳'}</span>
                     <div class="si-title-wrap">
                       <span class="si-title">{chronotype.label ?? 'Building Profile…'}</span>
                       <span class="si-sub">
-                        {#if chronotype.label}Avg sleep midpoint: {fmtTimeMin(chronotype.midpointMin)} · {chronotype.nights} nights
-                        {:else}{chronotype.nights}/{chronotype.needed} nights collected{/if}
+                        {#if chronotype.label}{$_('ui.m1b3b16dbbdcb')} {fmtTimeMin(chronotype.midpointMin)} · {chronotype.nights} {$_('ui.mde5c9050dc18')}
+                        {:else}{chronotype.nights}/{chronotype.needed} {$_('ui.md9f490b31973')}{/if}
                       </span>
                     </div>
                   </div>
                   {#if chronotype.label}
-                    <p class="si-desc">{chronotype.desc}</p>
+                    <p class="si-desc">{chronotype.descKey ? $_(chronotype.descKey) : chronotype.desc}</p>
                   {:else}
-                    <p class="si-desc">Syncing more nights will unlock your chronotype. Once {chronotype.needed} nights of sleep timing are available your profile will appear here.</p>
+                    <p class="si-desc">{$_('ui.m57b11625576d')} {chronotype.needed} {$_('ui.m518846b8aa56')}</p>
                   {/if}
                 </div>
               </div>
@@ -2474,16 +2475,16 @@
             <!-- Daily Readiness (rail duplicate) -->
             {#if readiness != null}
               <div class="wl-rail-only">
-                <div class="card sleep-insight-card readiness-card" style="margin-top:0" title="Daily Readiness — how recovered and prepared your body is for today, scored 1–100. Calculated from today's HRV and RHR compared to your 30-day personal baseline, plus last night's sleep score. Always reflects today's data — not the date you're viewing.">
+                <div class="card sleep-insight-card readiness-card" style="margin-top:0" title={$_('ui.mddc34fcfa43a')}>
                   {#if readiness.calibrating}
                     <div class="si-header">
                       <span class="material-symbols-rounded si-icon">battery_charging_full</span>
                       <div class="si-title-wrap">
                         <span class="si-title">{$_('wellness_deep.daily_readiness')}</span>
-                        <span class="si-sub">Calibrating… {readiness.data_days}/{readiness.needed} nights with HRV data</span>
+                        <span class="si-sub">{$_('ui.mefae1ac51239')} {readiness.data_days}/{readiness.needed} {$_('ui.m0eaeadaca6f1')}</span>
                       </div>
                     </div>
-                    <p class="si-desc">Needs {readiness.needed} nights where your device recorded HRV during sleep. Fitbit only captures HRV on nights with a clean optical reading — wearing the device snugly helps.</p>
+                    <p class="si-desc">{$_('ui.m5f9bbdd124f8')} {readiness.needed} {$_('ui.m384191261acf')}</p>
                   {:else}
                     <div class="readiness-header">
                       <div class="readiness-header-left">
@@ -2491,13 +2492,13 @@
                         <div class="si-title-wrap">
                           <span class="si-title">{$_('wellness_deep.daily_readiness')}</span>
                           <span class="si-sub">
-                            HRV baseline {readiness.hrv_baseline} ms{readiness.rhr_baseline != null ? ` · RHR baseline ${readiness.rhr_baseline} bpm` : ''} · {readiness.data_days} days
+                            {$_('ui.mf5a99cbcc42d')} {readiness.hrv_baseline} {$_('ui.mf785c3ce1d58')}{readiness.rhr_baseline != null ? ` · RHR baseline ${readiness.rhr_baseline} bpm` : ''} · {readiness.data_days} {$_('ui.mab51004e9d71')}
                           </span>
                         </div>
                       </div>
                       <div class="readiness-score-wrap">
                         <span class="readiness-score" style="color:{readiness.color}">{readiness.score}</span>
-                        <span class="readiness-label" style="color:{readiness.color}">{readiness.label}</span>
+                        <span class="readiness-label" style="color:{readiness.color}">{readiness.labelKey ? $_(readiness.labelKey) : readiness.label}</span>
                       </div>
                     </div>
                     <div class="readiness-drivers">
@@ -2530,7 +2531,7 @@
                     {#if readiness.data_days < 30}
                       <div class="si-calibration-note">
                         <span class="material-symbols-rounded" style="font-size:14px;vertical-align:middle">info</span>
-                        Based on {readiness.data_days} days — accuracy improves as more data is collected.
+                        {$_('ui.me90a77266e29')} {readiness.data_days} {$_('ui.mb46f7cf5b401')}
                       </div>
                     {/if}
                   {/if}
@@ -2539,21 +2540,21 @@
             {/if}
             <!-- Resilience (rail duplicate) -->
             {@const _resCatR      = displayData.resilience_category}
-            {@const _resCatLabelR = _resCatR === 3 ? 'Optimal' : _resCatR === 2 ? 'Balanced' : _resCatR === 1 ? 'Low' : null}
-            {@const _resColorR    = _resCatLabelR === 'Optimal' ? 'var(--accent)' : _resCatLabelR === 'Balanced' ? '#f59e0b' : _resCatLabelR === 'Low' ? '#ef4444' : 'var(--text-3)'}
-            {@const _resTextR     = _resCatLabelR === 'Optimal' ? "Your body is showing strong signs of recovery and balance. A great day to take on what matters to you."
-                                  : _resCatLabelR === 'Balanced' ? "Your body is in a steady state today. A good day to maintain your routine and stay consistent."
-                                  : _resCatLabelR === 'Low' ? "Your body is asking for a bit more rest today. Taking it easier is a kind way to help yourself recharge."
+            {@const _resCatLabelR = _resCatR === 3 ? $_('ui.md34775bf1b81') : _resCatR === 2 ? $_('ui.m5386ea5db81c') : _resCatR === 1 ? $_('ui.mf793de205ead') : null}
+            {@const _resColorR    = _resCatLabelR === 'Optimal' ? $_('ui.m7094c75c6cdd') : _resCatLabelR === 'Balanced' ? '#f59e0b' : _resCatLabelR === 'Low' ? "#ef4444" : $_('ui.m2bd057416dc0')}
+            {@const _resTextR     = _resCatLabelR === 'Optimal' ? $_('ui.mbdb1cb957c60')
+                                  : _resCatLabelR === 'Balanced' ? $_('ui.m2eff085262fa')
+                                  : _resCatLabelR === 'Low' ? $_('ui.m7618863a974a')
                                   : null}
             {#if _resCatLabelR}
               <div class="wl-rail-only">
-                <div class="card sleep-insight-card readiness-card" style="margin-top:10px" title="Resilience — how your body is handling daily stress, classified as Optimal, Balanced, or Low. Combines physical calmness (HRV + resting heart rate), activity balance (step + active-minute target adherence), and sleep patterns (last night plus 7-day reservoir).">
+                <div class="card sleep-insight-card readiness-card" style="margin-top:10px" title={$_('ui.m911e1e3f1b43')}>
                   <div class="readiness-header">
                     <div class="readiness-header-left">
                       <span class="material-symbols-rounded si-icon">self_improvement</span>
                       <div class="si-title-wrap">
                         <span class="si-title">{$_('wellness_deep.resilience')}</span>
-                        <span class="si-sub">Score: {Math.round(displayData.resilience_score ?? 0)} / 100</span>
+                        <span class="si-sub">{$_('ui.m9689a814f358')} {Math.round(displayData.resilience_score ?? 0)} / 100</span>
                       </div>
                     </div>
                     <div class="readiness-score-wrap">
@@ -2591,12 +2592,12 @@
                     {#each BODY_SCORE_METRICS.filter(m => isVisible(m.id)) as m}
                       {@const raw = withingsData[m.id] ?? data[m.id] ?? null}
                       {#if raw != null}
-                        <div class="metric-card" title={m.desc}>
+                        <div class="metric-card" title={m.descKey ? $_(m.descKey) : m.desc}>
                           <div class="metric-icon-wrap">
                             <span class="material-symbols-rounded metric-icon">{m.icon}</span>
                           </div>
                           <div class="metric-body">
-                            <span class="metric-label">{m.label}</span>
+                            <span class="metric-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
                             <span class="metric-value">{m.fmt(raw)}<span class="metric-unit">{m.unit}</span></span>
                           </div>
                         </div>
@@ -2651,12 +2652,12 @@
       {#if _loadingGps}
         <div class="workout-map-placeholder">
           <span class="material-symbols-rounded spin">autorenew</span>
-          <span>Loading route…</span>
+          <span>{$_('ui.m30dcee57882e')}</span>
         </div>
       {:else if _workoutGps && _workoutGps.length > 1}
         <div class="workout-map" id="workout-map-container"></div>
         {#await import('https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js') then L}
-          {@const _ = (() => {
+          {@const _mapInit = (() => {
             // Render map after DOM is ready
             setTimeout(() => {
               const el = document.getElementById('workout-map-container');
@@ -2670,7 +2671,7 @@
                 // Draw segments colored by HR zone
                 for (let i = 1; i < pts.length; i++) {
                   const hr = pts[i].hr || pts[i-1].hr || 100;
-                  const color = hr > 170 ? '#ef4444' : hr > 150 ? '#f59e0b' : hr > 130 ? '#22c55e' : '#3b82f6';
+                  const color = hr > 170 ? "#ef4444" : hr > 150 ? '#f59e0b' : hr > 130 ? '#22c55e' : '#3b82f6';
                   L.polyline([[pts[i-1].lat, pts[i-1].lng], [pts[i].lat, pts[i].lng]], {
                     color, weight: 4, opacity: 0.85
                   }).addTo(map);
@@ -2690,7 +2691,7 @@
           <span class="material-symbols-rounded">map</span>
           <span>{$_('wellness_deep.no_gps')}</span>
           <button class="btn btn-ghost" style="margin-top:8px;font-size:13px" on:click={() => _loadGpsData(w)}>
-            <span class="material-symbols-rounded" style="font-size:16px">refresh</span> Retry
+            <span class="material-symbols-rounded" style="font-size:16px">refresh</span> {$_('ui.m942087cc2d41')}
           </button>
         </div>
       {/if}

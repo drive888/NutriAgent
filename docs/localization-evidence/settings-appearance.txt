@@ -1,0 +1,175 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/settings/appearance".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/appearance
+	2 container app
+		71 button 打开菜单
+		72 container
+			86 container 主导航
+				87 button 饮食日记
+					88 text book
+					89 text 饮食日记
+				90 button 食物
+					91 text restaurant
+					92 text 食物
+				93 button 统计
+					94 text bar_chart
+					95 text 统计
+				96 button 目标
+					97 text flag
+					98 text 目标
+				99 button 设置
+					100 text settings
+					101 text 设置
+		102 container
+			103 container
+				104 button 返回
+				105 heading 外观, Value: 1
+					106 text 外观
+			107 text search
+			108 search text field (settable)
+			109 button person 个人资料
+				110 text person
+				111 text 个人资料
+			112 text 显示
+			113 button contrast 外观
+				114 text contrast
+				115 text 外观
+			116 button language 区域与单位
+				117 text language
+				118 text 区域与单位
+			119 button book 饮食日记
+				120 text book
+				121 text 饮食日记
+			122 button water_drop 饮水
+				123 text water_drop
+				124 text 饮水
+			125 button restaurant 食物
+				126 text restaurant
+				127 text 食物
+			128 text 数据与记录
+			129 button flag 热量目标
+				130 text flag
+				131 text 热量目标
+			132 button straighten 身体数据
+				133 text straighten
+				134 text 身体数据
+			135 button bar_chart 统计
+				136 text bar_chart
+				137 text 统计
+			138 button science 营养素
+				139 text science
+				140 text 营养素
+			141 button category 分类
+				142 text category
+				143 text 分类
+			144 button straighten 自定义单位
+				145 text straighten
+				146 text 自定义单位
+			147 text 集成
+			148 button link 食物来源
+				149 text link
+				150 text 食物来源
+			151 button smart_toy AI 助手
+				152 text smart_toy
+				153 text AI 助手
+			154 button favorite 健康
+				155 text favorite
+				156 text 健康
+			157 text 应用
+			158 button notifications 通知
+				159 text notifications
+				160 text 通知
+			161 button backup 备份与恢复
+				162 text backup
+				163 text 备份与恢复
+			164 button import_export 导入与导出
+				165 text import_export
+				166 text 导入与导出
+			167 button group 食物共享
+				168 text group
+				169 text 食物共享
+			170 button system_update 更新
+				171 text system_update
+				172 text 更新
+			173 button troubleshoot 诊断
+				174 text troubleshoot
+				175 text 诊断
+			176 text 管理
+			177 button group 用户
+				178 text group
+				179 text 用户
+			180 button vpn_key 身份验证
+				181 text vpn_key
+				182 text 身份验证
+			183 button mail 电子邮件 (SMTP)
+				184 text mail
+				185 text 电子邮件 (SMTP)
+			186 button key API 令牌
+				187 text key
+				188 text API 令牌
+			189 button webhook Webhook 通知
+				190 text webhook
+				191 text Webhook 通知
+			192 text NUTRITRACE
+			193 button volunteer_activism 支持
+				194 text volunteer_activism
+				195 text 支持
+			196 button info 关于
+				197 text info
+				198 text 关于
+			199 text 主题与颜色 整个应用使用的系统主题和强调色配色。 主题
+			200 pop up button (collapsed, settable) Value: 系统默认, Secondary Actions: Expand
+				201 menu
+					202 (selected) 系统默认
+					203 深色
+					204 浅度睡眠
+			205 text 强调色
+			206 button check, Help: 薄荷绿
+			207 button 蓝色
+			208 button 红色
+			209 button 紫色
+			210 button 橙色
+			211 button 蓝绿色
+			212 button 粉色
+			213 button 黄色
+			214 button 靛蓝色
+			215 button 青柠绿
+			216 button 玫瑰色
+			217 button 青色
+			218 button colorize, Help: 自定义颜色
+			219 text 导航 设置应用内的导航方式和打开应用时显示的页面。 导航样式
+			220 pop up button (collapsed, settable) Value: 两者, Secondary Actions: Expand
+				221 menu
+					222 底部标签栏
+					223 侧边面板
+					224 (selected) 两者
+			225 text 起始页面
+			226 pop up button (collapsed, settable) Value: 饮食日记, Secondary Actions: Expand
+				227 menu
+					228 (selected) 饮食日记
+					229 食物
+					230 统计
+					231 健康
+					232 目标
+					233 设置
+			234 text 强制使用移动端布局 适合喜欢在大屏幕上使用紧凑手机布局的用户。开启后，所有视口宽度下的大屏断点布局（饮食日记右侧栏、设置双栏布局、周视图条）均会禁用，同时关闭拖动复制餐食功能。如需完整的大屏体验，请保持关闭。
+			235 switch 0
+			236 text 动效与界面装饰 动画强度和页顶横幅样式。 减少动态效果
+			237 switch 0
+			238 text 目标达成脉冲动画 达成每日目标时，饮食日记中的营养条会显示脉冲动画。如需接收目标达成推送，请前往通知设置。
+			239 switch 1
+			240 text 页面横幅 每个页面顶部的页眉样式。“动态”为采用主题强调色渐变和所选动画样式的紧凑横条；“渐变”为相同横条，但无动画；“关闭”为简洁的玻璃质感页眉。
+			241 pop up button (collapsed, settable) Value: 动态, Secondary Actions: Expand
+				242 menu
+					243 (selected) 动态
+					244 渐变
+					245 关闭
+			246 text 动画样式 “微光”为柔和的白光扫过；“流转”为色相缓慢轮转；“脉冲”为轻柔的呼吸效果；“极光”为带主题强调色的柔和光云。所有样式均遵循“减少动态效果”设置。
+			247 pop up button (collapsed, settable) Value: 微光, Secondary Actions: Expand
+				248 menu
+					249 (selected) 微光
+					250 流转
+					251 脉冲
+					252 极光
+		70 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/appearance

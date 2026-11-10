@@ -12,7 +12,7 @@ const GPT_56_MODEL = /^(?:gpt-5\.6|gpt-6-luna)(?:-|$)/;
  *
  * `stream: false` is OpenAI's default, but some compatible gateways stream
  * when the field is missing, and the reply then fails to parse as JSON
- * (TraceApps/nutritrace#258). Every caller reads one JSON reply, so say so.
+ * (TraceApps/nutriagent#258). Every caller reads one JSON reply, so say so.
  */
 export function getOpenAIChatParams({ baseUrl, model, hasTools, maxTokens = 4096 }) {
   const isOfficialOpenAI = baseUrl?.replace(/\/+$/, '') === OPENAI_API_ORIGIN;

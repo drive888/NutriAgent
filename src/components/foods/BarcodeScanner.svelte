@@ -498,7 +498,7 @@
       </button>
       <div class="ns-status">{nativeStatus}</div>
       <button class="btn-icon ns-torch" class:active={nativeTorchOn} on:click={toggleNativeTorch} aria-label={$_('barcode_scanner.torch')} title={$_('barcode_scanner.torch')}>
-        <span class="material-symbols-rounded">{nativeTorchOn ? 'flash_on' : 'flash_off'}</span>
+        <span class="material-symbols-rounded">{nativeTorchOn ? "flash_on" : "flash_off"}</span>
       </button>
     </div>
 
@@ -546,18 +546,18 @@
           <label class="sc-label">{$_('barcode_scanner.library')}</label>
           <select class="sc-select" bind:value={selectedEngine} on:change={onEngineChange}>
             <option value="zxing">@zxing/library</option>
-            <option value="html5qr">html5-qrcode</option>
-            <option value="quagga2">quagga2</option>
+            <option value="html5qr">{$_('ui.m3fd0ea884129')}</option>
+            <option value="quagga2">{$_('ui.m7efad6300865')}</option>
           </select>
         </div>
         <div class="sc-field">
           <label class="sc-label">{$_('barcode_scanner.camera')}</label>
           <select class="sc-select" bind:value={selectedCamId} on:change={onCamChange}>
             {#if cameras.length === 0}
-              <option>Loading…</option>
+              <option>{$_('ui.mba3bbbe10d8b')}</option>
             {:else}
               {#each cameras as cam}
-                <option value={cam.deviceId}>{cam.label}</option>
+                <option value={cam.deviceId}>{cam.labelKey ? $_(cam.labelKey) : cam.label}</option>
               {/each}
             {/if}
           </select>
@@ -587,12 +587,12 @@
       <div class="scanner-actions">
         <button class="sc-btn" on:click={refresh}>
           <span class="material-symbols-rounded">refresh</span>
-          Refresh
+          {$_('ui.m0e9161011702')}
         </button>
         {#if torchVisible}
           <button class="sc-btn" class:sc-btn-torch={torchOn} on:click={toggleTorch}>
-            <span class="material-symbols-rounded">{torchOn ? 'flash_on' : 'flash_off'}</span>
-            {torchOn ? 'Flash On' : 'Flash Off'}
+            <span class="material-symbols-rounded">{torchOn ? "flash_on" : "flash_off"}</span>
+            {torchOn ? $_('ui.m47a5dfc4ed6e') : $_('ui.m4c00d53e69d6')}
           </button>
         {/if}
       </div>

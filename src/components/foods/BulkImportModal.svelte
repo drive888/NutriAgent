@@ -20,7 +20,7 @@
   let csvText = '';
   let _fileName = '';
 
-  $: tabs = [{ label: 'JSON', value: 'json' }, { label: 'CSV', value: 'csv' }];
+  $: tabs = [{ label: 'JSON', labelKey: 'ui.mdb1a21a0bc2e', value: 'json' }, { label: 'CSV', labelKey: 'ui.meb6b42f54c42', value: 'csv' }];
   $: currentText = activeTab === 0 ? jsonText : csvText;
   $: parsed = _parseCurrent(currentText, activeTab);
 
@@ -55,12 +55,12 @@
     if (activeTab === 0) {
       _downloadBlob(
         new Blob([JSON.stringify(buildJsonTemplate(), null, 2)], { type: 'application/json' }),
-        'nutritrace-food-import-template.json'
+        'nutriagent-food-import-template.json'
       );
     } else {
       _downloadBlob(
         new Blob([buildCsvTemplate()], { type: 'text/csv' }),
-        'nutritrace-food-import-template.csv'
+        'nutriagent-food-import-template.csv'
       );
     }
   }
@@ -96,13 +96,12 @@
   }
 </script>
 
-<Sheet bind:open height="full" title="Bulk Import Foods" on:close={close}>
+<Sheet bind:open height="full" title={$_('ui.m6417564cf207')} on:close={close}>
   <div class="wrap">
     <Tabs {tabs} bind:active={activeTab} />
 
     <div class="hint">
-      Paste or upload a {activeTab === 0 ? 'JSON' : 'CSV'} file. Each row needs at minimum
-      a <code>name</code> and <code>calories</code>; other nutrients are optional.
+      {$_('ui.m883c5eac448a')} {activeTab === 0 ? 'JSON' : 'CSV'} {$_('ui.m86bdc1765f16')} <code>name</code> {$_('ui.m6201111b83a0')} <code>calories</code>{$_('ui.m1b45c61fe390')}
       <button class="link-btn" type="button" on:click={downloadTemplate}>{$_('bulk_import.download_template')}</button>
     </div>
 
@@ -115,9 +114,9 @@
       ></textarea>
     {:else}
       <div class="upload-area">
-        <p class="upload-note">CSV files don't paste cleanly. Use the upload button.</p>
+        <p class="upload-note">{$_('ui.m6ac90958db85')}</p>
         {#if csvText}
-          <p class="filename">Loaded: {_fileName || 'pasted'}</p>
+          <p class="filename">{$_('ui.m0b363138bbc4')} {_fileName || 'pasted'}</p>
         {/if}
       </div>
     {/if}
@@ -125,7 +124,7 @@
     <div class="row-actions">
       <button class="btn btn-secondary" type="button" on:click={pickFile}>
         <span class="material-symbols-rounded" style="font-size:18px">upload_file</span>
-        Upload file
+        {$_('ui.md99bcd78b586')}
       </button>
       {#if currentText}
         <button class="btn btn-secondary" type="button" on:click={clearInput}>{$_('bulk_import.clear')}</button>
@@ -136,12 +135,12 @@
     {#if currentText}
       <div class="preview">
         <div class="preview-summary">
-          <span class="chip ok">{results.valid.length} ready</span>
+          <span class="chip ok">{results.valid.length} {$_('ui.mb24d6d33736e')}</span>
           {#if results.duplicates.length > 0}
-            <span class="chip warn">{results.duplicates.length} duplicate barcode{results.duplicates.length === 1 ? '' : 's'}</span>
+            <span class="chip warn">{results.duplicates.length} {$_('ui.m5e3367c0331f')}{results.duplicates.length === 1 ? '' : 's'}</span>
           {/if}
           {#if parsed.errors.length > 0}
-            <span class="chip err">{parsed.errors.length} error{parsed.errors.length === 1 ? '' : 's'}</span>
+            <span class="chip err">{parsed.errors.length} {$_('ui.mca00fccfb408')}{parsed.errors.length === 1 ? '' : 's'}</span>
           {/if}
         </div>
 
@@ -160,22 +159,22 @@
         {/if}
 
         {#if results.duplicates.length > 0}
-          <p class="preview-section-label warn">Skipped (barcode already in your catalog)</p>
+          <p class="preview-section-label warn">{$_('ui.m6960f8e2dc6a')}</p>
           <ul class="preview-list">
             {#each results.duplicates as f}
               <li>
                 <span class="food-name">{f.name}</span>
-                <span class="food-meta">barcode {f.barcode}</span>
+                <span class="food-meta">{$_('ui.m90c155110575')} {f.barcode}</span>
               </li>
             {/each}
           </ul>
         {/if}
 
         {#if parsed.errors.length > 0}
-          <p class="preview-section-label err">Errors (fix or remove these rows before importing)</p>
+          <p class="preview-section-label err">{$_('ui.m45a48f318b12')}</p>
           <ul class="preview-list err-list">
             {#each parsed.errors as e}
-              <li>Row {e.row}: {e.message}</li>
+              <li>{$_('ui.m95110d74c4c0')} {e.row}: {e.message}</li>
             {/each}
           </ul>
         {/if}
@@ -185,7 +184,7 @@
     <div class="footer">
       <button class="btn btn-secondary" type="button" on:click={close}>{$_('bulk_import.cancel')}</button>
       <button class="btn btn-primary" type="button" on:click={commit} disabled={!canCommit}>
-        Import {results.valid.length || ''}
+        {$_('ui.m2cff9baabf56')} {results.valid.length || ''}
       </button>
     </div>
   </div>

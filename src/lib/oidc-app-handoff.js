@@ -1,7 +1,7 @@
 /**
  * Native SSO hand-off.
  *
- * The Android app finishes SSO through a nutritrace://oidc-callback deep link,
+ * The Android app finishes SSO through a nutriagent://oidc-callback deep link,
  * which any installed app can register for. So the link no longer carries the
  * session token: before opening the sign-in page the app makes a random
  * secret, sends only its SHA-256 (app_challenge), and the link comes back

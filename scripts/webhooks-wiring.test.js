@@ -71,9 +71,9 @@ test('delivery is signed with HMAC-SHA256 and carries event/delivery-id headers'
   // behavioral tests against it) don't need a compiled better-sqlite3
   // binding the way the rest of webhooks.js does.
   assert.match(deliveryJs, /createHmac\('sha256'/);
-  assert.match(deliveryJs, /X-NutriTrace-Signature/);
-  assert.match(deliveryJs, /X-NutriTrace-Event/);
-  assert.match(deliveryJs, /X-NutriTrace-Delivery/);
+  assert.match(deliveryJs, /X-NutriAgent-Signature/);
+  assert.match(deliveryJs, /X-NutriAgent-Event/);
+  assert.match(deliveryJs, /X-NutriAgent-Delivery/);
   assert.match(libJs, /import \{ signEnvelope, sendWebhookRequest \} from '\.\/webhook-delivery\.js'/);
 });
 

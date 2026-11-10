@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-03",
+  "entry": "http://localhost:3103/",
+  "locale": "zh-CN",
+  "sourceMessages": 3157,
+  "missingChineseMessages": 0,
+  "orphanChineseMessages": 0,
+  "fullSuite": {
+    "tests": 942,
+    "passed": 897,
+    "skipped": 45,
+    "failed": 0,
+    "environment": "isolated /tmp/nt-zh-check inside existing container, temporary DB_PATH"
+  },
+  "focusedTests": {
+    "passed": 29,
+    "failed": 0
+  },
+  "browser": {
+    "coreRoutes": [
+      "/",
+      "/foods",
+      "/foods/edit",
+      "/recognition",
+      "/goals",
+      "/statistics",
+      "/wellness"
+    ],
+    "settingsPages": 27,
+    "englishChecked": [
+      "/",
+      "/foods/edit",
+      "/recognition",
+      "/settings/ai"
+    ],
+    "mobileWidth": 390,
+    "horizontalOverflow": false,
+    "sampleRecognition": "public chicken_wings sample -> local service -> confirmed preview, not saved",
+    "formValidation": "blank name -> 请输入名称",
+    "serverError": "/api/foods without session: en=Not authenticated, zh-CN=请先登录, status=401"
+  },
+  "limitations": [
+    "Real SMTP delivery, third-party push delivery, connected wearables and Android device were not tested.",
+    "Historical user content, external food names, model IDs and units are not rewritten.",
+    "AI reply language preference was added to the system prompt; no new private data was sent to external AI during UI verification."
+  ]
+}

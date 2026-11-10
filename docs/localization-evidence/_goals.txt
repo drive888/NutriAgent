@@ -1,0 +1,65 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/goals".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/goals
+	2 container app
+		71 button 打开菜单
+		72 container
+			86 container 主导航
+				87 button 饮食日记
+					88 text book
+					89 text 饮食日记
+				90 button 食物
+					91 text restaurant
+					92 text 食物
+				93 button 统计
+					94 text bar_chart
+					95 text 统计
+				96 button 目标
+					97 text flag
+					98 text 目标
+				99 button 设置
+					100 text settings
+					101 text 设置
+		102 container
+			103 heading 目标, Value: 1
+				104 text 目标
+			105 button 你的目标
+			106 button 所有字段
+			107 button 模板
+			108 text 宏量营养素
+			109 button 蛋白质 —g 0%
+				110 text 蛋白质
+				111 text —
+				112 text g
+				113 text 0%
+			114 button 碳水化合物 —g 0%
+				115 text 碳水化合物
+				116 text —
+				117 text g
+				118 text 0%
+			119 button 脂肪 —g 0%
+				120 text 脂肪
+				121 text —
+				122 text g
+				123 text 0%
+			124 button 均衡 30/40/30
+			125 button 生酮 25/5/70
+			126 button 高蛋白 40/30/30
+			127 text flag 尚未设置目标。 前往
+			128 text 所有字段
+			129 text 选项卡添加目标。 饮水
+			130 button 每日饮水目标 0 / 2,000 ml View trend in Statistics chevron_right
+				131 text 每日饮水目标
+				132 text 0 / 2,000 ml
+				133 button Description: View trend in Statistics, Help: View trend
+				134 text chevron_right
+			135 text 预览
+			136 container
+				137 image
+				138 text 2,000 kcal / 2,000
+			139 text 0% 蛋白质 0% 碳水 0% 脂肪
+			140 text P —g · C —g · F —g
+			141 text 备注
+			142 text info Set protein / carbs / fat goals to see the macro breakdown.
+		70 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/goals

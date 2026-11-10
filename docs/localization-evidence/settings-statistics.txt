@@ -1,0 +1,186 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/#/settings/statistics".
+1 AXWebArea NutriTrace, URL: localhost:3103/#/settings/statistics
+	2 container app
+		3 button 打开菜单
+		4 container
+			18 container 主导航
+				19 button 饮食日记
+					20 text book
+					21 text 饮食日记
+				22 button 食物
+					23 text restaurant
+					24 text 食物
+				25 button 统计
+					26 text bar_chart
+					27 text 统计
+				28 button 目标
+					29 text flag
+					30 text 目标
+				31 button 设置
+					32 text settings
+					33 text 设置
+		77 container
+			78 container
+				79 button 返回
+				80 heading 统计, Value: 1
+					81 text 统计
+			82 text search
+			83 search text field (settable)
+			84 button person 个人资料
+				85 text person
+				86 text 个人资料
+			87 text 显示
+			88 button contrast 外观
+				89 text contrast
+				90 text 外观
+			91 button language 区域与单位
+				92 text language
+				93 text 区域与单位
+			94 button book 饮食日记
+				95 text book
+				96 text 饮食日记
+			97 button water_drop 饮水
+				98 text water_drop
+				99 text 饮水
+			100 button restaurant 食物
+				101 text restaurant
+				102 text 食物
+			103 text 数据与记录
+			104 button flag 热量目标
+				105 text flag
+				106 text 热量目标
+			107 button straighten 身体数据
+				108 text straighten
+				109 text 身体数据
+			110 button bar_chart 统计
+				111 text bar_chart
+				112 text 统计
+			113 button science 营养素
+				114 text science
+				115 text 营养素
+			116 button category 分类
+				117 text category
+				118 text 分类
+			119 button straighten 自定义单位
+				120 text straighten
+				121 text 自定义单位
+			122 text 集成
+			123 button link 食物来源
+				124 text link
+				125 text 食物来源
+			126 button smart_toy AI 助手
+				127 text smart_toy
+				128 text AI 助手
+			129 button favorite 健康
+				130 text favorite
+				131 text 健康
+			132 text 应用
+			133 button notifications 通知
+				134 text notifications
+				135 text 通知
+			136 button backup 备份与恢复
+				137 text backup
+				138 text 备份与恢复
+			139 button import_export 导入与导出
+				140 text import_export
+				141 text 导入与导出
+			142 button group 食物共享
+				143 text group
+				144 text 食物共享
+			145 button system_update 更新
+				146 text system_update
+				147 text 更新
+			148 button troubleshoot 诊断
+				149 text troubleshoot
+				150 text 诊断
+			151 text 管理
+			152 button group 用户
+				153 text group
+				154 text 用户
+			155 button vpn_key 身份验证
+				156 text vpn_key
+				157 text 身份验证
+			158 button mail 电子邮件 (SMTP)
+				159 text mail
+				160 text 电子邮件 (SMTP)
+			161 button key API 令牌
+				162 text key
+				163 text API 令牌
+			164 button webhook Webhook 通知
+				165 text webhook
+				166 text Webhook 通知
+			167 text NUTRITRACE
+			168 button volunteer_activism 支持
+				169 text volunteer_activism
+				170 text 支持
+			171 button info 关于
+				172 text info
+				173 text 关于
+			174 text 图表选项 应用于整个统计页面的默认图表类型和叠加内容。 默认图表类型
+			175 pop up button (collapsed, settable) Value: 柱状图, Secondary Actions: Expand
+				176 menu
+					177 (selected) 柱状图
+					178 折线图
+			179 text 将 Y 轴起点固定为零 身体指标（体重、心率变异性、静息心率等）始终自动调整显示范围。此开关适用于营养素和计数类指标图表。
+			180 switch 1
+			181 text 显示平均线
+			182 switch 1
+			183 text 显示目标线
+			184 switch 1
+			185 text 显示趋势线
+			186 switch 1
+			187 text 趋势包含今天 对于累计指标（热量、饮水量、步数等），当天结束前的数据都不完整。默认关闭，以使图表更简洁。统计页面也提供内嵌开关，可临时覆盖此设置。
+			188 switch 0
+			189 text 显示无记录日期 始终显示图表范围内的每个日期，即使当天没有记录。这样可以显示记录中的空缺，而不是将图表压缩得更密集，掩盖这些空缺。适用于柱状图和折线图。
+			190 switch 1
+			191 text 类别 拖动可调整统计页面上指标标签的顺序。关闭不需要查看的类别。 drag_indicator 热量
+			192 switch 1
+			193 text drag_indicator 脂肪
+			194 switch 1
+			195 text drag_indicator 饱和脂肪
+			196 switch 1
+			197 text drag_indicator 钠
+			198 switch 1
+			199 text drag_indicator 碳水化合物
+			200 switch 1
+			201 text drag_indicator 膳食纤维
+			202 switch 1
+			203 text drag_indicator 糖
+			204 switch 1
+			205 text drag_indicator 添加糖
+			206 switch 1
+			207 text drag_indicator 蛋白质
+			208 switch 1
+			209 text drag_indicator 维生素D
+			210 switch 1
+			211 text drag_indicator 钙
+			212 switch 1
+			213 text drag_indicator 铁
+			214 switch 1
+			215 text drag_indicator 钾
+			216 switch 1
+			217 text drag_indicator 体重
+			218 switch 1
+			219 text drag_indicator 颈围
+			220 switch 1
+			221 text drag_indicator 腰围
+			222 switch 1
+			223 text drag_indicator 臀围
+			224 switch 1
+			225 text drag_indicator 胸围
+			226 switch 1
+			227 text drag_indicator 大腿围
+			228 switch 1
+			229 text drag_indicator 上臂围
+			230 switch 1
+			231 text drag_indicator 小腿围
+			232 switch 1
+			233 text drag_indicator 体脂率 %
+			234 switch 1
+			235 text drag_indicator 身体水分 %
+			236 switch 1
+			237 text drag_indicator 饮水
+			238 switch 1
+		76 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/#/settings/statistics

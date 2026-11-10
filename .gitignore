@@ -45,3 +45,7 @@ android/.idea/
 *.aab
 *.keystore
 android/keystore.properties
+
+# Python runtime caches
+__pycache__/
+*.py[cod]

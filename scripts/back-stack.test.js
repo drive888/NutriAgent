@@ -147,7 +147,7 @@ test('the shared components and hand-built sheets are registered', () => {
   const diary = read('../src/routes/Diary.svelte');
   assert.match(diary, /use:closeOnBack=\{\(\) => diaryShowBodyStats\.set\(false\)\}/, 'Body Stats, the sheet from the report');
   assert.equal((read('../src/routes/Goals.svelte').match(/use:closeOnBack=/g) || []).length, 4);
-  assert.match(read('../src/components/ai/Trace.svelte'), /class="ai-backdrop" use:closeOnBack=\{\(\) => panelOpen = false\}/);
+  assert.match(read('../src/components/ai/NutriAgent.svelte'), /class="ai-backdrop" use:closeOnBack=\{\(\) => panelOpen = false\}/);
   assert.match(read('../src/components/foods/BarcodeScanner.svelte'), /use:closeOnBack=\{closeNative\}/);
   assert.match(read('../src/routes/FoodEditor.svelte'), /use:closeOnBack=\{stopCamera\}/, 'the camera stops, not just hides');
   assert.match(read('../src/routes/MealEditor.svelte'), /use:closeOnBack=\{closeCamera\}/);

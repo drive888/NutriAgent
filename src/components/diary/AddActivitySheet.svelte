@@ -5,7 +5,7 @@
   import { addActivity, updateActivity } from '../../stores/activity.js';
   import { energyUnit, distUnit, weightUnit } from '../../stores/settings.js';
   import { Nutrition } from '../../lib/nutrition.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { DB } from '../../lib/db.js';
   import { ACTIVITIES, search as searchCompendium, metKcal, findById } from '../../lib/activity-picker.js';
   import { readBodyStat } from '../../lib/body-stats-unit.js';
@@ -69,8 +69,8 @@
         userWeightKg = raw != null && !isNaN(Number(raw)) ? Number(raw) : null;
       } catch { userWeightKg = null; }
       Promise.all([
-        NtApi.getAllDiary().catch(() => []),
-        NtApi.getLatestWellness('weight_kg').catch(() => null),
+        NaApi.getAllDiary().catch(() => []),
+        NaApi.getLatestWellness('weight_kg').catch(() => null),
       ]).then(([rows, wellnessLatest]) => {
         // Walk diary backward to find the most recent body_stats.weight
         // and its date; readBodyStat converts kg/lb tag to kg.
@@ -106,7 +106,7 @@
       const today = new Date();
       const past = new Date(); past.setDate(past.getDate() - 90);
       const fmt = d => d.toISOString().slice(0, 10);
-      NtApi.getActivityRange(fmt(past), fmt(today))
+      NaApi.getActivityRange(fmt(past), fmt(today))
         .then(rows => {
           const seen = new Set();
           pastNames = (rows || [])
@@ -246,7 +246,7 @@
       open = false;
       dispatch('saved');
     } catch (e) {
-      error = e?.message || 'Could not save';
+      error = e?.message || $_('ui.m16efcd21d74f');
     } finally {
       saving = false;
     }

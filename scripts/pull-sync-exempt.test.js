@@ -1,5 +1,5 @@
 /**
- * #225: dragging the Trace button down while the page was at the top was
+ * #225: dragging the NutriAgent button down while the page was at the top was
  * read as pull-to-refresh and synced the Diary. Anything draggable is now
  * left out of pull-to-refresh, alongside the areas that already were.
  */
@@ -31,7 +31,7 @@ function el(classes = [], attrs = {}, parent = null) {
   return node;
 }
 
-test('dragging the Trace button never starts a pull', () => {
+test('dragging the NutriAgent button never starts a pull', () => {
   const fab = el(['ai-fab', 'panel-open']);
   const face = el(['fab-robot-wrap'], {}, fab);   // the touch lands on the face inside it
   assert.equal(isPullSyncExempt(fab), true);
@@ -60,7 +60,7 @@ test('ordinary page content still starts a pull', () => {
 });
 
 test('the classes it relies on are the ones the app uses', () => {
-  assert.match(read('../src/components/ai/Trace.svelte'), /class="ai-fab"/);
+  assert.match(read('../src/components/ai/NutriAgent.svelte'), /class="ai-fab"/);
   assert.match(read('../src/components/ui/ImageCropper.svelte'), /class="crop-box"/);
   for (const f of ['../src/routes/settings/Diary.svelte', '../src/routes/settings/Nutrients.svelte',
     '../src/routes/settings/BodyStats.svelte', '../src/routes/settings/Statistics.svelte', '../src/routes/MealEditor.svelte']) {

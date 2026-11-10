@@ -35,29 +35,29 @@
   }
   $: _statsAvailableMetrics = (() => {
     const nut = NUTRIMENTS.filter(n => n.default).map(n => ({
-      key: n.id, label: n.label, group: 'nutrient',
+      key: n.id, label: n.label, labelKey: n.labelKey, group: 'nutrient',
     }));
     const bodyAll = [
-      { key:'weight', label:'Weight' }, { key:'neck', label:'Neck' }, { key:'waist', label:'Waist' },
-      { key:'hips', label:'Hips' }, { key:'chest', label:'Chest' }, { key:'thighs', label:'Thighs' },
-      { key:'biceps', label:'Biceps' }, { key:'calves', label:'Calves' },
-      { key:'body_fat', label:'Body Fat %' }, { key:'body_water', label:'Body Water %' },
+      { key:'weight', label:'Weight', labelKey: 'ui.m81d27ef6d503' }, { key:'neck', label:'Neck', labelKey: 'ui.m6b27a97151bb' }, { key:'waist', label:'Waist', labelKey: 'ui.m8470df662662' },
+      { key:'hips', label:'Hips', labelKey: 'ui.mb004098c1134' }, { key:'chest', label:'Chest', labelKey: 'ui.m378d83808237' }, { key:'thighs', label:'Thighs', labelKey: 'ui.mcc3653998568' },
+      { key:'biceps', label:'Biceps', labelKey: 'ui.m49f08df6459e' }, { key:'calves', label:'Calves', labelKey: 'ui.mb94a4523f488' },
+      { key:'body_fat', label:'Body Fat %', labelKey: 'ui.m9c0e4652a292' }, { key:'body_water', label:'Body Water %', labelKey: 'ui.m6f5bd2d9d24b' },
     ].filter(b => !($hiddenBodyStats||[]).includes(b.key)).map(b => ({ ...b, group: 'body' }));
     const water = ($waterShowInStats ?? DB.getSetting('waterShowInStats', true))
-      ? [{ key: 'water', label: 'Water', group: 'water' }]
+      ? [{ key: 'water', label: 'Water', labelKey: 'ui.m7ca7dea90680', group: 'water' }]
       : [];
     const hasWellness = $fitbitFamilyEnabled || $garminEnabled;
     const wellness = [
       ...(hasWellness ? [
-        ...(_wlVisibleForStats('steps')             ? [{ key:'wl_steps',  label:'Steps' }] : []),
-        ...(_wlVisibleForStats('active_minutes')    ? [{ key:'wl_active', label:'Active Minutes' }] : []),
-        ...(_wlVisibleForStats('sleep_duration_min')? [{ key:'wl_sleep',  label:'Sleep' }] : []),
-        ...(_wlVisibleForStats('resting_hr')        ? [{ key:'wl_rhr',    label:'Resting HR' }] : []),
-        ...(_wlVisibleForStats('hrv_daily_rmssd')   ? [{ key:'wl_hrv',    label:'HRV' }] : []),
-        ...(_wlVisibleForStats('spo2_avg')          ? [{ key:'wl_spo2',   label:'SpO2' }] : []),
+        ...(_wlVisibleForStats('steps')             ? [{ key:'wl_steps',  label:'Steps', labelKey: 'ui.m1de3df70ddf4' }] : []),
+        ...(_wlVisibleForStats('active_minutes')    ? [{ key:'wl_active', label:'Active Minutes', labelKey: 'ui.m871b8584530e' }] : []),
+        ...(_wlVisibleForStats('sleep_duration_min')? [{ key:'wl_sleep',  label:'Sleep', labelKey: 'ui.md466bcf52eb6' }] : []),
+        ...(_wlVisibleForStats('resting_hr')        ? [{ key:'wl_rhr',    label:'Resting HR', labelKey: 'ui.m4ed409fa03f5' }] : []),
+        ...(_wlVisibleForStats('hrv_daily_rmssd')   ? [{ key:'wl_hrv',    label:'HRV', labelKey: 'ui.maf6c7c3df3fc' }] : []),
+        ...(_wlVisibleForStats('spo2_avg')          ? [{ key:'wl_spo2',   label:'SpO2', labelKey: 'ui.mfb0a260fbed1' }] : []),
       ] : []),
       ...(($withingsEnabled || $fitbitFamilyEnabled) && _wlVisibleForStats('muscle_mass_kg')
-        ? [{ key:'wl_muscle', label:'Muscle Mass' }] : []),
+        ? [{ key:'wl_muscle', label:'Muscle Mass', labelKey: 'ui.mde6012251ab0' }] : []),
     ].map(w => ({ ...w, group: 'wellness' }));
     return [...nut, ...bodyAll, ...water, ...wellness];
   })();
@@ -124,21 +124,21 @@
 <div class="section-body">
 
   <!-- Group: Chart Options -->
-  <p class="settings-group-heading">Chart Options</p>
-  <p class="settings-group-sub">Default chart type and overlays applied across the Statistics page.</p>
+  <p class="settings-group-heading">{$_('ui.mda3af4936b50')}</p>
+  <p class="settings-group-sub">{$_('ui.m3ee8f99ec0af')}</p>
   <div class="card settings-card">
     <div class="setting-row">
       <span class="setting-label">{$_('settings_stats.default_chart')}</span>
       <div class="select-wrap" style="width:110px">
         <select class="select sel-sm" bind:value={statsChartType}>
-          <option value="bar">Bar</option>
-          <option value="line">Line</option>
+          <option value="bar">{$_('ui.m95d64cacce0f')}</option>
+          <option value="line">{$_('ui.md7852cd0d245')}</option>
         </select>
       </div>
     </div>
     <div class="setting-divider"></div>
     <div class="setting-row">
-      <div><span class="setting-label">Lock Y-Axis To Zero</span><div class="setting-desc">Body stats (weight, HRV, RHR, etc.) always auto-fit. This toggle applies to nutrient and counted-metric charts.</div></div>
+      <div><span class="setting-label">{$_('ui.m25721d10c6fd')}</span><div class="setting-desc">{$_('ui.m41d25ef80493')}</div></div>
       <Toggle checked={statsYZero} on:change={e => { statsYZero = e.detail; set('statsYZero', e.detail); }} />
     </div>
     <div class="setting-divider"></div>
@@ -151,7 +151,7 @@
     <div class="setting-row">
       <div>
         <span class="setting-label">{$_('settings_stats.include_today')}</span>
-        <div class="setting-desc">For cumulative metrics (calories, water, steps, etc.) today is partial until the day ends. Off by default — the chart looks cleaner. Statistics page also has an inline toggle for one-off overrides.</div>
+        <div class="setting-desc">{$_('ui.md3f6de33d4db')}</div>
       </div>
       <Toggle checked={statsIncludeTodayLocal} on:change={e => { statsIncludeTodayLocal = e.detail; set('statsIncludeToday', e.detail); }} />
     </div>
@@ -159,7 +159,7 @@
     <div class="setting-row">
       <div>
         <span class="setting-label">{$_('settings_stats.show_empty_days')}</span>
-        <div class="setting-desc">Keep every date in the chart's range visible even when nothing was logged that day. Lets gaps in logging show up rather than collapsing into a denser chart that hides them. Applies to both bar and line charts.</div>
+        <div class="setting-desc">{$_('ui.m599e97e0eba6')}</div>
       </div>
       <Toggle checked={statsShowEmptyDaysLocal} on:change={e => { statsShowEmptyDaysLocal = e.detail; set('statsShowEmptyDays', e.detail); }} />
     </div>
@@ -185,12 +185,12 @@
           : ''}>
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <span class="drag-handle material-symbols-rounded" on:pointerdown={e => onSMDragDown(e, i)}>drag_indicator</span>
-        <span class="setting-label">{m.label}</span>
+        <span class="setting-label">{m.labelKey ? $_(m.labelKey) : m.label}</span>
         <Toggle checked={isStatsMetricVisible(m.key)} on:change={() => toggleStatsMetricVisible(m.key)} />
       </div>
     {/each}
     {#if orderedStatsMetrics.length === 0}
-      <div class="setting-row"><span class="text-3 text-sm">No metrics available.</span></div>
+      <div class="setting-row"><span class="text-3 text-sm">{$_('ui.mbc77a5201264')}</span></div>
     {/if}
   </div>
 </div>

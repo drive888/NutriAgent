@@ -13,42 +13,42 @@
   function set(key, value) { DB.setSetting(key, value); scheduleSave(key, value); }
 
   const ACCENT_COLORS = [
-    { value: 'mint',   label: 'Mint',   dark: '#4FFFB0', light: '#00C47A' },
-    { value: 'blue',   label: 'Blue',   dark: '#4FC3F7', light: '#0277BD' },
-    { value: 'red',    label: 'Red',    dark: '#FF7070', light: '#D93025' },
-    { value: 'purple', label: 'Purple', dark: '#CE93D8', light: '#8E24AA' },
-    { value: 'orange', label: 'Orange', dark: '#FFB547', light: '#E65100' },
-    { value: 'teal',   label: 'Teal',   dark: '#4DD0E1', light: '#00838F' },
-    { value: 'pink',   label: 'Pink',   dark: '#F48FB1', light: '#C2185B' },
-    { value: 'yellow', label: 'Yellow', dark: '#FFF176', light: '#F9A825' },
-    { value: 'indigo', label: 'Indigo', dark: '#9FA8DA', light: '#3949AB' },
-    { value: 'lime',   label: 'Lime',   dark: '#C5E1A5', light: '#558B2F' },
-    { value: 'rose',   label: 'Rose',   dark: '#FF80AB', light: '#E91E63' },
-    { value: 'cyan',   label: 'Cyan',   dark: '#80DEEA', light: '#0097A7' },
+    { value: 'mint',   label: 'Mint', labelKey: 'ui.mced97cc4a377',   dark: '#69D5B6', light: '#087F73' },
+    { value: 'blue',   label: 'Blue', labelKey: 'ui.mec7d56a01607',   dark: '#4FC3F7', light: '#0277BD' },
+    { value: 'red',    label: 'Red', labelKey: 'ui.mba19e9c3d5f4',    dark: '#FF7070', light: '#D93025' },
+    { value: 'purple', label: 'Purple', labelKey: 'ui.m7d465fb9b931', dark: '#CE93D8', light: '#8E24AA' },
+    { value: 'orange', label: 'Orange', labelKey: 'ui.m78e7771b8b46', dark: '#FFB547', light: '#E65100' },
+    { value: 'teal',   label: 'Teal', labelKey: 'ui.mfa15a5c1d610',   dark: '#4DD0E1', light: '#00838F' },
+    { value: 'pink',   label: 'Pink', labelKey: 'ui.mbd38ed773240',   dark: '#F48FB1', light: '#C2185B' },
+    { value: 'yellow', label: 'Yellow', labelKey: 'ui.m19dd83f11752', dark: '#FFF176', light: '#F9A825' },
+    { value: 'indigo', label: 'Indigo', labelKey: 'ui.md81ab149e977', dark: '#9FA8DA', light: '#3949AB' },
+    { value: 'lime',   label: 'Lime', labelKey: 'ui.mc9665c96a867',   dark: '#C5E1A5', light: '#558B2F' },
+    { value: 'rose',   label: 'Rose', labelKey: 'ui.me10d850954a8',   dark: '#FF80AB', light: '#E91E63' },
+    { value: 'cyan',   label: 'Cyan', labelKey: 'ui.me95bb222e07f',   dark: '#80DEEA', light: '#0097A7' },
   ];
   const APPEARANCE_OPTS = [
-    { value: 'system', label: 'System Default' },
-    { value: 'dark',   label: 'Dark'           },
-    { value: 'light',  label: 'Light'          },
+    { value: 'system', label: 'System Default', labelKey: 'ui.md8081c667c73' },
+    { value: 'dark',   label: 'Dark', labelKey: 'ui.m60acc53f13a5'           },
+    { value: 'light',  label: 'Light', labelKey: 'ui.mdbcd5e7bb7a0'          },
   ];
   const NAV_STYLE_OPTS = [
-    { value: 'bottom',   label: 'Bottom tab bar' },
-    { value: 'sidebar',  label: 'Side panel'     },
-    { value: 'both',     label: 'Both'           },
+    { value: 'bottom',   label: 'Bottom tab bar', labelKey: 'ui.m115ba31b4e2b' },
+    { value: 'sidebar',  label: 'Side panel', labelKey: 'ui.mc28cdd98645b'     },
+    { value: 'both',     label: 'Both', labelKey: 'ui.mb6c1d862f9f7'           },
   ];
   const START_PAGE_OPTS = [
-    { value: '/',           label: 'Diary'      },
-    { value: '/foods',      label: 'Foods'      },
-    { value: '/statistics', label: 'Statistics' },
-    { value: '/wellness',   label: 'Wellness'   },
-    { value: '/goals',      label: 'Goals'      },
-    { value: '/settings',   label: 'Settings'   },
+    { value: '/',           label: 'Diary', labelKey: 'ui.mbc64125d752f'      },
+    { value: '/foods',      label: 'Foods', labelKey: 'ui.m83aace864015'      },
+    { value: '/statistics', label: 'Statistics', labelKey: 'ui.ma656107e99c7' },
+    { value: '/wellness',   label: 'Wellness', labelKey: 'ui.m018d49bcf016'   },
+    { value: '/goals',      label: 'Goals', labelKey: 'ui.m116cd3982a9b'      },
+    { value: '/settings',   label: 'Settings', labelKey: 'ui.m74a883a037bc'   },
   ];
 
   $: isDark = $appearance === 'dark' || ($appearance === 'system' && (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches));
 
   // ── Custom accent color ───────────────────────────────────────────────────
-  let customColorHex = /^#[0-9a-fA-F]{6}$/.test($accentColor) ? $accentColor : '#4FFFB0';
+  let customColorHex = /^#[0-9a-fA-F]{6}$/.test($accentColor) ? $accentColor : '#69D5B6';
   let customHexInput = customColorHex;
   let showColorSheet = false;
   let cpHue = 160, cpSat = 100, cpLgt = 50;
@@ -88,7 +88,7 @@
     cpB = parseInt(hex.slice(5,7),16);
   }
   function openColorSheet() {
-    const cur = /^#[0-9a-fA-F]{6}$/.test($accentColor) ? $accentColor : '#4FFFB0';
+    const cur = /^#[0-9a-fA-F]{6}$/.test($accentColor) ? $accentColor : '#69D5B6';
     customColorHex = cur;
     customHexInput = cur;
     [cpHue, cpSat, cpLgt] = _hexToHsl(cur);
@@ -154,14 +154,14 @@
 <div class="section-body">
 
   <!-- Group: Theme & Color -->
-  <p class="settings-group-heading">Theme &amp; Color</p>
-  <p class="settings-group-sub">System theme and accent palette used across the app.</p>
+  <p class="settings-group-heading">{$_('ui.m574b2b771756')}</p>
+  <p class="settings-group-sub">{$_('ui.mb547520787cf')}</p>
   <div class="card settings-card">
     <div class="setting-row">
       <span class="setting-label">{$_('settings.appearance.theme')}</span>
       <div class="select-wrap" style="width:150px">
         <select class="select sel-sm" value={$appearance} on:change={e => applyAppearance(e.target.value)}>
-          {#each APPEARANCE_OPTS as o}<option value={o.value}>{o.label}</option>{/each}
+          {#each APPEARANCE_OPTS as o}<option value={o.value}>{o.labelKey ? $_(o.labelKey) : o.label}</option>{/each}
         </select>
       </div>
     </div>
@@ -174,7 +174,7 @@
             class="accent-swatch"
             class:active={$accentColor === c.value}
             style="background:{isDark ? c.dark : c.light}"
-            title={c.label}
+            title={c.labelKey ? $_(c.labelKey) : c.label}
             on:click={() => applyAccentColor(c.value)}
           >
             {#if $accentColor === c.value}
@@ -193,14 +193,14 @@
   </div>
 
   <!-- Group: Navigation -->
-  <p class="settings-group-heading">Navigation</p>
-  <p class="settings-group-sub">How you get around the app and where you land on open.</p>
+  <p class="settings-group-heading">{$_('ui.m3db65f8c2a7d')}</p>
+  <p class="settings-group-sub">{$_('ui.mb0c3006d1302')}</p>
   <div class="card settings-card">
     <div class="setting-row">
       <span class="setting-label">{$_('settings.appearance.navigation_style')}</span>
       <div class="select-wrap" style="width:150px">
         <select class="select sel-sm" bind:value={navStyle}>
-          {#each NAV_STYLE_OPTS as o}<option value={o.value}>{o.label}</option>{/each}
+          {#each NAV_STYLE_OPTS as o}<option value={o.value}>{o.labelKey ? $_(o.labelKey) : o.label}</option>{/each}
         </select>
       </div>
     </div>
@@ -219,23 +219,23 @@
       <span class="setting-label">{$_('settings_main.start_page')}</span>
       <div class="select-wrap" style="width:150px">
         <select class="select sel-sm" bind:value={startPage}>
-          {#each START_PAGE_OPTS as o}<option value={o.value}>{o.label}</option>{/each}
+          {#each START_PAGE_OPTS as o}<option value={o.value}>{o.labelKey ? $_(o.labelKey) : o.label}</option>{/each}
         </select>
       </div>
     </div>
     <div class="setting-divider"></div>
     <div class="setting-row">
       <div>
-        <span class="setting-label">Force Mobile Layout</span>
-        <div class="setting-desc">For users who prefer the compact phone-style layout on large screens. When on, the large-screen breakpoints (Diary right rail, Settings two-pane, week strip) are all disabled at every viewport width, and drag-to-copy meals is turned off. Keep this off to use the full large-screen experience.</div>
+        <span class="setting-label">{$_('ui.m17e6a6f5d6b5')}</span>
+        <div class="setting-desc">{$_('ui.m9c0c7842b761')}</div>
       </div>
       <Toggle checked={$forceMobileLayout} on:change={e => forceMobileLayout.set(e.detail)} />
     </div>
   </div>
 
   <!-- Group: Motion & Chrome -->
-  <p class="settings-group-heading">Motion &amp; Chrome</p>
-  <p class="settings-group-sub">Animation intensity and top-of-page banner treatment.</p>
+  <p class="settings-group-heading">{$_('ui.md5a89b69ddae')}</p>
+  <p class="settings-group-sub">{$_('ui.m7c6c7166fcd3')}</p>
   <div class="card settings-card">
     <div class="setting-row">
       <span class="setting-label">{$_('settings_main.reduce_motion')}</span>
@@ -285,7 +285,7 @@
 </div>
 
 <!-- Custom color picker sheet -->
-<Sheet bind:open={showColorSheet} title="Custom Color">
+<Sheet bind:open={showColorSheet} title={$_('ui.m8f398b117387')}>
   <div class="cp-body">
     <!-- Live preview -->
     <div class="cp-preview" style="background:{customColorHex}">
@@ -293,7 +293,7 @@
     </div>
     <!-- Hue slider -->
     <div class="cp-slider-group">
-      <label class="form-label">Hue</label>
+      <label class="form-label">{$_('ui.m4d7056f0e9be')}</label>
       <div class="cp-slider-wrap">
         <input type="range" class="cp-slider cp-hue" min="0" max="360"
           bind:value={cpHue} on:input={cpUpdateFromSliders} />
@@ -340,7 +340,7 @@
       <label class="form-label">{$_('settings_color.hex_code')}</label>
       <div class="cp-hex-row">
         <span class="cp-hex-dot" style="background:{/^#[0-9a-fA-F]{6}$/.test(customHexInput) ? customHexInput : '#ccc'}"></span>
-        <input class="input" type="text" placeholder="#rrggbb" maxlength="7"
+        <input class="input" type="text" placeholder=#rrggbb maxlength="7"
           style="font-family:monospace;letter-spacing:0.05em;flex:1"
           bind:value={customHexInput}
           on:input={cpUpdateFromHex}

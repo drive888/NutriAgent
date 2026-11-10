@@ -9,7 +9,8 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const goalsSrc = readFileSync(new URL('../src/routes/Goals.svelte', import.meta.url), 'utf8');
-const presetBlock = goalsSrc.match(/function applyMacroPreset\(name\) \{[\s\S]*?showSuccess\('Macros set'\);\n  \}/)?.[0];
+// The function closes at the script's top-level indentation; toast wording is independent.
+const presetBlock = goalsSrc.match(/^  function applyMacroPreset\(name\) \{[\s\S]*?^  \}/m)?.[0];
 
 test('macro presets calculate gram targets using the correct calorie densities', () => {
   assert.ok(presetBlock, 'applyMacroPreset function not found');

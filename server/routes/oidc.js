@@ -1,3 +1,4 @@
+import { requestLanguage, translateServerText } from '../lib/localization.js';
 /**
  * server/routes/oidc.js — public OIDC endpoints.
  *
@@ -152,7 +153,7 @@ async function handleCallback(req, res) {
     }
   } catch (e) {
     logger.warn(`[oidc] callback failed for provider ${provider.id}: ${e?.message || e}`);
-    if (stored.mobile) return res.redirect(`nutritrace://oidc-callback/?error=callback_failed`);
+    if (stored.mobile) return res.redirect(`nutriagent://oidc-callback/?error=callback_failed`);
     return _redirectToLogin(res, stored.returnPath, 'callback_failed');
   }
 
@@ -161,11 +162,11 @@ async function handleCallback(req, res) {
     try {
       linkUser(stored.linkUserId, provider.id, claims.sub, !!claims.email_verified);
     } catch (e) {
-      const msg = encodeURIComponent(e?.message || 'link_failed');
-      if (stored.mobile) return res.redirect(`nutritrace://oidc-callback/?error=${msg}`);
+      const msg = encodeURIComponent(translateServerText(e?.message || 'link_failed', requestLanguage(req, db)));
+      if (stored.mobile) return res.redirect(`nutriagent://oidc-callback/?error=${msg}`);
       return _redirectToLogin(res, stored.returnPath, msg);
     }
-    if (stored.mobile) return res.redirect(`nutritrace://oidc-callback/?linked=1`);
+    if (stored.mobile) return res.redirect(`nutriagent://oidc-callback/?linked=1`);
     return _redirectToLogin(res, stored.returnPath, null, 'linked');
   }
 
@@ -174,8 +175,8 @@ async function handleCallback(req, res) {
     result = resolveUser(provider, claims);
   } catch (e) {
     logger.info(`[oidc] resolveUser rejected for sub=${claims.sub}: ${e.message}`);
-    const msg = encodeURIComponent(e.message);
-    if (stored.mobile) return res.redirect(`nutritrace://oidc-callback/?error=${msg}`);
+    const msg = encodeURIComponent(translateServerText(e.message, requestLanguage(req, db)));
+    if (stored.mobile) return res.redirect(`nutriagent://oidc-callback/?error=${msg}`);
     return _redirectToLogin(res, stored.returnPath, msg);
   }
   applyAdminMapping(provider, result.user, claims);
@@ -196,7 +197,7 @@ async function handleCallback(req, res) {
     // Native (Capacitor) flow — Bearer token cannot be set as a cookie that
     // crosses back into the WebView. Hand the token off to the app via a
     // custom-scheme deep link; the in-app browser closes when the URL fires
-    // and Android routes the launch intent to NutriTrace's appUrlOpen
+    // and Android routes the launch intent to NutriAgent's appUrlOpen
     // listener (see src/App.svelte). id_token_hint + provider_id ride
     // along so the app can persist them locally for RP-initiated logout
     // later — the cookie-based path used by PWA doesn't reach the WebView's
@@ -209,10 +210,10 @@ async function handleCallback(req, res) {
         idTokenHint: tokenSet?.id_token,
         providerId: provider.id,
       });
-      return res.redirect(`nutritrace://oidc-callback/?code=${encodeURIComponent(code)}`);
+      return res.redirect(`nutriagent://oidc-callback/?code=${encodeURIComponent(code)}`);
     }
     // Older app builds (no app_challenge) still get the token in the link.
-    let deepLink = `nutritrace://oidc-callback/?token=${encodeURIComponent(token)}`;
+    let deepLink = `nutriagent://oidc-callback/?token=${encodeURIComponent(token)}`;
     if (tokenSet?.id_token) {
       deepLink += `&id_token_hint=${encodeURIComponent(tokenSet.id_token)}`;
       deepLink += `&provider_id=${encodeURIComponent(provider.id)}`;
@@ -290,14 +291,14 @@ router.post('/logout', wrap(async (req, res) => {
 
     // Mobile (Capacitor) returns to the app via the same deep-link scheme
     // used by the OIDC login callback. The user must register
-    // `nutritrace://oidc-callback` as a Post Logout Redirect URI at the IdP
+    // `nutriagent://oidc-callback` as a Post Logout Redirect URI at the IdP
     // (alongside the equivalent HTTPS root URL for PWA). The IdP redirects
     // to this URI after destroying the session; App.svelte's appUrlOpen
     // listener catches the deep link and closes the Capacitor browser.
     const isMobile = req.query?.mobile === '1' || req.query?.mobile === 'true';
     let postLogoutRedirectUri;
     if (isMobile) {
-      postLogoutRedirectUri = 'nutritrace://oidc-callback';
+      postLogoutRedirectUri = 'nutriagent://oidc-callback';
     } else {
       const proto = (req.headers['x-forwarded-proto'] || req.protocol || 'https').split(',')[0].trim();
       const host = req.headers['x-forwarded-host'] || req.get('host');

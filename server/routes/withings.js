@@ -181,7 +181,7 @@ router.get('/callback', wrap(async (req, res) => {
   if (!stored) {
     return res.redirect(`/?withings=error&msg=state_mismatch#/wellness`);
   }
-  const _redir = (path) => stored.isNative ? `nutritrace://callback${path}` : path;
+  const _redir = (path) => stored.isNative ? `nutriagent://callback${path}` : path;
 
   const clientId     = _userCfg('withings_client_id',     stored.userId);
   const clientSecret = _userCfg('withings_client_secret', stored.userId);

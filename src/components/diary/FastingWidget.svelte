@@ -14,13 +14,14 @@
   Mounted only when settings.fastingEnabled is true (parent gates).
 -->
 <script>
+  import { locale } from 'svelte-i18n';
   import { onMount } from 'svelte';
   import { slide } from 'svelte/transition';
   import { _ } from 'svelte-i18n';
   import { activeFast, fastHistory, elapsedMs, loadFasting, startFast, endFast, checkScheduleAndStart } from '../../stores/fasting.js';
   import { onDestroy } from 'svelte';
   import { fastingDefaultHours, fastingNotifyOnGoal, fastingCustomPresets, dateFormat } from '../../stores/settings.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { showSuccess, showError } from '../../stores/toast.js';
   import { confirmDialog } from '../../stores/confirmDialog.js';
   import DateInput from '../ui/DateInput.svelte';
@@ -32,7 +33,7 @@
     { label: '16:8',  hours: 16 },
     { label: '18:6',  hours: 18 },
     { label: '20:4',  hours: 20 },
-    { label: 'OMAD',  hours: 23 },
+    { label: 'OMAD', labelKey: 'ui.m11530cad96ff',  hours: 23 },
   ];
 
   let _selectedHours = 16;
@@ -130,7 +131,7 @@
     if (fmt === 'US')   datePart = `${m}/${day}/${y}`;
     else if (fmt === 'EU')  datePart = `${day}/${m}/${y}`;
     else if (fmt === 'ISO') datePart = `${y}-${m}-${day}`;
-    else datePart = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    else datePart = d.toLocaleDateString($locale || undefined, { month: 'short', day: 'numeric' });
     return `${datePart}, ${time}`;
   }
 
@@ -146,7 +147,7 @@
   async function _onStart() {
     const hrs = _showCustom ? parseDecimal(_customHours) : _selectedHours;
     if (!Number.isFinite(hrs) || hrs <= 0) {
-      showError('Enter a goal between 1 and 168 hours.');
+      showError($_('ui.m7e6d104745a4'));
       return;
     }
     fastingDefaultHours.set(hrs);
@@ -157,9 +158,9 @@
 
   async function _onEnd() {
     const ok = await confirmDialog({
-      title: 'End your fast?',
-      message: `You've been fasting for ${_fmtElapsed($elapsedMs)}.`,
-      confirmText: 'End Fast',
+      title: $_('ui.m63209b80d443'), titleKey: 'ui.m63209b80d443',
+      message: $_('ui.m8a1ccad32d77', {values: {value0: (_fmtElapsed($elapsedMs))}}),
+      confirmText: $_('ui.m94797f6e8da8'),
     });
     if (!ok) return;
     await endFast();
@@ -168,14 +169,14 @@
   function _saveCustomPreset() {
     const hrs = parseDecimal(_customHours);
     if (!Number.isFinite(hrs) || hrs <= 0 || hrs > 168) {
-      showError('Enter a valid goal between 1 and 168 hours.');
+      showError($_('ui.ma910a3a7fe41'));
       return;
     }
     const name = (_customName || `${hrs}h`).trim().slice(0, 20);
     const next = [...($fastingCustomPresets || []), { name, hours: hrs }].slice(-3);
     fastingCustomPresets.set(next);
     _customName = '';
-    showSuccess(`Saved "${name}" as a preset`);
+    showSuccess($_('ui.m15e72d23cae9', { values: { value0: (name) } }));
   }
 
   async function _removeCustomPreset(idx) {
@@ -198,16 +199,16 @@
     const [yy, mm, dd] = _editStartDate.split('-').map(n => parseInt(n));
     const [hh, mi]     = _editStartTime.split(':').map(n => parseInt(n));
     const newStart = new Date(yy, mm - 1, dd, hh, mi, 0, 0);
-    if (isNaN(newStart.getTime())) { showError('Invalid date/time'); return; }
-    if (newStart.getTime() > Date.now()) { showError('Start time can\'t be in the future'); return; }
+    if (isNaN(newStart.getTime())) { showError($_('ui.md16643d91b47')); return; }
+    if (newStart.getTime() > Date.now()) { showError($_('ui.mb642a01ba4f2')); return; }
     if (newStart.getTime() < Date.now() - 7 * 24 * 3600 * 1000) {
-      showError('Start time too far in the past (max 7 days ago)'); return;
+      showError($_('ui.m0cdf7bc38bce')); return;
     }
     try {
-      await NtApi.patch(`/api/fasts/${_active.id}`, { start_at: newStart.toISOString() });
+      await NaApi.patch(`/api/fasts/${_active.id}`, { start_at: newStart.toISOString() });
       await loadFasting();
       _editingStart = false;
-      showSuccess('Start time updated');
+      showSuccess($_('ui.mf8299b97d3e0'));
     } catch (e) { showError(e?.message || 'Could not update'); }
   }
 </script>
@@ -221,14 +222,14 @@
         <div class="fast-idle-title">{$_('fasting.start_fasting')}</div>
         {#if _lastFast}
           <div class="fast-last-hint">
-            Last fast: <strong>{_lastFastDuration.toFixed(1)}h</strong> · ended {_lastFastAgo}
+            {$_('ui.mee0e474e16a5')} <strong>{_lastFastDuration.toFixed(1)}h</strong> {$_('ui.me4e8f8e45c2c')} {_lastFastAgo}
           </div>
         {/if}
         <div class="fast-idle-presets">
           {#each BUILTIN_PRESETS as p}
             <button class="fast-preset" class:active={!_showCustom && _selectedHours === p.hours}
               on:click={() => { _showCustom = false; _selectedHours = p.hours; }}>
-              {p.label}
+              {p.labelKey ? $_(p.labelKey) : p.label}
             </button>
           {/each}
           {#each ($fastingCustomPresets || []) as p, i}
@@ -236,29 +237,29 @@
               class:active={!_showCustom && _selectedHours === p.hours}
               on:click={() => { _showCustom = false; _selectedHours = p.hours; }}
               on:contextmenu|preventDefault={async () => {
-                if (await confirmDialog({ title: `Remove "${p.name}"?`, confirmText: 'Remove', dangerous: true })) {
+                if (await confirmDialog({ title: $_('ui.m3371e580dada', {values: {value0: (p.name)}}), confirmText: $_('ui.mc3812fc4acb8'), dangerous: true })) {
                   _removeCustomPreset(i);
                 }
               }}
-              title="Long-press to remove">
+              title={$_('ui.m9db74628e224')}>
               {p.name}
             </button>
           {/each}
           <button class="fast-preset" class:active={_showCustom}
             on:click={() => { _showCustom = true; if (!_customHours) _customHours = String(_selectedHours); }}>
-            Custom
+            {$_('ui.m494ca78f7374')}
           </button>
         </div>
         {#if _showCustom}
           <div class="fast-custom" transition:slide={{ duration: 140 }}>
             <input class="input" type="text" inputmode="decimal" use:decimalInput bind:value={_customHours}
               placeholder={$_('fasting.hours_ph')} />
-            <span class="fast-custom-suffix">hours</span>
+            <span class="fast-custom-suffix">{$_('ui.m404314b1f4bd')}</span>
             {#if ($fastingCustomPresets || []).length < 3}
               <input class="input fast-custom-name" type="text" maxlength="20"
                 placeholder={$_('fasting.name_ph')} bind:value={_customName} />
               <button class="btn-icon fast-custom-save" on:click={_saveCustomPreset}
-                title="Save as preset" aria-label="Save as preset">
+                title={$_('ui.m853c8501bf83')} aria-label={$_('ui.m853c8501bf83')}>
                 <span class="material-symbols-rounded">bookmark_add</span>
               </button>
             {/if}
@@ -271,18 +272,18 @@
     <!-- Active / Reached state -->
     <div class="fast-active">
       <div class="fast-active-row">
-        <span class="material-symbols-rounded fast-icon">{_reached ? 'check_circle' : 'timer'}</span>
+        <span class="material-symbols-rounded fast-icon">{_reached ? "check_circle" : "timer"}</span>
         <div class="fast-active-main">
           <div class="fast-active-title">
-            {_reached ? 'Goal Reached' : 'Fasting'} · <strong>{_fmtElapsed($elapsedMs)}</strong>
+            {_reached ? $_('ui.m4e68d0b558dc') : $_('ui.m94cca1b2b259')} · <strong>{_fmtElapsed($elapsedMs)}</strong>
           </div>
           <div class="fast-active-meta">
             <button class="fast-edit-start" on:click={_openEditStart}
-              title="Edit start time" aria-label="Edit start time">
-              Started: {_fmtDateTime(_startedAt)}
+              title={$_('ui.m5d92edd163c2')} aria-label={$_('ui.m5d92edd163c2')}>
+              {$_('ui.m8301e51f74b1')} {_fmtDateTime(_startedAt)}
               <span class="material-symbols-rounded">edit</span>
             </button>
-            · Goal: {_active.goal_hours}h · Target: {_fmtDateTime(_targetEnd)}
+            {$_('ui.m9ca1e2c610ee')} {_active.goal_hours}{$_('ui.meded082bf018')} {_fmtDateTime(_targetEnd)}
           </div>
         </div>
         <button class="btn btn-secondary fast-end-btn" on:click={_onEnd}>{$_('fasting.end_fast')}</button>
@@ -298,7 +299,7 @@
           </div>
           <div class="fast-edit-actions">
             <button class="btn btn-secondary" on:click={() => _editingStart = false}>{$_('fasting.cancel')}</button>
-            <button class="btn btn-primary" on:click={_saveEditStart}>Save</button>
+            <button class="btn btn-primary" on:click={_saveEditStart}>{$_('ui.m1509f561f241')}</button>
           </div>
         </div>
       {/if}

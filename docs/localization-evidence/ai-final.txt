@@ -1,0 +1,147 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/settings/ai".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/ai
+	2 container app
+		3 button 打开菜单
+		4 container
+			5 container 主导航
+				6 button 饮食日记
+					7 text book
+					8 text 饮食日记
+				9 button 食物
+					10 text restaurant
+					11 text 食物
+				12 button 统计
+					13 text bar_chart
+					14 text 统计
+				15 button 目标
+					16 text flag
+					17 text 目标
+				18 button 设置
+					19 text settings
+					20 text 设置
+		21 container
+			22 container
+				23 button 返回
+				24 heading AI 助手, Value: 1
+					25 text AI 助手
+			26 text search
+			27 search text field (settable)
+			28 button person 个人资料
+				29 text person
+				30 text 个人资料
+			31 text 显示
+			32 button contrast 外观
+				33 text contrast
+				34 text 外观
+			35 button language 区域与单位
+				36 text language
+				37 text 区域与单位
+			38 button book 饮食日记
+				39 text book
+				40 text 饮食日记
+			41 button water_drop 饮水
+				42 text water_drop
+				43 text 饮水
+			44 button restaurant 食物
+				45 text restaurant
+				46 text 食物
+			47 text 数据与记录
+			48 button flag 热量目标
+				49 text flag
+				50 text 热量目标
+			51 button straighten 身体数据
+				52 text straighten
+				53 text 身体数据
+			54 button bar_chart 统计
+				55 text bar_chart
+				56 text 统计
+			57 button science 营养素
+				58 text science
+				59 text 营养素
+			60 button category 分类
+				61 text category
+				62 text 分类
+			63 button straighten 自定义单位
+				64 text straighten
+				65 text 自定义单位
+			66 text 集成
+			67 button link 食物来源
+				68 text link
+				69 text 食物来源
+			70 button smart_toy AI 助手
+				71 text smart_toy
+				72 text AI 助手
+			73 button favorite 健康
+				74 text favorite
+				75 text 健康
+			76 text 应用
+			77 button notifications 通知
+				78 text notifications
+				79 text 通知
+			80 button backup 备份与恢复
+				81 text backup
+				82 text 备份与恢复
+			83 button import_export 导入与导出
+				84 text import_export
+				85 text 导入与导出
+			86 button group 食物共享
+				87 text group
+				88 text 食物共享
+			89 button system_update 更新
+				90 text system_update
+				91 text 更新
+			92 button troubleshoot 诊断
+				93 text troubleshoot
+				94 text 诊断
+			95 text 管理
+			96 button group 用户
+				97 text group
+				98 text 用户
+			99 button vpn_key 身份验证
+				100 text vpn_key
+				101 text 身份验证
+			102 button mail 电子邮件 (SMTP)
+				103 text mail
+				104 text 电子邮件 (SMTP)
+			105 button key API 令牌
+				106 text key
+				107 text API 令牌
+			108 button webhook Webhook 通知
+				109 text webhook
+				110 text Webhook 通知
+			111 text NUTRITRACE
+			112 button volunteer_activism 支持
+				113 text volunteer_activism
+				114 text 支持
+			115 button info 关于
+				116 text info
+				117 text 关于
+			118 text check_circle 已连接 OPENAI 兼容
+			119 button 测试
+			120 text 启用 AI 助手 在所有页面添加悬浮聊天按钮
+			121 switch 1
+			122 text 服务提供商
+			123 pop up button (collapsed, settable) Value: OpenAI 兼容, Secondary Actions: Expand
+				124 menu
+					125 Anthropic Claude
+					126 OpenAI
+					127 Google Gemini
+					128 (selected) OpenAI 兼容
+			129 text 基础 URL
+			130 text field (settable) 基础 URL, Value: http://20.249.128.159:8317, ID: ai-base-url
+			131 text 支持任何兼容 OpenAI 的 /v1/chat/completions 端点，以及 Ollama、LM Studio、LocalAI、vLLM、llama.cpp 服务器、DeepSeek、Groq、Together AI、Mistral La Plateforme 等。不要包含路径，只需填写源地址。 模型
+			132 text field (settable) gpt-6.1-sol
+			133 text info
+			134 text 工具调用的可靠性因模型而异。
+			135 text  Llama 3.1+、Mistral、Qwen 2.5+ 能很好地处理工具调用。较小或较旧的模型可能导致智能记录和目标分析在没有报错的情况下失效。视觉功能（图片附件）需要多模态模型。如果不确定，请先使用已知可正常工作的模型，并在依赖它之前确认聊天功能正常。 API 密钥（可选）
+			136 text field (settable) API 密钥（可选）, Value: <redacted>
+			137 button visibility, Help: 显示
+			138 text 本地端点（Ollama、LM Studio 等）通常不需要密钥。DeepSeek 或 Groq 等云服务商需要密钥，可前往其控制台获取。 你的密钥安全地保存在服务器上。 助手名称
+			139 text field (settable) Trace
+			140 text 智能记录 长按助手按钮，说出你吃了什么，AI 会解析食物和餐次，匹配你的食物数据库，并在保存前请你确认
+			141 switch 0
+			142 text 目标分析 助手会分析你的摄入趋势，并在趋势持续稳定时主动建议调整目标
+			143 switch 0
+		144 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/ai

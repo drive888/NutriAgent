@@ -1,4 +1,4 @@
-// The paths NutriTrace's CookTrace and Mealie proxies forward: only the
+// The paths NutriAgent's CookTrace and Mealie proxies forward: only the
 // parts of each API the app reads, and nothing that climbs out of them.
 
 /**

@@ -1,3 +1,4 @@
+import { requestLanguage } from '../lib/localization.js';
 import { Router } from 'express';
 import { linkBase } from '../lib/public-url.js';
 import db from '../db.js';
@@ -187,7 +188,7 @@ router.post('/test-email', requireAuth, requireAdmin, wrap(async (req, res) => {
   const origin = linkBase(req);
   const recipientName = req.user?.full_name || req.user?.nickname || req.user?.username || null;
   try {
-    const result = await testSmtp({ overrides, to, origin, recipientName });
+    const result = await testSmtp({ overrides, to, origin, recipientName, language: requestLanguage(req, db) });
     res.json({ ok: true, to: result.to });
   } catch (e) {
     res.status(400).json({ error: e?.message || 'SMTP test failed' });

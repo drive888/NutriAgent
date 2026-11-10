@@ -56,10 +56,10 @@ A dedicated **Dashboard** page that correlates data across all domains (nutritio
 - Gadgetbridge is the Android FOSS app that talks to a long list of
   fitness trackers (Mi Band, Amazfit, Pebble, Bangle.js, Casio, older
   Fitbits, Huawei, Sony, etc.) without manufacturer accounts. Big match
-  for NutriTrace's self-hosted ethos.
+  for NutriAgent's self-hosted ethos.
 - **Already works via Health Connect today.** Gadgetbridge can write
   steps, heart rate, sleep, weight, and several other metrics to Health
-  Connect; NutriTrace's existing Health Connect integration picks them
+  Connect; NutriAgent's existing Health Connect integration picks them
   up with zero code change. This is the recommended path and covers the
   "does it work with my Mi Band" case for the vast majority of askers.
   Document it in README + DEPLOY as the supported route.
@@ -108,7 +108,7 @@ Left open after the Android sync rework (1af5091, 576f57e):
 - **Web: loading settings overwrites a queued offline change**: `loadServerSettings` writes the server's values over a setting still waiting in the offline queue. Skip queued keys, as the Android mirror now does.
 
 ### Phase 3: Distribution
-- **Obtainium**: list NutriTrace as an Obtainium-discoverable app so users can auto-track new GitHub Releases without checking manually. Requires the GitHub Releases page to consistently attach a signed APK with a stable filename pattern.
+- **Obtainium**: list NutriAgent as an Obtainium-discoverable app so users can auto-track new GitHub Releases without checking manually. Requires the GitHub Releases page to consistently attach a signed APK with a stable filename pattern.
 - **IzzyOnDroid F-Droid repo**: lower bar than F-Droid main (no reproducible builds required). Path to broader F-Droid eventually.
 - **F-Droid main repo**: requires reproducible builds. Larger lift; defer until 1.0+ has had a few public releases.
 - **Play Store**: gated on 1.0 GA. Needs developer account, listing assets (icon, screenshots, description), privacy policy URL, content rating, target SDK compliance.
@@ -129,7 +129,7 @@ Left open after the Android sync rework (1af5091, 576f57e):
 
 ### ~~Meal-level macro summary~~ *(done: per-meal P/C/F bar + text)*
 
-### ~~Quick-log (voice / text)~~ *(done: Smart Log v3, hold Trace button; water logging added v0.38.2-beta)*
+### ~~Quick-log (voice / text)~~ *(done: Smart Log v3, hold NutriAgent button; water logging added v0.38.2-beta)*
 
 ### ~~Dynamic Calorie Goal~~ *(done: v0.38.3-beta, Experimental)*
 - ~~Fixed (current, default) vs Dynamic (device calories_out × factor)~~
@@ -177,7 +177,7 @@ Left open after the Android sync rework (1af5091, 576f57e):
   (avg / longest / current streak / longest streak) + 14-day mini-chart
   rendered with pure CSS bars (no Chart.js dep). Renders only when
   fastingEnabled is on.
-- AI Trace gains get_fasting_history(days) tool, callable as
+- AI NutriAgent gains get_fasting_history(days) tool, callable as
   "what's my fasting streak?" etc.
 - Settings keys (USER_PREFS): fastingEnabled, fastingDefaultHours,
   fastingNotifyOnGoal.
@@ -239,7 +239,7 @@ Left open after the Android sync rework (1af5091, 576f57e):
 ### Saved Activities library
 - Save commonly-logged activities (e.g. "Morning hike, 60 min, 300 kcal") as reusable templates
 - Picker UI on the Activity sheet to choose a template, optionally edit before saving to diary
-- Interim partial-coverage already released: name autocomplete from past entries (`<datalist>`) + Trace AI calorie estimation from name + duration
+- Interim partial-coverage already released: name autocomplete from past entries (`<datalist>`) + NutriAgent AI calorie estimation from name + duration
 - Defer until multiple users specifically ask for the full library, autocomplete may already cover most of the value
 - Originally requested by tellis82 in #12
 
@@ -506,11 +506,11 @@ outages.
 
 ---
 
-## AI Assistant (Trace)
+## AI Assistant (NutriAgent)
 
-### Food photo logging via Trace chat: auto-pipe to Smart Log
-- *Image attachments to Trace chat already released*, users can attach a meal photo and Claude/GPT-4o vision identifies foods + estimates portions in plain text reply.
-- **Still pending:** intercept a vision response that looks like a food list, pipe it into the Smart Log matcher, and open the Smart Log review modal for confirmation before adding to diary. Reuses existing Smart Log infra; no new UI needed beyond what Trace chat already supports.
+### Food photo logging via NutriAgent chat: auto-pipe to Smart Log
+- *Image attachments to NutriAgent chat already released*, users can attach a meal photo and Claude/GPT-4o vision identifies foods + estimates portions in plain text reply.
+- **Still pending:** intercept a vision response that looks like a food list, pipe it into the Smart Log matcher, and open the Smart Log review modal for confirmation before adding to diary. Reuses existing Smart Log infra; no new UI needed beyond what NutriAgent chat already supports.
 
 ### ~~Local / self-hosted LLM support~~ *(done: generic `oai-compat` provider in `src/lib/aiChat.js` accepting any OpenAI-compatible base URL, no API key required; covers Ollama, LocalAI, LM Studio, vLLM, llama.cpp. Megathread/README list this. Tool-use caveats stand: smaller local models silently break Goal Insights + Smart Log; documenting verified models is a follow-up.)*
 
@@ -524,17 +524,17 @@ Facts" card for pantry items (view layout) with a tap-Edit toggle that
 swaps the card for an input-box form (edit layout). The pattern is
 universally readable (mirrors physical packaging) and gives the
 TraceApps family a recognizable shared component. Plan to roll it into
-NutriTrace in phases so no single change carries too much blast radius.
+NutriAgent in phases so no single change carries too much blast radius.
 
-**~~Phase 1, Photo log confirmation card~~** *(RELEASED rc.42, `NutritionFactsBox.svelte` in `src/components/ui/`, `propose_quick_calories` tool in `aiChat.js`, review card renders in Trace chat with Discard / Edit / Add to Diary)*
+**~~Phase 1, Photo log confirmation card~~** *(RELEASED rc.42, `NutritionFactsBox.svelte` in `src/components/ui/`, `propose_quick_calories` tool in `aiChat.js`, review card renders in NutriAgent chat with Discard / Edit / Add to Diary)*
 - Port CookTrace's `NutritionFactsBox.svelte` into NT as
   `src/components/ui/NutritionFactsBox.svelte`. Maintain visual parity
   with CookTrace; treat divergence as a bug.
 - Add a new AI tool `propose_quick_calories` that returns a structured
   estimate (name, serving, kcal, macros) instead of writing to the
-  diary. Used when the user attaches a meal image to Trace OR explicitly
+  diary. Used when the user attaches a meal image to NutriAgent OR explicitly
   asks "log this, but review first."
-- Trace.svelte renders the card inline in the chat thread when the
+- NutriAgent.svelte renders the card inline in the chat thread when the
   tool fires, with three actions: Discard / Edit / Add to Diary.
   - Discard removes the card from the thread.
   - Edit flips to the input-box form variant (CookTrace pattern).
@@ -607,7 +607,7 @@ Translation contribution path:
 - Seed initial languages from community requests on Lemmy / GitHub issues. Don't pre-translate machine-only, wait for actual native speakers per language to avoid uncanny-valley UX.
 
 Scope explicitly out:
-- User-entered data (food names, notes, meal names) stays as-is. NutriTrace doesn't translate user content.
+- User-entered data (food names, notes, meal names) stays as-is. NutriAgent doesn't translate user content.
 - OFF/USDA food names come from those upstreams in their own languages already.
 
 Likely v1.1 or v1.2 feature. Doing this *before* v1.0 risks delaying launch and locking the string set before the surface settles.
@@ -616,7 +616,7 @@ Likely v1.1 or v1.2 feature. Doing this *before* v1.0 risks delaying launch and 
 
 ## Code / Performance
 
-### ~~Settings.svelte split~~ *(done: v0.39.11, 5 sub-components: SettingsWellness, SettingsTrace, SettingsNotifications, SettingsUserManagement, SettingsBackup. Settings.svelte dropped to ~1700 lines as a thin orchestrator)*
+### ~~Settings.svelte split~~ *(done: v0.39.11, 5 sub-components: SettingsWellness, SettingsAgent, SettingsNotifications, SettingsUserManagement, SettingsBackup. Settings.svelte dropped to ~1700 lines as a thin orchestrator)*
 
 ### ~~Statistics dynamic goal line~~ *(done: v0.39.11, see Diary Enhancements → Dynamic Calorie Goal entry above)*
 
@@ -633,7 +633,7 @@ Likely v1.1 or v1.2 feature. Doing this *before* v1.0 risks delaying launch and 
 - Caveat: changing `BASE_URL` after data exists leaves stale image URLs in old diary item snapshots (the snapshotted `imgUrl` carries the prefix from when it was logged). Documentation in DEPLOY.md notes this as "pick at install time and don't change."
 
 ### Multi-instance sync (optional cloud relay)
-- For users running NutriTrace on multiple devices without a central server
+- For users running NutriAgent on multiple devices without a central server
 - Lightweight CouchDB-style sync (or manual export/import trigger)
 
 ### API key scoping
@@ -650,7 +650,7 @@ Likely v1.1 or v1.2 feature. Doing this *before* v1.0 risks delaying launch and 
 
 Tracked separately because each one is its own migration project, not a
 batch. Policy is: only bump on CVE, EOL of current major, or concrete
-benefit worth the cost (see memory `feedback_nutritrace_dep_bumps.md`).
+benefit worth the cost (see memory `feedback_nutriagent_dep_bumps.md`).
 Survey done 2026-05-20 audit.
 
 **~~Strong candidates~~**: RELEASED 2026-05-20:
@@ -670,7 +670,7 @@ Survey done 2026-05-20 audit.
 
 - **better-sqlite3 9 → 12**: Node-compat bumps, no NT-specific gain.
 
-Audit cadence: see memory `project_nutritrace_dep_audit.md` (monthly `npm audit` + targeted bumps).
+Audit cadence: see memory `project_nutriagent_dep_audit.md` (monthly `npm audit` + targeted bumps).
 
 ### ~~OIDC / SSO support (Authentik, Keycloak, Authelia, etc.)~~ *(RELEASED in v1.0.0-rc.9)*
 Settings → User Management → OIDC providers. Multi-provider, admin-managed (not env-only), client secrets encrypted at rest, auto-link verified-email + auto-register-new-users split toggles, admin role mapping via group claims, runtime password-login disable for OIDC-only instances. Provider preset picker covers Authentik / Keycloak / Pocket ID / Authelia / Auth0 / Google / Custom. Profile → Linked accounts to attach SSO to an existing password account.
@@ -814,7 +814,7 @@ Closes ~90% of the real pain without any new auth model.
 2. **QR-bootstrap in `SettingsApiTokens.svelte` create-flow.** After
    the raw `nt_pat_*` token appears, also render a QR encoding
    `nt-federate://<origin>?token=<raw>`. In CT's
-   `SettingsFederation.svelte`, add a "Scan from NutriTrace" button
+   `SettingsFederation.svelte`, add a "Scan from NutriAgent" button
    that pops the mlkit scanner (already a CT dep) and pre-fills URL +
    token. LT gets the same button on its `SettingsFederation.svelte`.
    Register the deep-link handler in each Capacitor scheme.
@@ -915,12 +915,12 @@ Released: the diary, your own foods, meals and recipes, manual activity, setting
 and goals, the fasting timer and your profile work offline in the browser, iPhone
 included, with an amber cloud on the menu button while edits wait. Search falls
 back to your own foods, and a photo taken offline travels with its food. Online
-sources (Open Food Facts, USDA, Mealie, CookTrace), wellness providers, Trace and
+sources (Open Food Facts, USDA, Mealie, CookTrace), wellness providers, NutriAgent and
 admin still need a connection. LiftTrace and CookTrace follow the same pattern.
 
 Bring NoteTrace's browser offline model here, so the installed web app works in a
-dead zone the way the Android app does. This is set for every Trace app once the
-next main release is out. Order agreed 2026-09-20: NutriTrace first, then
+dead zone the way the Android app does. This is set for every NutriAgent app once the
+next main release is out. Order agreed 2026-09-20: NutriAgent first, then
 LiftTrace, then CookTrace.
 
 The pattern to copy (NoteTrace `src/lib/offline-api.js` + `offline-edits.js`):
@@ -942,7 +942,7 @@ iOS caveats to plan for: Safari evicts site data after about 7 days of no use
 unless the PWA is on the Home Screen, so queued-but-unsent work needs to be
 visible and installing needs a nudge.
 
-NutriTrace specifics:
+NutriAgent specifics:
 
 - Eight entity types to cover (foods, meals, diary, activity, fasts, wellness,
   workouts, settings), against NoteTrace's three. Same shape of work, bigger surface.
@@ -950,7 +950,7 @@ NutriTrace specifics:
   hard half of the id problem.
 - Still online afterwards: Open Food Facts search and barcode lookup (they call
   OFF directly), meal photo uploads, wellness provider pulls (Fitbit, Garmin,
-  Withings, Google Health), Trace AI, and anything admin.
+  Withings, Google Health), NutriAgent AI, and anything admin.
 - Because of that, offline search has to fall back to the user's own catalog and
   recents, or "log a meal in a dead zone" only half works.
 - First slice: read the diary and log from foods you already have, with the queue
@@ -961,12 +961,12 @@ NutriTrace specifics:
 
 ## Pre-1.0 Public Release: TODO
 
-Items to land before flipping `traceapps/nutritrace` public and submitting to Play Store:
+Items to land before flipping `traceapps/nutriagent` public and submitting to Play Store:
 
 - ~~**Android network security lockdown**~~ *(done 2026-05-02)*, `android/app/src/main/res/xml/network_security_config.xml` is now strict (`cleartextTrafficPermitted="false"` + system + user CA trust). Debug-signed APKs get a permissive resource overlay at `android/app/src/debug/res/xml/` that re-enables cleartext for `http://192.168.x.x` LAN dev. `explainConnectError()` in `src/lib/platform.js` translates the cleartext-blocked failure into a friendly "this build only allows HTTPS" message pointing at DEPLOY.md. Documented in three places: README "Coming soon" Android line, new DEPLOY.md "Connecting from Android" section (covers Let's Encrypt, Cloudflare/Tailscale tunnels, self-signed CA install on device, and the build-it-yourself escape hatch), and the in-app error toast.
-- ~~**Native SQLite encryption (revisit)**~~ *(decided 2026-05-02, won't release, position is "rely on Android FBE")*, SQLCipher integration via `@capacitor-community/sqlite` v8 was rolled back in v0.39.23 due to flaky `setEncryptionSecret` secure-store semantics that locked users out of their own data. After surveying comparable apps (Immich, Joplin, Obsidian, AnkiDroid, Mealie, Tandoor, Wger, none encrypt their local SQLite either), decided NutriTrace's threat model doesn't justify the operational risk. Android's file-based encryption (default since Android 7) already encrypts the app data directory using a key tied to the device PIN/biometric, a locked phone is encrypted at rest. PRIVACY.md "Local data at rest" section documents the position explicitly and corrects the previous misleading "encrypted SQLite database" claim.
-- **Public demo instance**: host `demo.nutritrace.app` on the existing Oracle Cloud Always Free machine. Pattern (standard for self-hosted demos, Mealie, Penpot, Vikunja all do this): single shared instance, signup disabled, pre-seeded with a realistic sample week of foods/meals/diary/wellness, cron resets the DB every 6–24h. Implementation: `DEMO_MODE=1` env flag that (a) blocks signup, (b) auto-signs in as the demo user, (c) returns 503 from AI/SMTP/upload routes (don't burn API keys, don't email random addresses), (d) renders a sticky banner "DEMO, data resets daily, don't enter real info". Add `server/scripts/seed-demo.js` to wipe + reseed; cron via systemd timer on the Oracle box. Demo URL is the single biggest conversion lever for awesome-selfhosted submission and r/selfhosted launch posts, defer to just before launch so the demo shows the v1.0 surface, not a beta.
-- ~~**Sync to public repo**~~ *(done, routine release flow: dev → public via `nutritrace-dev-sync.sh` on Linux or the PowerShell-port equivalent. Public repo at `TraceApps/nutritrace` has been live since the rc.1 flip.)*
+- ~~**Native SQLite encryption (revisit)**~~ *(decided 2026-05-02, won't release, position is "rely on Android FBE")*, SQLCipher integration via `@capacitor-community/sqlite` v8 was rolled back in v0.39.23 due to flaky `setEncryptionSecret` secure-store semantics that locked users out of their own data. After surveying comparable apps (Immich, Joplin, Obsidian, AnkiDroid, Mealie, Tandoor, Wger, none encrypt their local SQLite either), decided NutriAgent's threat model doesn't justify the operational risk. Android's file-based encryption (default since Android 7) already encrypts the app data directory using a key tied to the device PIN/biometric, a locked phone is encrypted at rest. PRIVACY.md "Local data at rest" section documents the position explicitly and corrects the previous misleading "encrypted SQLite database" claim.
+- **Public demo instance**: host `demo.nutriagent.app` on the existing Oracle Cloud Always Free machine. Pattern (standard for self-hosted demos, Mealie, Penpot, Vikunja all do this): single shared instance, signup disabled, pre-seeded with a realistic sample week of foods/meals/diary/wellness, cron resets the DB every 6–24h. Implementation: `DEMO_MODE=1` env flag that (a) blocks signup, (b) auto-signs in as the demo user, (c) returns 503 from AI/SMTP/upload routes (don't burn API keys, don't email random addresses), (d) renders a sticky banner "DEMO, data resets daily, don't enter real info". Add `server/scripts/seed-demo.js` to wipe + reseed; cron via systemd timer on the Oracle box. Demo URL is the single biggest conversion lever for awesome-selfhosted submission and r/selfhosted launch posts, defer to just before launch so the demo shows the v1.0 surface, not a beta.
+- ~~**Sync to public repo**~~ *(done, routine release flow: dev → public via `nutriagent-dev-sync.sh` on Linux or the PowerShell-port equivalent. Public repo at `TraceApps/nutriagent` has been live since the rc.1 flip.)*
 - ~~**Pre-flight scrub**~~ *(done 2026-04-26, full audit ran in v0.39.35-beta cycle: zero personal email/name leaks, `.env` properly gitignored, no hardcoded URLs/IPs in releasing files, all OAuth credentials user-configurable, sync script handles `thebigjoe1` → `traceapps` rewrites, Ko-fi handle migrated to `traceapps`)*
 - **Discovery push** (post-flip), submit to awesome-selfhosted, post to r/selfhosted with screenshots/demo link, submit to selfh.st newsletter, then Show HN a few weeks later once Reddit traffic stabilizes. AlternativeTo + Umbrel/CasaOS app store listings as secondary follow-ups. Prerequisites: demo instance live, 4–5 screenshots in README, v1.0.0 tag (curated lists shy away from beta).
 
@@ -975,9 +975,9 @@ Items to land before flipping `traceapps/nutritrace` public and submitting to Pl
 ## ~~Repo Split: Public Server / Private Android~~ *(done, public flipped 2026-04-26)*
 
 Current structure (post-flip):
-- `traceapps/nutritrace-dev` (private), full monorepo with `android/`, used for development. CLAUDE.md and FUTURE.md live here only.
-- `traceapps/nutritrace` (PUBLIC since rc.1), synced from `nutritrace-dev` via the sync script. Each public release is a clean snapshot commit (`chore: sync from nutritrace-dev (vX.Y.Z)`), not a daily commit log, CHANGELOG carries the version history.
-- `traceapps/nutritrace-android` (private), standalone mirror of the Android shell.
+- `traceapps/nutriagent-dev` (private), full monorepo with `android/`, used for development. CLAUDE.md and FUTURE.md live here only.
+- `traceapps/nutriagent` (PUBLIC since rc.1), synced from `nutriagent-dev` via the sync script. Each public release is a clean snapshot commit (`chore: sync from nutriagent-dev (vX.Y.Z)`), not a daily commit log, CHANGELOG carries the version history.
+- `traceapps/nutriagent-android` (private), standalone mirror of the Android shell.
 
 CLAUDE.md was removed from public in rc.36; FUTURE.md is now dev-only too (this file). The sync script already excludes both, re-confirm if you ever modify the sync flow.
 

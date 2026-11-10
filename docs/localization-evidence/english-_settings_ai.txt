@@ -1,0 +1,147 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/settings/ai".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/ai
+	2 container app
+		145 button Open menu
+		146 container
+			147 container Main navigation
+				148 button Diary
+					149 text book
+					150 text DIARY
+				151 button Foods
+					152 text restaurant
+					153 text FOODS
+				154 button Statistics
+					155 text bar_chart
+					156 text STATISTICS
+				157 button Goals
+					158 text flag
+					159 text GOALS
+				160 button Settings
+					161 text settings
+					162 text SETTINGS
+		163 container
+			164 container
+				165 button Back
+				166 heading AI Assistant, Value: 1
+					167 text AI Assistant
+			168 text search
+			169 search text field (settable)
+			170 button person Profile
+				171 text person
+				172 text Profile
+			173 text DISPLAY
+			174 button contrast Appearance
+				175 text contrast
+				176 text Appearance
+			177 button language Regional & Units
+				178 text language
+				179 text Regional & Units
+			180 button book Diary
+				181 text book
+				182 text Diary
+			183 button water_drop Water
+				184 text water_drop
+				185 text Water
+			186 button restaurant Foods
+				187 text restaurant
+				188 text Foods
+			189 text DATA & TRACKING
+			190 button flag Calorie Goals
+				191 text flag
+				192 text Calorie Goals
+			193 button straighten Body Stats
+				194 text straighten
+				195 text Body Stats
+			196 button bar_chart Statistics
+				197 text bar_chart
+				198 text Statistics
+			199 button science Nutrients
+				200 text science
+				201 text Nutrients
+			202 button category Categories
+				203 text category
+				204 text Categories
+			205 button straighten Custom Units
+				206 text straighten
+				207 text Custom Units
+			208 text INTEGRATIONS
+			209 button link Food Sources
+				210 text link
+				211 text Food Sources
+			212 button smart_toy AI Assistant
+				213 text smart_toy
+				214 text AI Assistant
+			215 button favorite Wellness
+				216 text favorite
+				217 text Wellness
+			218 text APP
+			219 button notifications Notifications
+				220 text notifications
+				221 text Notifications
+			222 button backup Backup & Restore
+				223 text backup
+				224 text Backup & Restore
+			225 button import_export Import & Export
+				226 text import_export
+				227 text Import & Export
+			228 button group Food Sharing
+				229 text group
+				230 text Food Sharing
+			231 button system_update Updates
+				232 text system_update
+				233 text Updates
+			234 button troubleshoot Diagnostics
+				235 text troubleshoot
+				236 text Diagnostics
+			237 text ADMIN
+			238 button group Users
+				239 text group
+				240 text Users
+			241 button vpn_key Authentication
+				242 text vpn_key
+				243 text Authentication
+			244 button mail Email (SMTP)
+				245 text mail
+				246 text Email (SMTP)
+			247 button key API Tokens
+				248 text key
+				249 text API Tokens
+			250 button webhook Webhooks
+				251 text webhook
+				252 text Webhooks
+			253 text NUTRITRACE
+			254 button volunteer_activism Support
+				255 text volunteer_activism
+				256 text Support
+			257 button info About
+				258 text info
+				259 text About
+			260 text check_circle Connected OPENAI COMPATIBLE
+			261 button Test
+			262 text Enable AI Assistant Adds a floating chat button to all pages
+			263 switch 1
+			264 text Provider
+			265 pop up button (collapsed, settable) Value: OpenAI Compatible, Secondary Actions: Expand
+				266 menu
+					267 Anthropic Claude
+					268 OpenAI
+					269 Google Gemini
+					270 (selected) OpenAI Compatible
+			271 text BASE URL
+			272 text field (settable) BASE URL, Value: http://20.249.128.159:8317, ID: ai-base-url
+			273 text Any OpenAI Compatible /v1/chat/completions endpoint, Ollama, LM Studio, LocalAI, vLLM, llama.cpp's server, DeepSeek, Groq, Together AI, Mistral La Plateforme, etc. Don't include the path, just the origin. Model
+			274 text field (settable) gpt-6.1-sol
+			275 text info
+			276 text Tool calls reliability varies by model.
+			277 text  Llama 3.1+, Mistral, Qwen 2.5+ handle them well. Smaller or older models may break Smart Log + Goal Insights silently. Vision (image attachments) needs a multimodal model. If you're unsure, start with a known-good model and check the chat works before relying on it. API KEY (OPTIONAL)
+			278 text field (settable) API KEY (OPTIONAL), Value: <redacted>
+			279 button visibility, Help: Show
+			280 text Local endpoints (Ollama, LM Studio, etc.) typically don't need a key. Cloud providers like DeepSeek or Groq do, get one from their dashboard. Your key is stored securely on the server. Assistant Name
+			281 text field (settable) Trace
+			282 text Smart Log Hold the assistant button, speak what you ate, AI parses the items and meal slot, matches your food database, then confirms before saving
+			283 switch 0
+			284 text Goal Insights The assistant analyzes your intake trends and proactively suggests goal adjustments when patterns are consistent
+			285 switch 0
+		144 button Description: Open AI coach (hold to dictate food), Help: AI Assistant
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/ai

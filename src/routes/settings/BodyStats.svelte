@@ -1,13 +1,14 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { DB } from '../../lib/db.js';
   import Toggle from '../../components/settings/Toggle.svelte';
   import { bodyStatsOrder, hiddenBodyStats } from '../../stores/settings.js';
 
   const BODY_STATS = [
-    { id:'weight', label:'Weight' }, { id:'neck', label:'Neck' }, { id:'waist', label:'Waist' },
-    { id:'hips', label:'Hips' }, { id:'chest', label:'Chest' }, { id:'thighs', label:'Thighs' },
-    { id:'biceps', label:'Biceps' }, { id:'calves', label:'Calves' },
-    { id:'body_fat', label:'Body Fat %' }, { id:'body_water', label:'Body Water %' },
+    { id:'weight', label:'Weight', labelKey: 'ui.m81d27ef6d503' }, { id:'neck', label:'Neck', labelKey: 'ui.m6b27a97151bb' }, { id:'waist', label:'Waist', labelKey: 'ui.m8470df662662' },
+    { id:'hips', label:'Hips', labelKey: 'ui.mb004098c1134' }, { id:'chest', label:'Chest', labelKey: 'ui.m378d83808237' }, { id:'thighs', label:'Thighs', labelKey: 'ui.mcc3653998568' },
+    { id:'biceps', label:'Biceps', labelKey: 'ui.m49f08df6459e' }, { id:'calves', label:'Calves', labelKey: 'ui.mb94a4523f488' },
+    { id:'body_fat', label:'Body Fat %', labelKey: 'ui.m9c0e4652a292' }, { id:'body_water', label:'Body Water %', labelKey: 'ui.m6f5bd2d9d24b' },
   ];
 
   $: orderedBodyStats = (() => {
@@ -96,7 +97,7 @@
           : ''}>
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <span class="drag-handle material-symbols-rounded" on:pointerdown={e => onStatDragDown(e, i)}>drag_indicator</span>
-        <span class="setting-label">{stat.label}</span>
+        <span class="setting-label">{stat.labelKey ? $_(stat.labelKey) : stat.label}</span>
         <Toggle checked={isStatVisible(stat.id)} on:change={() => toggleStatVisible(stat.id)} />
       </div>
     {/each}

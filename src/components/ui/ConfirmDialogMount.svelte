@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import Dialog from './Dialog.svelte';
   import { confirmRequest } from '../../stores/confirmDialog.js';
 
@@ -22,7 +23,7 @@
 {#if current}
   <Dialog
     bind:open
-    title={current.title}
+    title={current.titleKey ? $_(current.titleKey) : current.title}
     message={current.message}
     confirmText={current.confirmText}
     cancelText={current.cancelText}

@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   /**
    * Catalog-strict unit combobox.
    *
@@ -48,7 +49,7 @@
           ...g,
           units: g.units.filter(u =>
             foldText(u.abbr).includes(foldText(_query)) ||
-            foldText(u.full).includes(foldText(_query))
+            foldText([u.fullKey ? $_(u.fullKey) : '', u.full].join(' ')).includes(foldText(_query))
           ),
         }))
         .filter(g => g.units.length > 0)
@@ -176,10 +177,10 @@
   <div use:portal class="popover" bind:this={popoverEl} role="listbox"
     style={popStyle} transition:fade={{ duration: 80 }}>
     {#if filteredGroups.length === 0}
-      <p class="empty-line">No matches. Add custom units in Settings → Foods → Custom Units.</p>
+      <p class="empty-line">{$_('ui.m76c8a823fcec')}</p>
     {:else}
       {#each filteredGroups as group}
-        <p class="group-label">{group.label}</p>
+        <p class="group-label">{group.labelKey ? $_(group.labelKey) : group.label}</p>
         {#each group.units as u}
           {@const idx = flatList.findIndex(f => f.abbr === u.abbr && f.groupLabel === group.label)}
           <button
@@ -191,7 +192,7 @@
             on:mousedown|preventDefault={() => pick(u)}
             on:mouseenter={() => highlight = idx}
           >
-            <span class="opt-full">{u.full}</span>
+            <span class="opt-full">{u.fullKey ? $_(u.fullKey) : u.full}</span>
             <span class="opt-abbr">{u.abbr}</span>
           </button>
         {/each}

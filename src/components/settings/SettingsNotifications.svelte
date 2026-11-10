@@ -65,9 +65,9 @@
       ? 'fail'
       : (_pushConfigured ? 'ok' : '');
   $: _pushBannerDisabled = _gotifyTesting || !_pushConfigured;
-  $: _pushProviderLabel  = _notifPushService === 'gotify'  ? 'Gotify'
-                         : _notifPushService === 'ntfy'    ? 'ntfy'
-                         : _notifPushService === 'apprise' ? 'Apprise'
+  $: _pushProviderLabel  = _notifPushService === $_('ui.me65e489e2065')  ? $_('ui.m0974e90b8840')
+                         : _notifPushService === $_('ui.m1d8ada3e1183')    ? $_('ui.m1d8ada3e1183')
+                         : _notifPushService === $_('ui.m919621e1a702') ? $_('ui.mf1b7cfe8db5c')
                          : '';
   // Clear stale test result when switching providers so the banner doesn't
   // carry over a "Last Test Sent" pill from a different service.
@@ -129,7 +129,7 @@
     set('appriseUrl', _appriseUrl); set('appriseTag', _appriseTag);
     try {
       const { sendPush } = await import('../../lib/notifications.js');
-      await sendPush(_notifPushService, 'NutriTrace', 'Test notification, push service connected', 5);
+      await sendPush(_notifPushService, 'NutriAgent', 'Test notification, push service connected', 5);
       _pushTestResult = 'ok';
       showSuccess($_('settings_notifications.toast.test_sent'));
     } catch (e) {
@@ -144,7 +144,7 @@
 
   <!-- Delivery setup -->
   <p class="settings-group-heading">{$_('settings_notifications.sections.delivery')}</p>
-  <p class="settings-group-sub">How notifications reach you: on-device pop-ups and optional third-party push service.</p>
+  <p class="settings-group-sub">{$_('ui.m48ebf4b0807c')}</p>
   <div class="card settings-card">
     {#if _notifPushService !== 'none'}
       <ConnectionStatus
@@ -207,7 +207,7 @@
             <input class="input" style="flex:1" type="password" placeholder={$_('settings_notifications.push.gotify_token_ph')} bind:value={_gotifyToken} on:blur={() => set('gotifyToken', _gotifyToken)} />
           {/if}
           <button class="btn-icon" on:click={() => _gotifyShowToken = !_gotifyShowToken} title={_gotifyShowToken ? $_('settings_notifications.push.hide') : $_('settings_notifications.push.show')}>
-            <span class="material-symbols-rounded">{_gotifyShowToken ? 'visibility_off' : 'visibility'}</span>
+            <span class="material-symbols-rounded">{_gotifyShowToken ? "visibility_off" : "visibility"}</span>
           </button>
         </div>
       </div>
@@ -232,7 +232,7 @@
             <input class="input" style="flex:1" type="password" placeholder={$_('settings_notifications.push.ntfy_token_ph')} bind:value={_ntfyToken} on:blur={() => set('ntfyToken', _ntfyToken)} />
           {/if}
           <button class="btn-icon" on:click={() => _ntfyShowToken = !_ntfyShowToken} title={_ntfyShowToken ? $_('settings_notifications.push.hide') : $_('settings_notifications.push.show')}>
-            <span class="material-symbols-rounded">{_ntfyShowToken ? 'visibility_off' : 'visibility'}</span>
+            <span class="material-symbols-rounded">{_ntfyShowToken ? "visibility_off" : "visibility"}</span>
           </button>
         </div>
       </div>
@@ -241,7 +241,7 @@
 
   {#if _anyNotifEnabled}
     <p class="settings-group-heading">{$_('settings_notifications.sections.scheduled_reminders')}</p>
-    <p class="settings-group-sub">Recurring reminders at set times of day: water, meals, weigh-in, bedtime.</p>
+    <p class="settings-group-sub">{$_('ui.m0b9c200800ca')}</p>
     <div class="card settings-card">
       <div class="setting-row">
         <div>
@@ -356,7 +356,7 @@
     </div>
 
     <p class="settings-group-heading">{$_('settings_notifications.sections.alerts_summaries')}</p>
-    <p class="settings-group-sub">Milestone alerts and periodic summary reports.</p>
+    <p class="settings-group-sub">{$_('ui.me339e62817e7')}</p>
     <div class="card settings-card">
       <div class="setting-row">
         <div>

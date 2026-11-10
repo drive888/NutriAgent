@@ -229,7 +229,7 @@ export function dispatchWebhookEvent(userId, event, data) {
 export async function sendTestWebhook({ userId, id }) {
   const row = db.prepare('SELECT * FROM webhooks WHERE id = ? AND user_id = ?').get(id, userId);
   if (!row) throw new Error('Webhook not found');
-  await _deliverWithRetry(row, 'test', { message: 'This is a test event from NutriTrace.' });
+  await _deliverWithRetry(row, 'test', { message: 'This is a test event from NutriAgent.' });
   const fresh = db.prepare('SELECT last_delivery_status, last_delivery_error FROM webhooks WHERE id = ?').get(id);
   return fresh;
 }

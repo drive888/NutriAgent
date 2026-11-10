@@ -22,7 +22,7 @@
  *      for anyone else the result is '' and the caller sends no email,
  *      since that address is exactly what an attacker would forge.
  *
- * This file is identical in all four Trace apps.
+ * This file is identical in all four NutriAgent apps.
  */
 import db from '../db.js';
 import { logger } from '../logger.js';

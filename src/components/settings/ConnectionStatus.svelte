@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   /**
    * ConnectionStatus — top-of-card banner for any integration that
    * connects to an external API. Promotes a single look + affordance
@@ -6,7 +7,7 @@
    * the same across Settings.
    *
    * Used by:
-   *   - Trace AI (API key + provider, simple "Connected" state)
+   *   - NutriAgent AI (API key + provider, simple "Connected" state)
    *   - Mealie (URL + token)
    *   - Wellness OAuth: Fitbit / Garmin / Withings / Google Health
    *     (Linked + last sync, custom action via slot)
@@ -33,7 +34,7 @@
   /** Label shown in the badge chip after "Connected" on the ok branch. */
   export let connectedAs = '';
   /** Optional override for the "Connected" label (e.g. "Linked", "Permission granted"). */
-  export let okLabel = 'Connected';
+  export let okLabel = null;
   /** Optional sub-line below the main row (e.g. "last sync 2h ago"). */
   export let subtext = '';
   /** Error string shown on the fail branch. */
@@ -43,18 +44,18 @@
   /** Disable the default Test button (use during in-flight tests/saves). */
   export let retestDisabled = false;
   /** Button label override. Default "Test". */
-  export let retestLabel = 'Test';
+  export let retestLabel = null;
   /** Label override for the testing branch (default "Testing connection…").
    *  Used by callers whose "in-flight" state isn't a connection test —
    *  e.g. the OFF mirror banner shows "Syncing" during a refresh. */
-  export let testingLabel = 'Testing connection…';
+  export let testingLabel = null;
 </script>
 
 {#if status === 'ok'}
   <div class="status-pill ok">
     <div class="status-main">
       <span class="material-symbols-rounded">check_circle</span>
-      <span>{okLabel}</span>
+      <span>{okLabel || $_('local_connection.connected')}</span>
       {#if connectedAs}
         <span class="status-badge">{connectedAs}</span>
       {/if}
@@ -62,7 +63,7 @@
         <slot name="action">
           {#if onRetest}
             <button class="status-retest" on:click={onRetest} disabled={retestDisabled}>
-              {retestDisabled ? 'Testing…' : retestLabel}
+              {retestDisabled ? $_('ui.m407b7a04662f') : (retestLabel || $_('local_connection.test'))}
             </button>
           {/if}
         </slot>
@@ -76,7 +77,7 @@
   <div class="status-pill warn">
     <div class="status-main">
       <span class="material-symbols-rounded">warning</span>
-      <span>{okLabel}</span>
+      <span>{okLabel || $_('local_connection.connected')}</span>
       {#if connectedAs}
         <span class="status-badge">{connectedAs}</span>
       {/if}
@@ -84,7 +85,7 @@
         <slot name="action">
           {#if onRetest}
             <button class="status-retest" on:click={onRetest} disabled={retestDisabled}>
-              {retestDisabled ? 'Testing…' : retestLabel}
+              {retestDisabled ? $_('ui.m407b7a04662f') : (retestLabel || $_('local_connection.test'))}
             </button>
           {/if}
         </slot>
@@ -98,12 +99,12 @@
   <div class="status-pill fail">
     <div class="status-main">
       <span class="material-symbols-rounded">error</span>
-      <span>Not connected{error ? `: ${error}` : ''}</span>
+      <span>{$_('ui.m0303e1824670')}{error ? `: ${error}` : ''}</span>
       <div class="status-actions">
         <slot name="action">
           {#if onRetest}
             <button class="status-retest" on:click={onRetest} disabled={retestDisabled}>
-              {retestDisabled ? 'Testing…' : retestLabel}
+              {retestDisabled ? $_('ui.m407b7a04662f') : (retestLabel || $_('local_connection.test'))}
             </button>
           {/if}
         </slot>
@@ -117,12 +118,12 @@
   <div class="status-pill testing">
     <div class="status-main">
       <span class="material-symbols-rounded spin">progress_activity</span>
-      <span>{testingLabel}</span>
+      <span>{testingLabel || $_('local_connection.testing')}</span>
       <div class="status-actions">
         <slot name="action">
           {#if onRetest}
             <button class="status-retest" on:click={onRetest} disabled={true}>
-              {retestLabel}
+              {retestLabel || $_('local_connection.test')}
             </button>
           {/if}
         </slot>

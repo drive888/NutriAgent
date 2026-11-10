@@ -383,7 +383,7 @@
       "finish": "Terminer"
     },
     "welcome": {
-      "title": "Bienvenue sur NutriTrace",
+      "title": "Bienvenue sur NutriAgent",
       "desc": "Votre tracker de nutrition personnel. Configurons-le en une minute environ."
     },
     "name": {
@@ -393,9 +393,9 @@
     },
     "usermgmt": {
       "create_account_title": "Créer votre compte",
-      "create_account_desc": "Configurez votre compte administrateur pour sécuriser votre instance NutriTrace. Vous pourrez inviter d'autres utilisateurs plus tard depuis les Paramètres.",
+      "create_account_desc": "Configurez votre compte administrateur pour sécuriser votre instance NutriAgent. Vous pourrez inviter d'autres utilisateurs plus tard depuis les Paramètres.",
       "multi_user_title": "Support multi-utilisateurs",
-      "multi_user_desc": "NutriTrace peut fonctionner en mode mono-utilisateur (par défaut) ou multi-utilisateurs avec des connexions et des réinitialisations de mot de passe séparées. Vous pourrez toujours activer cela plus tard dans les Paramètres."
+      "multi_user_desc": "NutriAgent peut fonctionner en mode mono-utilisateur (par défaut) ou multi-utilisateurs avec des connexions et des réinitialisations de mot de passe séparées. Vous pourrez toujours activer cela plus tard dans les Paramètres."
     },
     "units": {
       "title": "Système de mesure",
@@ -594,7 +594,7 @@
     "verifying": "Vérification de l'invitation…",
     "invalid_link": "Ce lien d'invitation est invalide ou a expiré. Demandez-en un nouveau à votre administrateur.",
     "success": "Compte créé ! Redirection…",
-    "intro": "Vous avez été invité sur NutriTrace. Choisissez un nom d'utilisateur et un mot de passe pour commencer.",
+    "intro": "Vous avez été invité sur NutriAgent. Choisissez un nom d'utilisateur et un mot de passe pour commencer.",
     "intro_with_email": "Vous avez été invité en tant que <strong>{email}</strong>. Choisissez un nom d'utilisateur et un mot de passe pour commencer.",
     "username_label": "Nom d'utilisateur *",
     "username_placeholder": "Choisissez un nom d'utilisateur",

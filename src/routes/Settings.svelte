@@ -326,7 +326,7 @@
     helpImprove:       ['diagnostics','logs','verbose','calibration','export','bug','report','troubleshoot'],
     updates:           ['updates','update','upgrade','version','new version','changelog','release','releases','apk','install','download','check for updates','auto-check','check frequency','check interval','how often','hourly','daily','manual','manual only','cadence','banner','notification','channel','stable','dev','dev-latest','beta','github','server update','docker','compose','docker-compose'],
     support:           ['support','donate','donation','sponsor','github sponsors','ko-fi','kofi','tip','star','report a bug','bug','translate','weblate','help'],
-    about:             ['about','version','nutritrace','license'],
+    about:             ['about','version','nutriagent','license'],
   };
 
   // Visibility predicate for section-toggle rows. Only filters when
@@ -381,17 +381,17 @@
   $: _onboardingCards = (() => {
     const cards = [];
     if (isNative && !getServerUrl()) {
-      cards.push({ key: 'serverConnection', icon: 'cloud_sync', label: 'Connect a Server', desc: 'Sync your diary across devices.' });
+      cards.push({ key: 'serverConnection', icon: 'cloud_sync', label: 'Connect a Server', labelKey: 'ui.m0a75a28a18f9', desc: 'Sync your diary across devices.', descKey: 'ui.m21af29e96ef4' });
     }
     const _g = $goalsStore || {};
     if (!_g.calories) {
-      cards.push({ key: 'goals', icon: 'flag', label: 'Set Your Goals', desc: 'Calorie + macro targets to track against.' });
+      cards.push({ key: 'goals', icon: 'flag', label: 'Set Your Goals', labelKey: 'ui.m38f8fb61b1b4', desc: 'Calorie + macro targets to track against.', descKey: 'ui.mee012fd4f94d' });
     }
     if (!$wellnessEnabled) {
-      cards.push({ key: 'wellness', icon: 'favorite', label: 'Set Up Wellness', desc: 'Connect Fitbit, Garmin, or Health Connect.' });
+      cards.push({ key: 'wellness', icon: 'favorite', label: 'Set Up Wellness', labelKey: 'ui.m4a88b32e257d', desc: 'Connect Fitbit, Garmin, or Health Connect.', descKey: 'ui.mb0376a389b34' });
     }
     if ($appearanceStore === 'system') {
-      cards.push({ key: 'appearance', icon: 'contrast', label: 'Choose a Theme', desc: 'Pick a light / dark preference and accent color.' });
+      cards.push({ key: 'appearance', icon: 'contrast', label: 'Choose a Theme', labelKey: 'ui.m604e06071527', desc: 'Pick a light / dark preference and accent color.', descKey: 'ui.m0cf86eb90798' });
     }
     return cards.filter(c => !_onboardingDismissed.has(c.key));
   })();
@@ -552,7 +552,7 @@
     <span class="material-symbols-rounded chevron">expand_more</span>
   </button>
 
-  <p class="settings-group-label">Data &amp; Tracking</p>
+  <p class="settings-group-label">{$_('local_ui.data_tracking')}</p>
   <button class="section-toggle" class:hidden={!sectionVisible(settingsQuery, 'goals')} class:active={currentSection === 'goals'} aria-current={currentSection === 'goals' ? 'page' : undefined} on:click={() => toggleSection('goals')}>
     <span class="material-symbols-rounded si">flag</span>
     <span>{$_('settings.goals.section')}</span>
@@ -601,7 +601,7 @@
     <span class="material-symbols-rounded chevron">expand_more</span>
   </button>
 
-  <p class="settings-group-label">App</p>
+  <p class="settings-group-label">{$_('local_ui.app')}</p>
   {#if isNative}
     <button class="section-toggle" class:hidden={!sectionVisible(settingsQuery, 'serverConnection')} class:active={currentSection === 'serverConnection'} aria-current={currentSection === 'serverConnection' ? 'page' : undefined} on:click={() => toggleSection('serverConnection')}>
       <span class="material-symbols-rounded si">cloud_sync</span>
@@ -677,7 +677,7 @@
     {/if}
   {/if}
 
-  <p class="settings-group-label">NutriTrace</p>
+  <p class="settings-group-label">{$_('ui.m2014cdd9e657')}</p>
   <button class="section-toggle" class:hidden={!sectionVisible(settingsQuery, 'support')} class:active={currentSection === 'support'} aria-current={currentSection === 'support' ? 'page' : undefined} on:click={() => toggleSection('support')}>
     <span class="material-symbols-rounded si">volunteer_activism</span>
     <span>{$_('settings.support.section')}</span>
@@ -744,7 +744,7 @@
         bind:value={settingsSearch}
         on:input={_onSearchInput} />
       {#if settingsSearch}
-        <button class="settings-search-clear btn-icon" on:click={() => settingsSearch = ''} title="Clear search">
+        <button class="settings-search-clear btn-icon" on:click={() => settingsSearch = ''} title={$_('ui.m3b7ea51793e9')}>
           <span class="material-symbols-rounded" style="font-size:18px">close</span>
         </button>
       {/if}
@@ -777,10 +777,10 @@
                blank column. -->
           <div class="settings-nav-empty">
             <span class="material-symbols-rounded">search_off</span>
-            <p>No sections match "{settingsSearch}"</p>
+            <p>{$_('ui.m64e5d53c477b')}{settingsSearch}"</p>
             <button type="button" class="settings-nav-clear"
               on:click={() => settingsSearch = ''}>
-              Clear search
+              {$_('ui.m3b7ea51793e9')}
             </button>
           </div>
         {/if}
@@ -910,7 +910,7 @@
                  clean welcome, new users get one-click nudges. -->
             {#if !currentSection && _onboardingCards.length > 0}
               <div class="settings-onboarding">
-                <p class="settings-onboarding-heading">Get Set Up</p>
+                <p class="settings-onboarding-heading">{$_('ui.md84320da5723')}</p>
                 <div class="settings-onboarding-grid">
                   {#each _onboardingCards as card (card.key)}
                     <div class="settings-onboarding-card-wrap">
@@ -918,14 +918,14 @@
                         on:click={() => toggleSection(card.key)}>
                         <span class="material-symbols-rounded">{card.icon}</span>
                         <div class="settings-onboarding-copy">
-                          <span class="settings-onboarding-label">{card.label}</span>
-                          <span class="settings-onboarding-desc">{card.desc}</span>
+                          <span class="settings-onboarding-label">{card.labelKey ? $_(card.labelKey) : card.label}</span>
+                          <span class="settings-onboarding-desc">{card.descKey ? $_(card.descKey) : card.desc}</span>
                         </div>
                       </button>
                       <button type="button" class="settings-onboarding-dismiss"
                         on:click|stopPropagation={() => _dismissOnboarding(card.key)}
-                        aria-label="Dismiss {card.label}"
-                        title="Dismiss">
+                        aria-label={$_('ui.m1e94b351aefb', {values: {value0: (card.labelKey ? $_(card.labelKey) : card.label)}})}
+                        title={$_('ui.m48845bff334a')}>
                         <span class="material-symbols-rounded">close</span>
                       </button>
                     </div>
@@ -1366,7 +1366,7 @@
     text-align: center; cursor: pointer; line-height: 1;
   }
 
-  /* Env-lock banner — shown by SettingsTrace / SettingsEmail children
+  /* Env-lock banner — shown by SettingsAgent / SettingsEmail children
      when the corresponding admin panel is env-var pinned. Kept in the
      shell so descendant styling crosses the component boundary. */
   :global(.env-lock-banner) {

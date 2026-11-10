@@ -99,20 +99,20 @@ export async function exportLocalBackup(opts = {}) {
   onProgress(0, 'Reading data…');
 
   // Pull everything from local DB. Use the unified API so PWA + native
-  // both work — NtApi auto-routes to native SQLite or server depending on mode.
-  const { NtApi } = await import('./api.js');
+  // both work — NaApi auto-routes to native SQLite or server depending on mode.
+  const { NaApi } = await import('./api.js');
   const { DB }     = await import('./db.js');
 
   let foods = [], meals = [], recipes = [], diary = [], wellness = [], workouts = [], activity = [], fasts = [];
 
-  try { foods    = await NtApi.getFoods()    || []; } catch {}
-  try { meals    = await NtApi.getMeals()    || []; } catch {}
-  try { recipes  = await NtApi.getRecipes()  || []; } catch {}
-  try { diary    = await NtApi.getAllDiary() || []; } catch {}
+  try { foods    = await NaApi.getFoods()    || []; } catch {}
+  try { meals    = await NaApi.getMeals()    || []; } catch {}
+  try { recipes  = await NaApi.getRecipes()  || []; } catch {}
+  try { diary    = await NaApi.getAllDiary() || []; } catch {}
   // Activity — manual exercise calorie entries (server-only path)
-  try { activity = await NtApi.getActivityRange('1900-01-01', '2999-12-31') || []; } catch {}
+  try { activity = await NaApi.getActivityRange('1900-01-01', '2999-12-31') || []; } catch {}
   // Intermittent fasting log — completed + active fasts
-  try { fasts    = await NtApi.get('/api/fasts?limit=10000') || []; } catch {}
+  try { fasts    = await NaApi.get('/api/fasts?limit=10000') || []; } catch {}
 
   // Wellness + workouts are native-only (PWA reads from server endpoints not unified API)
   if (isNative) {
@@ -282,7 +282,7 @@ export async function importLocalBackup(zipFile, opts = {}) {
         const b64 = await f.async('base64');
         const filename = path.split('/').pop();
         const writeRes = await Filesystem.writeFile({
-          path: `nutritrace-images/${filename}`,
+          path: `nutriagent-images/${filename}`,
           data: b64,
           directory: Directory.Data,
           recursive: true,
@@ -310,7 +310,7 @@ export async function importLocalBackup(zipFile, opts = {}) {
   onProgress(50, 'Importing data…');
 
   // ── Write everything to the local DB ─────────────────────────────────────
-  const { NtApi } = await import('./api.js');
+  const { NaApi } = await import('./api.js');
   const { DB }     = await import('./db.js');
 
   const counts = { foods: 0, meals: 0, recipes: 0, diary: 0, wellness: 0, workouts: 0, activity: 0, fasts: 0, settings: 0 };
@@ -402,7 +402,7 @@ export async function importLocalBackup(zipFile, opts = {}) {
   } else {
     // PWA: server import endpoint
     try {
-      await NtApi.post('/api/data/import', { foodList: foods, meals, recipes, diary, wellness, workouts, activity, fasts });
+      await NaApi.post('/api/data/import', { foodList: foods, meals, recipes, diary, wellness, workouts, activity, fasts });
       counts.foods    = foods.length;
       counts.meals    = meals.length;
       counts.recipes  = recipes.length;

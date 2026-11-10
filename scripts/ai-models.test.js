@@ -31,7 +31,7 @@ test('the picker lists the current models, with the cheapest and the most capabl
   assert.deepEqual(ids('claude'), ['claude-haiku-5-5', 'claude-sonnet-5-5', 'claude-opus-5-5', 'claude-fable-5-1',
     'claude-sonnet-5', 'claude-opus-5', 'claude-fable-5', 'claude-opus-4-8']);
   assert.deepEqual(ids('openai'), ['gpt-6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol', 'gpt-5.6-luna', 'gpt-4o-mini', 'gpt-4o']);
-  // Trace needs tool calls over Chat Completions, which GPT-6.1 Sol and GPT-6 Astra don't do.
+  // NutriAgent needs tool calls over Chat Completions, which GPT-6.1 Sol and GPT-6 Astra don't do.
   assert.ok(!ids('openai').includes('gpt-6.1-sol') && !ids('openai').includes('gpt-6-astra'));
   assert.deepEqual(ids('gemini'), ['gemini-3.1-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.8-flash',
     'gemini-3.1-pro-preview', 'gemini-3.6-flash']);
@@ -52,7 +52,7 @@ test('defaults: Claude Haiku 5.5 when none is chosen; a chosen model is kept', (
   assert.deepEqual(client.AI_DEFAULT_MODELS, { claude: 'claude-haiku-5-5', openai: 'gpt-5.6-luna', gemini: 'gemini-3.8-flash' });
   for (const p of ['claude', 'openai', 'gemini']) assert.ok(ids(p).includes(client.AI_DEFAULT_MODELS[p]), `${p} default is in the picker`);
   // Settings shows a saved model that isn't listed as a custom one, so it keeps working.
-  const trace = readFileSync(new URL('../src/components/settings/SettingsTrace.svelte', import.meta.url), 'utf8');
+  const trace = readFileSync(new URL('../src/components/settings/SettingsAgent.svelte', import.meta.url), 'utf8');
   assert.match(trace, /if \(saved && !isPreset && aiProviderVal !== 'oai-compat'\) \{\s*aiModelSelectVal = '__custom__';\s*aiCustomModelVal = saved;/);
 });
 

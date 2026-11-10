@@ -1,7 +1,7 @@
 /**
  * server/lib/oidc.js — OIDC helper layer.
  *
- * Wraps the `openid-client` library with NutriTrace-specific concerns:
+ * Wraps the `openid-client` library with NutriAgent-specific concerns:
  *   - Discovery cache (1h TTL, lazy)
  *   - PKCE/state/nonce persistence to the existing oauth_state table
  *   - User resolution + auto-link policy + admin claim mapping
@@ -149,7 +149,7 @@ export function consumeState(state) {
 }
 
 // ── Native app hand-off ───────────────────────────────────────────────────
-// The Android app finishes SSO through a nutritrace:// deep link, which any
+// The Android app finishes SSO through a nutriagent:// deep link, which any
 // installed app can register for. Instead of the session token, that link
 // carries a short-lived single-use code, and only the app that started the
 // sign-in can swap it for the token: it sent the SHA-256 of a secret
@@ -202,7 +202,7 @@ export function generateAuthChecks() {
 // ── User resolution + admin mapping ───────────────────────────────────────
 
 /**
- * Map OIDC claims to a NutriTrace user. Implements the resolved
+ * Map OIDC claims to a NutriAgent user. Implements the resolved
  * email-collision policy: link to an existing account by email only when
  * the IdP says email_verified === true and auto-link is on; a matching email
  * that can't be linked is refused (never given a second account).
@@ -232,7 +232,7 @@ export function resolveUser(provider, claims) {
   // Split flags (rc.12+):
   //   auto_link_verified_email — silently link verified-email match to existing
   //     local user. Defaults ON (trust the IdP you configured).
-  //   auto_register_new_users — auto-create a NutriTrace account for first-time
+  //   auto_register_new_users — auto-create a NutriAgent account for first-time
   //     OIDC users. Defaults OFF (admin must invite first).
   const autoLink = provider.auto_link_verified_email != null
     ? !!provider.auto_link_verified_email
@@ -262,7 +262,7 @@ export function resolveUser(provider, claims) {
   if (email) {
     const collision = db.prepare(`SELECT id FROM users WHERE email = ?`).get(email);
     if (collision && (!autoLink || !emailVerified)) {
-      throw new Error(`Your ${provider.display_name || 'OIDC'} account matches an existing NutriTrace user. Sign in the usual way once, then link this provider from Profile → Linked Accounts. After that, SSO will sign you in directly.`);
+      throw new Error(`Your ${provider.display_name || 'OIDC'} account matches an existing NutriAgent user. Sign in the usual way once, then link this provider from Profile → Linked Accounts. After that, SSO will sign you in directly.`);
     }
   }
 
@@ -286,7 +286,7 @@ export function resolveUser(provider, claims) {
   }
 
   // 4. Reject
-  throw new Error('No NutriTrace account is linked to this identity. Ask your admin to enable Auto-register new users on this provider, or have them invite you first.');
+  throw new Error('No NutriAgent account is linked to this identity. Ask your admin to enable Auto-register new users on this provider, or have them invite you first.');
 }
 
 /**
@@ -322,7 +322,7 @@ export function linkUser(userId, providerId, sub, emailVerified) {
     `SELECT user_id FROM user_oidc_links WHERE oidc_provider_id = ? AND oidc_sub = ?`
   ).get(providerId, sub);
   if (existing && existing.user_id !== userId) {
-    throw new Error('This provider identity is already linked to a different NutriTrace account.');
+    throw new Error('This provider identity is already linked to a different NutriAgent account.');
   }
   if (existing) return; // idempotent
   db.prepare(

@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   // Use relative asset URLs so the bundle works regardless of the path the
   // server is mounted at. Combined with server-side BASE_URL support, this
-  // lets the same image run at `/`, `/nutritrace/`, or any other prefix
+  // lets the same image run at `/`, `/nutriagent/`, or any other prefix
   // without a rebuild.
   base: './',
   server: {
@@ -103,16 +103,16 @@ export default defineConfig({
         ]
       },
       manifest: {
-        name: 'NutriTrace',
-        short_name: 'NutriTrace',
-        description: 'Trace Every Bite — Personal Nutrition Tracker',
-        theme_color: '#0A0B0F',
-        background_color: '#0A0B0F',
+        name: 'NutriAgent',
+        short_name: 'NutriAgent',
+        description: 'Your AI Nutrition Assistant — Personal Nutrition Tracker',
+        theme_color: '#0D171C',
+        background_color: '#0D171C',
         display: 'standalone',
         orientation: 'portrait-primary',
         // Relative URLs — browsers resolve them against the manifest's own
         // location. This makes PWA install work whether the app is mounted
-        // at root (`/`) or at a subpath (`/nutritrace/`) without rebuilding.
+        // at root (`/`) or at a subpath (`/nutriagent/`) without rebuilding.
         start_url: './',
         scope: './',
         icons: [

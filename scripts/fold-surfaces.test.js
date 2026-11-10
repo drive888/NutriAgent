@@ -3,7 +3,7 @@
  * crease.
  *
  * A diary, a chart or a photo is free to cross a fold: it can be scrolled or
- * panned. A dialog, a sheet, a picker or the Trace panel cannot, so each one is
+ * panned. A dialog, a sheet, a picker or the NutriAgent panel cannot, so each one is
  * named here, and a new one gets noticed when it is added rather than when
  * someone unfolds a phone.
  */
@@ -27,7 +27,7 @@ test('the tabletop rules cover every fixed surface', () => {
 });
 
 test('the rules name classes this app actually has', () => {
-  // A rule written against another Trace app's class names would be silently
+  // A rule written against another NutriAgent app's class names would be silently
   // dead here, which is the one failure a stylesheet never reports.
   const used = [...css.matchAll(/html\.fold-(?:book|tabletop) ([^{]+)\{/g)]
     .flatMap(m => m[1].split(',').map(x => x.trim()))

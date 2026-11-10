@@ -16,7 +16,7 @@
  *     notifications.js / health-connect.js etc. start logging (they
  *     normally only run in dev builds).
  *   - When ON on native: also batches the buffer to disk daily at
- *     `logs/nutritrace-YYYY-MM-DD.log`. User exports the file via
+ *     `logs/nutriagent-YYYY-MM-DD.log`. User exports the file via
  *     Settings → Diagnostics → "Share log file". Daily rotation, last 7
  *     days kept. Survives crashes — one of the main reasons we persist.
  *
@@ -102,7 +102,7 @@ function _buildHeader() {
   } catch {}
   const ua = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
   const lines = [
-    `NutriTrace ${_appVersion} · ${mode} · ${new Date().toISOString()}`,
+    `NutriAgent ${_appVersion} · ${mode} · ${new Date().toISOString()}`,
   ];
   if (server) lines.push(`Server: ${server}`);
   if (ua) lines.push(`User agent: ${ua}`);
@@ -127,7 +127,7 @@ let _writeQueue = [];
 let _writeTimer = null;
 
 function _todayLogPath() {
-  return `${LOG_DIR}/nutritrace-${new Date().toISOString().slice(0, 10)}.log`;
+  return `${LOG_DIR}/nutriagent-${new Date().toISOString().slice(0, 10)}.log`;
 }
 
 function _enqueueFileWrite(line) {

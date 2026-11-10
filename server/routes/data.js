@@ -36,7 +36,7 @@ router.delete('/', wrap((req, res) => {
   res.json({ ok: true });
 }));
 
-// Bulk import — accepts NutriTrace backup format (foodList/meals/recipes/diary)
+// Bulk import — accepts NutriAgent backup format (foodList/meals/recipes/diary)
 router.post('/import', wrap((req, res) => {
   const { foodList = [], meals = [], recipes = [], diary = [], activity = [], fasts = [] } = req.body;
   const u = uid(req);

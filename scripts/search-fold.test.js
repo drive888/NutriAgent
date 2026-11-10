@@ -114,7 +114,7 @@ test('no search box compares raw lowercase text any more', () => {
     '../src/lib/quick-log.js',
     '../src/components/diary/AddActivitySheet.svelte',
     '../src/components/ui/UnitPicker.svelte',
-    '../src/components/ai/Trace.svelte',
+    '../src/components/ai/NutriAgent.svelte',
     '../src/routes/MealEditor.svelte',
     '../src/routes/Statistics.svelte',
     '../src/routes/Goals.svelte',

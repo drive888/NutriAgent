@@ -1,0 +1,13 @@
+{
+  "status": 200,
+  "elapsedMs": 1289,
+  "raw": {
+    "candidates": [
+      {
+        "name": "chicken",
+        "category": "chicken",
+        "confidence": 0.9984453320503235
+      }
+    ]
+  }
+}

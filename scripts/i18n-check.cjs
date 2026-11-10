@@ -46,7 +46,7 @@ const KEYISH_RE = /(['"])([a-z][a-zA-Z0-9_]*(?:\.[a-zA-Z0-9_]+)+)\1/g;
 // Dotted string literals whose trailing segment matches one of these is a
 // filename, not an i18n key — e.g. 'foods.json' in local-backup.js. Kept as
 // a shape rule (not per-string ignore entries) so the check stays drop-in
-// across NutriTrace / CookTrace, where 'settings.json' and friends live.
+// across NutriAgent / CookTrace, where 'settings.json' and friends live.
 const FILE_EXT_TAIL = /\.(?:json|js|cjs|mjs|ts|tsx|jsx|svelte|css|scss|html|md|svg|png|jpe?g|webp|gif|ico|mp3|mp4|wav|ogg|woff2?|ttf|otf|yml|yaml|toml|txt|zip)$/i;
 
 function flatten(obj, prefix = '') {

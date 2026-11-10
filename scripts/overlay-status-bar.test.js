@@ -2,7 +2,7 @@
  * Sheets and dialogs must stay below the status bar. The Android app draws
  * under it, so a panel capped only at a share of the screen (90vh, or
  * 100vh - 32px) can reach up under it once its content fills the cap,
- * which happens as soon as the keyboard shortens the screen (NutriTrace
+ * which happens as soon as the keyboard shortens the screen (NutriAgent
  * #228: Body Stats' title and close button ended up under the status bar).
  * Every overlay panel's height cap has to take --safe-top into account.
  */

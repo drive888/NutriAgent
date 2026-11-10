@@ -94,7 +94,7 @@ function _decodeMealNames(row) {
 // ── Diary item conversion ────────────────────────────────────────────────
 
 /**
- * Convert a parsed canonical row into the NutriTrace diary item shape.
+ * Convert a parsed canonical row into the NutriAgent diary item shape.
  * Matches what addDiaryItem() in src/stores/diary.js produces.
  */
 function _toDiaryItem(canonical, mealNames) {

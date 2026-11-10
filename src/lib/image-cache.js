@@ -16,7 +16,7 @@ const CACHE_DIR = 'image_cache';
 // the trailing filename only — colliding for OFF image URLs that all end
 // with names like "front_en.4.400.jpg" across different products (#61).
 // v2 uses a hash of the full URL.
-// Bumped to 3 on the WebView hostname flip (localhost → app.nutritrace.local).
+// Bumped to 3 on the WebView hostname flip (localhost → app.nutriagent.local).
 // Cached image URLs are pre-generated via Capacitor.convertFileSrc() at
 // download time, which bakes in the WebView's current authority. Under the
 // old hostname the cached URLs looked like https://localhost/_capacitor_file_/...;

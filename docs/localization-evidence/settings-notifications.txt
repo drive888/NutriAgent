@@ -1,0 +1,159 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/settings/notifications".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/notifications
+	2 container app
+		71 button 打开菜单
+		72 container
+			86 container 主导航
+				87 button 饮食日记
+					88 text book
+					89 text 饮食日记
+				90 button 食物
+					91 text restaurant
+					92 text 食物
+				93 button 统计
+					94 text bar_chart
+					95 text 统计
+				96 button 目标
+					97 text flag
+					98 text 目标
+				99 button 设置
+					100 text settings
+					101 text 设置
+		102 container
+			103 container
+				104 button 返回
+				105 heading 通知, Value: 1
+					106 text 通知
+			107 text search
+			108 search text field (settable)
+			109 button person 个人资料
+				110 text person
+				111 text 个人资料
+			112 text 显示
+			113 button contrast 外观
+				114 text contrast
+				115 text 外观
+			116 button language 区域与单位
+				117 text language
+				118 text 区域与单位
+			119 button book 饮食日记
+				120 text book
+				121 text 饮食日记
+			122 button water_drop 饮水
+				123 text water_drop
+				124 text 饮水
+			125 button restaurant 食物
+				126 text restaurant
+				127 text 食物
+			128 text 数据与记录
+			129 button flag 热量目标
+				130 text flag
+				131 text 热量目标
+			132 button straighten 身体数据
+				133 text straighten
+				134 text 身体数据
+			135 button bar_chart 统计
+				136 text bar_chart
+				137 text 统计
+			138 button science 营养素
+				139 text science
+				140 text 营养素
+			141 button category 分类
+				142 text category
+				143 text 分类
+			144 button straighten 自定义单位
+				145 text straighten
+				146 text 自定义单位
+			147 text 集成
+			148 button link 食物来源
+				149 text link
+				150 text 食物来源
+			151 button smart_toy AI 助手
+				152 text smart_toy
+				153 text AI 助手
+			154 button favorite 健康
+				155 text favorite
+				156 text 健康
+			157 text 应用
+			158 button notifications 通知
+				159 text notifications
+				160 text 通知
+			161 button backup 备份与恢复
+				162 text backup
+				163 text 备份与恢复
+			164 button import_export 导入与导出
+				165 text import_export
+				166 text 导入与导出
+			167 button group 食物共享
+				168 text group
+				169 text 食物共享
+			170 button system_update 更新
+				171 text system_update
+				172 text 更新
+			173 button troubleshoot 诊断
+				174 text troubleshoot
+				175 text 诊断
+			176 text 管理
+			177 button group 用户
+				178 text group
+				179 text 用户
+			180 button vpn_key 身份验证
+				181 text vpn_key
+				182 text 身份验证
+			183 button mail 电子邮件 (SMTP)
+				184 text mail
+				185 text 电子邮件 (SMTP)
+			186 button key API 令牌
+				187 text key
+				188 text API 令牌
+			189 button webhook Webhook 通知
+				190 text webhook
+				191 text Webhook 通知
+			192 text NUTRITRACE
+			193 button volunteer_activism 支持
+				194 text volunteer_activism
+				195 text 支持
+			196 button info 关于
+				197 text info
+				198 text 关于
+			199 text 通知方式
+			200 text 通知方式：设备端弹出通知，以及可选的第三方推送服务。
+			201 container
+				202 text 设备通知 直接向此设备发送提醒，在 Android 上使用原生通知，在桌面端/PWA 上使用浏览器弹出通知
+				203 switch 1
+				204 text 推送服务 通过 Apprise、Gotify 或 ntfy 由服务器转发提醒，适用于 PWA 用户或 Home Assistant
+				205 pop up button (collapsed, settable) Value: 无, Secondary Actions: Expand
+					206 menu
+						207 (selected) 无
+						208 Apprise
+						209 Gotify
+						210 ntfy
+			211 text 定时提醒
+			212 text 每天在设定时间重复提醒：喝水、用餐、称重、就寝。
+			213 container
+				214 text 喝水提醒 定期提醒补充水分（上午 8 点至晚上 10 点）
+				215 switch 0
+				216 text 餐食记录提醒 每天提醒你记录餐食
+				217 switch 0
+				218 text 称重提醒 早晨提醒你称重
+				219 switch 0
+				220 text 就寝提醒 晚间提醒你放松身心，准备入睡
+				221 switch 0
+			222 text 提醒与摘要
+			223 text 里程碑提醒和定期汇总报告。
+			224 container
+				225 text 目标达成庆祝 达成热量、蛋白质、碳水化合物、脂肪、饮水、步数、睡眠等任意每日目标时，为你庆祝
+				226 switch 0
+				227 text 步数目标进度 中午时若步数目标进度落后，提醒你多走动
+				228 switch 0
+				229 text 健康提醒 心率变异性显著下降、睡眠质量下降或静息心率骤升时发出提醒
+				230 switch 0
+				231 text 运动总结 运动数据同步后，汇总时长、距离和消耗的热量
+				232 switch 0
+				233 text 每周总结 每周汇总平均热量、蛋白质、步数、睡眠、目标达成率和体重变化，通过推送通知和电子邮件（如已配置）发送
+				234 switch 0
+				235 text 同步失败 Fitbit、Garmin 或 Withings 同步失败时发出提醒
+				236 switch 0
+		70 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/settings/notifications

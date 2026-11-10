@@ -18,6 +18,7 @@ import crypto from 'crypto';
 import { JWT_SECRET } from '../middleware/auth.js';
 
 const PREFIX = 'enc:v1:';
+// Do not rename this legacy salt: existing encrypted OAuth tokens depend on it.
 const SALT   = 'nutritrace.token-crypto.v1';
 
 let _key = null;

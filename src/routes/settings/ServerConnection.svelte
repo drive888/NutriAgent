@@ -77,8 +77,8 @@
   let migrationSummary = null;  // { success, errors, totalSuccess, total } | null
 
   async function connectServer() {
-    if (!serverUrlInput.trim()) { showError('Enter a server URL'); return; }
-    if (!serverUsername.trim() || !serverPassword.trim()) { showError('Enter credentials'); return; }
+    if (!serverUrlInput.trim()) { showError($_('ui.m5f227a8a49b2')); return; }
+    if (!serverUsername.trim() || !serverPassword.trim()) { showError($_('ui.m392a7a9f58fc')); return; }
     const url = serverUrlInput.trim().replace(/\/$/, '');
     serverConnecting = true;
     try {
@@ -164,7 +164,7 @@
       }
 
       // mode === 'download' or 'merge': server data is pulled on reload via
-      // loadServerSettings + NtApiCached.
+      // loadServerSettings + NaApiCached.
       // mode === 'upload': server settings stay, local data pushed up.
 
       // If anything was uploaded, show the summary before finalizing so the
@@ -201,7 +201,7 @@
     DB.setSetting('setupComplete', true);
     serverMode = 'server';
     mergeStep = null;
-    showSuccess('Connected to server');
+    showSuccess($_('ui.m9c8d94107698'));
     setTimeout(() => window.location.reload(), 600);
   }
 
@@ -245,7 +245,7 @@
     serverUsername = '';
     serverPassword = '';
 
-    showSuccess('Disconnected — using local storage');
+    showSuccess($_('ui.m04a731a45ade'));
     setTimeout(() => window.location.reload(), 600);
   }
 
@@ -300,7 +300,7 @@
           <div class="setting-desc">{getServerUrl()}</div>
         </div>
         <span class="material-symbols-rounded" style:color={_serverReachable ? 'var(--success, #22c55e)' : 'var(--danger)'} style="font-size:22px">
-          {_serverReachable ? 'cloud_done' : 'cloud_off'}
+          {_serverReachable ? "cloud_done" : "cloud_off"}
         </span>
       </div>
       <div class="setting-divider"></div>
@@ -320,11 +320,11 @@
       <div style="padding:12px 16px;display:flex;flex-direction:column;gap:8px">
         <button class="btn btn-ghost w-full" on:click={logoutServer}>
           <span class="material-symbols-rounded" style="font-size:18px">logout</span>
-          Log Out
+          {$_('ui.md57d48b71020')}
         </button>
         <button class="btn btn-ghost w-full" style="color:var(--danger)" on:click={disconnectServer}>
           <span class="material-symbols-rounded" style="font-size:18px">link_off</span>
-          Disconnect &amp; Use Locally
+          {$_('ui.m93329295b7b2')}
         </button>
       </div>
     {:else}
@@ -339,7 +339,7 @@
       <div style="padding:12px 16px;display:flex;flex-direction:column;gap:10px">
         <div class="form-group" style="margin:0">
           <label class="form-label">{$_('settings_integrations.server_url')}</label>
-          <input class="input" type="url" placeholder="https://nutritrace.example.com" bind:value={serverUrlInput} />
+          <input class="input" type="url" placeholder="https://nutriagent.example.com" bind:value={serverUrlInput} />
         </div>
         <div class="form-group" style="margin:0">
           <label class="form-label">{$_('settings_integrations.username')}</label>
@@ -354,12 +354,12 @@
               <input class="input" type="password" placeholder={$_('settings_main_deep.server_password_ph')} bind:value={serverPassword} style="padding-right:40px" />
             {/if}
             <button type="button" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-3);padding:4px" on:click={() => serverShowPw = !serverShowPw}>
-              <span class="material-symbols-rounded" style="font-size:20px">{serverShowPw ? 'visibility_off' : 'visibility'}</span>
+              <span class="material-symbols-rounded" style="font-size:20px">{serverShowPw ? "visibility_off" : "visibility"}</span>
             </button>
           </div>
         </div>
         <button class="btn btn-primary w-full" on:click={connectServer} disabled={serverConnecting}>
-          {serverConnecting ? 'Connecting…' : 'Connect to Server'}
+          {serverConnecting ? $_('ui.m72021eb70e91') : $_('ui.m62de0ed6dbc2')}
         </button>
       </div>
     {/if}
@@ -372,17 +372,17 @@
     <div class="merge-dialog">
       <h3 style="margin:0 0 6px;font-size:18px;color:var(--text-1)">{$_('settings_merge.title')}</h3>
       <p style="font-size:13px;color:var(--text-3);margin:0 0 12px;line-height:1.5">
-        You have data on this phone. How should it be handled when connecting?
+        {$_('ui.m15eefd502be5')}
       </p>
       {#if localCounts && localCounts.total > 0}
         <div class="merge-counts" style="margin:0 0 16px">
-          <div class="merge-counts-title">On this phone:</div>
+          <div class="merge-counts-title">{$_('ui.m1aa04cb66291')}</div>
           <div class="merge-counts-grid">
-            {#if localCounts.foods    > 0}<div><strong>{localCounts.foods}</strong> {localCounts.foods === 1 ? 'food' : 'foods'}</div>{/if}
-            {#if localCounts.meals    > 0}<div><strong>{localCounts.meals}</strong> {localCounts.meals === 1 ? 'meal' : 'meals'}</div>{/if}
-            {#if localCounts.recipes  > 0}<div><strong>{localCounts.recipes}</strong> {localCounts.recipes === 1 ? 'recipe' : 'recipes'}</div>{/if}
-            {#if localCounts.diary    > 0}<div><strong>{localCounts.diary}</strong> diary {localCounts.diary === 1 ? 'day' : 'days'}</div>{/if}
-            {#if localCounts.settings > 0}<div><strong>{localCounts.settings}</strong> settings</div>{/if}
+            {#if localCounts.foods    > 0}<div><strong>{localCounts.foods}</strong> {localCounts.foods === 1 ? $_('ui.mc1f026582fe6') : $_('ui.md4392ced9dff')}</div>{/if}
+            {#if localCounts.meals    > 0}<div><strong>{localCounts.meals}</strong> {localCounts.meals === 1 ? $_('ui.maec6c3d03f01') : $_('ui.mf146172c0036')}</div>{/if}
+            {#if localCounts.recipes  > 0}<div><strong>{localCounts.recipes}</strong> {localCounts.recipes === 1 ? $_('ui.me1d8e5523309') : $_('ui.m63b8bd59a482')}</div>{/if}
+            {#if localCounts.diary    > 0}<div><strong>{localCounts.diary}</strong> {$_('ui.m1d7fe146fad6')} {localCounts.diary === 1 ? $_('ui.m944c27e5b97a') : $_('ui.mab51004e9d71')}</div>{/if}
+            {#if localCounts.settings > 0}<div><strong>{localCounts.settings}</strong> {$_('ui.mcde0fb0dec14')}</div>{/if}
           </div>
         </div>
       {/if}
@@ -391,21 +391,21 @@
           <span class="material-symbols-rounded" style="font-size:22px;color:var(--accent)">cloud_upload</span>
           <div>
             <div class="merge-option-title">{$_('settings_merge.upload')}</div>
-            <div class="merge-option-desc">Send this phone's foods, diary, and settings to the server. Existing server data stays.</div>
+            <div class="merge-option-desc">{$_('ui.mb53abd7a1ae3')}</div>
           </div>
         </button>
         <button class="merge-option" on:click={() => _mergeAndConnect('download')}>
           <span class="material-symbols-rounded" style="font-size:22px;color:var(--accent)">cloud_download</span>
           <div>
             <div class="merge-option-title">{$_('settings_merge.download')}</div>
-            <div class="merge-option-desc">Replace this phone's data with everything from the server. Local data is discarded.</div>
+            <div class="merge-option-desc">{$_('ui.m8eccd51a0122')}</div>
           </div>
         </button>
         <button class="merge-option" on:click={() => _mergeAndConnect('merge')}>
           <span class="material-symbols-rounded" style="font-size:22px;color:var(--accent)">sync</span>
           <div>
             <div class="merge-option-title">{$_('settings_merge.merge')}</div>
-            <div class="merge-option-desc">Upload phone data to the server AND download server data. Nothing is lost, but duplicates are possible.</div>
+            <div class="merge-option-desc">{$_('ui.m3445a68441fc')}</div>
           </div>
         </button>
         <button class="btn btn-ghost w-full" style="color:var(--text-3);margin-top:4px" on:click={cancelMerge}>{$_('settings_merge.cancel')}</button>
@@ -416,7 +416,7 @@
   <div class="merge-overlay" use:portal transition:fade={{ duration: 150 }} use:closeOnBack={() => {}}>
     <div class="merge-dialog" style="text-align:center">
       <span class="material-symbols-rounded" style="font-size:36px;color:var(--accent);animation:spin 1.2s linear infinite">autorenew</span>
-      <p style="font-size:15px;color:var(--text-1);margin:12px 0 4px;font-weight:600">Syncing…</p>
+      <p style="font-size:15px;color:var(--text-1);margin:12px 0 4px;font-weight:600">{$_('ui.m8a046cc90ab0')}</p>
       <p style="font-size:13px;color:var(--text-3);margin:0">{mergeProgress || 'Preparing…'}</p>
       {#if mergeProgressPct > 0}
         <div class="merge-progress-bar" style="margin-top:14px">
@@ -429,26 +429,26 @@
   <div class="merge-overlay" use:portal transition:fade={{ duration: 150 }} use:closeOnBack={() => {}}>
     <div class="merge-dialog">
       <h3 style="margin:0 0 6px;font-size:18px;color:var(--text-1)">
-        {migrationSummary.errors.length === 0 ? 'Upload complete' : 'Upload finished with issues'}
+        {migrationSummary.errors.length === 0 ? $_('ui.me5bc844545d9') : $_('ui.me2133e11a034')}
       </h3>
       <p style="font-size:13px;color:var(--text-3);margin:0 0 14px;line-height:1.5">
-        {migrationSummary.totalSuccess} of {migrationSummary.total} {migrationSummary.total === 1 ? 'item' : 'items'} uploaded successfully.
+        {migrationSummary.totalSuccess} {$_('ui.m28391d3bc64e')} {migrationSummary.total} {migrationSummary.total === 1 ? $_('ui.m4a33eacd5fa6') : $_('ui.m5f3c4f8580d3')} {$_('ui.mb9f218554f37')}
       </p>
       <div class="merge-counts" style="margin:0 0 14px">
-        <div class="merge-counts-title">Uploaded to server:</div>
+        <div class="merge-counts-title">{$_('ui.m5f6d1bda4e63')}</div>
         <div class="merge-counts-grid">
-          {#if migrationSummary.success.foods    > 0}<div><strong>{migrationSummary.success.foods}</strong> {migrationSummary.success.foods === 1 ? 'food' : 'foods'}</div>{/if}
-          {#if migrationSummary.success.meals    > 0}<div><strong>{migrationSummary.success.meals}</strong> {migrationSummary.success.meals === 1 ? 'meal' : 'meals'}</div>{/if}
-          {#if migrationSummary.success.recipes  > 0}<div><strong>{migrationSummary.success.recipes}</strong> {migrationSummary.success.recipes === 1 ? 'recipe' : 'recipes'}</div>{/if}
-          {#if migrationSummary.success.diary    > 0}<div><strong>{migrationSummary.success.diary}</strong> diary {migrationSummary.success.diary === 1 ? 'day' : 'days'}</div>{/if}
-          {#if migrationSummary.success.settings > 0}<div><strong>{migrationSummary.success.settings}</strong> settings</div>{/if}
+          {#if migrationSummary.success.foods    > 0}<div><strong>{migrationSummary.success.foods}</strong> {migrationSummary.success.foods === 1 ? $_('ui.mc1f026582fe6') : $_('ui.md4392ced9dff')}</div>{/if}
+          {#if migrationSummary.success.meals    > 0}<div><strong>{migrationSummary.success.meals}</strong> {migrationSummary.success.meals === 1 ? $_('ui.maec6c3d03f01') : $_('ui.mf146172c0036')}</div>{/if}
+          {#if migrationSummary.success.recipes  > 0}<div><strong>{migrationSummary.success.recipes}</strong> {migrationSummary.success.recipes === 1 ? $_('ui.me1d8e5523309') : $_('ui.m63b8bd59a482')}</div>{/if}
+          {#if migrationSummary.success.diary    > 0}<div><strong>{migrationSummary.success.diary}</strong> {$_('ui.m1d7fe146fad6')} {migrationSummary.success.diary === 1 ? $_('ui.m944c27e5b97a') : $_('ui.mab51004e9d71')}</div>{/if}
+          {#if migrationSummary.success.settings > 0}<div><strong>{migrationSummary.success.settings}</strong> {$_('ui.mcde0fb0dec14')}</div>{/if}
         </div>
       </div>
       {#if migrationSummary.errors.length > 0}
         <div style="margin:0 0 14px">
           <div class="merge-counts-title" style="color:var(--danger,#e57373)">
-            {migrationSummary.errors.length} {migrationSummary.errors.length === 1 ? 'error' : 'errors'}
-            {#if migrationSummary.errors.length > 5}(showing first 5){/if}
+            {migrationSummary.errors.length} {migrationSummary.errors.length === 1 ? $_('ui.mca00fccfb408') : $_('ui.mbe4bd5677277')}
+            {#if migrationSummary.errors.length > 5}{$_('ui.md82b7cd560d3')}{/if}
           </div>
           <ul style="font-size:12px;color:var(--text-3);padding-left:18px;margin:6px 0 0;line-height:1.5">
             {#each migrationSummary.errors.slice(0, 5) as err}

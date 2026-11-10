@@ -1,0 +1,69 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/foods/edit".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/foods/edit
+	2 container app
+		145 container
+			146 button 返回
+			147 heading 添加食物, Value: 2
+				148 text 添加食物
+			149 button 保存
+			150 text 照片 photo_camera
+			151 button camera_alt 相机
+				152 text camera_alt
+				153 text 相机
+			154 button photo_library 上传
+				155 text photo_library
+				156 text 上传
+			157 button link URL
+				158 text link
+				159 text URL
+			160 text history 已恢复之前未保存的更改。
+			161 button 放弃
+			162 text 基本信息 名称 *
+			163 text field (settable)
+			164 text 品牌
+			165 text field (settable)
+			166 text 份量大小
+			167 text field (settable) 100
+			168 text 单位
+			169 text field (settable) g
+			170 text expand_more
+			171 button link_off, Help: 各字段相互独立
+			172 text 条形码
+			173 text field (settable)
+			174 button 扫描条形码
+			175 text 备注
+			176 text entry area (settable)
+			177 text 营养
+			178 button Description: 扫描营养标签, Help: 拍摄营养标签以填写这些字段
+				179 text document_scanner
+				180 text 扫描标签
+			181 text 热量 (KCAL)
+			182 text field (settable)
+			183 text 脂肪 (G)
+			184 text field (settable)
+			185 text 饱和脂肪 (G)
+			186 text field (settable)
+			187 text 钠 (MG)
+			188 text field (settable)
+			189 text 碳水化合物 (G)
+			190 text field (settable)
+			191 text 膳食纤维 (G)
+			192 text field (settable)
+			193 text 糖 (G)
+			194 text field (settable)
+			195 text 添加糖 (G)
+			196 text field (settable)
+			197 text 蛋白质 (G)
+			198 text field (settable)
+			199 text 维生素D (MCG)
+			200 text field (settable)
+			201 text 钙 (MG)
+			202 text field (settable)
+			203 text 铁 (MG)
+			204 text field (settable)
+			205 text 钾 (MG)
+			206 text field (settable)
+			207 button 显示所有营养素
+		144 button Description: 打开 AI 教练（长按以语音输入食物）, Help: AI 助手
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/foods/edit

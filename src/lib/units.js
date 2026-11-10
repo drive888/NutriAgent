@@ -1,5 +1,5 @@
 /**
- * units.js — small NutriTrace unit catalog.
+ * units.js — small NutriAgent unit catalog.
  *
  * Stored value is the short abbreviation ("g", "tsp", etc). The
  * <UnitPicker> shows full name + abbr in the popover. Anything not
@@ -15,41 +15,41 @@
 
 export const UNIT_GROUPS = [
   {
-    label: 'Mass — Metric',
+    label: 'Mass — Metric', labelKey: 'ui.ma606c68ae61a',
     units: [
-      { abbr: 'g',  full: 'gram' },
-      { abbr: 'mg', full: 'milligram' },
-      { abbr: 'kg', full: 'kilogram' },
+      { abbr: 'g',  full: 'gram', fullKey: 'local_units.gram' },
+      { abbr: 'mg', full: 'milligram', fullKey: 'local_units.milligram' },
+      { abbr: 'kg', full: 'kilogram', fullKey: 'local_units.kilogram' },
     ],
   },
   {
-    label: 'Mass — US',
+    label: 'Mass — US', labelKey: 'ui.me6e8f4d557d0',
     units: [
-      { abbr: 'oz', full: 'ounce' },
-      { abbr: 'lb', full: 'pound' },
+      { abbr: 'oz', full: 'ounce', fullKey: 'local_units.ounce' },
+      { abbr: 'lb', full: 'pound', fullKey: 'local_units.pound' },
     ],
   },
   {
-    label: 'Volume — Metric',
+    label: 'Volume — Metric', labelKey: 'ui.me120eaab372f',
     units: [
-      { abbr: 'ml', full: 'milliliter' },
-      { abbr: 'l',  full: 'liter' },
+      { abbr: 'ml', full: 'milliliter', fullKey: 'local_units.milliliter' },
+      { abbr: 'l',  full: 'liter', fullKey: 'local_units.liter' },
     ],
   },
   {
-    label: 'Volume — US',
+    label: 'Volume — US', labelKey: 'ui.mfe27706032b9',
     units: [
-      { abbr: 'tsp',   full: 'teaspoon' },
-      { abbr: 'tbsp',  full: 'tablespoon' },
-      { abbr: 'fl oz', full: 'fluid ounce' },
-      { abbr: 'cup',   full: 'cup' },
+      { abbr: 'tsp',   full: 'teaspoon', fullKey: 'local_units.teaspoon' },
+      { abbr: 'tbsp',  full: 'tablespoon', fullKey: 'local_units.tablespoon' },
+      { abbr: 'fl oz', full: 'fluid ounce', fullKey: 'local_units.fluid_ounce' },
+      { abbr: 'cup',   full: 'cup', fullKey: 'local_units.cup' },
     ],
   },
   {
-    label: 'Count',
+    label: 'Count', labelKey: 'ui.m37bac4952bec',
     units: [
-      { abbr: 'piece', full: 'piece' },
-      { abbr: 'slice', full: 'slice' },
+      { abbr: 'piece', full: 'piece', fullKey: 'local_units.piece' },
+      { abbr: 'slice', full: 'slice', fullKey: 'local_units.slice' },
     ],
   },
 ];
@@ -94,7 +94,7 @@ export function unitGroupsWithCustoms(customs) {
   const list = Array.isArray(customs) ? customs.filter(c => c && c.abbr) : [];
   if (list.length === 0) return UNIT_GROUPS;
   return [
-    { label: 'Custom', units: list.map(c => ({ abbr: c.abbr, full: c.full || c.abbr })) },
+    { label: 'Custom', labelKey: 'ui.m494ca78f7374', units: list.map(c => ({ abbr: c.abbr, full: c.full || c.abbr })) },
     ...UNIT_GROUPS,
   ];
 }

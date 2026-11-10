@@ -6,7 +6,7 @@ import { randomUUID } from 'crypto';
 // row's items and water arrays wholesale. Any client whose local copy had
 // gone stale (mobile SQLite reset, cache truncated, race with a concurrent
 // write) would push its empty or truncated list and silently wipe the
-// server's real data. See project_nutritrace_diary_persist_gap for the
+// server's real data. See project_nutriagent_diary_persist_gap for the
 // 2026-07-23 and 2026-08-11 incidents that motivated this module.
 //
 // New behavior: every item and every water entry has a client-generated

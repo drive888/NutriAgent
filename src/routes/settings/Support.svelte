@@ -19,10 +19,10 @@
     </div>
     <div class="support-actions">
       <a href="https://ko-fi.com/traceapps" target="_blank" rel="noopener" class="btn btn-secondary support-btn">
-        <span class="material-symbols-rounded">coffee</span> Ko-fi
+        <span class="material-symbols-rounded">coffee</span> {$_('ui.m76c38e42cf40')}
       </a>
       <a href="https://github.com/sponsors/TraceApps?metadata_app=nutritrace&metadata_from=app" target="_blank" rel="noopener" class="btn btn-secondary support-btn">
-        <span class="material-symbols-rounded">favorite</span> GitHub Sponsors
+        <span class="material-symbols-rounded">favorite</span> {$_('ui.mdb8dcfad63a0')}
       </a>
     </div>
   </div>

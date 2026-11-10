@@ -8,6 +8,7 @@ register('fr', () => import('./fr.json'));
 register('de', () => import('./de.json'));
 register('es', () => import('./es.json'));
 register('ru', () => import('./ru.json'));
+register('zh-CN', () => import('./zh_Hans.json'));
 
 export const AVAILABLE_LOCALES = [
   { code: 'en', label: 'English' },
@@ -15,6 +16,7 @@ export const AVAILABLE_LOCALES = [
   { code: 'de', label: 'Deutsch' },
   { code: 'es', label: 'Español' },
   { code: 'ru', label: 'Русский' },
+  { code: 'zh-CN', label: '简体中文' },
 ];
 
 export function initI18n(initialLocale) {
@@ -31,6 +33,7 @@ export function initI18n(initialLocale) {
 function pickInitialLocale() {
   const nav = getLocaleFromNavigator();
   if (!nav) return 'en';
+  if (/^zh(?:-(?:CN|SG|Hans))?(?:-|$)/i.test(nav)) return 'zh-CN';
   const short = nav.split('-')[0];
   return AVAILABLE_LOCALES.some(l => l.code === short) ? short : 'en';
 }

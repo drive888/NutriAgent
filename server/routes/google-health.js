@@ -160,7 +160,7 @@ router.get('/callback', wrap(async (req, res) => {
   if (!pkce) {
     return res.redirect('/?google_health=error&msg=invalid_state#/wellness');
   }
-  const _redir = (path) => pkce.isNative ? `nutritrace://callback${path}` : path;
+  const _redir = (path) => pkce.isNative ? `nutriagent://callback${path}` : path;
 
   const clientId     = _userCfg('google_health_client_id',     pkce.userId);
   const clientSecret = _userCfg('google_health_client_secret', pkce.userId);

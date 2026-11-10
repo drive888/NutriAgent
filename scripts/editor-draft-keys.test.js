@@ -12,7 +12,7 @@ test('saved items, picks from each source, and a blank new item get separate key
   assert.equal(draftKey('food', null, { name: 'Soup', _mealieSlug: 'soup' }), 'nt:food:draft:pick:mealie:soup');
   assert.equal(draftKey('food', null, { name: 'Oats', barcode: '3017620422003' }), 'nt:food:draft:pick:barcode:3017620422003');
   assert.equal(draftKey('food', null, { name: 'Apple', barcode: 'fdcId_171688' }), 'nt:food:draft:pick:barcode:fdcId_171688');
-  assert.equal(draftKey('food', null, { name: 'Trace Omelette', brand: '' }), 'nt:food:draft:pick:name:trace omelette|');
+  assert.equal(draftKey('food', null, { name: 'NutriAgent Omelette', brand: '' }), 'nt:food:draft:pick:name:nutriagent omelette|');
 });
 
 test('two different picks never share a key; the same pick does', () => {

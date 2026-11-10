@@ -1,7 +1,8 @@
 services:
-  nutritrace:
-    image: ghcr.io/traceapps/nutritrace:latest
-    container_name: nutritrace
+  nutriagent:
+    build: .
+    image: nutriagent:local
+    container_name: nutriagent
     ports:
       - "3001:3001"
     volumes:
@@ -9,7 +10,7 @@ services:
       - ${DATA_UPLOADS_PATH}:/data/uploads
       # Optional — local Open Food Facts mirror (for air-gapped or
       # offline-resilient barcode + name lookups). Uncomment the mount + set
-      # OFF_LOCAL_DB in .env. NutriTrace downloads the initial ~7-8 GB
+      # OFF_LOCAL_DB in .env. NutriAgent downloads the initial ~7-8 GB
       # Parquet snapshot from Hugging Face automatically on first boot if
       # the file is missing; subsequent refreshes happen on a schedule from
       # the Settings UI. File extension is auto-detected — Parquet (default)
@@ -33,7 +34,7 @@ services:
       - .env
     environment:
       # Do not change — container-internal paths tied to volume mounts above
-      - DB_PATH=/data/db/nutritrace.db
+      - DB_PATH=/data/db/nutriagent.db
       - UPLOADS_PATH=/data/uploads
       # Required if using user management — set a long random secret
       - JWT_SECRET=${JWT_SECRET}
@@ -54,7 +55,7 @@ services:
       # front (Caddy, nginx with Let's Encrypt, Cloudflare Tunnel, etc.).
       # - INSECURE_COOKIES=${INSECURE_COOKIES:-}
       # Optional — mount at a subpath instead of root (for reverse-proxy setups)
-      # - BASE_URL=/nutritrace
+      # - BASE_URL=/nutriagent
       # Optional — log level: error | warn | info (default) | debug | trace
       - LOG_LEVEL=${LOG_LEVEL:-info}
       # Request bodies require a second explicit opt-in at trace level.
@@ -114,8 +115,8 @@ services:
       # - OFF_LOCAL_ONLY=${OFF_LOCAL_ONLY:-}                    # 1 = air-gap mode, never call remote OFF
       # - OFF_LOCAL_URL=${OFF_LOCAL_URL:-}                      # override download source (defaults to HF Parquet)
       # Any server env var may also be supplied via <NAME>_FILE, for example:
-      # - SMTP_PASS_FILE=/run/secrets/nutritrace_smtp_pass
-      # - AI_API_KEY_FILE=/run/secrets/nutritrace_ai_api_key
-      # - TOKEN_ENC_KEY_FILE=/run/secrets/nutritrace_token_enc_key
-      # - RECOVERY_TOKEN_FILE=/run/secrets/nutritrace_recovery_token
+      # - SMTP_PASS_FILE=/run/secrets/nutriagent_smtp_pass
+      # - AI_API_KEY_FILE=/run/secrets/nutriagent_ai_api_key
+      # - TOKEN_ENC_KEY_FILE=/run/secrets/nutriagent_token_enc_key
+      # - RECOVERY_TOKEN_FILE=/run/secrets/nutriagent_recovery_token
     restart: unless-stopped

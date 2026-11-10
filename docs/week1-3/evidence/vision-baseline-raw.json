@@ -1,0 +1,1892 @@
+[
+  {
+    "file": "docs/week1-3/samples/0-beignets.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=0&length=1",
+    "source_label": "beignets",
+    "split": "test",
+    "group": "food101-val-0",
+    "ms": 314,
+    "classes": [
+      {
+        "identifier": "tableware",
+        "confidence": 0.9945106506347656
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.9945106506347656
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.953125
+      },
+      {
+        "confidence": 0.91943359375,
+        "identifier": "drinking_glass"
+      },
+      {
+        "confidence": 0.8603515625,
+        "identifier": "cup"
+      },
+      {
+        "identifier": "liquid",
+        "confidence": 0.7896087169647217
+      },
+      {
+        "identifier": "drink",
+        "confidence": 0.7896082997322083
+      },
+      {
+        "confidence": 0.78955078125,
+        "identifier": "coffee"
+      },
+      {
+        "identifier": "spoon",
+        "confidence": 0.357177734375
+      },
+      {
+        "confidence": 0.3447265625,
+        "identifier": "mug"
+      },
+      {
+        "identifier": "structure",
+        "confidence": 0.33521851897239685
+      },
+      {
+        "identifier": "furniture",
+        "confidence": 0.335205078125
+      },
+      {
+        "identifier": "table",
+        "confidence": 0.335205078125
+      },
+      {
+        "identifier": "bowl",
+        "confidence": 0.232666015625
+      },
+      {
+        "identifier": "material",
+        "confidence": 0.2094726711511612
+      },
+      {
+        "identifier": "textile",
+        "confidence": 0.20947265625
+      },
+      {
+        "identifier": "fork",
+        "confidence": 0.1708984375
+      },
+      {
+        "confidence": 0.10888671875,
+        "identifier": "tea_drink"
+      },
+      {
+        "confidence": 0.06543009728193283,
+        "identifier": "tool"
+      },
+      {
+        "confidence": 0.0654296875,
+        "identifier": "knife"
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/1250-chicken_wings.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=1250&length=1",
+    "source_label": "chicken_wings",
+    "split": "test",
+    "group": "food101-val-1250",
+    "ms": 63,
+    "classes": [
+      {
+        "confidence": 0.7055855989456177,
+        "identifier": "tableware"
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.7055855989456177
+      },
+      {
+        "identifier": "drinking_glass",
+        "confidence": 0.65087890625
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.50634765625
+      },
+      {
+        "identifier": "bowl",
+        "confidence": 0.368896484375
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.30824577808380127
+      },
+      {
+        "confidence": 0.30322265625,
+        "identifier": "soup"
+      },
+      {
+        "confidence": 0.134765625,
+        "identifier": "spoon"
+      },
+      {
+        "identifier": "fried_chicken",
+        "confidence": 0.1064453125
+      },
+      {
+        "identifier": "structure",
+        "confidence": 0.10426580905914307
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.104248046875
+      },
+      {
+        "identifier": "seasonings",
+        "confidence": 0.09431761503219604
+      },
+      {
+        "identifier": "condiment",
+        "confidence": 0.09431743621826172
+      },
+      {
+        "identifier": "rice",
+        "confidence": 0.067626953125
+      },
+      {
+        "confidence": 0.03638683259487152,
+        "identifier": "dessert"
+      },
+      {
+        "identifier": "frozen_dessert",
+        "confidence": 0.036376953125
+      },
+      {
+        "confidence": 0.036376953125,
+        "identifier": "ice_cream"
+      },
+      {
+        "confidence": 0.033447265625,
+        "identifier": "curry"
+      },
+      {
+        "identifier": "liquid",
+        "confidence": 0.033326566219329834
+      },
+      {
+        "identifier": "drink",
+        "confidence": 0.033208854496479034
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/2500-pizza.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=2500&length=1",
+    "source_label": "pizza",
+    "split": "test",
+    "group": "food101-val-2500",
+    "ms": 65,
+    "classes": [
+      {
+        "confidence": 0.9478217363357544,
+        "identifier": "food"
+      },
+      {
+        "confidence": 0.94775390625,
+        "identifier": "pizza"
+      },
+      {
+        "confidence": 0.9169962406158447,
+        "identifier": "tableware"
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.9169962406158447
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.9169921875
+      },
+      {
+        "identifier": "structure",
+        "confidence": 0.4064943194389343
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.406494140625
+      },
+      {
+        "identifier": "cheese",
+        "confidence": 0.185546875
+      },
+      {
+        "confidence": 0.055483922362327576,
+        "identifier": "meat"
+      },
+      {
+        "confidence": 0.055419921875,
+        "identifier": "pepperoni"
+      },
+      {
+        "confidence": 0.033433668315410614,
+        "identifier": "vegetable"
+      },
+      {
+        "identifier": "arugula",
+        "confidence": 0.031005859375
+      },
+      {
+        "identifier": "drinking_glass",
+        "confidence": 0.024658203125
+      },
+      {
+        "identifier": "tomato",
+        "confidence": 0.022216796875
+      },
+      {
+        "confidence": 0.02046055905520916,
+        "identifier": "seasonings"
+      },
+      {
+        "confidence": 0.01953125,
+        "identifier": "fork"
+      },
+      {
+        "confidence": 0.01931985281407833,
+        "identifier": "condiment"
+      },
+      {
+        "confidence": 0.014892578125,
+        "identifier": "furniture"
+      },
+      {
+        "identifier": "onion",
+        "confidence": 0.014892578125
+      },
+      {
+        "identifier": "table",
+        "confidence": 0.014892578125
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/3750-apple_pie.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=3750&length=1",
+    "source_label": "apple_pie",
+    "split": "test",
+    "group": "food101-val-3750",
+    "ms": 61,
+    "classes": [
+      {
+        "confidence": 0.9301760792732239,
+        "identifier": "tableware"
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.9301760792732239
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.93017578125
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.8183605074882507
+      },
+      {
+        "confidence": 0.8168959021568298,
+        "identifier": "dessert"
+      },
+      {
+        "identifier": "frozen_dessert",
+        "confidence": 0.81689453125
+      },
+      {
+        "identifier": "ice_cream",
+        "confidence": 0.81689453125
+      },
+      {
+        "confidence": 0.2764055132865906,
+        "identifier": "structure"
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.2763671875
+      },
+      {
+        "confidence": 0.27548104524612427,
+        "identifier": "fruit"
+      },
+      {
+        "identifier": "citrus_fruit",
+        "confidence": 0.2754809558391571
+      },
+      {
+        "confidence": 0.275390625,
+        "identifier": "lemon"
+      },
+      {
+        "confidence": 0.09912109375,
+        "identifier": "candle"
+      },
+      {
+        "identifier": "light",
+        "confidence": 0.09912109375
+      },
+      {
+        "confidence": 0.05275343358516693,
+        "identifier": "seasonings"
+      },
+      {
+        "identifier": "oranges",
+        "confidence": 0.052490234375
+      },
+      {
+        "identifier": "baked_goods",
+        "confidence": 0.0477139912545681
+      },
+      {
+        "confidence": 0.04763348028063774,
+        "identifier": "cake"
+      },
+      {
+        "confidence": 0.047607421875,
+        "identifier": "waffle"
+      },
+      {
+        "identifier": "furniture",
+        "confidence": 0.04248046875
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/5000-carrot_cake.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=5000&length=1",
+    "source_label": "carrot_cake",
+    "split": "test",
+    "group": "food101-val-5000",
+    "ms": 62,
+    "classes": [
+      {
+        "confidence": 0.9086914658546448,
+        "identifier": "tableware"
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.9086914658546448
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.90869140625
+      },
+      {
+        "confidence": 0.6072035431861877,
+        "identifier": "food"
+      },
+      {
+        "identifier": "dessert",
+        "confidence": 0.5222832560539246
+      },
+      {
+        "confidence": 0.5077653527259827,
+        "identifier": "baked_goods"
+      },
+      {
+        "identifier": "cake",
+        "confidence": 0.5077610015869141
+      },
+      {
+        "identifier": "cheesecake",
+        "confidence": 0.505859375
+      },
+      {
+        "confidence": 0.180419921875,
+        "identifier": "cake_regular"
+      },
+      {
+        "identifier": "structure",
+        "confidence": 0.10083691030740738
+      },
+      {
+        "confidence": 0.100830078125,
+        "identifier": "wood_processed"
+      },
+      {
+        "confidence": 0.067626953125,
+        "identifier": "frozen_dessert"
+      },
+      {
+        "identifier": "ice_cream",
+        "confidence": 0.067626953125
+      },
+      {
+        "confidence": 0.03955079987645149,
+        "identifier": "pastry"
+      },
+      {
+        "confidence": 0.03955078125,
+        "identifier": "pie"
+      },
+      {
+        "identifier": "material",
+        "confidence": 0.0341796949505806
+      },
+      {
+        "identifier": "textile",
+        "confidence": 0.0341796875
+      },
+      {
+        "identifier": "tiramisu",
+        "confidence": 0.026611328125
+      },
+      {
+        "confidence": 0.0244140625,
+        "identifier": "fork"
+      },
+      {
+        "identifier": "candy",
+        "confidence": 0.02229122258722782
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/6250-tiramisu.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=6250&length=1",
+    "source_label": "tiramisu",
+    "split": "test",
+    "group": "food101-val-6250",
+    "ms": 63,
+    "classes": [
+      {
+        "confidence": 0.7431640625,
+        "identifier": "plate"
+      },
+      {
+        "confidence": 0.7431640625,
+        "identifier": "tableware"
+      },
+      {
+        "confidence": 0.7431640625,
+        "identifier": "utensil"
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.681164562702179
+      },
+      {
+        "identifier": "dessert",
+        "confidence": 0.6811584830284119
+      },
+      {
+        "confidence": 0.68115234375,
+        "identifier": "tiramisu"
+      },
+      {
+        "confidence": 0.05591284856200218,
+        "identifier": "baked_goods"
+      },
+      {
+        "identifier": "cake",
+        "confidence": 0.05591098964214325
+      },
+      {
+        "confidence": 0.047607421875,
+        "identifier": "cheesecake"
+      },
+      {
+        "identifier": "cake_regular",
+        "confidence": 0.04638671875
+      },
+      {
+        "confidence": 0.015870599076151848,
+        "identifier": "candy"
+      },
+      {
+        "confidence": 0.015869140625,
+        "identifier": "chocolate"
+      },
+      {
+        "confidence": 0.014921099878847599,
+        "identifier": "structure"
+      },
+      {
+        "confidence": 0.014892578125,
+        "identifier": "wood_processed"
+      },
+      {
+        "confidence": 0.013430400751531124,
+        "identifier": "material"
+      },
+      {
+        "confidence": 0.013427734375,
+        "identifier": "textile"
+      },
+      {
+        "identifier": "fruitcake",
+        "confidence": 0.008544921875
+      },
+      {
+        "confidence": 0.006591796875,
+        "identifier": "sandwich"
+      },
+      {
+        "identifier": "bread",
+        "confidence": 0.005853733047842979
+      },
+      {
+        "confidence": 0.005615234375,
+        "identifier": "biscotti"
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/7500-chocolate_mousse.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=7500&length=1",
+    "source_label": "chocolate_mousse",
+    "split": "test",
+    "group": "food101-val-7500",
+    "ms": 67,
+    "classes": [
+      {
+        "identifier": "utensil",
+        "confidence": 0.756019651889801
+      },
+      {
+        "confidence": 0.7560186982154846,
+        "identifier": "tableware"
+      },
+      {
+        "identifier": "drinking_glass",
+        "confidence": 0.75439453125
+      },
+      {
+        "confidence": 0.7120196223258972,
+        "identifier": "structure"
+      },
+      {
+        "confidence": 0.7099609375,
+        "identifier": "wood_processed"
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.5009822249412537
+      },
+      {
+        "confidence": 0.500979483127594,
+        "identifier": "fruit"
+      },
+      {
+        "confidence": 0.5009794235229492,
+        "identifier": "berry"
+      },
+      {
+        "confidence": 0.5009765625,
+        "identifier": "strawberry"
+      },
+      {
+        "identifier": "furniture",
+        "confidence": 0.2509765625
+      },
+      {
+        "identifier": "table",
+        "confidence": 0.2509765625
+      },
+      {
+        "confidence": 0.243408203125,
+        "identifier": "material"
+      },
+      {
+        "identifier": "textile",
+        "confidence": 0.243408203125
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.230224609375
+      },
+      {
+        "identifier": "bowl",
+        "confidence": 0.190185546875
+      },
+      {
+        "identifier": "liquid",
+        "confidence": 0.06609785556793213
+      },
+      {
+        "confidence": 0.06609759479761124,
+        "identifier": "drink"
+      },
+      {
+        "identifier": "wine",
+        "confidence": 0.0648886114358902
+      },
+      {
+        "identifier": "red_wine",
+        "confidence": 0.0634765625
+      },
+      {
+        "identifier": "container",
+        "confidence": 0.05923531576991081
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/8750-ice_cream.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=8750&length=1",
+    "source_label": "ice_cream",
+    "split": "test",
+    "group": "food101-val-8750",
+    "ms": 74,
+    "classes": [
+      {
+        "identifier": "food",
+        "confidence": 0.9311745762825012
+      },
+      {
+        "confidence": 0.9287692904472351,
+        "identifier": "dessert"
+      },
+      {
+        "confidence": 0.92626953125,
+        "identifier": "frozen_dessert"
+      },
+      {
+        "confidence": 0.92626953125,
+        "identifier": "ice_cream"
+      },
+      {
+        "identifier": "tableware",
+        "confidence": 0.660207211971283
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.660207211971283
+      },
+      {
+        "confidence": 0.65966796875,
+        "identifier": "plate"
+      },
+      {
+        "confidence": 0.41699379682540894,
+        "identifier": "baked_goods"
+      },
+      {
+        "identifier": "cake",
+        "confidence": 0.4169921875
+      },
+      {
+        "identifier": "waffle",
+        "confidence": 0.4169921875
+      },
+      {
+        "identifier": "bowl",
+        "confidence": 0.166259765625
+      },
+      {
+        "confidence": 0.06103761866688728,
+        "identifier": "material"
+      },
+      {
+        "confidence": 0.06103515625,
+        "identifier": "textile"
+      },
+      {
+        "confidence": 0.041260894387960434,
+        "identifier": "seasonings"
+      },
+      {
+        "identifier": "cookie",
+        "confidence": 0.03173828125
+      },
+      {
+        "identifier": "spoon",
+        "confidence": 0.0283203125
+      },
+      {
+        "confidence": 0.02638622373342514,
+        "identifier": "bread"
+      },
+      {
+        "confidence": 0.0263671875,
+        "identifier": "muffin"
+      },
+      {
+        "confidence": 0.024358054623007774,
+        "identifier": "candy"
+      },
+      {
+        "identifier": "chocolate",
+        "confidence": 0.023681640625
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/10000-frozen_yogurt.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=10000&length=1",
+    "source_label": "frozen_yogurt",
+    "split": "test",
+    "group": "food101-val-10000",
+    "ms": 70,
+    "classes": [
+      {
+        "identifier": "tableware",
+        "confidence": 0.6934817433357239
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.6934817433357239
+      },
+      {
+        "identifier": "bowl",
+        "confidence": 0.630859375
+      },
+      {
+        "confidence": 0.54248046875,
+        "identifier": "spoon"
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.37447744607925415
+      },
+      {
+        "confidence": 0.3744227886199951,
+        "identifier": "dessert"
+      },
+      {
+        "identifier": "frozen_dessert",
+        "confidence": 0.3744208812713623
+      },
+      {
+        "confidence": 0.374267578125,
+        "identifier": "ice_cream"
+      },
+      {
+        "identifier": "material",
+        "confidence": 0.0646972805261612
+      },
+      {
+        "identifier": "textile",
+        "confidence": 0.064697265625
+      },
+      {
+        "identifier": "cereal",
+        "confidence": 0.0556640625
+      },
+      {
+        "confidence": 0.044677734375,
+        "identifier": "cup"
+      },
+      {
+        "identifier": "oatmeal",
+        "confidence": 0.036376953125
+      },
+      {
+        "identifier": "structure",
+        "confidence": 0.03394726663827896
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.033447265625
+      },
+      {
+        "confidence": 0.029052734375,
+        "identifier": "plate"
+      },
+      {
+        "confidence": 0.023193359375,
+        "identifier": "yogurt"
+      },
+      {
+        "confidence": 0.02197265625,
+        "identifier": "chocolate_chip"
+      },
+      {
+        "confidence": 0.018311401829123497,
+        "identifier": "liquid"
+      },
+      {
+        "confidence": 0.018311364576220512,
+        "identifier": "drink"
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/11250-beef_tartare.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=11250&length=1",
+    "source_label": "beef_tartare",
+    "split": "test",
+    "group": "food101-val-11250",
+    "ms": 75,
+    "classes": [
+      {
+        "confidence": 0.9149472117424011,
+        "identifier": "tableware"
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.9149472117424011
+      },
+      {
+        "confidence": 0.90771484375,
+        "identifier": "plate"
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.6990136504173279
+      },
+      {
+        "identifier": "vegetable",
+        "confidence": 0.6990094780921936
+      },
+      {
+        "identifier": "cucumber",
+        "confidence": 0.6943359375
+      },
+      {
+        "confidence": 0.47509765625,
+        "identifier": "spoon"
+      },
+      {
+        "identifier": "fork",
+        "confidence": 0.36669921875
+      },
+      {
+        "confidence": 0.27392578125,
+        "identifier": "carrot"
+      },
+      {
+        "confidence": 0.24219104647636414,
+        "identifier": "material"
+      },
+      {
+        "identifier": "textile",
+        "confidence": 0.241943359375
+      },
+      {
+        "confidence": 0.218017578125,
+        "identifier": "tomato"
+      },
+      {
+        "identifier": "knife",
+        "confidence": 0.151611328125
+      },
+      {
+        "confidence": 0.151611328125,
+        "identifier": "tool"
+      },
+      {
+        "confidence": 0.13623046875,
+        "identifier": "zucchini"
+      },
+      {
+        "identifier": "bowl",
+        "confidence": 0.0849609375
+      },
+      {
+        "confidence": 0.074951171875,
+        "identifier": "drinking_glass"
+      },
+      {
+        "identifier": "potato",
+        "confidence": 0.05712890625
+      },
+      {
+        "confidence": 0.052048973739147186,
+        "identifier": "seasonings"
+      },
+      {
+        "identifier": "condiment",
+        "confidence": 0.05204847827553749
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/12500-scallops.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=12500&length=1",
+    "source_label": "scallops",
+    "split": "test",
+    "group": "food101-val-12500",
+    "ms": 77,
+    "classes": [
+      {
+        "identifier": "tableware",
+        "confidence": 0.8989351987838745
+      },
+      {
+        "confidence": 0.8989351987838745,
+        "identifier": "utensil"
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.89892578125
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.6528487801551819
+      },
+      {
+        "identifier": "scallop",
+        "confidence": 0.65283203125
+      },
+      {
+        "identifier": "seafood",
+        "confidence": 0.65283203125
+      },
+      {
+        "confidence": 0.65283203125,
+        "identifier": "shellfish"
+      },
+      {
+        "confidence": 0.227783203125,
+        "identifier": "material"
+      },
+      {
+        "identifier": "textile",
+        "confidence": 0.227783203125
+      },
+      {
+        "identifier": "bowl",
+        "confidence": 0.08837890625
+      },
+      {
+        "confidence": 0.06924711912870407,
+        "identifier": "structure"
+      },
+      {
+        "identifier": "drinking_glass",
+        "confidence": 0.064208984375
+      },
+      {
+        "identifier": "furniture",
+        "confidence": 0.060302734375
+      },
+      {
+        "identifier": "table",
+        "confidence": 0.060302734375
+      },
+      {
+        "identifier": "seasonings",
+        "confidence": 0.059918615967035294
+      },
+      {
+        "identifier": "herb",
+        "confidence": 0.059575505554676056
+      },
+      {
+        "confidence": 0.0595703125,
+        "identifier": "cilantro"
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.055908203125
+      },
+      {
+        "identifier": "soup",
+        "confidence": 0.05126953125
+      },
+      {
+        "identifier": "shellfish_prepared",
+        "confidence": 0.037353515625
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/13750-chicken_quesadilla.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=13750&length=1",
+    "source_label": "chicken_quesadilla",
+    "split": "test",
+    "group": "food101-val-13750",
+    "ms": 75,
+    "classes": [
+      {
+        "identifier": "tableware",
+        "confidence": 0.9536035060882568
+      },
+      {
+        "confidence": 0.9536035060882568,
+        "identifier": "utensil"
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.94482421875
+      },
+      {
+        "identifier": "bowl",
+        "confidence": 0.6201171875
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.349894642829895
+      },
+      {
+        "identifier": "baked_goods",
+        "confidence": 0.3011529743671417
+      },
+      {
+        "confidence": 0.301152765750885,
+        "identifier": "bread"
+      },
+      {
+        "identifier": "naan",
+        "confidence": 0.29541015625
+      },
+      {
+        "identifier": "quesadilla",
+        "confidence": 0.287109375
+      },
+      {
+        "confidence": 0.14404296875,
+        "identifier": "tortilla"
+      },
+      {
+        "confidence": 0.116455078125,
+        "identifier": "pita"
+      },
+      {
+        "confidence": 0.10842958837747574,
+        "identifier": "structure"
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.10595703125
+      },
+      {
+        "confidence": 0.05908203125,
+        "identifier": "furniture"
+      },
+      {
+        "identifier": "table",
+        "confidence": 0.05908203125
+      },
+      {
+        "identifier": "pizza",
+        "confidence": 0.048828125
+      },
+      {
+        "identifier": "material",
+        "confidence": 0.046630874276161194
+      },
+      {
+        "identifier": "textile",
+        "confidence": 0.046630859375
+      },
+      {
+        "identifier": "container",
+        "confidence": 0.040771521627902985
+      },
+      {
+        "confidence": 0.040771484375,
+        "identifier": "basket_container"
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/15000-onion_rings.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=15000&length=1",
+    "source_label": "onion_rings",
+    "split": "test",
+    "group": "food101-val-15000",
+    "ms": 68,
+    "classes": [
+      {
+        "identifier": "material",
+        "confidence": 0.10327152907848358
+      },
+      {
+        "confidence": 0.103271484375,
+        "identifier": "textile"
+      },
+      {
+        "confidence": 0.08157617598772049,
+        "identifier": "tableware"
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.08157617598772049
+      },
+      {
+        "confidence": 0.080322265625,
+        "identifier": "fork"
+      },
+      {
+        "confidence": 0.06716766953468323,
+        "identifier": "food"
+      },
+      {
+        "confidence": 0.05654042214155197,
+        "identifier": "baked_goods"
+      },
+      {
+        "identifier": "dessert",
+        "confidence": 0.056414421647787094
+      },
+      {
+        "confidence": 0.056398529559373856,
+        "identifier": "cake"
+      },
+      {
+        "identifier": "donut",
+        "confidence": 0.056396484375
+      },
+      {
+        "identifier": "structure",
+        "confidence": 0.040184348821640015
+      },
+      {
+        "confidence": 0.0400390625,
+        "identifier": "wood_processed"
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.03466796875
+      },
+      {
+        "identifier": "cup",
+        "confidence": 0.028564453125
+      },
+      {
+        "confidence": 0.028230806812644005,
+        "identifier": "container"
+      },
+      {
+        "confidence": 0.027099609375,
+        "identifier": "spoon"
+      },
+      {
+        "identifier": "bottle",
+        "confidence": 0.023193359375
+      },
+      {
+        "identifier": "carton",
+        "confidence": 0.02294921875
+      },
+      {
+        "confidence": 0.017879826948046684,
+        "identifier": "bread"
+      },
+      {
+        "identifier": "bagel",
+        "confidence": 0.016357421875
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/16250-beef_carpaccio.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=16250&length=1",
+    "source_label": "beef_carpaccio",
+    "split": "test",
+    "group": "food101-val-16250",
+    "ms": 76,
+    "classes": [
+      {
+        "confidence": 0.9549197554588318,
+        "identifier": "tableware"
+      },
+      {
+        "confidence": 0.9549197554588318,
+        "identifier": "utensil"
+      },
+      {
+        "identifier": "fork",
+        "confidence": 0.89208984375
+      },
+      {
+        "confidence": 0.857421875,
+        "identifier": "plate"
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.5202826261520386
+      },
+      {
+        "identifier": "vegetable",
+        "confidence": 0.5200725793838501
+      },
+      {
+        "identifier": "tomato",
+        "confidence": 0.52001953125
+      },
+      {
+        "confidence": 0.133544921875,
+        "identifier": "knife"
+      },
+      {
+        "identifier": "tool",
+        "confidence": 0.133544921875
+      },
+      {
+        "identifier": "meat",
+        "confidence": 0.10204742103815079
+      },
+      {
+        "identifier": "steak",
+        "confidence": 0.094482421875
+      },
+      {
+        "identifier": "fruit",
+        "confidence": 0.06487175077199936
+      },
+      {
+        "confidence": 0.0644908919930458,
+        "identifier": "citrus_fruit"
+      },
+      {
+        "identifier": "lemon",
+        "confidence": 0.064453125
+      },
+      {
+        "identifier": "bacon",
+        "confidence": 0.0458984375
+      },
+      {
+        "confidence": 0.037841796875,
+        "identifier": "potato"
+      },
+      {
+        "identifier": "seafood",
+        "confidence": 0.0325092114508152
+      },
+      {
+        "identifier": "salmon",
+        "confidence": 0.032470703125
+      },
+      {
+        "identifier": "beef",
+        "confidence": 0.03125
+      },
+      {
+        "confidence": 0.03076171875,
+        "identifier": "ham"
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/17500-lobster_roll_sandwich.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=17500&length=1",
+    "source_label": "lobster_roll_sandwich",
+    "split": "test",
+    "group": "food101-val-17500",
+    "ms": 73,
+    "classes": [
+      {
+        "identifier": "structure",
+        "confidence": 0.9351300597190857
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.93505859375
+      },
+      {
+        "confidence": 0.516931414604187,
+        "identifier": "container"
+      },
+      {
+        "identifier": "bottle",
+        "confidence": 0.515625
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.21198853850364685
+      },
+      {
+        "identifier": "meat",
+        "confidence": 0.19266878068447113
+      },
+      {
+        "confidence": 0.191162109375,
+        "identifier": "hotdog"
+      },
+      {
+        "confidence": 0.177490234375,
+        "identifier": "furniture"
+      },
+      {
+        "identifier": "table",
+        "confidence": 0.177490234375
+      },
+      {
+        "confidence": 0.162353515625,
+        "identifier": "carton"
+      },
+      {
+        "confidence": 0.14311565458774567,
+        "identifier": "drink"
+      },
+      {
+        "identifier": "liquid",
+        "confidence": 0.14311565458774567
+      },
+      {
+        "identifier": "soda",
+        "confidence": 0.14306640625
+      },
+      {
+        "confidence": 0.125732421875,
+        "identifier": "sandwich"
+      },
+      {
+        "confidence": 0.12372683733701706,
+        "identifier": "utensil"
+      },
+      {
+        "confidence": 0.12372682243585587,
+        "identifier": "tableware"
+      },
+      {
+        "confidence": 0.12158203125,
+        "identifier": "cup"
+      },
+      {
+        "identifier": "seasonings",
+        "confidence": 0.12085498869419098
+      },
+      {
+        "identifier": "condiment",
+        "confidence": 0.12085498124361038
+      },
+      {
+        "identifier": "baked_goods",
+        "confidence": 0.09960971772670746
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/18750-peking_duck.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=18750&length=1",
+    "source_label": "peking_duck",
+    "split": "test",
+    "group": "food101-val-18750",
+    "ms": 74,
+    "classes": [
+      {
+        "confidence": 0.9427746534347534,
+        "identifier": "tableware"
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.9427746534347534
+      },
+      {
+        "identifier": "spoon",
+        "confidence": 0.93701171875
+      },
+      {
+        "confidence": 0.53759765625,
+        "identifier": "plate"
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.15551887452602386
+      },
+      {
+        "identifier": "meat",
+        "confidence": 0.15481461584568024
+      },
+      {
+        "identifier": "bacon",
+        "confidence": 0.15380859375
+      },
+      {
+        "confidence": 0.0615234375,
+        "identifier": "spareribs"
+      },
+      {
+        "identifier": "vegetable",
+        "confidence": 0.05017464607954025
+      },
+      {
+        "confidence": 0.043701171875,
+        "identifier": "fork"
+      },
+      {
+        "confidence": 0.043212890625,
+        "identifier": "teriyaki"
+      },
+      {
+        "identifier": "structure",
+        "confidence": 0.04126013442873955
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.041259765625
+      },
+      {
+        "confidence": 0.038818359375,
+        "identifier": "bowl"
+      },
+      {
+        "confidence": 0.028564453125,
+        "identifier": "soup"
+      },
+      {
+        "identifier": "celery",
+        "confidence": 0.0283203125
+      },
+      {
+        "confidence": 0.02270585671067238,
+        "identifier": "material"
+      },
+      {
+        "confidence": 0.022705078125,
+        "identifier": "textile"
+      },
+      {
+        "identifier": "ladle",
+        "confidence": 0.0205078125
+      },
+      {
+        "identifier": "onion",
+        "confidence": 0.018798828125
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/20000-filet_mignon.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=20000&length=1",
+    "source_label": "filet_mignon",
+    "split": "test",
+    "group": "food101-val-20000",
+    "ms": 76,
+    "classes": [
+      {
+        "confidence": 0.9282228350639343,
+        "identifier": "tableware"
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.9282228350639343
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.92822265625
+      },
+      {
+        "confidence": 0.4017781615257263,
+        "identifier": "food"
+      },
+      {
+        "identifier": "meat",
+        "confidence": 0.37700238823890686
+      },
+      {
+        "confidence": 0.376953125,
+        "identifier": "steak"
+      },
+      {
+        "confidence": 0.276901513338089,
+        "identifier": "vegetable"
+      },
+      {
+        "identifier": "tomato",
+        "confidence": 0.20654296875
+      },
+      {
+        "confidence": 0.1972673386335373,
+        "identifier": "bean"
+      },
+      {
+        "identifier": "green_beans",
+        "confidence": 0.197265625
+      },
+      {
+        "identifier": "asparagus",
+        "confidence": 0.189697265625
+      },
+      {
+        "confidence": 0.1875,
+        "identifier": "potato"
+      },
+      {
+        "identifier": "seasonings",
+        "confidence": 0.09903662651777267
+      },
+      {
+        "confidence": 0.09903651475906372,
+        "identifier": "condiment"
+      },
+      {
+        "identifier": "carrot",
+        "confidence": 0.070556640625
+      },
+      {
+        "identifier": "beef",
+        "confidence": 0.050537109375
+      },
+      {
+        "identifier": "sausage",
+        "confidence": 0.04541015625
+      },
+      {
+        "confidence": 0.042236328125,
+        "identifier": "meatball"
+      },
+      {
+        "identifier": "fork",
+        "confidence": 0.03759765625
+      },
+      {
+        "confidence": 0.03702430799603462,
+        "identifier": "structure"
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/21250-gyoza.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=21250&length=1",
+    "source_label": "gyoza",
+    "split": "test",
+    "group": "food101-val-21250",
+    "ms": 86,
+    "classes": [
+      {
+        "confidence": 0.6180059313774109,
+        "identifier": "food"
+      },
+      {
+        "confidence": 0.5856800079345703,
+        "identifier": "tableware"
+      },
+      {
+        "confidence": 0.5856800079345703,
+        "identifier": "utensil"
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.58544921875
+      },
+      {
+        "identifier": "pierogi",
+        "confidence": 0.546875
+      },
+      {
+        "identifier": "gyoza",
+        "confidence": 0.494384765625
+      },
+      {
+        "identifier": "dumpling",
+        "confidence": 0.1953125
+      },
+      {
+        "identifier": "seasonings",
+        "confidence": 0.14773091673851013
+      },
+      {
+        "confidence": 0.14769677817821503,
+        "identifier": "condiment"
+      },
+      {
+        "confidence": 0.136474609375,
+        "identifier": "vegetable"
+      },
+      {
+        "identifier": "bowl",
+        "confidence": 0.120361328125
+      },
+      {
+        "identifier": "soup",
+        "confidence": 0.096435546875
+      },
+      {
+        "confidence": 0.05517578125,
+        "identifier": "wonton"
+      },
+      {
+        "identifier": "herb",
+        "confidence": 0.025760915130376816
+      },
+      {
+        "confidence": 0.024414077401161194,
+        "identifier": "structure"
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.0244140625
+      },
+      {
+        "identifier": "chives",
+        "confidence": 0.02392578125
+      },
+      {
+        "identifier": "cilantro",
+        "confidence": 0.018310546875
+      },
+      {
+        "identifier": "spoon",
+        "confidence": 0.01806640625
+      },
+      {
+        "confidence": 0.009277344681322575,
+        "identifier": "seed"
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/22500-sushi.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=22500&length=1",
+    "source_label": "sushi",
+    "split": "test",
+    "group": "food101-val-22500",
+    "ms": 87,
+    "classes": [
+      {
+        "identifier": "food",
+        "confidence": 0.9342615604400635
+      },
+      {
+        "confidence": 0.8959961533546448,
+        "identifier": "tableware"
+      },
+      {
+        "confidence": 0.8959961533546448,
+        "identifier": "utensil"
+      },
+      {
+        "identifier": "plate",
+        "confidence": 0.89599609375
+      },
+      {
+        "confidence": 0.826171875,
+        "identifier": "sushi"
+      },
+      {
+        "confidence": 0.81689453125,
+        "identifier": "rice"
+      },
+      {
+        "identifier": "avocado",
+        "confidence": 0.66552734375
+      },
+      {
+        "identifier": "fruit",
+        "confidence": 0.66552734375
+      },
+      {
+        "confidence": 0.11256294697523117,
+        "identifier": "structure"
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.112548828125
+      },
+      {
+        "confidence": 0.056396521627902985,
+        "identifier": "material"
+      },
+      {
+        "identifier": "textile",
+        "confidence": 0.056396484375
+      },
+      {
+        "identifier": "seasonings",
+        "confidence": 0.04055570065975189
+      },
+      {
+        "identifier": "condiment",
+        "confidence": 0.040555693209171295
+      },
+      {
+        "confidence": 0.04052734375,
+        "identifier": "wasabi"
+      },
+      {
+        "confidence": 0.026361363008618355,
+        "identifier": "vegetable"
+      },
+      {
+        "identifier": "cucumber",
+        "confidence": 0.025634765625
+      },
+      {
+        "identifier": "seed",
+        "confidence": 0.019042979925870895
+      },
+      {
+        "identifier": "sesame",
+        "confidence": 0.01904296875
+      },
+      {
+        "identifier": "seafood",
+        "confidence": 0.019034555181860924
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/23750-churros.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=23750&length=1",
+    "source_label": "churros",
+    "split": "test",
+    "group": "food101-val-23750",
+    "ms": 94,
+    "classes": [
+      {
+        "identifier": "structure",
+        "confidence": 0.8925786018371582
+      },
+      {
+        "identifier": "wood_processed",
+        "confidence": 0.892578125
+      },
+      {
+        "identifier": "tableware",
+        "confidence": 0.8845511078834534
+      },
+      {
+        "confidence": 0.8845511078834534,
+        "identifier": "utensil"
+      },
+      {
+        "confidence": 0.8740234375,
+        "identifier": "plate"
+      },
+      {
+        "confidence": 0.524904191493988,
+        "identifier": "drink"
+      },
+      {
+        "identifier": "liquid",
+        "confidence": 0.524904191493988
+      },
+      {
+        "confidence": 0.52490234375,
+        "identifier": "coffee"
+      },
+      {
+        "identifier": "cup",
+        "confidence": 0.50244140625
+      },
+      {
+        "identifier": "mug",
+        "confidence": 0.2705078125
+      },
+      {
+        "identifier": "food",
+        "confidence": 0.05735551938414574
+      },
+      {
+        "confidence": 0.05690837651491165,
+        "identifier": "baked_goods"
+      },
+      {
+        "confidence": 0.056740060448646545,
+        "identifier": "bread"
+      },
+      {
+        "confidence": 0.05615234375,
+        "identifier": "croissant"
+      },
+      {
+        "confidence": 0.04296875,
+        "identifier": "bowl"
+      },
+      {
+        "identifier": "furniture",
+        "confidence": 0.04296875
+      },
+      {
+        "confidence": 0.04296875,
+        "identifier": "table"
+      },
+      {
+        "identifier": "tea_drink",
+        "confidence": 0.03271484375
+      },
+      {
+        "confidence": 0.02978515625,
+        "identifier": "spoon"
+      },
+      {
+        "confidence": 0.02490234375,
+        "identifier": "bagel"
+      }
+    ]
+  },
+  {
+    "file": "docs/week1-3/samples/25000-spaghetti_bolognese.jpg",
+    "source": "https://datasets-server.huggingface.co/rows?dataset=ethz%2Ffood101&config=default&split=validation&offset=25000&length=1",
+    "source_label": "spaghetti_bolognese",
+    "split": "test",
+    "group": "food101-val-25000",
+    "ms": 79,
+    "classes": [
+      {
+        "identifier": "plate",
+        "confidence": 0.904296875
+      },
+      {
+        "identifier": "tableware",
+        "confidence": 0.904296875
+      },
+      {
+        "identifier": "utensil",
+        "confidence": 0.904296875
+      },
+      {
+        "confidence": 0.897468090057373,
+        "identifier": "food"
+      },
+      {
+        "identifier": "spaghetti",
+        "confidence": 0.8974609375
+      },
+      {
+        "identifier": "seasonings",
+        "confidence": 0.07604575157165527
+      },
+      {
+        "confidence": 0.07592775672674179,
+        "identifier": "condiment"
+      },
+      {
+        "identifier": "pasta",
+        "confidence": 0.067626953125
+      },
+      {
+        "confidence": 0.043701171875,
+        "identifier": "rice"
+      },
+      {
+        "identifier": "vegetable",
+        "confidence": 0.027394887059926987
+      },
+      {
+        "confidence": 0.02197265625,
+        "identifier": "soup"
+      },
+      {
+        "identifier": "herb",
+        "confidence": 0.02133241854608059
+      },
+      {
+        "identifier": "structure",
+        "confidence": 0.020021826028823853
+      },
+      {
+        "confidence": 0.02001953125,
+        "identifier": "wood_processed"
+      },
+      {
+        "identifier": "onion",
+        "confidence": 0.01806640625
+      },
+      {
+        "identifier": "meatball",
+        "confidence": 0.017822265625
+      },
+      {
+        "confidence": 0.01318359375,
+        "identifier": "cilantro"
+      },
+      {
+        "confidence": 0.012939453125,
+        "identifier": "seed"
+      },
+      {
+        "confidence": 0.012939453125,
+        "identifier": "sesame"
+      },
+      {
+        "identifier": "material",
+        "confidence": 0.01098635047674179
+      }
+    ]
+  }
+]

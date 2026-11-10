@@ -25,7 +25,7 @@ export async function handleMcpRequest(req, res) {
   });
   const server = new McpServer(
     {
-      name: 'nutritrace',
+      name: 'nutriagent',
       version: String(APP_VERSION || '0.0.0').replace(/^v/, ''),
     },
     {

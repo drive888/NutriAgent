@@ -76,7 +76,7 @@ workout maps.
 
 ### AI Assistant tool use
 
-The assistant (default name "Trace") uses function calling across all
+The assistant (default name "NutriAgent") uses function calling across all
 providers (Claude, OpenAI, Gemini). Seven tools: `get_wellness_data`,
 `get_body_composition`, `get_diary` (items + day notes + per-item
 notes + brand), `get_workouts`, `get_goals`, `get_diary_averages`,
@@ -146,7 +146,7 @@ local SQLite copy is tagged with the account it belongs to
 copy, and unsynced changes from the previous account are never pushed
 under the new one (the app asks first). Every change of account bumps
 an account generation, and a sync started before it writes nothing
-after it. Each switch and sign-out also forgets NutriTrace's own
+after it. Each switch and sign-out also forgets NutriAgent's own
 cookies (`nt_token`, `nt_oidc_logout`) so the server can't answer as
 the previous account, while a sign-in gate's cookies in front of the
 server stay. `src/lib/user-state.js` resets the in-memory stores
@@ -161,13 +161,13 @@ the fold from the Android `FoldPlugin` (Jetpack WindowManager) or the
 browser's Viewport Segments API and sets `fold-book`, `fold-tabletop`
 or `fold-flat` plus `--fold-start` / `--fold-end` on `<html>`.
 `src/styles/fold.css` moves only surfaces that can't be scrolled out
-of the way (dialogs, sheets, menus, Trace) off the crease; a diary,
+of the way (dialogs, sheets, menus, NutriAgent) off the crease; a diary,
 chart or photo may cross it. Wide layouts gate on `html.wide-content`
 (720px of content beside the sidebar), not on the viewport width.
 
 ## Android Local Mode
 
-NutriTrace on Android runs **standalone (offline-only)** or
+NutriAgent on Android runs **standalone (offline-only)** or
 **server-connected** at the user's choice. First-launch wizard
 picks the mode; Settings, then Mode, changes it later.
 
@@ -187,7 +187,7 @@ picks the mode; Settings, then Mode, changes it later.
   CORS restrictions that block `fetch()` inside the WebView
 - **API routing:** every `fetch('/api/...')` call uses `apiUrl()` to
   prefix the server URL when in connected mode. In local mode, calls
-  go to `NtApiNative` instead
+  go to `NaApiNative` instead
 - **Service worker disabled in Capacitor:** `src/registerSW.js`
   checks `isNative` and no-ops to prevent the offline.html redirect
   from intercepting WebView navigation
@@ -203,15 +203,15 @@ picks the mode; Settings, then Mode, changes it later.
 - **Mobile OAuth** (`src/lib/oauth-native.js`): Fitbit, Garmin, and
   Withings flows on Android open the system browser via
   `@capacitor/browser` instead of an in-app WebView. Callback via the
-  `nutritrace://` deep link scheme
+  `nutriagent://` deep link scheme
 - **Mobile OIDC SSO** (server mode only): same
   `@capacitor/browser` pattern. Any installed app can register for
-  `nutritrace://`, so the deep link never carries the session token.
+  `nutriagent://`, so the deep link never carries the session token.
   Before opening the sign-in page the app makes a random secret and
   sends only its SHA-256 as `app_challenge`
   (`src/lib/oidc-app-handoff.js`). The server callback
   (`server/routes/oidc.js`) redirects to
-  `nutritrace://oidc-callback/?code=<code>` with a single-use code, and
+  `nutriagent://oidc-callback/?code=<code>` with a single-use code, and
   the app swaps code plus secret for the token at
   `POST /api/auth/oidc/handoff`. An app that caught the link has the
   code but not the secret. Builds too old to send `app_challenge` still
@@ -251,9 +251,9 @@ See `.env.example` for the full list. Key ones:
 
 - **Cookie / storage prefix:** `wl_u<id>_<key>` (legacy from
   waistline; intentional)
-- **Auth cookie:** `nutritrace_token`
-- **Deep-link scheme:** `nutritrace://`
-- **Android app id:** `com.nutritrace.app`
+- **Auth cookie:** `nutriagent_token`
+- **Deep-link scheme:** `nutriagent://`
+- **Android app id:** `com.nutriagent.app`
 - **Comments:** state the non-obvious constraint or say nothing.
   Skip comments that restate the next line
 

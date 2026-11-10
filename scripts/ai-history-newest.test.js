@@ -1,9 +1,9 @@
 /**
- * Trace's chat history shows the newest messages, in the order they were
+ * NutriAgent's chat history shows the newest messages, in the order they were
  * written.
  *
  * GET /api/ai/history returned the OLDEST 100 messages, so once an account
- * had more than 100, reopening Trace never showed the newest ones, on the
+ * had more than 100, reopening NutriAgent never showed the newest ones, on the
  * web or in the app. Picking the newest keeps a question and its answer
  * saved in the same second in the order they were written (id breaks ties).
  */

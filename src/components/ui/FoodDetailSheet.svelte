@@ -45,7 +45,7 @@
   import { resolveAssetUrl } from '../../lib/platform.js';
   import { Nutrition, energyUnitSuffix } from '../../lib/nutrition.js';
   import { energyUnit, mealNames, disableAnimations } from '../../stores/settings.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { confirmDialog } from '../../stores/confirmDialog.js';
   import { showSuccess, showError } from '../../stores/toast.js';
 
@@ -166,7 +166,7 @@
     if (!ok) return;
     _transitioning = true;
     try {
-      await NtApi.deleteFood(_displayFood.id);
+      await NaApi.deleteFood(_displayFood.id);
       open = false;
       dispatch('deleted', { food: _displayFood });
       showSuccess($_('foods.detail.deleted'));
@@ -196,8 +196,8 @@
         {#if onDismiss}
           <button type="button" class="detail-embedded-close"
             on:click={onDismiss}
-            aria-label="Clear detail preview"
-            title="Clear preview">
+            aria-label={$_('ui.m5f223a583438')}
+            title={$_('ui.me700bbdb93ff')}>
             <span class="material-symbols-rounded">close</span>
           </button>
         {/if}
@@ -245,7 +245,7 @@
         {:else}
           <div class="off-missing" role="status">
             <span class="material-symbols-rounded" aria-hidden="true">info</span>
-            <p>{$_(offStatus === 'none' ? 'foods.detail.off_none' : offStatus === 'implausible' ? 'foods.detail.off_implausible' : 'foods.detail.off_prepared_only')}</p>
+            <p>{$_(offStatus === 'none' ? "foods.detail.off_none" : offStatus === 'implausible' ? "foods.detail.off_implausible" : "foods.detail.off_prepared_only")}</p>
           </div>
         {/if}
         <button class="btn btn-primary add-btn"
@@ -280,7 +280,7 @@
            we just prompt the user to select something. -->
       <div class="detail-embedded-empty">
         <span class="material-symbols-rounded">restaurant_menu</span>
-        <p>Pick a food from the list to preview.</p>
+        <p>{$_('ui.m0822b6cc0e55')}</p>
       </div>
     {/if}
   </div>
@@ -324,7 +324,7 @@
         {:else}
           <div class="off-missing" role="status">
             <span class="material-symbols-rounded" aria-hidden="true">info</span>
-            <p>{$_(offStatus === 'none' ? 'foods.detail.off_none' : offStatus === 'implausible' ? 'foods.detail.off_implausible' : 'foods.detail.off_prepared_only')}</p>
+            <p>{$_(offStatus === 'none' ? "foods.detail.off_none" : offStatus === 'implausible' ? "foods.detail.off_implausible" : "foods.detail.off_prepared_only")}</p>
           </div>
         {/if}
         <button class="btn btn-primary add-btn"

@@ -2,7 +2,7 @@
  * search-text.js
  *
  * One definition of "does this text match what the user typed", for every
- * search box in the app. Kept byte-identical across the Trace apps, and in
+ * search box in the app. Kept byte-identical across the NutriAgent apps, and in
  * two copies per app: src/lib/ for the client and server/lib/ for the
  * server, because the runtime image ships server/ and dist/ only. A test
  * pins the copies to the same output.

@@ -45,6 +45,10 @@ export async function sendWebhookRequest(url, envelope, signature, deliveryId, e
       signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
+        'X-NutriAgent-Signature': `sha256=${signature}`,
+        'X-NutriAgent-Event': event,
+        'X-NutriAgent-Delivery': deliveryId,
+        // Legacy consumers can migrate without losing webhook verification.
         'X-NutriTrace-Signature': `sha256=${signature}`,
         'X-NutriTrace-Event': event,
         'X-NutriTrace-Delivery': deliveryId,

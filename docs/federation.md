@@ -1,6 +1,6 @@
 # TraceApps Federation API
 
-A Bearer-authenticated REST API that NutriTrace exposes for sister apps
+A Bearer-authenticated REST API that NutriAgent exposes for sister apps
 in the TraceApps ecosystem (LiftTrace public, CookTrace in private
 development, plus any self-hosted custom integrations) to consume.
 
@@ -31,7 +31,7 @@ ignore unknown fields.
 
 ## Authentication
 
-Bearer token. Tokens are generated per-user in the NutriTrace UI
+Bearer token. Tokens are generated per-user in the NutriAgent UI
 (Settings → Admin → API Tokens), shown to the user once at creation,
 and stored as a SHA-256 hash on the server.
 
@@ -54,7 +54,7 @@ return `403 Forbidden`. Available scopes:
 | Scope             | Grants                                                                           |
 |-------------------|----------------------------------------------------------------------------------|
 | `read:foods`      | List + read foods owned by the user. Used by CookTrace (in private development). |
-| `write:workouts`  | Push completed workouts to the user's wellness data via `POST /api/v1/workouts`. Used by LiftTrace so its calorie estimates feed NutriTrace's dynamic-TDEE calculations. |
+| `write:workouts`  | Push completed workouts to the user's wellness data via `POST /api/v1/workouts`. Used by LiftTrace so its calorie estimates feed NutriAgent's dynamic-TDEE calculations. |
 | `write:body-measurements` | Push scale readings (weight, body composition) via `POST /api/v1/body-measurements`. Aimed at Home Assistant, Node-RED, Gadgetbridge and other headless integrations that pull data from BLE smart scales the phone can't see. |
 
 Future scopes (`read:meals`, `read:diary`, etc.) will be added alongside
@@ -110,7 +110,7 @@ discover which user it belongs to.
     "role": "admin"
   },
   "instance": {
-    "url":     "https://nutritrace.example.com",
+    "url":     "https://nutriagent.example.com",
     "version": "1.0.0-rc.14"
   },
   "scopes": ["read:foods"]
@@ -145,7 +145,7 @@ Response:
 
 ### `GET /api/v1/foods/{id}`
 
-Fetch a single food by its NutriTrace id. Returns `404` if the food
+Fetch a single food by its NutriAgent id. Returns `404` if the food
 doesn't exist or is not readable by the token's user.
 
 ### `POST /api/v1/body-measurements`
@@ -241,7 +241,7 @@ integration can log/confirm what landed.
 **Example** — one-liner from a Home Assistant automation:
 
 ```bash
-curl -X POST https://nutritrace.example.com/api/v1/body-measurements \
+curl -X POST https://nutriagent.example.com/api/v1/body-measurements \
   -H 'Authorization: Bearer nt_pat_...' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -270,7 +270,7 @@ will be added on demand.
   "barcode":  "0098463900008",
   "portion":  100.0,
   "unit":     "g",
-  "img_url":  "https://nutritrace.example.com/uploads/abc123.jpg",
+  "img_url":  "https://nutriagent.example.com/uploads/abc123.jpg",
   "notes":    "1 cup ≈ 245g cooked",
   "nutrition": {
     "calories":      59,
@@ -374,16 +374,16 @@ diary as activity entries). Each write endpoint is specific and
 audit-logged; no generic "write anything" surface.
 
 **Phase 4:** LiftTrace and CookTrace expose their own `/api/v1/` with
-the same conventions, becoming peers to NutriTrace in the federation.
+the same conventions, becoming peers to NutriAgent in the federation.
 
 ---
 
 ## Cross-instance references
 
 Each instance issues its own integer ids. A CookTrace recipe that
-references NutriTrace food id `42` should store both the food id and
+references NutriAgent food id `42` should store both the food id and
 the issuing instance URL, so the reference resolves correctly even if
-the user later runs CookTrace against a different NutriTrace
+the user later runs CookTrace against a different NutriAgent
 instance.
 
 Recommended reference shape (defined once here, used by all consumer
@@ -391,7 +391,7 @@ apps):
 
 ```json
 {
-  "instance_url": "https://nutritrace.example.com",
+  "instance_url": "https://nutriagent.example.com",
   "type":         "food",
   "id":           42
 }

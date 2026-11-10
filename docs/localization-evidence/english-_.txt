@@ -1,0 +1,114 @@
+Browser tab: 1, Title: "NutriTrace", URL: "http://localhost:3103/?localization=20261103-final#/".
+1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/
+	2 container app
+		3 button Open menu
+		4 container
+			145 container
+				146 button Expand nutrition panel
+					147 text 0% P
+					148 text  · 
+					149 text 0% C
+					150 text  · 
+					151 text 0% F
+					152 text  · 
+					153 text 0 kcal
+					154 text · 
+					155 text water_drop
+					156 text  0 ml
+					157 text expand_less
+			5 container Main navigation
+				6 button Diary
+					7 text book
+					8 text DIARY
+				9 button Foods
+					10 text restaurant
+					11 text FOODS
+				12 button Statistics
+					13 text bar_chart
+					14 text STATISTICS
+				15 button Goals
+					16 text flag
+					17 text GOALS
+				18 button Settings
+					19 text settings
+					20 text SETTINGS
+		158 container
+			159 heading Diary, Value: 1
+				160 text Diary
+			161 button Previous Day
+			162 button Today 11/03/2026, Help: Jump to Date
+				163 text Today
+				164 text 11/03/2026
+			165 button Next Day
+			166 container meal-0
+				167 text free_breakfast Breakfast
+				168 button Description: Meal actions for Breakfast, Help: Meal actions
+				169 button Description: Quick calories for Breakfast, Help: Quick Calories
+				170 button Add food to Breakfast
+				171 button Add food to Breakfast
+					172 text add_circle
+					173 text Tap to add food
+			174 container meal-2
+				175 text dinner_dining Dinner
+				176 button Description: Meal actions for Dinner, Help: Meal actions
+				177 button Description: Quick calories for Dinner, Help: Quick Calories
+				178 button Add food to Dinner
+				179 button Add food to Dinner
+					180 text add_circle
+					181 text Tap to add food
+			182 container meal-1
+				183 text lunch_dining Lunch
+				184 button Description: Meal actions for Lunch, Help: Meal actions
+				185 button Description: Quick calories for Lunch, Help: Quick Calories
+				186 button Add food to Lunch
+				187 button Add food to Lunch
+					188 text add_circle
+					189 text Tap to add food
+			190 container meal-3
+				191 text cookie Snacks
+				192 button Description: Meal actions for Snacks, Help: Meal actions
+				193 button Description: Quick calories for Snacks, Help: Quick Calories
+				194 button Add food to Snacks
+				195 button Add food to Snacks
+					196 text add_circle
+					197 text Tap to add food
+			198 container
+				199 text edit_note Day Notes expand_more
+		144 button Description: Open AI coach (hold to dictate food), Help: AI Assistant
+	200 container
+		201 button Description: Log Water, Help: Water — log your water intake
+		202 button Description: Nutrition Summary, Help: Nutrition Summary — full breakdown of today's nutrients
+		203 button Description: Body Stats, Help: Body Stats — log weight, body fat, and measurements
+	204 container
+		205 text Overview
+		206 button Description: Hide widget panel, Help: Hide widgets (edge tab reopens)
+		207 container
+			208 button Description: Toggle macro display between percent and grams, Help: Toggle percent / grams
+				209 text %
+				210 text g
+			211 button trending_up, Help: View trend
+			212 button open_in_full, Help: Open full nutrition summary
+		213 container
+			214 image
+			215 text 0 kcal of 2,000
+		216 text 0% Protein 0% Carbs 0% Fat 0 g PROTEIN 0 g CARBS 0 g FAT
+		217 container
+			218 text water_drop Water 0 ml  of 2000 ml
+			219 button Open water sheet
+		220 button +250 ml, Help: Small Bottle
+		221 button +500 ml, Help: Standard Bottle
+		222 button +1000 ml, Help: Large Bottle
+		223 button +3785 ml, Help: Gallon Jug
+		224 button + Custom
+		225 container
+			226 text monitor_weight Body Stats
+			227 button open_in_full, Help: Open Body Stats sheet
+		228 text Weight not logged
+		229 button Log
+		230 text No measurements logged today
+		231 button Log Stats
+		232 container
+			233 text edit_note Day Notes
+		234 text entry area (settable)
+
+The focused UI element is 1 AXWebArea NutriTrace, URL: localhost:3103/?localization=20261103-final#/

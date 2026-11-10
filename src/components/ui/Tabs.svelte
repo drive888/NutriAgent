@@ -1,4 +1,5 @@
 <script>
+  import { _ } from 'svelte-i18n';
   import { createEventDispatcher } from 'svelte';
   export let tabs   = [];   // [{ label, value }]
   export let active = 0;
@@ -20,7 +21,7 @@
       aria-selected={i === active}
       on:click={() => select(i)}
     >
-      {tab.label}
+      {tab.labelKey ? $_(tab.labelKey) : tab.label}
     </button>
   {/each}
 </div>

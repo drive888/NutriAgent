@@ -6,7 +6,7 @@
   import TimePicker from '../ui/TimePicker.svelte';
   import { showSuccess, showError } from '../../stores/toast.js';
   import { DB } from '../../lib/db.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { currentUser, userMgmtActive } from '../../stores/auth.js';
   import { isNative, getServerUrl, getAuthToken, apiUrl } from '../../lib/platform.js';
   // Local-mode scheduled-backup settings (mirror the server-side admin
@@ -44,7 +44,7 @@
       reader.readAsDataURL(blob);
     });
     await Filesystem.writeFile({ path: `Download/${filename}`, data: base64, directory: Directory.ExternalStorage, recursive: true });
-    showSuccess(`Saved to Download/${filename}`);
+    showSuccess($_('ui.m1826bcb9f672', { values: { value0: (filename) } }));
   }
 
   function _downloadBlob(blob, filename) {
@@ -60,7 +60,7 @@
   let localZipBusy = false;
   let localZipStatus = '';
   let localBackups = [];
-  const LOCAL_BACKUP_DIR = 'nutritrace-backups';
+  const LOCAL_BACKUP_DIR = 'nutriagent-backups';
 
   export async function loadLocalBackups() {
     if (!isNativeLocal) return;
@@ -93,7 +93,7 @@
       const blob = await exportLocalBackup({
         onProgress: (pct, label) => { localZipStatus = `${Math.round(pct)}% — ${label}`; },
       });
-      const filename = `nutritrace-backup-${new Date().toISOString().replace(/[:.]/g,'-').slice(0,19)}.zip`;
+      const filename = `nutriagent-backup-${new Date().toISOString().replace(/[:.]/g,'-').slice(0,19)}.zip`;
       const arrayBuffer = await blob.arrayBuffer();
       const bytes = new Uint8Array(arrayBuffer);
       let binary = '';
@@ -494,7 +494,7 @@
 
   async function clearAllData() {
     try {
-      await NtApi.del('/api/data');
+      await NaApi.del('/api/data');
       showSuccess($_('settings_backup.toast.all_data_cleared'));
       const { loadAuthState } = await import('../../stores/auth.js');
       await loadAuthState();
@@ -524,7 +524,7 @@
   <!-- Full backup (admin only, server mode only — files stored on server) -->
   {#if $currentUser?.role === 'admin' && !isNativeLocal}
   <p class="settings-group-heading">{$_('settings_backup.sections.full_backup')}</p>
-  <p class="settings-group-sub">Full server backup (SQLite + uploads) with optional scheduled runs. Admin only.</p>
+  <p class="settings-group-sub">{$_('ui.mde9ac18b6336')}</p>
   <div class="card settings-card">
     <div style="padding:12px 16px 4px">
       <p class="setting-desc" style="margin:0 0 12px">{$_('settings_backup.full_backup.desc_server')}</p>
@@ -621,7 +621,7 @@
         <div class="restore-progress" bind:this={restoreProgressEl}>
           <div class="restore-progress-label">
             <span class="material-symbols-rounded spin" style="font-size:15px;flex-shrink:0">autorenew</span>
-            {restoreStatus.label}
+            {restoreStatus.labelKey ? $_(restoreStatus.labelKey) : restoreStatus.label}
           </div>
           <div class="restore-progress-track">
             <div class="restore-progress-fill" style="width:{restoreStatus.percent}%"></div>
@@ -670,13 +670,13 @@
 
   {#if isNativeLocal}
   <p class="settings-group-heading">{$_('settings_backup.sections.full_backup')}</p>
-  <p class="settings-group-sub">On-device backup zip saved to Documents/nutritrace-backups. Manual or scheduled.</p>
+  <p class="settings-group-sub">{$_('ui.md3d78bda3635')}</p>
   <div class="card settings-card">
     <div style="padding:12px 16px 4px">
       <p class="setting-desc" style="margin:0 0 12px">{$_('settings_backup.full_backup.desc_local')}</p>
 
       <!-- Auto Backup (local mode). Runs JS-side while the app is open,
-           fires when due, saves to Documents/nutritrace-backups/ with an
+           fires when due, saves to Documents/nutriagent-backups/ with an
            auto- prefix. Retention prune only touches auto-prefixed files
            so manual exports are never deleted by the scheduler. Tick
            happens on app open + every ~5 min + on visibilitychange, so a
@@ -807,7 +807,7 @@
   {/if}
   <!-- Danger zone -->
   <p class="settings-group-heading danger-zone-label">{$_('settings_backup.sections.danger_zone')}</p>
-  <p class="settings-group-sub">Irreversible actions. Wipe logged data or reset every setting to defaults.</p>
+  <p class="settings-group-sub">{$_('ui.m63cacc403ee5')}</p>
   <div class="card settings-card danger-zone-card">
     <button class="setting-row setting-action danger" on:click={() => showClearDialog = true}>
       <span class="material-symbols-rounded si" style="color:var(--danger)">delete_forever</span>

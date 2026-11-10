@@ -218,7 +218,7 @@ router.get('/callback', wrap(async (req, res) => {
   if (!pkce) {
     return res.redirect('/?fitbit=error&msg=invalid_state#/wellness');
   }
-  const _redir = (path) => pkce.isNative ? `nutritrace://callback${path}` : path;
+  const _redir = (path) => pkce.isNative ? `nutriagent://callback${path}` : path;
 
   const clientId    = _userCfg('fitbit_client_id',     pkce.userId);
   const clientSecret = _userCfg('fitbit_client_secret', pkce.userId);

@@ -1,4 +1,5 @@
 <script>
+  import { waterPresetLabel } from '../../lib/default-water-label.js';
   /**
    * Diary → right column → Water widget.
    *
@@ -12,6 +13,7 @@
    * Rendered only inside .diary-right-col which is ≥1280px only.
    */
   import { slide } from 'svelte/transition';
+  import { _ } from 'svelte-i18n';
   import { decimalInput, parseDecimal } from '../../lib/decimal-input.js';
 
   export let logs         = [];
@@ -82,10 +84,10 @@
 <section class="water-widget card">
   <header class="ww-header">
     <span class="material-symbols-rounded ww-icon">water_drop</span>
-    <span class="ww-title">Water</span>
-    <span class="ww-total">{displayTotal} <span class="ww-of">of {displayGoal}</span></span>
+    <span class="ww-title">{$_('local_ui.water')}</span>
+    <span class="ww-total">{displayTotal} <span class="ww-of">{$_('ui.m28391d3bc64e')} {displayGoal}</span></span>
     {#if onOpen}
-      <button class="ww-open" on:click={onOpen} title="Open water sheet" aria-label="Open water sheet">
+      <button class="ww-open" on:click={onOpen} title={$_('ui.ma67f40e8e00b')} aria-label={$_('ui.ma67f40e8e00b')}>
         <span class="material-symbols-rounded">open_in_full</span>
       </button>
     {/if}
@@ -99,12 +101,12 @@
 
   <div class="ww-buttons">
     {#each containers as cont (cont.id ?? cont.volumeMl)}
-      <button class="ww-btn" on:click={() => onQuickAdd(cont.volumeMl)} title={cont.name}>
+      <button class="ww-btn" on:click={() => onQuickAdd(cont.volumeMl)} title={waterPresetLabel(cont, $_)}>
         {displayContainer(cont)}
       </button>
     {/each}
     <button class="ww-btn ww-btn-ghost ww-btn-full" on:click={openCustom} class:active={customOpen}>
-      + Custom
+      + {$_('diary.water.custom')}
     </button>
   </div>
 
@@ -117,10 +119,10 @@
         type="text"
         inputmode="decimal"
         use:decimalInput
-        placeholder={unit === 'ml' ? 'ml' : unit === 'oz' ? 'fl oz' : unit}
+        placeholder={unit === 'ml' ? $_('ui.m5d58d41913d9') : unit === 'oz' ? $_('ui.m0746dad20bcd') : unit}
         class="input ww-custom-input"
       />
-      <button class="ww-custom-save btn btn-primary" on:click={commitCustom}>Add</button>
+      <button class="ww-custom-save btn btn-primary" on:click={commitCustom}>{$_('diary.water.add')}</button>
     </div>
   {/if}
 
@@ -133,8 +135,8 @@
           <button
             class="ww-log-remove"
             on:click={() => onRemove(i)}
-            title="Remove this entry"
-            aria-label="Remove entry"
+            title={$_('ui.m7415642be541')}
+            aria-label={$_('ui.md653a1c5faf2')}
           >
             <span class="material-symbols-rounded">close</span>
           </button>

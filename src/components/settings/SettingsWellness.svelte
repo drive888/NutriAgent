@@ -19,7 +19,7 @@
     healthConnectSyncMode, healthConnectSyncInterval, healthConnectSyncWindowStart, healthConnectSyncWindowEnd,
   } from '../../stores/settings.js';
   import { DB } from '../../lib/db.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { currentUser, userMgmtActive } from '../../stores/auth.js';
   import { isNative, getServerUrl } from '../../lib/platform.js';
   const isNativeLocal = isNative && !getServerUrl();
@@ -76,97 +76,97 @@
 
   // ── Wellness metric visibility (per integration, alphabetical by label) ──
   const FITBIT_METRICS = [
-    { id: 'active_minutes',       label: 'Active Min'       },
-    { id: 'active_zone_minutes',  label: 'Active Zone Min'  },
-    { id: 'calories_out',         label: 'Calories'         },
-    { id: 'sleep_deep_min',       label: 'Deep Sleep'       },
-    { id: 'distance_km',          label: 'Distance'         },
-    { id: 'floors',               label: 'Floors'           },
-    { id: 'hrv_daily_rmssd',      label: 'HRV'              },
-    { id: 'sleep_light_min',      label: 'Light Sleep'      },
-    { id: 'sleep_rem_min',        label: 'REM Sleep'        },
-    { id: 'respiratory_rate',     label: 'Resp. Rate'       },
-    { id: 'resting_hr',           label: 'Resting HR'       },
-    { id: 'sleep_duration_min',   label: 'Sleep Duration'   },
-    { id: 'sleep_efficiency',     label: 'Sleep Efficiency' },
-    { id: 'skin_temp_variation',  label: 'Skin Temp Var.'   },
-    { id: 'sleep_score',          label: 'Sleep Score'      },
-    { id: 'spo2_avg',             label: 'SpO2'             },
-    { id: 'steps',                label: 'Steps'            },
-    { id: 'vo2_max',              label: 'Cardio Fitness'   },
-    { id: 'sleep_wake_min',       label: 'Wake Time'        },
+    { id: 'active_minutes',       label: 'Active Min', labelKey: 'ui.mac75e80d2e9b'       },
+    { id: 'active_zone_minutes',  label: 'Active Zone Min', labelKey: 'ui.m31eaacff6b1d'  },
+    { id: 'calories_out',         label: 'Calories', labelKey: 'ui.m42b7dd56746d'         },
+    { id: 'sleep_deep_min',       label: 'Deep Sleep', labelKey: 'ui.m7e027eb954ed'       },
+    { id: 'distance_km',          label: 'Distance', labelKey: 'ui.mb7bdf7a2d6e7'         },
+    { id: 'floors',               label: 'Floors', labelKey: 'ui.mf20080f98770'           },
+    { id: 'hrv_daily_rmssd',      label: 'HRV', labelKey: 'ui.maf6c7c3df3fc'              },
+    { id: 'sleep_light_min',      label: 'Light Sleep', labelKey: 'ui.m5a1bf2675f1f'      },
+    { id: 'sleep_rem_min',        label: 'REM Sleep', labelKey: 'ui.m26c10f76a393'        },
+    { id: 'respiratory_rate',     label: 'Resp. Rate', labelKey: 'ui.m94d4b7624c2b'       },
+    { id: 'resting_hr',           label: 'Resting HR', labelKey: 'ui.m4ed409fa03f5'       },
+    { id: 'sleep_duration_min',   label: 'Sleep Duration', labelKey: 'ui.m357b84eb5784'   },
+    { id: 'sleep_efficiency',     label: 'Sleep Efficiency', labelKey: 'ui.me82ab51dc028' },
+    { id: 'skin_temp_variation',  label: 'Skin Temp Var.', labelKey: 'ui.mac19b5fcf633'   },
+    { id: 'sleep_score',          label: 'Sleep Score', labelKey: 'ui.m25bd28345d93'      },
+    { id: 'spo2_avg',             label: 'SpO2', labelKey: 'ui.mfb0a260fbed1'             },
+    { id: 'steps',                label: 'Steps', labelKey: 'ui.m1de3df70ddf4'            },
+    { id: 'vo2_max',              label: 'Cardio Fitness', labelKey: 'ui.mcfc8adf1ae84'   },
+    { id: 'sleep_wake_min',       label: 'Wake Time', labelKey: 'ui.md4f1772c765c'        },
   ];
   const GARMIN_METRICS = [
-    { id: 'active_minutes',         label: 'Active Min'          },
-    { id: 'body_battery_high',      label: 'Battery High'        },
-    { id: 'body_battery_low',       label: 'Battery Low'         },
-    { id: 'calories_out',           label: 'Calories'            },
-    { id: 'sleep_deep_min',         label: 'Deep Sleep'          },
-    { id: 'distance_km',            label: 'Distance'            },
-    { id: 'floors',                 label: 'Floors'              },
-    { id: 'hrv_daily_rmssd',        label: 'HRV'                 },
-    { id: 'sleep_light_min',        label: 'Light Sleep'         },
-    { id: 'max_hr',                 label: 'Max HR'              },
-    { id: 'moderate_intensity_min', label: 'Moderate Intensity'  },
-    { id: 'sleep_rem_min',          label: 'REM Sleep'           },
-    { id: 'respiratory_rate',       label: 'Resp. Rate'          },
-    { id: 'resting_hr',             label: 'Resting HR'          },
-    { id: 'sleep_duration_min',     label: 'Sleep Duration'      },
-    { id: 'sleep_score',            label: 'Sleep Score'         },
-    { id: 'spo2_avg',               label: 'SpO2'                },
-    { id: 'steps',                  label: 'Steps'               },
-    { id: 'stress_avg',             label: 'Stress'              },
-    { id: 'vigorous_intensity_min', label: 'Vigorous Intensity'  },
-    { id: 'sleep_wake_min',         label: 'Wake Time'           },
+    { id: 'active_minutes',         label: 'Active Min', labelKey: 'ui.mac75e80d2e9b'          },
+    { id: 'body_battery_high',      label: 'Battery High', labelKey: 'ui.mf8fb4961bcda'        },
+    { id: 'body_battery_low',       label: 'Battery Low', labelKey: 'ui.medc1ae5a6a62'         },
+    { id: 'calories_out',           label: 'Calories', labelKey: 'ui.m42b7dd56746d'            },
+    { id: 'sleep_deep_min',         label: 'Deep Sleep', labelKey: 'ui.m7e027eb954ed'          },
+    { id: 'distance_km',            label: 'Distance', labelKey: 'ui.mb7bdf7a2d6e7'            },
+    { id: 'floors',                 label: 'Floors', labelKey: 'ui.mf20080f98770'              },
+    { id: 'hrv_daily_rmssd',        label: 'HRV', labelKey: 'ui.maf6c7c3df3fc'                 },
+    { id: 'sleep_light_min',        label: 'Light Sleep', labelKey: 'ui.m5a1bf2675f1f'         },
+    { id: 'max_hr',                 label: 'Max HR', labelKey: 'ui.m1291bf17504d'              },
+    { id: 'moderate_intensity_min', label: 'Moderate Intensity', labelKey: 'ui.mef7bc73455de'  },
+    { id: 'sleep_rem_min',          label: 'REM Sleep', labelKey: 'ui.m26c10f76a393'           },
+    { id: 'respiratory_rate',       label: 'Resp. Rate', labelKey: 'ui.m94d4b7624c2b'          },
+    { id: 'resting_hr',             label: 'Resting HR', labelKey: 'ui.m4ed409fa03f5'          },
+    { id: 'sleep_duration_min',     label: 'Sleep Duration', labelKey: 'ui.m357b84eb5784'      },
+    { id: 'sleep_score',            label: 'Sleep Score', labelKey: 'ui.m25bd28345d93'         },
+    { id: 'spo2_avg',               label: 'SpO2', labelKey: 'ui.mfb0a260fbed1'                },
+    { id: 'steps',                  label: 'Steps', labelKey: 'ui.m1de3df70ddf4'               },
+    { id: 'stress_avg',             label: 'Stress', labelKey: 'ui.m2319cd90fbab'              },
+    { id: 'vigorous_intensity_min', label: 'Vigorous Intensity', labelKey: 'ui.m750e95e5a1d6'  },
+    { id: 'sleep_wake_min',         label: 'Wake Time', labelKey: 'ui.md4f1772c765c'           },
   ];
   const WITHINGS_METRICS = [
-    { id: 'ecg_afib',            label: 'AFib'               },
-    { id: 'basal_metabolic_rate',     label: 'Basal Metabolic Rate' },
-    { id: 'body_fat_pct',        label: 'Body Fat'           },
-    { id: 'body_water_pct',      label: 'Body Water'         },
-    { id: 'bone_mass_kg',        label: 'Bone Mass'          },
-    { id: 'eda_feet',                 label: 'EDA Score'           },
-    { id: 'ecg_heart_rate',           label: 'Heart Rate'          },
-    { id: 'extracellular_water_kg',   label: 'Extracell. Water'    },
-    { id: 'fat_mass_kg',              label: 'Fat Mass'            },
-    { id: 'intracellular_water_kg',   label: 'Intracell. Water'    },
-    { id: 'lean_mass_kg',             label: 'Lean Mass'           },
-    { id: 'metabolic_age',            label: 'Metabolic Age'       },
-    { id: 'muscle_mass_kg',           label: 'Muscle Mass'         },
-    { id: 'nerve_health_score',       label: 'Nerve Health'        },
-    { id: 'pulse_wave_velocity', label: 'Pulse Wave'         },
-    { id: 'segmental_analysis',  label: 'Segmental Analysis' },
-    { id: 'vascular_age',        label: 'Vascular Age'       },
-    { id: 'visceral_fat',             label: 'Visceral Fat'        },
-    { id: 'visceral_fat_index',       label: 'Visceral Fat Index'  },
-    { id: 'weight_kg',                label: 'Weight'              },
+    { id: 'ecg_afib',            label: 'AFib', labelKey: 'ui.m356e8dc2d063'               },
+    { id: 'basal_metabolic_rate',     label: 'Basal Metabolic Rate', labelKey: 'ui.mc04bf5c7ee10' },
+    { id: 'body_fat_pct',        label: 'Body Fat', labelKey: 'ui.m03cfbaa9c32f'           },
+    { id: 'body_water_pct',      label: 'Body Water', labelKey: 'ui.m7a976b062eaa'         },
+    { id: 'bone_mass_kg',        label: 'Bone Mass', labelKey: 'ui.mce5b605c7e9a'          },
+    { id: 'eda_feet',                 label: 'EDA Score', labelKey: 'ui.mb257563f2ffd'           },
+    { id: 'ecg_heart_rate',           label: 'Heart Rate', labelKey: 'ui.mab10381165e3'          },
+    { id: 'extracellular_water_kg',   label: 'Extracell. Water', labelKey: 'ui.mde264f027616'    },
+    { id: 'fat_mass_kg',              label: 'Fat Mass', labelKey: 'ui.mc9d614dce521'            },
+    { id: 'intracellular_water_kg',   label: 'Intracell. Water', labelKey: 'ui.mc1c4d2249f34'    },
+    { id: 'lean_mass_kg',             label: 'Lean Mass', labelKey: 'ui.m2614b56f380c'           },
+    { id: 'metabolic_age',            label: 'Metabolic Age', labelKey: 'ui.mfcc2105fb979'       },
+    { id: 'muscle_mass_kg',           label: 'Muscle Mass', labelKey: 'ui.mde6012251ab0'         },
+    { id: 'nerve_health_score',       label: 'Nerve Health', labelKey: 'ui.ma5e4118313c8'        },
+    { id: 'pulse_wave_velocity', label: 'Pulse Wave', labelKey: 'ui.m59a8913d0bd2'         },
+    { id: 'segmental_analysis',  label: 'Segmental Analysis', labelKey: 'ui.mae5504808f06' },
+    { id: 'vascular_age',        label: 'Vascular Age', labelKey: 'ui.mc2b308574ed8'       },
+    { id: 'visceral_fat',             label: 'Visceral Fat', labelKey: 'ui.m3074446e23e6'        },
+    { id: 'visceral_fat_index',       label: 'Visceral Fat Index', labelKey: 'ui.m35dc648ab78b'  },
+    { id: 'weight_kg',                label: 'Weight', labelKey: 'ui.m81d27ef6d503'              },
   ];
   const HC_METRICS = [
-    { id: 'active_calories',           label: 'Active Calories'     },
-    { id: 'active_minutes',            label: 'Active Min'          },
-    { id: 'avg_heart_rate',            label: 'Avg Heart Rate'      },
-    { id: 'basal_metabolic_rate',      label: 'Basal Metabolic Rate'},
-    { id: 'blood_pressure_systolic',   label: 'Blood Pressure (Sys)'},
-    { id: 'blood_pressure_diastolic',  label: 'Blood Pressure (Dia)'},
-    { id: 'body_fat_pct',             label: 'Body Fat'            },
-    { id: 'body_temperature',          label: 'Body Temperature'    },
-    { id: 'bone_mass_kg',             label: 'Bone Mass'           },
-    { id: 'calories_out',             label: 'Calories'            },
-    { id: 'distance_km',              label: 'Distance'            },
-    { id: 'floors',                   label: 'Floors'              },
-    { id: 'lean_mass_kg',             label: 'Lean Mass'           },
-    { id: 'resting_hr',               label: 'Resting HR'          },
-    { id: 'respiratory_rate',          label: 'Resp. Rate'          },
-    { id: 'sleep_duration_min',        label: 'Sleep Duration'      },
-    { id: 'sleep_deep_min',           label: 'Deep Sleep'          },
-    { id: 'sleep_light_min',          label: 'Light Sleep'         },
-    { id: 'sleep_rem_min',            label: 'REM Sleep'           },
-    { id: 'sleep_wake_min',           label: 'Wake Time'           },
-    { id: 'spo2_avg',                 label: 'SpO2'                },
-    { id: 'steps',                    label: 'Steps'               },
-    { id: 'vo2_max',                  label: 'Cardio Fitness'      },
-    { id: 'water_ml',                 label: 'Hydration'           },
-    { id: 'weight_kg',                label: 'Weight'              },
+    { id: 'active_calories',           label: 'Active Calories', labelKey: 'ui.m2c64825ed21a'     },
+    { id: 'active_minutes',            label: 'Active Min', labelKey: 'ui.mac75e80d2e9b'          },
+    { id: 'avg_heart_rate',            label: 'Avg Heart Rate', labelKey: 'ui.m280720e5794b'      },
+    { id: 'basal_metabolic_rate',      label: 'Basal Metabolic Rate', labelKey: 'ui.mc04bf5c7ee10'},
+    { id: 'blood_pressure_systolic',   label: 'Blood Pressure (Sys)', labelKey: 'ui.m3d7057421071'},
+    { id: 'blood_pressure_diastolic',  label: 'Blood Pressure (Dia)', labelKey: 'ui.m55881a902879'},
+    { id: 'body_fat_pct',             label: 'Body Fat', labelKey: 'ui.m03cfbaa9c32f'            },
+    { id: 'body_temperature',          label: 'Body Temperature', labelKey: 'ui.m5d34bf94ac7a'    },
+    { id: 'bone_mass_kg',             label: 'Bone Mass', labelKey: 'ui.mce5b605c7e9a'           },
+    { id: 'calories_out',             label: 'Calories', labelKey: 'ui.m42b7dd56746d'            },
+    { id: 'distance_km',              label: 'Distance', labelKey: 'ui.mb7bdf7a2d6e7'            },
+    { id: 'floors',                   label: 'Floors', labelKey: 'ui.mf20080f98770'              },
+    { id: 'lean_mass_kg',             label: 'Lean Mass', labelKey: 'ui.m2614b56f380c'           },
+    { id: 'resting_hr',               label: 'Resting HR', labelKey: 'ui.m4ed409fa03f5'          },
+    { id: 'respiratory_rate',          label: 'Resp. Rate', labelKey: 'ui.m94d4b7624c2b'          },
+    { id: 'sleep_duration_min',        label: 'Sleep Duration', labelKey: 'ui.m357b84eb5784'      },
+    { id: 'sleep_deep_min',           label: 'Deep Sleep', labelKey: 'ui.m7e027eb954ed'          },
+    { id: 'sleep_light_min',          label: 'Light Sleep', labelKey: 'ui.m5a1bf2675f1f'         },
+    { id: 'sleep_rem_min',            label: 'REM Sleep', labelKey: 'ui.m26c10f76a393'           },
+    { id: 'sleep_wake_min',           label: 'Wake Time', labelKey: 'ui.md4f1772c765c'           },
+    { id: 'spo2_avg',                 label: 'SpO2', labelKey: 'ui.mfb0a260fbed1'                },
+    { id: 'steps',                    label: 'Steps', labelKey: 'ui.m1de3df70ddf4'               },
+    { id: 'vo2_max',                  label: 'Cardio Fitness', labelKey: 'ui.mcfc8adf1ae84'      },
+    { id: 'water_ml',                 label: 'Hydration', labelKey: 'ui.m1d9605ff4a17'           },
+    { id: 'weight_kg',                label: 'Weight', labelKey: 'ui.m81d27ef6d503'              },
   ];
 
   function isWellnessMetricVisible(id) {
@@ -208,29 +208,29 @@
   let hcSyncWindowEndVal        = DB.getSetting('healthConnectSyncWindowEnd',    '');
 
   const SYNC_INTERVALS = [
-    { value: 30,   label: 'Every 30 min' },
-    { value: 60,   label: 'Every hour' },
-    { value: 120,  label: 'Every 2 hours' },
-    { value: 180,  label: 'Every 3 hours' },
-    { value: 360,  label: 'Every 6 hours' },
-    { value: 720,  label: 'Every 12 hours' },
-    { value: 1440, label: 'Once a day' },
+    { value: 30,   label: 'Every 30 min', labelKey: 'ui.m6cbd3823318f' },
+    { value: 60,   label: 'Every hour', labelKey: 'ui.ma4bac4655d45' },
+    { value: 120,  label: 'Every 2 hours', labelKey: 'ui.mf4e35fe19efa' },
+    { value: 180,  label: 'Every 3 hours', labelKey: 'ui.m635c7987f7d2' },
+    { value: 360,  label: 'Every 6 hours', labelKey: 'ui.m7baa20dcbad6' },
+    { value: 720,  label: 'Every 12 hours', labelKey: 'ui.m9a289972dd1e' },
+    { value: 1440, label: 'Once a day', labelKey: 'ui.m6c126a03ea7f' },
   ];
 
   // Recommended range options shown first — safe for any device API
   const SYNC_RANGE_RECOMMENDED = [
-    { value: 1,   label: '1 day'   },
-    { value: 7,   label: '1 week'  },
-    { value: 30,  label: '1 month' },
-    { value: 90,  label: '3 months'},
+    { value: 1,   label: '1 day', labelKey: 'ui.mfa665d95d29e'   },
+    { value: 7,   label: '1 week', labelKey: 'ui.mc8cc522340b9'  },
+    { value: 30,  label: '1 month', labelKey: 'ui.mcd8c117e6dd5' },
+    { value: 90,  label: '3 months', labelKey: 'ui.mbfd45132a8c6'},
   ];
   // Advanced range options — per device, since each API has different limits
   // Fitbit: 6m + 1y allowed (rate limited but workable)
   // Garmin: 6m only (API doesn't reliably deliver beyond ~6 months)
   // Withings: 6m + 1y allowed (most generous historical depth)
-  const SYNC_RANGE_ADVANCED_FITBIT   = [ { value: 180, label: '6 months' }, { value: 365, label: '1 year' } ];
-  const SYNC_RANGE_ADVANCED_GARMIN   = [ { value: 180, label: '6 months' } ];
-  const SYNC_RANGE_ADVANCED_WITHINGS = [ { value: 180, label: '6 months' }, { value: 365, label: '1 year' } ];
+  const SYNC_RANGE_ADVANCED_FITBIT   = [ { value: 180, label: '6 months', labelKey: 'ui.m8ed94b4cf82d' }, { value: 365, label: '1 year', labelKey: 'ui.m91647badc37b' } ];
+  const SYNC_RANGE_ADVANCED_GARMIN   = [ { value: 180, label: '6 months', labelKey: 'ui.m8ed94b4cf82d' } ];
+  const SYNC_RANGE_ADVANCED_WITHINGS = [ { value: 180, label: '6 months', labelKey: 'ui.m8ed94b4cf82d' }, { value: 365, label: '1 year', labelKey: 'ui.m91647badc37b' } ];
 
   // All known options for "is this a known chip?" check (controls input-active highlight)
   const SYNC_RANGE_ALL_VALUES = new Set([1, 7, 30, 90, 180, 365]);
@@ -305,10 +305,10 @@
     // Load all configs in parallel.
     const isAdmin = $currentUser?.role === 'admin' || !$userMgmtActive;
     const [ghCfg, withingsCfg, garminCfg, appCfg] = await Promise.allSettled([
-      NtApi.get('/api/wellness/google-health/config'),
-      NtApi.get('/api/wellness/withings/config'),
-      NtApi.get('/api/wellness/garmin/config'),
-      isAdmin ? NtApi.get('/api/app-config') : Promise.resolve(null),
+      NaApi.get('/api/wellness/google-health/config'),
+      NaApi.get('/api/wellness/withings/config'),
+      NaApi.get('/api/wellness/garmin/config'),
+      isAdmin ? NaApi.get('/api/app-config') : Promise.resolve(null),
     ]);
     if (ghCfg.status === 'fulfilled' && ghCfg.value) {
       fitbitClientId    = ghCfg.value.client_id    || '';
@@ -335,10 +335,10 @@
     // (google-health). legacyFitbitConnected = true means the user still
     // has tokens from the old fitbit.com OAuth flow and should re-link.
     const [ghSt, legacyFitbitSt, withingsSt, garminSt] = await Promise.allSettled([
-      NtApi.get('/api/wellness/google-health/status'),
-      NtApi.get('/api/wellness/fitbit/status'),
-      NtApi.get('/api/wellness/withings/status'),
-      NtApi.get('/api/wellness/garmin/status'),
+      NaApi.get('/api/wellness/google-health/status'),
+      NaApi.get('/api/wellness/fitbit/status'),
+      NaApi.get('/api/wellness/withings/status'),
+      NaApi.get('/api/wellness/garmin/status'),
     ]);
     fitbitConnectionStatus   = ghSt.status === 'fulfilled' ? ghSt.value : { connected: false };
     legacyFitbitConnected    = (legacyFitbitSt.status === 'fulfilled' && legacyFitbitSt.value?.connected) === true
@@ -353,8 +353,8 @@
       // Disconnect both Google Health (new path) and legacy Fitbit Web API
       // (if still around). Either may not exist; ignore individual failures.
       await Promise.allSettled([
-        NtApi.del('/api/wellness/google-health/disconnect'),
-        NtApi.del('/api/wellness/fitbit/disconnect'),
+        NaApi.del('/api/wellness/google-health/disconnect'),
+        NaApi.del('/api/wellness/fitbit/disconnect'),
       ]);
       fitbitConnectionStatus = { ...fitbitConnectionStatus, connected: false };
       legacyFitbitConnected = false;
@@ -366,7 +366,7 @@
   async function disconnectWithingsFromSettings() {
     disconnectingWithings = true;
     try {
-      await NtApi.del('/api/wellness/withings/disconnect');
+      await NaApi.del('/api/wellness/withings/disconnect');
       withingsConnectionStatus = { ...withingsConnectionStatus, connected: false };
       showSuccess($_('settings_wellness.withings.disconnected'));
     } catch(e) { showError(e.message); }
@@ -379,7 +379,7 @@
     // for the legacy API). The data source is still Fitbit, just a new pipe.
     connectingFitbit = true;
     try {
-      const { url } = await NtApi.get('/api/wellness/google-health/authorize' + (isNative ? '?native=1' : ''));
+      const { url } = await NaApi.get('/api/wellness/google-health/authorize' + (isNative ? '?native=1' : ''));
       if (isNative) {
         const { openOAuth } = await import('../../lib/oauth-native.js');
         await openOAuth(url);
@@ -395,7 +395,7 @@
   async function connectWithingsFromSettings() {
     connectingWithings = true;
     try {
-      const { url } = await NtApi.get('/api/wellness/withings/authorize' + (isNative ? '?native=1' : ''));
+      const { url } = await NaApi.get('/api/wellness/withings/authorize' + (isNative ? '?native=1' : ''));
       if (isNative) {
         const { openOAuth } = await import('../../lib/oauth-native.js');
         await openOAuth(url);
@@ -413,13 +413,13 @@
     // Fitbit data). The fitbit* state var names are left as-is for diff
     // hygiene — they hold Google Cloud creds going forward.
     try {
-      await NtApi.put('/api/wellness/google-health/config', {
+      await NaApi.put('/api/wellness/google-health/config', {
         client_id:     fitbitClientId,
         client_secret: fitbitClientSecret || undefined,
         redirect_uri:  fitbitRedirectUri,
       });
       fitbitConnectionStatus = null;
-      fitbitConnectionStatus = await NtApi.get('/api/wellness/google-health/status');
+      fitbitConnectionStatus = await NaApi.get('/api/wellness/google-health/status');
       fitbitEditingCreds = false;
       showSuccess($_('settings_wellness.fitbit.creds_saved'));
     } catch (e) { showError($_('settings_wellness.common.save_failed_prefix') + e.message); }
@@ -438,14 +438,14 @@
     lastSyncResult = null;
     try {
       const today = _todayStr();
-      const r = await NtApi.post('/api/wellness/google-health/sync', { date: today });
+      const r = await NaApi.post('/api/wellness/google-health/sync', { date: today });
       const dayResult = r?.results?.[today];
       if (dayResult?.ok) {
         lastSyncResult = { ok: true, count: dayResult.count, date: today };
-        showSuccess(`Synced ${dayResult.count} metrics for ${today}`);
+        showSuccess($_('ui.m1efc7a6dd4f7', { values: { value0: (dayResult.count), value1: (today) } }));
       } else {
         lastSyncResult = { ok: false, error: dayResult?.error || 'Unknown error' };
-        showError(`Sync failed: ${lastSyncResult.error}`);
+        showError($_('ui.m66a4e6f3a0ef', { values: { value0: (lastSyncResult.error) } }));
       }
     } catch (e) {
       lastSyncResult = { ok: false, error: e.message };
@@ -459,9 +459,9 @@
     syncingWithings = true;
     try {
       const today = _todayStr();
-      const r = await NtApi.post('/api/wellness/withings/sync', { from: today, to: today });
+      const r = await NaApi.post('/api/wellness/withings/sync', { from: today, to: today });
       const count = r?.count ?? r?.results?.[today]?.count ?? 0;
-      showSuccess(`Synced ${count} Withings metric${count === 1 ? '' : 's'} for ${today}`);
+      showSuccess($_('ui.m6736f37e4c63', { values: { value0: (count), value1: (count === 1 ? '' : 's'), value2: (today) } }));
     } catch (e) {
       showError('Withings sync failed: ' + (e?.message || 'Unknown error'));
     }
@@ -473,9 +473,9 @@
     syncingGarmin = true;
     try {
       const today = _todayStr();
-      const r = await NtApi.post('/api/wellness/garmin/sync', { from: today, to: today });
+      const r = await NaApi.post('/api/wellness/garmin/sync', { from: today, to: today });
       const count = r?.count ?? r?.results?.[today]?.count ?? 0;
-      showSuccess(`Synced ${count} Garmin metric${count === 1 ? '' : 's'} for ${today}`);
+      showSuccess($_('ui.mc4bb86f55a60', { values: { value0: (count), value1: (count === 1 ? '' : 's'), value2: (today) } }));
     } catch (e) {
       showError('Garmin sync failed: ' + (e?.message || 'Unknown error'));
     }
@@ -490,7 +490,7 @@
       const today = _todayStr();
       const result = await syncHealthConnect(today);
       const count = result?.count ?? 0;
-      showSuccess(`Synced ${count} Health Connect metric${count === 1 ? '' : 's'} for ${today}`);
+      showSuccess($_('ui.mb0d89e0b70f4', { values: { value0: (count), value1: (count === 1 ? '' : 's'), value2: (today) } }));
     } catch (e) {
       showError('Health Connect sync failed: ' + (e?.message || 'Unknown error'));
     }
@@ -504,7 +504,7 @@
   async function disconnectGarminFromSettings() {
     disconnectingGarmin = true;
     try {
-      await NtApi.del('/api/wellness/garmin/disconnect');
+      await NaApi.del('/api/wellness/garmin/disconnect');
       garminConnectionStatus = { ...garminConnectionStatus, connected: false };
       showSuccess($_('settings_wellness.garmin.disconnected'));
     } catch(e) { showError(e.message); }
@@ -514,7 +514,7 @@
   async function connectGarminFromSettings() {
     connectingGarmin = true;
     try {
-      const { url } = await NtApi.get('/api/wellness/garmin/authorize' + (isNative ? '?native=1' : ''));
+      const { url } = await NaApi.get('/api/wellness/garmin/authorize' + (isNative ? '?native=1' : ''));
       if (isNative) {
         const { openOAuth } = await import('../../lib/oauth-native.js');
         await openOAuth(url);
@@ -529,13 +529,13 @@
 
   async function saveGarminConfig() {
     try {
-      await NtApi.put('/api/wellness/garmin/config', {
+      await NaApi.put('/api/wellness/garmin/config', {
         consumer_key:    garminConsumerKey,
         consumer_secret: garminConsumerSecret || undefined,
         redirect_uri:    garminRedirectUri,
       });
       garminConnectionStatus = null;
-      garminConnectionStatus = await NtApi.get('/api/wellness/garmin/status');
+      garminConnectionStatus = await NaApi.get('/api/wellness/garmin/status');
       garminEditingCreds = false;
       showSuccess($_('settings_wellness.garmin.creds_saved'));
     } catch(e) { showError($_('settings_wellness.common.save_failed_prefix') + e.message); }
@@ -547,13 +547,13 @@
 
   async function saveWithingsConfig() {
     try {
-      await NtApi.put('/api/wellness/withings/config', {
+      await NaApi.put('/api/wellness/withings/config', {
         client_id:     withingsClientId,
         client_secret: withingsClientSecret || undefined,
         redirect_uri:  withingsRedirectUri,
       });
       withingsConnectionStatus = null;
-      withingsConnectionStatus = await NtApi.get('/api/wellness/withings/status');
+      withingsConnectionStatus = await NaApi.get('/api/wellness/withings/status');
       withingsEditingCreds = false;
       showSuccess($_('settings_wellness.withings.creds_saved'));
     } catch (e) { showError($_('settings_wellness.common.save_failed_prefix') + e.message); }
@@ -591,8 +591,8 @@
       <div class="setting-divider"></div>
       <div class="setting-row">
         <div>
-          <span class="setting-label">Mirror wellness weight to Body Stats</span>
-          <div class="setting-desc">Also write scale readings from Health Connect into that day's Body Stats weight so the Weight goal on Goals and the Body Stats widget on Diary reflect your scale. Manual Body Stats entries are never overwritten. Withings applies this by default independently of this toggle.</div>
+          <span class="setting-label">{$_('ui.mefed8e605a54')}</span>
+          <div class="setting-desc">{$_('ui.m6301a2151fbd')}</div>
         </div>
         <Toggle checked={mirrorWellnessWeightVal}
           on:change={e => { mirrorWellnessWeightVal = e.detail; mirrorWellnessWeight.set(e.detail); }} />
@@ -617,10 +617,10 @@
         >
           <svelte:fragment slot="action">
             <button class="status-retest" on:click={syncFitbitNow} disabled={syncingFitbit}>
-              {syncingFitbit ? 'Syncing…' : 'Sync'}
+              {syncingFitbit ? $_('ui.m8a046cc90ab0') : $_('ui.m8d261a372fde')}
             </button>
             <button class="status-retest status-danger" on:click={disconnectFitbitFromSettings} disabled={disconnectingFitbit}>
-              {disconnectingFitbit ? 'Disconnecting…' : 'Disconnect'}
+              {disconnectingFitbit ? $_('ui.mcb2b6a572a85') : $_('ui.macfc5be785a9')}
             </button>
           </svelte:fragment>
         </ConnectionStatus>
@@ -665,14 +665,14 @@
               {#each SYNC_RANGE_RECOMMENDED as opt}
                 <button class="chip" class:chip-active={wellnessSyncRangeVal === opt.value}
                   on:click={() => { wellnessSyncRangeVal = opt.value; wellnessSyncRange.set(opt.value); }}
-                >{opt.label}</button>
+                >{opt.labelKey ? $_(opt.labelKey) : opt.label}</button>
               {/each}
             </div>
             <div class="chip-group">
               {#each SYNC_RANGE_ADVANCED_FITBIT as opt}
                 <button class="chip" class:chip-active={wellnessSyncRangeVal === opt.value}
                   on:click={() => { wellnessSyncRangeVal = opt.value; wellnessSyncRange.set(opt.value); }}
-                >{opt.label} ⚠</button>
+                >{opt.labelKey ? $_(opt.labelKey) : opt.label} ⚠</button>
               {/each}
               <div style="display:flex;align-items:center;gap:4px;margin-left:4px">
                 <input class="input" type="number" min="1" max={CUSTOM_MAX_FITBIT} style="width:64px;height:32px;padding:0 8px;font-size:13px;text-align:center"
@@ -680,10 +680,10 @@
                   value={wellnessSyncRangeVal}
                   on:change={e => { const v = Math.max(1, Math.min(CUSTOM_MAX_FITBIT, parseInt(e.target.value)||1)); wellnessSyncRangeVal = v; wellnessSyncRange.set(v); }}
                   placeholder={$_('settings_wellness.common.custom_days_ph')} title={$_('settings_wellness.common.custom_days_title', { values: { max: CUSTOM_MAX_FITBIT } })} />
-                <span class="setting-desc" style="margin:0">days</span>
+                <span class="setting-desc" style="margin:0">{$_('ui.mab51004e9d71')}</span>
               </div>
             </div>
-            <div class="setting-desc" style="font-size:11px;opacity:0.75">⚠ Long ranges may take several minutes and approach Fitbit API rate limits.</div>
+            <div class="setting-desc" style="font-size:11px;opacity:0.75">{$_('ui.m506bd98a8bfd')}</div>
           </div>
         </div>
         <div class="setting-divider"></div>
@@ -703,7 +703,7 @@
             <span class="setting-label">{$_('settings_wellness.common.interval')}</span>
             <div class="select-wrap" style="width:160px">
               <select class="select sel-sm" bind:value={fitbitSyncIntervalVal} on:change={e => fitbitSyncInterval.set(parseInt(e.target.value))}>
-                {#each SYNC_INTERVALS as opt}<option value={opt.value}>{opt.label}</option>{/each}
+                {#each SYNC_INTERVALS as opt}<option value={opt.value}>{opt.labelKey ? $_(opt.labelKey) : opt.label}</option>{/each}
               </select>
             </div>
           </div>
@@ -721,7 +721,7 @@
               </div>
               <div style="display:flex;gap:8px;align-items:center">
                 <TimePicker value={fitbitSyncWindowStartVal} placeholder={$_('settings_wellness.common.time_start')} on:change={e => { fitbitSyncWindowStartVal = e.detail; fitbitSyncWindowStart.set(e.detail || null); }} />
-                <span style="color:var(--text-3)">to</span>
+                <span style="color:var(--text-3)">{$_('ui.m663ea1bfffe5')}</span>
                 <TimePicker value={fitbitSyncWindowEndVal} placeholder={$_('settings_wellness.common.time_end')} on:change={e => { fitbitSyncWindowEndVal = e.detail; fitbitSyncWindowEnd.set(e.detail || null); }} />
               </div>
             </div>
@@ -737,18 +737,12 @@
             <div>
               <span class="setting-label">{$_('settings_wellness.fitbit_deep.relink_label')}</span>
               <div class="setting-desc" style="line-height:1.5">
-                Fitbit data now flows through Google's new Health API.
-                NutriTrace is removing the legacy Fitbit Web API code path
-                on <strong>May 31, 2026</strong> (about four months before Google's
-                own cutoff in September) to keep things current.
-                Your existing connection still works until then, but
-                re-link via Google Cloud now to avoid an interruption.
-                No data is lost — your charts and history stay intact.
+                {$_('ui.m97ba0c501fdd')} <strong>{$_('ui.mff12f34a6d23')}</strong> {$_('ui.mdf02e1ff72a3')}
               </div>
             </div>
             <button class="btn btn-primary" style="height:32px;padding:0 12px;font-size:13px"
               on:click={() => { fitbitEditingCreds = true; fitbitConnectionStatus = { connected: false, configured: false }; }}>
-              Re-link Fitbit
+              {$_('ui.m11eacd6eeb7b')}
             </button>
           </div>
         {/if}
@@ -760,9 +754,9 @@
           {#if lastSyncResult}
             <div class="text-3 text-sm" style="padding:6px 12px;background:var(--surface-2);border-bottom:1px solid var(--border)">
               {#if lastSyncResult.ok}
-                <span style="color:var(--macro-carbs)">✓ Synced {lastSyncResult.count} metrics for {lastSyncResult.date}</span>
+                <span style="color:var(--macro-carbs)">{$_('ui.mf2ecf8ed07e2')} {lastSyncResult.count} {$_('ui.m13590026b59c')} {lastSyncResult.date}</span>
               {:else}
-                <span style="color:#FF7070">Sync error: {lastSyncResult.error}</span>
+                <span style="color:#FF7070">{$_('ui.md0bf4b70c6c0')} {lastSyncResult.error}</span>
               {/if}
             </div>
           {/if}
@@ -808,7 +802,7 @@
                     <input class="input" type="password" autocomplete="new-password" placeholder="••••••••" bind:value={fitbitClientSecret} style="flex:1" />
                   {/if}
                   <button class="btn-icon" on:click={() => fitbitShowSecret = !fitbitShowSecret} title={fitbitShowSecret ? $_('settings_wellness.common.hide') : $_('settings_wellness.common.show')}>
-                    <span class="material-symbols-rounded">{fitbitShowSecret ? 'visibility_off' : 'visibility'}</span>
+                    <span class="material-symbols-rounded">{fitbitShowSecret ? "visibility_off" : "visibility"}</span>
                   </button>
                 </div>
               </div>
@@ -832,7 +826,7 @@
           <div class="chip-group" style="flex-wrap:wrap;gap:6px">
             {#each FITBIT_METRICS as m}
               <button class="chip" class:chip-active={$wellnessMetrics == null || $wellnessMetrics.includes(m.id)}
-                on:click={() => toggleWellnessMetric(m.id)}>{m.label}</button>
+                on:click={() => toggleWellnessMetric(m.id)}>{m.labelKey ? $_(m.labelKey) : m.label}</button>
             {/each}
           </div>
         </div>
@@ -864,10 +858,10 @@
         >
           <svelte:fragment slot="action">
             <button class="status-retest" on:click={syncGarminNow} disabled={syncingGarmin}>
-              {syncingGarmin ? 'Syncing…' : 'Sync'}
+              {syncingGarmin ? $_('ui.m8a046cc90ab0') : $_('ui.m8d261a372fde')}
             </button>
             <button class="status-retest status-danger" on:click={disconnectGarminFromSettings} disabled={disconnectingGarmin}>
-              {disconnectingGarmin ? 'Disconnecting…' : 'Disconnect'}
+              {disconnectingGarmin ? $_('ui.mcb2b6a572a85') : $_('ui.macfc5be785a9')}
             </button>
           </svelte:fragment>
         </ConnectionStatus>
@@ -885,7 +879,7 @@
           <span class="setting-label">{$_('settings_wellness.garmin.enable')}</span>
           <div class="setting-desc">
             {$_('settings_wellness.garmin_deep.metrics_desc')}
-            <a href="https://developer.garmin.com/gc-developer-program/health-api/" target="_blank" rel="noopener" class="about-link">Apply for access →</a>
+            <a href="https://developer.garmin.com/gc-developer-program/health-api/" target="_blank" rel="noopener" class="about-link">{$_('ui.m352c2f945c4f')}</a>
           </div>
         </div>
         <Toggle checked={garminEnabledVal} on:change={e => { garminEnabledVal = e.detail; garminEnabled.set(e.detail); loadWellnessConfig(); }} />
@@ -904,14 +898,14 @@
               {#each SYNC_RANGE_RECOMMENDED as opt}
                 <button class="chip" class:chip-active={garminSyncRangeVal === opt.value}
                   on:click={() => { garminSyncRangeVal = opt.value; garminSyncRange.set(opt.value); }}
-                >{opt.label}</button>
+                >{opt.labelKey ? $_(opt.labelKey) : opt.label}</button>
               {/each}
             </div>
             <div class="chip-group">
               {#each SYNC_RANGE_ADVANCED_GARMIN as opt}
                 <button class="chip" class:chip-active={garminSyncRangeVal === opt.value}
                   on:click={() => { garminSyncRangeVal = opt.value; garminSyncRange.set(opt.value); }}
-                >{opt.label} ⚠</button>
+                >{opt.labelKey ? $_(opt.labelKey) : opt.label} ⚠</button>
               {/each}
               <div style="display:flex;align-items:center;gap:4px;margin-left:4px">
                 <input class="input" type="number" min="1" max={CUSTOM_MAX_GARMIN} style="width:64px;height:32px;padding:0 8px;font-size:13px;text-align:center"
@@ -919,10 +913,10 @@
                   value={garminSyncRangeVal}
                   on:change={e => { const v = Math.max(1, Math.min(CUSTOM_MAX_GARMIN, parseInt(e.target.value)||1)); garminSyncRangeVal = v; garminSyncRange.set(v); }}
                   placeholder={$_('settings_wellness.common.custom_days_ph')} title={$_('settings_wellness.common.custom_days_title', { values: { max: CUSTOM_MAX_GARMIN } })} />
-                <span class="setting-desc" style="margin:0">days</span>
+                <span class="setting-desc" style="margin:0">{$_('ui.mab51004e9d71')}</span>
               </div>
             </div>
-            <div class="setting-desc" style="font-size:11px;opacity:0.75">⚠ Garmin's API caps reliable historical data near 6 months. Longer ranges may return incomplete results.</div>
+            <div class="setting-desc" style="font-size:11px;opacity:0.75">{$_('ui.m2345254bef71')}</div>
           </div>
         </div>
         <div class="setting-divider"></div>
@@ -942,7 +936,7 @@
             <span class="setting-label">{$_('settings_wellness.common.interval')}</span>
             <div class="select-wrap" style="width:160px">
               <select class="select sel-sm" bind:value={garminSyncIntervalVal} on:change={e => garminSyncInterval.set(parseInt(e.target.value))}>
-                {#each SYNC_INTERVALS as opt}<option value={opt.value}>{opt.label}</option>{/each}
+                {#each SYNC_INTERVALS as opt}<option value={opt.value}>{opt.labelKey ? $_(opt.labelKey) : opt.label}</option>{/each}
               </select>
             </div>
           </div>
@@ -960,7 +954,7 @@
               </div>
               <div style="display:flex;gap:8px;align-items:center">
                 <TimePicker value={garminSyncWindowStartVal} placeholder={$_('settings_wellness.common.time_start')} on:change={e => { garminSyncWindowStartVal = e.detail; garminSyncWindowStart.set(e.detail || null); }} />
-                <span style="color:var(--text-3)">to</span>
+                <span style="color:var(--text-3)">{$_('ui.m663ea1bfffe5')}</span>
                 <TimePicker value={garminSyncWindowEndVal} placeholder={$_('settings_wellness.common.time_end')} on:change={e => { garminSyncWindowEndVal = e.detail; garminSyncWindowEnd.set(e.detail || null); }} />
               </div>
             </div>
@@ -993,8 +987,8 @@
             <div>
               <span class="setting-label">{$_('settings_wellness.common.api_credentials')}</span>
               <div class="setting-desc" style="line-height:1.4">
-                OAuth 1.0a credentials from your approved Garmin Health API app. Redirect URI must match exactly.
-                <a href="https://developer.garmin.com/gc-developer-program/health-api/" target="_blank" rel="noopener" class="about-link">Get API credentials →</a>
+                {$_('ui.m255524bb513f')}
+                <a href="https://developer.garmin.com/gc-developer-program/health-api/" target="_blank" rel="noopener" class="about-link">{$_('ui.m2eccceeca48f')}</a>
               </div>
             </div>
             <div style="width:100%;display:flex;flex-direction:column;gap:8px">
@@ -1012,7 +1006,7 @@
                     <input class="input" type="password" autocomplete="new-password" placeholder="••••••••" bind:value={garminConsumerSecret} style="flex:1" />
                   {/if}
                   <button class="btn-icon" on:click={() => garminShowSecret = !garminShowSecret} title={garminShowSecret ? $_('settings_wellness.common.hide') : $_('settings_wellness.common.show')}>
-                    <span class="material-symbols-rounded">{garminShowSecret ? 'visibility_off' : 'visibility'}</span>
+                    <span class="material-symbols-rounded">{garminShowSecret ? "visibility_off" : "visibility"}</span>
                   </button>
                 </div>
               </div>
@@ -1024,7 +1018,7 @@
                   <button class="btn-icon" title={$_('settings_wellness.common.use_suggested')} on:click={() => garminRedirectUri = garminRedirectSuggested}><span class="material-symbols-rounded">auto_awesome</span></button>
                   <button class="btn-icon" on:click={copyGarminRedirectUri} title={$_('settings_wellness.common.copy_uri')}><span class="material-symbols-rounded">content_copy</span></button>
                 </div>
-                <div class="setting-desc" style="font-size:11px;margin-top:2px">Format: <code style="font-size:11px">https://your-domain.com/api/wellness/garmin/callback</code></div>
+                <div class="setting-desc" style="font-size:11px;margin-top:2px">{$_('ui.m9a5649a42cb2')} <code style="font-size:11px">https://your-domain.com/api/wellness/garmin/callback</code></div>
               </div>
               <button class="btn btn-primary" style="align-self:flex-end" on:click={saveGarminConfig}>{garminEditingCreds ? $_('settings_wellness.common.save') : $_('settings_wellness.common.save_and_connect')}</button>
             </div>
@@ -1036,7 +1030,7 @@
           <div class="chip-group" style="flex-wrap:wrap;gap:6px">
             {#each GARMIN_METRICS as m}
               <button class="chip" class:chip-active={$wellnessMetrics == null || $wellnessMetrics.includes(m.id)}
-                on:click={() => toggleWellnessMetric(m.id)}>{m.label}</button>
+                on:click={() => toggleWellnessMetric(m.id)}>{m.labelKey ? $_(m.labelKey) : m.label}</button>
             {/each}
           </div>
         </div>
@@ -1057,10 +1051,10 @@
         >
           <svelte:fragment slot="action">
             <button class="status-retest" on:click={syncWithingsNow} disabled={syncingWithings}>
-              {syncingWithings ? 'Syncing…' : 'Sync'}
+              {syncingWithings ? $_('ui.m8a046cc90ab0') : $_('ui.m8d261a372fde')}
             </button>
             <button class="status-retest status-danger" on:click={disconnectWithingsFromSettings} disabled={disconnectingWithings}>
-              {disconnectingWithings ? 'Disconnecting…' : 'Disconnect'}
+              {disconnectingWithings ? $_('ui.mcb2b6a572a85') : $_('ui.macfc5be785a9')}
             </button>
           </svelte:fragment>
         </ConnectionStatus>
@@ -1077,8 +1071,8 @@
         <div>
           <span class="setting-label">{$_('settings_wellness.withings.enable')}</span>
           <div class="setting-desc">
-            Body composition from scales (weight, fat %, muscle, bone mass, and more).
-            <a href="https://developer.withings.com/dashboard/" target="_blank" rel="noopener" class="about-link">Developer dashboard →</a>
+            {$_('ui.mfc90f3b7b0c2')}
+            <a href="https://developer.withings.com/dashboard/" target="_blank" rel="noopener" class="about-link">{$_('ui.ma39dcb86d3df')}</a>
           </div>
         </div>
         <Toggle checked={withingsEnabledVal} on:change={e => { withingsEnabledVal = e.detail; withingsEnabled.set(e.detail); }} />
@@ -1097,14 +1091,14 @@
               {#each SYNC_RANGE_RECOMMENDED as opt}
                 <button class="chip" class:chip-active={withingsSyncRangeVal === opt.value}
                   on:click={() => { withingsSyncRangeVal = opt.value; withingsSyncRange.set(opt.value); }}
-                >{opt.label}</button>
+                >{opt.labelKey ? $_(opt.labelKey) : opt.label}</button>
               {/each}
             </div>
             <div class="chip-group">
               {#each SYNC_RANGE_ADVANCED_WITHINGS as opt}
                 <button class="chip" class:chip-active={withingsSyncRangeVal === opt.value}
                   on:click={() => { withingsSyncRangeVal = opt.value; withingsSyncRange.set(opt.value); }}
-                >{opt.label} ⚠</button>
+                >{opt.labelKey ? $_(opt.labelKey) : opt.label} ⚠</button>
               {/each}
               <div style="display:flex;align-items:center;gap:4px;margin-left:4px">
                 <input class="input" type="number" min="1" max={CUSTOM_MAX_WITHINGS} style="width:64px;height:32px;padding:0 8px;font-size:13px;text-align:center"
@@ -1112,10 +1106,10 @@
                   value={withingsSyncRangeVal}
                 on:change={e => { const v = Math.max(1, Math.min(CUSTOM_MAX_WITHINGS, parseInt(e.target.value)||1)); withingsSyncRangeVal = v; withingsSyncRange.set(v); }}
                 placeholder={$_('settings_wellness.common.custom_days_ph')} title={$_('settings_wellness.common.custom_days_title', { values: { max: CUSTOM_MAX_WITHINGS } })} />
-              <span class="setting-desc" style="margin:0">days</span>
+              <span class="setting-desc" style="margin:0">{$_('ui.mab51004e9d71')}</span>
             </div>
             </div>
-            <div class="setting-desc" style="font-size:11px;opacity:0.75">⚠ Long ranges may take several minutes and approach Withings API rate limits.</div>
+            <div class="setting-desc" style="font-size:11px;opacity:0.75">{$_('ui.m6243ddc19a46')}</div>
           </div>
         </div>
         <div class="setting-divider"></div>
@@ -1135,7 +1129,7 @@
             <span class="setting-label">{$_('settings_wellness.common.interval')}</span>
             <div class="select-wrap" style="width:160px">
               <select class="select sel-sm" bind:value={withingsSyncIntervalVal} on:change={e => withingsSyncInterval.set(parseInt(e.target.value))}>
-                {#each SYNC_INTERVALS as opt}<option value={opt.value}>{opt.label}</option>{/each}
+                {#each SYNC_INTERVALS as opt}<option value={opt.value}>{opt.labelKey ? $_(opt.labelKey) : opt.label}</option>{/each}
               </select>
             </div>
           </div>
@@ -1153,7 +1147,7 @@
               </div>
               <div style="display:flex;gap:8px;align-items:center">
                 <TimePicker value={withingsSyncWindowStartVal} placeholder={$_('settings_wellness.common.time_start')} on:change={e => { withingsSyncWindowStartVal = e.detail; withingsSyncWindowStart.set(e.detail || null); }} />
-                <span style="color:var(--text-3)">to</span>
+                <span style="color:var(--text-3)">{$_('ui.m663ea1bfffe5')}</span>
                 <TimePicker value={withingsSyncWindowEndVal} placeholder={$_('settings_wellness.common.time_end')} on:change={e => { withingsSyncWindowEndVal = e.detail; withingsSyncWindowEnd.set(e.detail || null); }} />
               </div>
             </div>
@@ -1187,14 +1181,14 @@
             <div>
               <span class="setting-label">{$_('settings_wellness.common.api_credentials')}</span>
               <div class="setting-desc" style="line-height:1.4">
-                Create a Withings developer account and a new application of type "Personal use" or "Public Cloud Partner". Then paste the Client ID + Secret here and add the redirect URI below to your app's authorized list.
-                <a href="https://developer.withings.com/dashboard/" target="_blank" rel="noopener" class="about-link">Withings developer dashboard →</a>
+                {$_('ui.m6b89b7ff7541')}
+                <a href="https://developer.withings.com/dashboard/" target="_blank" rel="noopener" class="about-link">{$_('ui.m639948ef74ac')}</a>
               </div>
             </div>
             <div style="width:100%;display:flex;flex-direction:column;gap:8px">
               <div class="form-group" style="margin:0">
                 <label class="form-label">{$_('settings_wellness.common.client_id')}</label>
-                <input class="input" type="text" autocomplete="off" placeholder="e.g. abc123def456"
+                <input class="input" type="text" autocomplete="off" placeholder={$_('ui.m3d30f3d1ab2b')}
                   bind:value={withingsClientId} />
               </div>
               <div class="form-group" style="margin:0">
@@ -1206,19 +1200,19 @@
                     <input class="input" type="password" autocomplete="new-password" placeholder="••••••••" bind:value={withingsClientSecret} style="flex:1" />
                   {/if}
                   <button class="btn-icon" on:click={() => withingsShowSecret = !withingsShowSecret} title={withingsShowSecret ? $_('settings_wellness.common.hide') : $_('settings_wellness.common.show')}>
-                    <span class="material-symbols-rounded">{withingsShowSecret ? 'visibility_off' : 'visibility'}</span>
+                    <span class="material-symbols-rounded">{withingsShowSecret ? "visibility_off" : "visibility"}</span>
                   </button>
                 </div>
               </div>
               <div class="form-group" style="margin:0">
                 <label class="form-label">{$_('settings_wellness.common.redirect_uri')}</label>
-                <div class="setting-desc" style="margin-bottom:4px">Add this exact URI to your Withings app's redirect URL list</div>
+                <div class="setting-desc" style="margin-bottom:4px">{$_('ui.m091d69889eab')}</div>
                 <div style="display:flex;gap:6px">
                   <input class="input" type="url" placeholder={withingsRedirectSuggested} bind:value={withingsRedirectUri} style="flex:1;font-size:12px" />
                   <button class="btn-icon" title={$_('settings_wellness.common.use_suggested')} on:click={() => withingsRedirectUri = withingsRedirectSuggested}><span class="material-symbols-rounded">auto_awesome</span></button>
                   <button class="btn-icon" on:click={copyWithingsRedirectUri} title={$_('settings_wellness.common.copy_uri')}><span class="material-symbols-rounded">content_copy</span></button>
                 </div>
-                <div class="setting-desc" style="font-size:11px;margin-top:2px">Format: <code style="font-size:11px">https://your-domain.com/api/wellness/withings/callback</code></div>
+                <div class="setting-desc" style="font-size:11px;margin-top:2px">{$_('ui.m9a5649a42cb2')} <code style="font-size:11px">https://your-domain.com/api/wellness/withings/callback</code></div>
               </div>
               <button class="btn btn-primary" style="align-self:flex-end" on:click={saveWithingsConfig}>{withingsEditingCreds ? $_('settings_wellness.common.save') : $_('settings_wellness.common.save_and_connect')}</button>
             </div>
@@ -1230,7 +1224,7 @@
           <div class="chip-group" style="flex-wrap:wrap;gap:6px">
             {#each WITHINGS_METRICS as m}
               <button class="chip" class:chip-active={$wellnessMetrics == null || $wellnessMetrics.includes(m.id)}
-                on:click={() => toggleWellnessMetric(m.id)}>{m.label}</button>
+                on:click={() => toggleWellnessMetric(m.id)}>{m.labelKey ? $_(m.labelKey) : m.label}</button>
             {/each}
           </div>
         </div>
@@ -1251,7 +1245,7 @@
           >
             <svelte:fragment slot="action">
               <button class="status-retest" on:click={syncHcNow} disabled={syncingHc}>
-                {syncingHc ? 'Syncing…' : 'Sync'}
+                {syncingHc ? $_('ui.m8a046cc90ab0') : $_('ui.m8d261a372fde')}
               </button>
             </svelte:fragment>
           </ConnectionStatus>
@@ -1312,7 +1306,7 @@
               <span class="setting-label">{$_('settings_wellness.common.interval')}</span>
               <div class="select-wrap" style="width:160px">
                 <select class="select sel-sm" bind:value={hcSyncIntervalVal} on:change={e => healthConnectSyncInterval.set(parseInt(e.target.value))}>
-                  {#each SYNC_INTERVALS as opt}<option value={opt.value}>{opt.label}</option>{/each}
+                  {#each SYNC_INTERVALS as opt}<option value={opt.value}>{opt.labelKey ? $_(opt.labelKey) : opt.label}</option>{/each}
                 </select>
               </div>
             </div>
@@ -1330,7 +1324,7 @@
                 </div>
                 <div style="display:flex;gap:8px;align-items:center">
                   <TimePicker value={hcSyncWindowStartVal} placeholder={$_('settings_wellness.common.time_start')} on:change={e => { hcSyncWindowStartVal = e.detail; healthConnectSyncWindowStart.set(e.detail || null); }} />
-                  <span style="color:var(--text-3)">to</span>
+                  <span style="color:var(--text-3)">{$_('ui.m663ea1bfffe5')}</span>
                   <TimePicker value={hcSyncWindowEndVal} placeholder={$_('settings_wellness.common.time_end')} on:change={e => { hcSyncWindowEndVal = e.detail; healthConnectSyncWindowEnd.set(e.detail || null); }} />
                 </div>
               </div>
@@ -1352,7 +1346,7 @@
             <div class="chip-group" style="flex-wrap:wrap;gap:6px">
               {#each HC_METRICS as m}
                 <button class="chip" class:chip-active={$wellnessMetrics == null || $wellnessMetrics.includes(m.id)}
-                  on:click={() => toggleWellnessMetric(m.id)}>{m.label}</button>
+                  on:click={() => toggleWellnessMetric(m.id)}>{m.labelKey ? $_(m.labelKey) : m.label}</button>
               {/each}
             </div>
           </div>

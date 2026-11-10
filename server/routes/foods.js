@@ -10,6 +10,7 @@ import { sendFoodShared, isEmailConfigured } from '../email.js';
 import { logger } from '../logger.js';
 import { ownerOrOptIn } from '../lib/outbound-policy.js';
 import { cleanCreateKey, findByCreateKey, setCreateKey } from '../lib/create-keys.js';
+import { validateFood } from '../lib/business-validation.js';
 
 const router = Router();
 router.use(requireAuth);
@@ -104,6 +105,8 @@ function _normalizeDensity(v) {
 
 // ── POST / ────────────────────────────────────────────────────────────────
 router.post('/', wrap(async (req, res) => {
+  const invalid = validateFood(req.body);
+  if (invalid) return res.status(400).json({ error: invalid });
   const { name, brand, nutrition, portion, unit, img_url, notes, category, barcode, visibility, source_id,
     nutrition_basis, alt_units, density_g_ml,
     source_app, source_external_id, source_url } = req.body;
@@ -193,6 +196,8 @@ router.post('/', wrap(async (req, res) => {
 
 // ── PUT /:id ──────────────────────────────────────────────────────────────
 router.put('/:id', wrap(async (req, res) => {
+  const invalid = validateFood(req.body);
+  if (invalid) return res.status(400).json({ error: invalid });
   const u = uid(req);
   const existing = db.prepare('SELECT * FROM foods WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Not found' });

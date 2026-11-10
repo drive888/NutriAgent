@@ -4,7 +4,7 @@
   import Toggle from '../../components/settings/Toggle.svelte';
   import ConnectionStatus from '../../components/settings/ConnectionStatus.svelte';
   import { DB } from '../../lib/db.js';
-  import { NtApi } from '../../lib/api.js';
+  import { NaApi } from '../../lib/api.js';
   import { isNative, getServerUrl, getAuthToken, apiUrl } from '../../lib/platform.js';
   import { showSuccess, showError } from '../../stores/toast.js';
   import { envLocks, scheduleSave } from '../../stores/settings.js';
@@ -77,7 +77,7 @@
     : (usdaApiKey ? 'ok' : '');
 
   async function testUsdaConnection() {
-    if (!usdaApiKey) { usdaTestStatus = 'fail'; showError('USDA test failed: API key required'); return; }
+    if (!usdaApiKey) { usdaTestStatus = 'fail'; showError($_('ui.mfeea62cab69d')); return; }
     usdaTestStatus = 'testing';
     try {
       // Direct call — USDA's FoodData Central API has open CORS, so the
@@ -87,16 +87,16 @@
       const res = await fetch(url);
       if (res.ok) {
         usdaTestStatus = 'ok';
-        showSuccess('USDA API key verified');
+        showSuccess($_('ui.m12adeac85200'));
       } else {
         usdaTestStatus = 'fail';
         let detail = `HTTP ${res.status}`;
         try { const j = await res.json(); if (j?.error?.message) detail = j.error.message; } catch {}
-        showError(`USDA test failed: ${detail}`);
+        showError($_('ui.mf48aaf28b4f5', { values: { value0: (detail) } }));
       }
     } catch (e) {
       usdaTestStatus = 'fail';
-      showError(`USDA test failed: ${e?.message || 'network error'}`);
+      showError($_('ui.mf48aaf28b4f5', { values: { value0: (e?.message || 'network error') } }));
     }
   }
   function saveUsda() {
@@ -123,7 +123,7 @@
   async function testMealieConnection() {
     if (!mealieBaseUrl || !mealieApiToken) {
       mealieTestStatus = 'fail';
-      showError('Mealie test failed: URL and token both required');
+      showError($_('ui.m37781c6397c4'));
       return;
     }
     mealieTestStatus = 'testing';
@@ -151,16 +151,16 @@
       });
       if (res.ok) {
         mealieTestStatus = 'ok';
-        showSuccess('Mealie connection verified');
+        showSuccess($_('ui.mcf55cc0eb4c5'));
       } else {
         mealieTestStatus = 'fail';
         let detail = `HTTP ${res.status}`;
         try { const j = await res.json(); if (j?.error) detail = j.error; } catch {}
-        showError(`Mealie test failed: ${detail}`);
+        showError($_('ui.ma5e0f3f24c78', { values: { value0: (detail) } }));
       }
     } catch (e) {
       mealieTestStatus = 'fail';
-      showError(`Mealie test failed: ${e?.message || 'network error'}`);
+      showError($_('ui.ma5e0f3f24c78', { values: { value0: (e?.message || 'network error') } }));
     }
   }
   function saveMealie() {
@@ -191,7 +191,7 @@
   async function testCooktraceConnection() {
     if (!cooktraceBaseUrl || !cooktraceApiToken) {
       cooktraceTestStatus = 'fail';
-      showError('CookTrace test failed: URL and token both required');
+      showError($_('ui.mcb4561723073'));
       return;
     }
     cooktraceTestStatus = 'testing';
@@ -219,7 +219,7 @@
         const scopes = Array.isArray(body?.scopes) ? body.scopes : [];
         if (!scopes.includes('read:recipes')) {
           cooktraceTestStatus = 'fail';
-          showError('CookTrace token is valid but lacks the read:recipes scope. Mint a new token on CookTrace with that scope ticked.');
+          showError($_('ui.m3646716860dd'));
           return;
         }
         cooktraceTestStatus = 'ok';
@@ -228,11 +228,11 @@
         cooktraceTestStatus = 'fail';
         let detail = `HTTP ${res.status}`;
         try { const j = await res.json(); if (j?.error) detail = j.error; } catch {}
-        showError(`CookTrace test failed: ${detail}`);
+        showError($_('ui.m4722e9380949', { values: { value0: (detail) } }));
       }
     } catch (e) {
       cooktraceTestStatus = 'fail';
-      showError(`CookTrace test failed: ${e?.message || 'network error'}`);
+      showError($_('ui.m4722e9380949', { values: { value0: (e?.message || 'network error') } }));
     }
   }
   function saveCooktrace() {
@@ -260,13 +260,13 @@
     if (ctBulkBusy) return;
     const { CookTrace } = await import('../../lib/cooktraceApi.js');
     if (!CookTrace.isConfigured()) {
-      showError('Configure and save the CookTrace connection first');
+      showError($_('ui.mbb1d37be46f8'));
       return;
     }
     // Confirm before an ambient long-running job: users with 100+ recipes
     // won't want this to kick off from a stray tap.
     const proceed = window.confirm(
-      'Import every recipe from CookTrace into your NutriTrace recipes catalog?\n\nRe-runs update existing imports in place. Any recipe you have edited on NT will still be updated with the CookTrace copy.'
+      'Import every recipe from CookTrace into your NutriAgent recipes catalog?\n\nRe-runs update existing imports in place. Any recipe you have edited on NT will still be updated with the CookTrace copy.'
     );
     if (!proceed) return;
     ctBulkBusy = true;
@@ -280,7 +280,7 @@
       // this is only for the summary count.
       let existingSet = new Set();
       try {
-        const all = await NtApi.getMeals();
+        const all = await NaApi.getMeals();
         for (const m of all) {
           if (m?.source_app === 'cooktrace' && m?.source_external_id) {
             existingSet.add(m.source_external_id);
@@ -306,7 +306,7 @@
       ctBulkProgress = { done: 0, total: ids.length };
       if (ids.length === 0) {
         ctBulkLastResult = { imported: 0, updated: 0, skipped: 0 };
-        showSuccess('No CookTrace recipes found to import');
+        showSuccess($_('ui.m2eeba7967b0d'));
         return;
       }
 
@@ -347,7 +347,7 @@
             servings: yields,
             nutrition: perServing,
           };
-          await NtApi.createMeal(item);
+          await NaApi.createMeal(item);
           if (wasExisting) updated++;
           else imported++;
         } catch (e) {
@@ -366,7 +366,7 @@
         showSuccess(summary);
       }
     } catch (e) {
-      showError(`CookTrace bulk import failed: ${e?.message || 'unknown error'}`);
+      showError($_('ui.m7fe51ea013d9', { values: { value0: (e?.message || 'unknown error') } }));
     } finally {
       ctBulkBusy = false;
     }
@@ -382,11 +382,11 @@
     if (ctPantryBulkBusy) return;
     const { CookTrace } = await import('../../lib/cooktraceApi.js');
     if (!CookTrace.isConfigured()) {
-      showError('Configure and save the CookTrace connection first');
+      showError($_('ui.mbb1d37be46f8'));
       return;
     }
     const proceed = window.confirm(
-      "Import CookTrace pantry items into your NutriTrace foods library?\n\nStandalone items and variants come across. Generic parents (like 'Flour' with a Bread-flour variant) are skipped: their children carry the real nutrition. Safe to re-run."
+      "Import CookTrace pantry items into your NutriAgent foods library?\n\nStandalone items and variants come across. Generic parents (like 'Flour' with a Bread-flour variant) are skipped: their children carry the real nutrition. Safe to re-run."
     );
     if (!proceed) return;
     ctPantryBulkBusy = true;
@@ -397,15 +397,15 @@
       const list = await CookTrace.listPantry();
       if (!list.ok) {
         if (list.reason === 'not_configured') {
-          showError('Configure and save the CookTrace connection first');
+          showError($_('ui.mbb1d37be46f8'));
         } else if (list.reason === 'scope') {
-          showError('CookTrace token is missing the read:pantry scope. Mint a new token on CookTrace, tick read:pantry, and paste it here.');
+          showError($_('ui.mfa8f07f9d627'));
         } else if (list.reason === 'not_found') {
-          showError('This CookTrace server is on an older version that does not expose /api/v1/pantry. Update CookTrace, then retry.');
+          showError($_('ui.m75ac69ab9774'));
         } else if (list.reason === 'auth') {
-          showError('CookTrace token was rejected. Re-mint it and paste the new value.');
+          showError($_('ui.mb3435d9351bb'));
         } else {
-          showError(`CookTrace pantry request failed (HTTP ${list.status || 'unknown'}). Check the CookTrace server log.`);
+          showError($_('ui.m0b9f5fa7cc84', { values: { value0: (list.status || 'unknown') } }));
         }
         return;
       }
@@ -414,7 +414,7 @@
       // index shape as meals; we use its source columns for the count only.
       let existingSet = new Set();
       try {
-        const foods = await NtApi.getFoods();
+        const foods = await NaApi.getFoods();
         for (const f of foods) {
           if (f?.source_app === 'cooktrace' && f?.source_external_id) {
             existingSet.add(f.source_external_id);
@@ -425,14 +425,14 @@
       ctPantryBulkProgress = { done: 0, total: items.length };
       if (items.length === 0) {
         ctPantryBulkLastResult = { imported: 0, updated: 0, skipped: 0, collided: 0 };
-        showSuccess('No importable CookTrace pantry items found');
+        showSuccess($_('ui.m2290756b38e2'));
         return;
       }
       let firstError = null;
       for (const it of items) {
         try {
           const wasExisting = existingSet.has(it.source_external_id);
-          const saved = await NtApi.createFood(it);
+          const saved = await NaApi.createFood(it);
           // POST /api/foods has a barcode dedup gate that fires BEFORE the
           // insert and returns the pre-existing row untouched. When that
           // happens the CookTrace data is deliberately not applied, so
@@ -471,7 +471,7 @@
         showSuccess(summary);
       }
     } catch (e) {
-      showError(`CookTrace pantry import failed: ${e?.message || 'unknown error'}`);
+      showError($_('ui.me5b8ec3e3566', { values: { value0: (e?.message || 'unknown error') } }));
     } finally {
       ctPantryBulkBusy = false;
     }
@@ -499,7 +499,7 @@
   }
   async function _loadOffMirrorStatus() {
     try {
-      offMirrorStatus = await NtApi.get('/api/off-local/status');
+      offMirrorStatus = await NaApi.get('/api/off-local/status');
     } catch { /* leave previous value so the banner doesn't flicker on a transient blip */ }
   }
   let _offPollCadence = 30000;
@@ -524,7 +524,7 @@
   }
   async function _triggerOffRefresh() {
     try {
-      await NtApi.post('/api/off-local/refresh', {});
+      await NaApi.post('/api/off-local/refresh', {});
       await _loadOffMirrorStatus();
       _offPollCadence = 2000;
       _scheduleNextOffPoll();
@@ -535,7 +535,7 @@
   async function _setOffRefreshInterval(value) {
     offRefreshSaving = true;
     try {
-      await NtApi.put('/api/off-local/schedule', { interval: value });
+      await NaApi.put('/api/off-local/schedule', { interval: value });
       await _loadOffMirrorStatus();
     } catch (e) {
       showError(e.message || 'Could not update auto-refresh');
@@ -565,25 +565,25 @@
                       : _offStale ? 'warn'
                       : _offReady ? 'ok'
                       : 'testing';
-  $: _offBannerOkLabel = 'Local Mirror';
-  $: _offBadgePolicy = $envLocks?.off_local_only ? 'Air-Gap' : '';
-  $: _offBadgeState = (_offFailed && _offReady) ? 'Refresh Failed'
-                     : _offStale ? 'Stale'
+  $: _offBannerOkLabel = $_('ui.m863780745868');
+  $: _offBadgePolicy = $envLocks?.off_local_only ? $_('ui.m7b80ae414634') : '';
+  $: _offBadgeState = (_offFailed && _offReady) ? $_('ui.m77b7de6b4517')
+                     : _offStale ? $_('ui.m40c9e59c5e15')
                      : '';
   $: _offBannerBadge = [_offBadgePolicy, _offBadgeState].filter(Boolean).join(' · ');
   $: _offBannerSubtext = _offDownloading
         ? (offMirrorStatus?.size_bytes
-            ? `Downloading update… ${Math.round((_offRefresh?.progress || 0) * 100)}% (${_fmtGB(_offRefresh?.bytes_done)} / ${_offRefresh?.bytes_total ? _fmtGB(_offRefresh.bytes_total) : '?'})`
-            : `First download… ${Math.round((_offRefresh?.progress || 0) * 100)}% (${_fmtGB(_offRefresh?.bytes_done)} / ${_offRefresh?.bytes_total ? _fmtGB(_offRefresh.bytes_total) : '?'})`)
+            ? $_('ui.m107b31e3861e', {values: {value0: (Math.round((_offRefresh?.progress || 0) * 100)), value1: (_fmtGB(_offRefresh?.bytes_done)), value2: (_offRefresh?.bytes_total ? _fmtGB(_offRefresh.bytes_total) : '?')}})
+            : $_('ui.m0fb72ed61e81', {values: {value0: (Math.round((_offRefresh?.progress || 0) * 100)), value1: (_fmtGB(_offRefresh?.bytes_done)), value2: (_offRefresh?.bytes_total ? _fmtGB(_offRefresh.bytes_total) : '?')}}))
       : _offFailed
-        ? `Last refresh failed: ${_offRefresh?.last_error || 'unknown error'}${offMirrorStatus?.size_bytes ? `; currently serving ${_fmtGB(offMirrorStatus.size_bytes)} from before` : ''}`
+        ? $_('ui.mcda55ead43b0', {values: {value0: (_offRefresh?.last_error || 'unknown error'), value1: (offMirrorStatus?.size_bytes ? `; currently serving ${_fmtGB(offMirrorStatus.size_bytes)} from before` : '')}})
       : _offStale
         ? `${_fmtGB(offMirrorStatus?.size_bytes)} · ${_fmtAge(offMirrorStatus?.mtime_ms)}`
       : _offReady
-        ? `${_fmtGB(offMirrorStatus?.size_bytes)} · ${_fmtAge(offMirrorStatus?.mtime_ms)}${$envLocks?.off_local_only ? ' · remote OFF API disabled' : ''}`
-        : 'Lookups fall back to public OFF API until ready';
-  $: _offRefreshBtnLabel = _offFailed ? 'Retry' : 'Refresh Now';
-  $: _offRefreshTestingLabel = (!_offReady && _offDownloading) ? 'Downloading' : 'Syncing';
+        ? `${_fmtGB(offMirrorStatus?.size_bytes)} · ${_fmtAge(offMirrorStatus?.mtime_ms)}${$envLocks?.off_local_only ? $_('ui.mca87dd31256c') : ''}`
+        : $_('ui.m9356825a055e');
+  $: _offRefreshBtnLabel = _offFailed ? $_('ui.m942087cc2d41') : $_('ui.mc7b4a057f059');
+  $: _offRefreshTestingLabel = (!_offReady && _offDownloading) ? $_('ui.m37b345555d7e') : $_('ui.m5c8b9e1ce0a2');
 </script>
 
 <div class="section-body">
@@ -607,18 +607,15 @@
            (envLocks.off_local === true), and only to admin users so
            non-admin household members don't see it. Share-alike
            obligations flow to the operator serving other users, not
-           to NutriTrace itself. See LICENSES.md in the repo root. -->
+           to NutriAgent itself. See LICENSES.md in the repo root. -->
       {#if $currentUser?.role === 'admin'}
         <div style="padding:12px 16px;display:flex;gap:10px;align-items:flex-start;background:color-mix(in srgb,#3b82f6 6%,transparent);border-left:3px solid #3b82f6">
           <span class="material-symbols-rounded" style="font-size:18px;color:#3b82f6;flex-shrink:0;margin-top:2px">info</span>
           <div class="setting-desc" style="margin:0;line-height:1.5">
-            Local Open Food Facts mirror is active. OFF data is
-            licensed under the
-            <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener" class="about-link">Open Database License (ODbL)</a>.
-            If you serve other users from this instance, share-alike
-            obligations apply to your operation. See
+            {$_('ui.m5dad703bdb8f')}
+            <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener" class="about-link">{$_('ui.m1da84f8065ce')}</a>{$_('ui.mc29ec17775bc')}
             <a href="https://github.com/TraceApps/nutritrace/blob/main/LICENSES.md" target="_blank" rel="noopener" class="about-link">LICENSES.md</a>
-            for details.
+            {$_('ui.mc14ed31f0bdf')}
           </div>
         </div>
         <div class="setting-divider"></div>
@@ -714,18 +711,18 @@
           {:else}
             <input id="off-pass" class="input" type="password" style="flex:1" placeholder={$_('settings.connected_services.off.password_placeholder')} bind:value={offPassword} />
           {/if}
-          <button class="btn-icon" on:click={() => offShowPass = !offShowPass} title={offShowPass ? 'Hide' : 'Show'}>
-            <span class="material-symbols-rounded">{offShowPass ? 'visibility_off' : 'visibility'}</span>
+          <button class="btn-icon" on:click={() => offShowPass = !offShowPass} title={offShowPass ? $_('ui.mac20a57bfde0') : $_('ui.m0df6f1cad36c')}>
+            <span class="material-symbols-rounded">{offShowPass ? "visibility_off" : "visibility"}</span>
           </button>
         </div>
         <button class="btn btn-primary" style="height:36px;font-size:13px;align-self:flex-start" on:click={saveOff}>
-          {#if offSaved}<span class="material-symbols-rounded" style="font-size:16px">check</span> Saved{:else}Save{/if}
+          {#if offSaved}<span class="material-symbols-rounded" style="font-size:16px">check</span> {$_('ui.mb5c120b316c2')}{:else}{$_('ui.m1509f561f241')}{/if}
         </button>
       </div>
     {/if}
   </div>
 
-  <p class="sub-label">USDA FoodData Central</p>
+  <p class="sub-label">{$_('ui.m4d4a103b7b8d')}</p>
   <div class="card settings-card">
     {#if usdaEnabled}
       <ConnectionStatus
@@ -739,8 +736,8 @@
       <div>
         <span class="setting-label">{$_('settings_integrations.enable_usda')}</span>
         <div class="setting-desc">
-          Search the USDA nutrition database when adding foods.
-          <a href="https://fdc.nal.usda.gov/api-key-signup" target="_blank" rel="noopener" class="about-link">Get a free API key →</a>
+          {$_('ui.m04a485c8a622')}
+          <a href="https://fdc.nal.usda.gov/api-key-signup" target="_blank" rel="noopener" class="about-link">{$_('ui.m28d59e04d911')}</a>
         </div>
       </div>
       <Toggle checked={usdaEnabled} on:change={e => { usdaEnabled = e.detail; set('usdaEnabled', e.detail); }} />
@@ -748,7 +745,7 @@
     {#if usdaEnabled}
       <div class="setting-divider"></div>
       <div class="form-group" style="padding:10px 16px 14px">
-        <label class="form-label" for="usda-key">API Key</label>
+        <label class="form-label" for="usda-key">{$_('ui.m23189d55f697')}</label>
         <input id="usda-key" class="input" type="text"
           placeholder={$_('wizard_deep.usda_key_ph')}
           bind:value={usdaApiKey}
@@ -771,7 +768,7 @@
     <div class="setting-row">
       <div>
         <span class="setting-label">{$_('settings_integrations.enable_mealie')}</span>
-        <div class="setting-desc">Import recipes from your self-hosted Mealie instance</div>
+        <div class="setting-desc">{$_('ui.mbb3cb6dcf62e')}</div>
       </div>
       <Toggle checked={mealieEnabled} on:change={e => { mealieEnabled = e.detail; set('mealieEnabled', e.detail); }} />
     </div>
@@ -787,7 +784,7 @@
       </div>
       <div class="setting-divider"></div>
       <div class="form-group" style="padding:10px 16px">
-        <label class="form-label" for="mealie-api-token">API Token</label>
+        <label class="form-label" for="mealie-api-token">{$_('ui.mc85b0e36e937')}</label>
         <div style="display:flex;gap:8px;align-items:center">
           {#if mealieShowToken}
             <input id="mealie-api-token" class="input" type="text"
@@ -803,8 +800,8 @@
               autocomplete="off" style="flex:1" />
           {/if}
           <button class="btn-icon" on:click={() => mealieShowToken = !mealieShowToken}
-            title={mealieShowToken ? 'Hide' : 'Show'}>
-            <span class="material-symbols-rounded">{mealieShowToken ? 'visibility_off' : 'visibility'}</span>
+            title={mealieShowToken ? $_('ui.mac20a57bfde0') : $_('ui.m0df6f1cad36c')}>
+            <span class="material-symbols-rounded">{mealieShowToken ? "visibility_off" : "visibility"}</span>
           </button>
         </div>
       </div>
@@ -840,28 +837,28 @@
       </div>
       <div class="setting-divider"></div>
       <div class="form-group" style="padding:10px 16px">
-        <label class="form-label" for="cooktrace-api-token">API Token</label>
+        <label class="form-label" for="cooktrace-api-token">{$_('ui.mc85b0e36e937')}</label>
         <div style="display:flex;gap:8px;align-items:center">
           {#if cooktraceShowToken}
             <input id="cooktrace-api-token" class="input" type="text"
-              placeholder="ct_pat_..."
+              placeholder={$_('ui.m891e902e7272')}
               bind:value={cooktraceApiToken}
               on:blur={saveCooktrace}
               autocomplete="off" style="flex:1" />
           {:else}
             <input id="cooktrace-api-token" class="input" type="password"
-              placeholder="ct_pat_..."
+              placeholder={$_('ui.m891e902e7272')}
               bind:value={cooktraceApiToken}
               on:blur={saveCooktrace}
               autocomplete="off" style="flex:1" />
           {/if}
           <button class="btn-icon" on:click={() => cooktraceShowToken = !cooktraceShowToken}
-            title={cooktraceShowToken ? 'Hide' : 'Show'}>
-            <span class="material-symbols-rounded">{cooktraceShowToken ? 'visibility_off' : 'visibility'}</span>
+            title={cooktraceShowToken ? $_('ui.mac20a57bfde0') : $_('ui.m0df6f1cad36c')}>
+            <span class="material-symbols-rounded">{cooktraceShowToken ? "visibility_off" : "visibility"}</span>
           </button>
         </div>
         <p class="setting-desc" style="margin-top:6px">
-          Mint on CookTrace: Settings, API Tokens, New Token, tick <code>read:recipes</code>. Copy the token immediately: it is shown once.
+          {$_('ui.mcdb317f966b7')} <code>read:recipes</code>{$_('ui.m7b682157d70e')}
         </p>
       </div>
       <!-- Bulk import: onboarding shortcut for someone with a lot of CT
@@ -875,8 +872,8 @@
         <div class="form-group" style="padding:10px 16px">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
             <div style="min-width:0;flex:1">
-              <span class="setting-label">Import All Recipes</span>
-              <div class="setting-desc">One-tap onboarding shortcut. Pulls every CookTrace recipe into your NutriTrace catalog and stamps each one with its CookTrace source so future edits sync via the recipe's own refresh banner. Safe to re-run: existing imports update in place instead of duplicating.</div>
+              <span class="setting-label">{$_('ui.m49a9559bb3c3')}</span>
+              <div class="setting-desc">{$_('ui.m5b1b937bdffd')}</div>
             </div>
             <button class="btn btn-primary btn-sm" on:click={_ctBulkImport} disabled={ctBulkBusy} style="flex-shrink:0">
               {#if ctBulkBusy}
@@ -884,21 +881,21 @@
                 {ctBulkProgress.done}/{ctBulkProgress.total}
               {:else}
                 <span class="material-symbols-rounded" style="font-size:16px;vertical-align:middle;margin-right:4px">download</span>
-                Import All
+                {$_('ui.m87ba0f15465c')}
               {/if}
             </button>
           </div>
           {#if !ctBulkBusy && ctBulkLastResult}
             <p class="setting-desc" style="margin-top:8px;color:var(--text-2)">
-              Last run: {ctBulkLastResult.imported} imported, {ctBulkLastResult.updated} updated, {ctBulkLastResult.skipped} skipped.
+              {$_('ui.mf636f90bbb79')} {ctBulkLastResult.imported} {$_('ui.m21f75337a28c')} {ctBulkLastResult.updated} {$_('ui.m07c7ca8b5e6f')} {ctBulkLastResult.skipped} {$_('ui.m92f08a55fb69')}
             </p>
           {/if}
         </div>
         <div class="form-group" style="padding:10px 16px">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
             <div style="min-width:0;flex:1">
-              <span class="setting-label">Import Pantry Items</span>
-              <div class="setting-desc">Bring your CookTrace pantry into NutriTrace's Foods library. Individual items and variants come across; generic parents (like "Flour" with a Bread-flour variant) are skipped because their variants already carry the real nutrition. Needs the <code>read:pantry</code> scope on your CookTrace token.</div>
+              <span class="setting-label">{$_('ui.me38c5bed3fa2')}</span>
+              <div class="setting-desc">{$_('ui.m957350f27bf7')} <code>read:pantry</code> {$_('ui.mbdb17b37197e')}</div>
             </div>
             <button class="btn btn-primary btn-sm" on:click={_ctBulkImportPantry} disabled={ctPantryBulkBusy} style="flex-shrink:0">
               {#if ctPantryBulkBusy}
@@ -906,15 +903,15 @@
                 {ctPantryBulkProgress.done}/{ctPantryBulkProgress.total}
               {:else}
                 <span class="material-symbols-rounded" style="font-size:16px;vertical-align:middle;margin-right:4px">kitchen</span>
-                Import Pantry
+                {$_('ui.m2abf872aecfd')}
               {/if}
             </button>
           </div>
           {#if !ctPantryBulkBusy && ctPantryBulkLastResult}
             <p class="setting-desc" style="margin-top:8px;color:var(--text-2)">
-              Last run: {ctPantryBulkLastResult.imported} imported, {ctPantryBulkLastResult.updated} updated, {ctPantryBulkLastResult.skipped} skipped.
+              {$_('ui.mf636f90bbb79')} {ctPantryBulkLastResult.imported} {$_('ui.m21f75337a28c')} {ctPantryBulkLastResult.updated} {$_('ui.m07c7ca8b5e6f')} {ctPantryBulkLastResult.skipped} {$_('ui.m92f08a55fb69')}
               {#if ctPantryBulkLastResult.collided}
-                <br />{ctPantryBulkLastResult.collided} already in your library (matched by barcode), left as-is.
+                <br />{ctPantryBulkLastResult.collided} {$_('ui.ma53167b111c4')}
               {/if}
             </p>
           {/if}

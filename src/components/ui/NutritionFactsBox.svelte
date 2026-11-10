@@ -22,7 +22,7 @@
    *   servingsPerContainer — optional packaged-food line
    *   forceShowAll        — when true, render every nutriment that has a
    *                         non-trivial value, IGNORING the user's
-   *                         visibleNutriments preference. Used by Trace's
+   *                         visibleNutriments preference. Used by NutriAgent's
    *                         AI proposal cards so the user sees everything
    *                         the model estimated, not just their normal
    *                         daily-view subset.
@@ -107,7 +107,7 @@
   <div class="title">{$_('nutrition_facts.title')}</div>
 
   {#if servingsPerContainer}
-    <div class="serving-line">{servingsPerContainer} servings per container</div>
+    <div class="serving-line">{servingsPerContainer} {$_('ui.m28d3a28beef9')}</div>
   {/if}
   <div class="serving-line">
     <strong>{$_('nutrition_facts.serving_size')}</strong>
@@ -115,11 +115,11 @@
       {#if servingDescription}
         {servingDescription}
       {:else if yieldText}
-        1 of {servings || '?'} ({yieldText})
+        {$_('ui.m10963f3eeea2')} {servings || '?'} ({yieldText})
       {:else if servings}
-        1 of {servings}
+        {$_('ui.m10963f3eeea2')} {servings}
       {:else}
-        per serving
+        {$_('ui.m8622b23b435c')}
       {/if}
     </span>
   </div>
@@ -137,7 +137,7 @@
     <div class="rule mid"></div>
   {/if}
 
-  <div class="dv-header">% Daily Value*</div>
+  <div class="dv-header">{$_('ui.md08cfcbf7678')}</div>
 
   {#each macroRows as nut (nut.id)}
     {@const v = nutrition[nut.id]}
@@ -150,14 +150,14 @@
         {#if nut.id === 'added-sugars'}
           <!-- FDA format: "Includes <qty> Added Sugars". Qty is
                embedded between "Includes" and the label. -->
-          <span class="row-name">Includes {fmt(v, nut.unit)} {nut.label}</span>
+          <span class="row-name">{$_('ui.mdf498282bede')} {fmt(v, nut.unit)} {nut.labelKey ? $_(nut.labelKey) : nut.label}</span>
         {:else}
-          <span class="row-name">{nut.label}</span>
+          <span class="row-name">{nut.labelKey ? $_(nut.labelKey) : nut.label}</span>
           <span class="row-value">{fmt(v, nut.unit)}</span>
         {/if}
         {#if derived}
           <span class="derived material-symbols-rounded"
-            title="Derived from {nut.id === 'sodium' ? 'salt' : 'sodium'}">calculate</span>
+            title={$_('ui.m57a994f2e309', {values: {value0: (nut.id === 'sodium' ? $_('ui.m63479ad69a09') : $_('ui.mee9d62778c8b'))}})}>calculate</span>
         {/if}
       </span>
       <span class="row-dv">{dv != null ? `${dv}%` : ''}</span>
@@ -171,7 +171,7 @@
       {@const dv = dvPercent(nut, v)}
       <div class="row vmin" class:no-bottom={i === vitMinRows.length - 1}>
         <span class="row-label">
-          <span class="row-name">{nut.label}</span>
+          <span class="row-name">{nut.labelKey ? $_(nut.labelKey) : nut.label}</span>
           <span class="row-value">{fmt(v, nut.unit)}</span>
         </span>
         <span class="row-dv">{dv != null ? `${dv}%` : ''}</span>
@@ -181,9 +181,7 @@
 
   <div class="rule thick"></div>
   <p class="footnote">
-    * The % Daily Value (DV) tells you how much a nutrient in a serving
-    of food contributes to a daily diet. 2,000 calories a day is used
-    for general nutrition advice.
+    {$_('ui.mdb41096d0f74')}
   </p>
 </div>
 {/if}

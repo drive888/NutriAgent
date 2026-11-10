@@ -5,7 +5,7 @@ export async function open() {
   const dbn = await import(SRC + 'lib/db-native.js');
   await dbn.getDb();
   const sync = await import(SRC + 'lib/sync.js');
-  const { NtApiCached: api } = await import(SRC + 'lib/api-cached.js');
+  const { NaApiCached: api } = await import(SRC + 'lib/api-cached.js');
   const online = process.env.NT_SERVER;
   return {
     src: SRC, dbn, api, sleep, fullSync: sync.fullSync,
