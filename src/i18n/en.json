@@ -3650,5 +3650,22 @@
     "meal_hint": "Identify the food category, then check its name and enter the actual portion.",
     "label_hint": "Read the nutrition facts panel and calculate nutrients for the portion you enter.",
     "draft_notice": "Review the recognition result before applying it to the food editor."
+  },
+  "recognition_engines": {
+    "engine": "Recognition engine",
+    "loading": "Loading engines…",
+    "no_engine": "No configured engine",
+    "not_configured": "Not configured",
+    "load_failed": "Could not load recognition engines. Refresh and try again.",
+    "g31_hint": "G31 returns the top three dish candidates. Confirm the portion yourself.",
+    "standard_hint": "Uses the configured standard service. Results may vary between engines.",
+    "reference_portion": "Reference portion (not measured from the photo)",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "demo_hint": "Nutrition uses the module’s approximate demo reference table, scaled to the selected grams. Actual dishes may differ.",
+    "demo_note": "G31 photo draft; unverified nutrition estimated from the demo reference table and a manually confirmed portion.",
+    "no_nutrition": "No reference nutrition for this candidate. Calories and nutrients remain unknown; add them in the editor.",
+    "low_confidence": "This candidate has low confidence. Check the dish name carefully."
   }
 }

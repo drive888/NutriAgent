@@ -12,7 +12,7 @@ export function recognitionPrefill({ kind, preview, name, image, notes }) {
     unit: portion.unit,
     notes,
   };
-  if (kind === 'label') {
+  if (kind === 'label' || preview.calculated) {
     patch.nutrition_basis = portion.unit;
     patch.nutrition = Object.fromEntries(Object.entries(preview.calculated).filter(([, value]) => value != null));
   }

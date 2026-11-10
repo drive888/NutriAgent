@@ -7,7 +7,7 @@
   import ImageCropper from '../components/ui/ImageCropper.svelte';
   import Tabs from '../components/ui/Tabs.svelte';
   import { bannerStyle } from '../stores/settings.js';
-  import { normalizeLabel, portionNutrition } from '../lib/recognition-contract.js';
+  import { normalizeLabel, portionNutrition, reviewMeal } from '../lib/recognition-contract.js';
   import { recognitionPrefill, recognitionImage } from '../lib/recognition-editor.js';
   export let embedded = false;
   export let initialImage = '';
@@ -21,8 +21,21 @@
   let kind = 'meal', image = '', busy = false, result = null, error = '', selected = 0;
   let amount = 100, unit = 'g', basis = 'per100g', servingAmount = 30, servingUnit = 'g';
   let values = {}, preview = null, controller, cropping = false;
+  let engines = [], engine = '', loadingEngines = true;
+  $: compatibleEngines = engines.filter(e => e.kinds.includes(kind));
+  $: candidate = result?.candidates?.[selected];
+  $: mealEstimate = kind === 'meal' && candidate?.nutrition ? estimate(candidate, amount, unit) : null;
   const nutrients = ['calories', 'proteins', 'fat', 'carbohydrates', 'sodium'];
   onMount(async () => {
+    try {
+      const response = await fetch(apiUrl('/api/recognition/engines'), { credentials: 'include', headers: isNative && getAuthToken() ? { Authorization: `Bearer ${getAuthToken()}` } : {} });
+      if (!response.ok) throw new Error();
+      const data = await response.json();
+      if (destroyed) return;
+      engines = data.engines;
+      selectDefaultEngine(true);
+    } catch { if (!destroyed) error = $_('recognition_engines.load_failed'); }
+    finally { loadingEngines = false; }
     if (!initialImage) return;
     preparing = true;
     preparationController = new AbortController();
@@ -31,12 +44,29 @@
       if (destroyed) return;
       amount = Number(initialAmount) > 0 ? Number(initialAmount) : 100;
       unit = ['g', 'ml'].includes(initialUnit) ? initialUnit : 'g';
-      await run();
+      if (engine) await run();
     } catch (e) { if (!destroyed) error = $_('photo_recognition.photo_unavailable'); }
     finally { preparing = false; }
   });
   onDestroy(() => { destroyed = true; controller?.abort(); preparationController?.abort(); });
   function reset() { result = null; error = ''; preview = null; }
+  function selectDefaultEngine(preferG31 = false) {
+    const available = engines.filter(e => e.kinds.includes(kind) && e.configured[kind]);
+    if (preferG31 && kind === 'meal' && available.some(e => e.id === 'g31')) engine = 'g31';
+    else if (!available.some(e => e.id === engine)) engine = available[0]?.id || '';
+  }
+  function candidateName(c) { return ($locale || '').startsWith('zh') ? c.nameZh || c.name : c.name; }
+  function selectCandidate(keepInitial = false) {
+    const c = result.candidates[selected];
+    reviewName = keepInitial && initialName ? initialName : candidateName(c);
+    amount = keepInitial && embedded ? Number(initialAmount) || 100 : c.portions?.medium || 100;
+    unit = c.nutrition ? 'g' : keepInitial && embedded ? initialUnit : 'g';
+    preview = null;
+  }
+  function estimate(c, grams, measure) {
+    try { return reviewMeal(c, { amount: grams, unit: measure }).calculated; } catch { return null; }
+  }
+  function rounded(value) { return Math.round(value * 10) / 10; }
   async function rotate() {
     const img = new Image(); img.src = image; await img.decode();
     const canvas = document.createElement('canvas');
@@ -55,7 +85,7 @@
     } catch { error = $_('ui.m5299691f889c'); }
   }
   async function run() {
-    if (busy) return;
+    if (busy || !engine) return;
     reset(); busy = true; controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 35000);
     try {
@@ -63,11 +93,12 @@
       const csrf = localStorage.getItem('nt:csrf');
       if (csrf) headers['X-CSRF-Token'] = csrf;
       if (isNative && getAuthToken()) headers.Authorization = `Bearer ${getAuthToken()}`;
-      const response = await fetch(apiUrl(`/api/recognition/${kind}`), { method: 'POST', headers, credentials: 'include', signal: controller.signal, body: JSON.stringify({ image }) });
+      const response = await fetch(apiUrl(`/api/recognition/${kind}`), { method: 'POST', headers, credentials: 'include', signal: controller.signal, body: JSON.stringify({ image, engine }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
       if (destroyed) return;
-      result = data; selected = 0; reviewName = initialName || data.candidates?.[0]?.name || ''; 
+      result = data; selected = 0;
+      if (kind === 'meal' && data.candidates.length) selectCandidate(true);
       if (kind === 'label') { values = { ...data.nutrition }; basis = data.basis; servingAmount = data.serving?.amount || 30; servingUnit = data.serving?.unit || 'g'; unit = basis === 'per100ml' ? 'ml' : basis === 'perServing' ? servingUnit : 'g'; }
     } catch (e) { error = e.name === 'AbortError' ? $_('ui.m6251703007fd') : e.message; }
     finally { clearTimeout(timer); busy = false; }
@@ -78,7 +109,7 @@
       if (kind === 'meal') {
         if (!(amount > 0) || !result.candidates[selected]) throw new Error($_('ui.m37fe6ef4eb35'));
         if (!reviewName.trim()) throw new Error($_('ui.m37fe6ef4eb35'));
-        preview = { ...result.candidates[selected], name: reviewName.trim(), amount, unit, notice: $_('ui.m669c8ca201d6') };
+        preview = { ...reviewMeal(result.candidates[selected], { name: reviewName, amount, unit }), notice: $_('ui.m669c8ca201d6') };
       } else {
         const draft = normalizeLabel({ basis, serving: { amount: servingAmount, unit: servingUnit }, nutrients: Object.fromEntries(nutrients.map(k => [k, values[k] === '' || values[k] == null ? null : { value: values[k], unit: k === 'sodium' ? 'mg' : k === 'calories' ? 'kcal' : 'g' }])) });
         preview = { ...draft, portion: { amount, unit }, calculated: portionNutrition(draft, amount, unit) };
@@ -89,7 +120,7 @@
     confirm();
     if (!preview) return;
     const prefill = recognitionPrefill({ kind, preview, name: result.name, image,
-      notes: kind === 'label' ? $_('ui.m0bfe6bf97c5f', {values: {basis}}) : $_('ui.m69a7a11cce25') });
+      notes: kind === 'label' ? $_('ui.m0bfe6bf97c5f', {values: {basis}}) : preview.nutrition ? $_('recognition_engines.demo_note') : $_('ui.m69a7a11cce25') });
     if (embedded) { dispatch('review', prefill); return; }
     clearFoodEditorState();
     editorState.foodPrefill = prefill;
@@ -140,12 +171,19 @@
       <div class="workflow-column">
         <section class="card workflow-card">
           <div class="card-heading"><span class="material-symbols-rounded" aria-hidden="true">document_scanner</span><h2>{$_('ui.m2b2eda4874aa')}</h2></div>
-          <fieldset class="mode-switch" disabled={busy || preparing}>
+          <fieldset class="mode-switch" disabled={busy || preparing || loadingEngines}>
             <legend class="sr-only">{$_('ui.m2b2eda4874aa')}</legend>
-            <Tabs tabs={recognitionTabs} active={kind === 'meal' ? 0 : 1} on:change={e => { kind = e.detail.value; reset(); }} />
+            <Tabs tabs={recognitionTabs} active={kind === 'meal' ? 0 : 1} on:change={e => { kind = e.detail.value; reset(); selectDefaultEngine(); }} />
           </fieldset>
+          <label class="form-group engine-picker"><span class="form-label">{$_('recognition_engines.engine')}</span><span class="select-wrap">
+            <select class="select" bind:value={engine} disabled={busy || preparing || loadingEngines} on:change={reset}>
+              {#if !engine}<option value="">{$_(loadingEngines ? 'recognition_engines.loading' : 'recognition_engines.no_engine')}</option>{/if}
+              {#each compatibleEngines as e}<option value={e.id} disabled={!e.configured[kind]}>{($locale || '').startsWith('zh') ? e.nameZh : e.name}{!e.configured[kind] ? ` · ${$_('recognition_engines.not_configured')}` : ''}</option>{/each}
+            </select>
+          </span></label>
+          <p class="mode-hint">{$_(engine === 'g31' ? 'recognition_engines.g31_hint' : 'recognition_engines.standard_hint')}</p>
           <p class="mode-hint">{$_(kind === 'meal' ? 'photo_recognition.meal_hint' : 'photo_recognition.label_hint')}</p>
-          <button class="btn btn-primary primary-action" on:click={run} disabled={!image || busy || preparing}>
+          <button class="btn btn-primary primary-action" on:click={run} disabled={!image || !engine || loadingEngines || busy || preparing}>
             <span class="material-symbols-rounded" aria-hidden="true">{busy ? 'hourglass_top' : 'document_scanner'}</span>{busy ? $_('ui.mda936f5280a5') : $_('ui.m51d04e76a316')}
           </button>
         </section>
@@ -155,12 +193,20 @@
           <section class="card workflow-card">
             <div class="card-heading"><span class="material-symbols-rounded" aria-hidden="true">fact_check</span><h2>{$_('ui.me9637f141096')}</h2></div>
             <p class="result-meta">{$_(result.mode === 'mock' ? 'recognition_page.mock' : 'recognition_page.service')} · {result.elapsedMs} {$_('ui.mf785c3ce1d58')}</p>
+            <p class="result-meta">{$_('recognition_engines.engine')}: {($locale || '').startsWith('zh') ? engines.find(e => e.id === result.engine)?.nameZh : engines.find(e => e.id === result.engine)?.name}{result.modelVersion ? ` · ${result.modelVersion}` : ''}</p>
             {#if result.mode === 'mock'}<p class="feedback" role="alert">{$_('ui.md983bd2be8fc')}</p>{/if}
             <div class="review-form">
               {#if kind === 'meal'}
                 {#if !result.candidates.length}<p class="mode-hint">{$_('ui.m82ac5e6023cd')}</p>{:else}
-                  <label class="form-group"><span class="form-label">{$_('ui.mb2452d1eba32')}</span><span class="select-wrap"><select class="select" bind:value={selected} on:change={() => { reviewName = result.candidates[selected].name; preview = null; }}>{#each result.candidates as c, i}<option value={i}>{c.name}</option>{/each}</select></span></label>
-                  <label class="form-group"><span class="form-label">{$_('ui.m731917c34804')}</span><input class="input" bind:value={reviewName} /></label>
+                  <label class="form-group"><span class="form-label">{$_('ui.mb2452d1eba32')}</span><span class="select-wrap"><select class="select" bind:value={selected} on:change={() => selectCandidate()}>{#each result.candidates as c, i}<option value={i}>{candidateName(c)}{c.confidence == null ? '' : ` · ${(c.confidence * 100).toFixed(1)}%`}</option>{/each}</select></span></label>
+                  {#if candidate?.confidence != null && candidate.confidence < .5}<p class="feedback">{$_('recognition_engines.low_confidence')}</p>{/if}
+                  <label class="form-group"><span class="form-label">{$_('ui.m731917c34804')}</span><input class="input" bind:value={reviewName} on:input={() => preview = null} /></label>
+                  {#if candidate?.portions}
+                    <div class="form-group"><span class="form-label">{$_('recognition_engines.reference_portion')}</span><div class="portion-options">
+                      {#each ['small', 'medium', 'large'] as size}{#if candidate.portions[size]}<button class="btn btn-secondary" on:click={() => { amount = candidate.portions[size]; unit = 'g'; preview = null; }}>{$_(`recognition_engines.${size}`)} · {candidate.portions[size]} g</button>{/if}{/each}
+                    </div></div>
+                  {/if}
+                  {#if candidate?.nutrition}<p class="mode-hint">{$_('recognition_engines.demo_hint')}</p>{:else if result.engine === 'g31'}<p class="mode-hint">{$_('recognition_engines.no_nutrition')}</p>{/if}
                 {/if}
               {:else}
                 <label class="form-group"><span class="form-label">{$_('ui.ma7b4431c5855')}</span><span class="select-wrap"><select class="select" bind:value={basis}><option value="per100g">{$_('ui.m96950f42745f')}</option><option value="per100ml">{$_('ui.m7bf13e4e9424')}</option><option value="perServing">{$_('ui.m4f4d23fd2ce2')}</option></select></span></label>
@@ -175,9 +221,14 @@
                 {/each}
               {/if}
               <div class="field-pair">
-                <label class="form-group"><span class="form-label">{$_('ui.m5432d8f0d4f3')}</span><input class="input" type="number" min="0.001" step="any" bind:value={amount} /></label>
-                <label class="form-group"><span class="form-label">{$_('ui.m15e0ad5e53d0')}</span><span class="select-wrap"><select class="select" bind:value={unit}><option>g</option><option>ml</option></select></span></label>
+                <label class="form-group"><span class="form-label">{$_('ui.m5432d8f0d4f3')}</span><input class="input" type="number" min="0.001" step="any" bind:value={amount} on:input={() => preview = null} /></label>
+                <label class="form-group"><span class="form-label">{$_('ui.m15e0ad5e53d0')}</span><span class="select-wrap"><select class="select" bind:value={unit} on:change={() => preview = null}><option>g</option>{#if !candidate?.nutrition || kind === 'label'}<option>ml</option>{/if}</select></span></label>
               </div>
+              {#if mealEstimate}
+                <dl class="review-details">
+                  {#each nutrients as key}<dt>{$_(({calories: 'ui.m42b7dd56746d', proteins: 'ui.m92a31f1de3df', fat: 'ui.mddcdda5ac2be', carbohydrates: 'ui.m3c333a5e3785', sodium: 'ui.mcbd06db64d87'})[key])}</dt><dd>{mealEstimate[key] == null ? $_('recognition_page.unknown') : `${rounded(mealEstimate[key])} ${key === 'calories' ? 'kcal' : key === 'sodium' ? 'mg' : 'g'}`}</dd>{/each}
+                </dl>
+              {/if}
               <button class="btn btn-secondary primary-action" on:click={confirm} disabled={kind === 'meal' && !result.candidates.length}>{$_('ui.m92ffde388be0')}</button>
             </div>
           </section>
@@ -190,13 +241,15 @@
                   <dt>{$_('recognition_page.portion')}</dt><dd>{amount} {unit}</dd>
                 {:else}
                   <dt>{$_('recognition_page.portion')}</dt><dd>{amount} {unit}</dd>
+                {/if}
+                {#if preview.calculated}
                   {#each nutrients as key}
                     <dt>{$_(({calories: 'ui.m42b7dd56746d', proteins: 'ui.m92a31f1de3df', fat: 'ui.mddcdda5ac2be', carbohydrates: 'ui.m3c333a5e3785', sodium: 'ui.mcbd06db64d87'})[key])}</dt>
-                    <dd>{preview.calculated[key] == null ? $_('recognition_page.unknown') : preview.calculated[key]} {preview.calculated[key] == null ? '' : key === 'sodium' ? 'mg' : key === 'calories' ? 'kcal' : 'g'}</dd>
+                    <dd>{preview.calculated[key] == null ? $_('recognition_page.unknown') : rounded(preview.calculated[key])} {preview.calculated[key] == null ? '' : key === 'sodium' ? 'mg' : key === 'calories' ? 'kcal' : 'g'}</dd>
                   {/each}
                 {/if}
               </dl>
-              {#if kind === 'meal'}<p class="mode-hint">{preview.notice}</p>{/if}
+              {#if kind === 'meal'}<p class="mode-hint">{preview.nutrition ? $_('recognition_engines.demo_hint') : preview.notice}</p>{/if}
               <button class="btn btn-primary primary-action" on:click={openEditor}>{$_(embedded ? 'photo_recognition.apply' : 'ui.m2655387a8bf4')}</button>
             </section>
           {/if}
@@ -208,6 +261,8 @@
 {#if cropping}<ImageCropper src={image} outputSize={1200} on:cancel={() => cropping = false} on:confirm={e => { image = e.detail.dataUrl; cropping = false; reset(); }} />{/if}
 
 <style>
+  .engine-picker { margin-top: var(--space-4); }
+  .portion-options { display: flex; flex-wrap: wrap; gap: var(--space-2); }
   .recognition-header { justify-content: flex-start; gap: var(--space-3); }
   .recognition-content { width: 100%; max-width: 1120px; margin: 0 auto; padding: var(--space-6) var(--page-px) var(--space-8); }
   .draft-notice { display: flex; align-items: flex-start; gap: var(--space-2); color: var(--text-2); font-size: 13px; margin-bottom: var(--space-5); }

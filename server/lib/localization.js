@@ -159,6 +159,8 @@ const MESSAGES = {
   "Too many login attempts. Try again in a few minutes.": "登录尝试过于频繁，请几分钟后再试。",
   "Unknown config key": "未知配置项",
   "Unknown recognition kind": "未知识别类型",
+  "Unsupported recognition engine": "该引擎不支持当前识别类型",
+  "Recognition engine configuration invalid": "识别引擎配置无效",
   "Recognition timed out": "识别超时",
   "Recognition service not configured": "尚未配置识别服务",
   "Recognition result invalid or service failed": "识别结果无效或识别服务失败",

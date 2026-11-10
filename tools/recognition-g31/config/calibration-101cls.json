@@ -1,0 +1,346 @@
+{
+  "temperature": 0.8214613199234009,
+  "fit_split": "val",
+  "eval_split": "test",
+  "before": {
+    "ece": 0.09241621071218264,
+    "mean_confidence": 0.7825540863175203,
+    "accuracy": 0.874970297029703,
+    "top1": 0.874970297029703
+  },
+  "after": {
+    "ece": 0.01380952845263014,
+    "mean_confidence": 0.8611607685770729,
+    "accuracy": 0.874970297029703,
+    "top1": 0.874970297029703
+  },
+  "val_ece": {
+    "before": 0.06936636816452044,
+    "after": 0.017261260335791638
+  },
+  "reliability": {
+    "before": [
+      {
+        "lo": 0.0,
+        "hi": 0.1,
+        "n": 14,
+        "conf": 0.08829677104949951,
+        "acc": 0.35714285714285715
+      },
+      {
+        "lo": 0.1,
+        "hi": 0.2,
+        "n": 391,
+        "conf": 0.16203411921973118,
+        "acc": 0.30434782608695654
+      },
+      {
+        "lo": 0.2,
+        "hi": 0.30000000000000004,
+        "n": 870,
+        "conf": 0.2527541321241993,
+        "acc": 0.40229885057471265
+      },
+      {
+        "lo": 0.30000000000000004,
+        "hi": 0.4,
+        "n": 1103,
+        "conf": 0.3520225309990583,
+        "acc": 0.48050770625566636
+      },
+      {
+        "lo": 0.4,
+        "hi": 0.5,
+        "n": 1293,
+        "conf": 0.4506159989020664,
+        "acc": 0.6032482598607889
+      },
+      {
+        "lo": 0.5,
+        "hi": 0.6000000000000001,
+        "n": 1380,
+        "conf": 0.5509569096392479,
+        "acc": 0.6920289855072463
+      },
+      {
+        "lo": 0.6000000000000001,
+        "hi": 0.7000000000000001,
+        "n": 1685,
+        "conf": 0.6511782850639048,
+        "acc": 0.8178041543026706
+      },
+      {
+        "lo": 0.7000000000000001,
+        "hi": 0.8,
+        "n": 2359,
+        "conf": 0.7540280729494342,
+        "acc": 0.9012293344637559
+      },
+      {
+        "lo": 0.8,
+        "hi": 0.9,
+        "n": 5185,
+        "conf": 0.857821057077314,
+        "acc": 0.9639344262295082
+      },
+      {
+        "lo": 0.9,
+        "hi": 1.0,
+        "n": 10970,
+        "conf": 0.9498601094092036,
+        "acc": 0.9892433910665451
+      }
+    ],
+    "after": [
+      {
+        "lo": 0.0,
+        "hi": 0.1,
+        "n": 2,
+        "conf": 0.09882724657654762,
+        "acc": 0.5
+      },
+      {
+        "lo": 0.1,
+        "hi": 0.2,
+        "n": 145,
+        "conf": 0.16834302493210496,
+        "acc": 0.2482758620689655
+      },
+      {
+        "lo": 0.2,
+        "hi": 0.30000000000000004,
+        "n": 454,
+        "conf": 0.2576093818122595,
+        "acc": 0.32819383259911894
+      },
+      {
+        "lo": 0.30000000000000004,
+        "hi": 0.4,
+        "n": 719,
+        "conf": 0.35270555808580634,
+        "acc": 0.39360222531293465
+      },
+      {
+        "lo": 0.4,
+        "hi": 0.5,
+        "n": 950,
+        "conf": 0.452598784942376,
+        "acc": 0.46421052631578946
+      },
+      {
+        "lo": 0.5,
+        "hi": 0.6000000000000001,
+        "n": 1098,
+        "conf": 0.5499436105101052,
+        "acc": 0.5673952641165756
+      },
+      {
+        "lo": 0.6000000000000001,
+        "hi": 0.7000000000000001,
+        "n": 1126,
+        "conf": 0.6511094489698935,
+        "acc": 0.672291296625222
+      },
+      {
+        "lo": 0.7000000000000001,
+        "hi": 0.8,
+        "n": 1428,
+        "conf": 0.7523737238819191,
+        "acc": 0.7689075630252101
+      },
+      {
+        "lo": 0.8,
+        "hi": 0.9,
+        "n": 2471,
+        "conf": 0.8565152877981679,
+        "acc": 0.8781869688385269
+      },
+      {
+        "lo": 0.9,
+        "hi": 1.0,
+        "n": 16857,
+        "conf": 0.9723768721853363,
+        "acc": 0.9808981432046034
+      }
+    ]
+  },
+  "thresholds_after": [
+    {
+      "threshold": 0.3,
+      "below_rate": 0.023801980198019802,
+      "below_acc": 0.30948419301164726,
+      "above_acc": 0.8887581646314252
+    },
+    {
+      "threshold": 0.4,
+      "below_rate": 0.052277227722772275,
+      "below_acc": 0.3553030303030303,
+      "above_acc": 0.9036356038445466
+    },
+    {
+      "threshold": 0.5,
+      "below_rate": 0.0899009900990099,
+      "below_acc": 0.4008810572687225,
+      "above_acc": 0.9218015665796344
+    },
+    {
+      "threshold": 0.6,
+      "below_rate": 0.1333861386138614,
+      "below_acc": 0.45516627078384797,
+      "above_acc": 0.9395850470706517
+    },
+    {
+      "threshold": 0.7,
+      "below_rate": 0.17798019801980197,
+      "below_acc": 0.5095683133066311,
+      "above_acc": 0.9540855656195799
+    },
+    {
+      "threshold": 0.8,
+      "below_rate": 0.23453465346534652,
+      "below_acc": 0.5721040189125296,
+      "above_acc": 0.9677669701986755
+    }
+  ],
+  "thresholds_before": [
+    {
+      "threshold": 0.3,
+      "below_rate": 0.0504950495049505,
+      "below_acc": 0.37176470588235294,
+      "above_acc": 0.9017309697601669
+    },
+    {
+      "threshold": 0.4,
+      "below_rate": 0.09417821782178218,
+      "below_acc": 0.4222035323801514,
+      "above_acc": 0.9220444211262679
+    },
+    {
+      "threshold": 0.5,
+      "below_rate": 0.14538613861386138,
+      "below_acc": 0.48597112503405065,
+      "above_acc": 0.9411464850085731
+    },
+    {
+      "threshold": 0.6,
+      "below_rate": 0.20003960396039605,
+      "below_acc": 0.5422688576519501,
+      "above_acc": 0.9581662458537551
+    },
+    {
+      "threshold": 0.7,
+      "below_rate": 0.2667722772277228,
+      "below_acc": 0.6111935866983373,
+      "above_acc": 0.970940909581938
+    },
+    {
+      "threshold": 0.8,
+      "below_rate": 0.3601980198019802,
+      "below_acc": 0.6864211105002749,
+      "above_acc": 0.9811203961621789
+    }
+  ],
+  "classes": [
+    "apple_pie",
+    "baby_back_ribs",
+    "baklava",
+    "beef_carpaccio",
+    "beef_tartare",
+    "beet_salad",
+    "beignets",
+    "bibimbap",
+    "bread_pudding",
+    "breakfast_burrito",
+    "bruschetta",
+    "caesar_salad",
+    "cannoli",
+    "caprese_salad",
+    "carrot_cake",
+    "ceviche",
+    "cheese_plate",
+    "cheesecake",
+    "chicken_curry",
+    "chicken_quesadilla",
+    "chicken_wings",
+    "chocolate_cake",
+    "chocolate_mousse",
+    "churros",
+    "clam_chowder",
+    "club_sandwich",
+    "crab_cakes",
+    "creme_brulee",
+    "croque_madame",
+    "cup_cakes",
+    "deviled_eggs",
+    "donuts",
+    "dumplings",
+    "edamame",
+    "eggs_benedict",
+    "escargots",
+    "falafel",
+    "filet_mignon",
+    "fish_and_chips",
+    "foie_gras",
+    "french_fries",
+    "french_onion_soup",
+    "french_toast",
+    "fried_calamari",
+    "fried_rice",
+    "frozen_yogurt",
+    "garlic_bread",
+    "gnocchi",
+    "greek_salad",
+    "grilled_cheese_sandwich",
+    "grilled_salmon",
+    "guacamole",
+    "gyoza",
+    "hamburger",
+    "hot_and_sour_soup",
+    "hot_dog",
+    "huevos_rancheros",
+    "hummus",
+    "ice_cream",
+    "lasagna",
+    "lobster_bisque",
+    "lobster_roll_sandwich",
+    "macaroni_and_cheese",
+    "macarons",
+    "miso_soup",
+    "mussels",
+    "nachos",
+    "omelette",
+    "onion_rings",
+    "oysters",
+    "pad_thai",
+    "paella",
+    "pancakes",
+    "panna_cotta",
+    "peking_duck",
+    "pho",
+    "pizza",
+    "pork_chop",
+    "poutine",
+    "prime_rib",
+    "pulled_pork_sandwich",
+    "ramen",
+    "ravioli",
+    "red_velvet_cake",
+    "risotto",
+    "samosa",
+    "sashimi",
+    "scallops",
+    "seaweed_salad",
+    "shrimp_and_grits",
+    "spaghetti_bolognese",
+    "spaghetti_carbonara",
+    "spring_rolls",
+    "steak",
+    "strawberry_shortcake",
+    "sushi",
+    "tacos",
+    "takoyaki",
+    "tiramisu",
+    "tuna_tartare",
+    "waffles"
+  ]
+}

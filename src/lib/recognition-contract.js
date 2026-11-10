@@ -34,9 +34,33 @@ export function normalizeMeal(raw) {
   const candidates = raw.candidates.slice(0, 10).map(c => {
     if (typeof c.name !== 'string' || !c.name.trim()) throw new Error('Candidate name required');
     if (c.confidence != null && (typeof c.confidence !== 'number' || !Number.isFinite(c.confidence) || c.confidence < 0 || c.confidence > 1)) throw new Error('Invalid confidence');
-    return { name: c.name.trim().slice(0, 200), category: FOOD_CATEGORIES.includes(c.category) ? c.category : 'unknown', confidence: c.confidence ?? null };
+    const candidate = { name: c.name.trim().slice(0, 200), category: FOOD_CATEGORIES.includes(c.category) ? c.category : 'unknown', confidence: c.confidence ?? null };
+    if (typeof c.label === 'string') candidate.label = c.label.slice(0, 100);
+    if (typeof c.nameZh === 'string') candidate.nameZh = c.nameZh.slice(0, 200);
+    if (c.nutrition != null) {
+      if (c.nutrition.source !== 'demo_seed' || !c.nutrition.per100g || typeof c.nutrition.per100g !== 'object') throw new Error('Invalid meal nutrition source');
+      const per100g = {};
+      for (const key of Object.keys(UNITS)) {
+        const value = c.nutrition.per100g[key] ?? null;
+        if (value != null && (typeof value !== 'number' || !Number.isFinite(value) || value < 0)) throw new Error(`Invalid ${key}`);
+        per100g[key] = value;
+      }
+      candidate.nutrition = { source: 'demo_seed', per100g };
+      if (c.portions != null) candidate.portions = Object.fromEntries(['small', 'medium', 'large'].filter(k => c.portions[k] != null).map(k => [k, positive(c.portions[k], 'Reference portion')]));
+    }
+    return candidate;
   });
   return { kind: 'meal', status: candidates.length ? 'review' : 'unknown', candidates, requiresConfirmation: true };
+}
+
+export function reviewMeal(candidate, { amount, unit, name = candidate?.name }) {
+  positive(amount, 'Amount');
+  if (!candidate || typeof name !== 'string' || !name.trim() || !['g', 'ml'].includes(unit)) throw new Error('Invalid meal review');
+  const review = { ...candidate, name: name.trim(), amount, unit };
+  if (candidate.nutrition) {
+    review.calculated = portionNutrition({ basis: 'per100g', nutrition: candidate.nutrition.per100g }, amount, unit);
+  }
+  return review;
 }
 
 export function portionNutrition(draft, amount, unit) {

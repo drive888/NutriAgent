@@ -1,0 +1,241 @@
+{
+  "version": 1,
+  "note": "Sprint 1 demo seed. Values are approximate per-100 g averages for the dishes the demo uses, not the reviewed 101-class USDA table. The final table replaces this file (scripts/seed-nutrition.mjs) and is loaded from MongoDB when MONGODB_URI is set.",
+  "classes": {
+    "pizza": {
+      "display_zh": "披萨",
+      "per_100g": { "kcal": 266, "protein_g": 11.4, "carbs_g": 33.3, "fat_g": 10.4 },
+      "portions": { "small": 100, "medium": 200, "large": 300 }
+    },
+    "hamburger": {
+      "display_zh": "汉堡",
+      "per_100g": { "kcal": 254, "protein_g": 13.2, "carbs_g": 24.0, "fat_g": 12.0 },
+      "portions": { "small": 150, "medium": 220, "large": 300 }
+    },
+    "sushi": {
+      "display_zh": "寿司",
+      "per_100g": { "kcal": 150, "protein_g": 6.0, "carbs_g": 25.0, "fat_g": 2.5 },
+      "portions": { "small": 100, "medium": 180, "large": 260 }
+    },
+    "ramen": {
+      "display_zh": "拉面",
+      "per_100g": { "kcal": 65, "protein_g": 3.5, "carbs_g": 8.0, "fat_g": 1.8 },
+      "portions": { "small": 400, "medium": 550, "large": 700 }
+    },
+    "caesar_salad": {
+      "display_zh": "凯撒沙拉",
+      "per_100g": { "kcal": 190, "protein_g": 7.0, "carbs_g": 6.0, "fat_g": 15.0 },
+      "portions": { "small": 150, "medium": 250, "large": 350 }
+    },
+    "chicken_wings": {
+      "display_zh": "鸡翅",
+      "per_100g": { "kcal": 290, "protein_g": 27.0, "carbs_g": 0.0, "fat_g": 20.0 },
+      "portions": { "small": 120, "medium": 200, "large": 300 }
+    },
+    "french_fries": {
+      "display_zh": "薯条",
+      "per_100g": { "kcal": 312, "protein_g": 3.4, "carbs_g": 41.0, "fat_g": 15.0 },
+      "portions": { "small": 80, "medium": 120, "large": 180 }
+    },
+    "grilled_salmon": {
+      "display_zh": "烤三文鱼",
+      "per_100g": { "kcal": 208, "protein_g": 20.0, "carbs_g": 0.0, "fat_g": 13.0 },
+      "portions": { "small": 120, "medium": 180, "large": 250 }
+    },
+    "steak": {
+      "display_zh": "牛排",
+      "per_100g": { "kcal": 271, "protein_g": 25.0, "carbs_g": 0.0, "fat_g": 19.0 },
+      "portions": { "small": 150, "medium": 225, "large": 300 }
+    },
+    "tacos": {
+      "display_zh": "墨西哥卷饼",
+      "per_100g": { "kcal": 226, "protein_g": 9.0, "carbs_g": 21.0, "fat_g": 12.0 },
+      "portions": { "small": 100, "medium": 180, "large": 260 }
+    },
+    "pancakes": {
+      "display_zh": "松饼",
+      "per_100g": { "kcal": 227, "protein_g": 6.0, "carbs_g": 28.0, "fat_g": 9.0 },
+      "portions": { "small": 100, "medium": 180, "large": 260 }
+    },
+    "waffles": {
+      "display_zh": "华夫饼",
+      "per_100g": { "kcal": 291, "protein_g": 8.0, "carbs_g": 33.0, "fat_g": 14.0 },
+      "portions": { "small": 80, "medium": 140, "large": 200 }
+    },
+    "donuts": {
+      "display_zh": "甜甜圈",
+      "per_100g": { "kcal": 452, "protein_g": 5.0, "carbs_g": 51.0, "fat_g": 25.0 },
+      "portions": { "small": 60, "medium": 85, "large": 110 }
+    },
+    "dumplings": {
+      "display_zh": "饺子",
+      "per_100g": { "kcal": 220, "protein_g": 8.0, "carbs_g": 24.0, "fat_g": 10.0 },
+      "portions": { "small": 100, "medium": 180, "large": 260 }
+    },
+    "fried_rice": {
+      "display_zh": "炒饭",
+      "per_100g": { "kcal": 163, "protein_g": 3.5, "carbs_g": 24.0, "fat_g": 6.0 },
+      "portions": { "small": 180, "medium": 280, "large": 380 }
+    },
+    "lasagna": {
+      "display_zh": "千层面",
+      "per_100g": { "kcal": 135, "protein_g": 7.5, "carbs_g": 12.0, "fat_g": 6.5 },
+      "portions": { "small": 180, "medium": 280, "large": 380 }
+    },
+    "spaghetti_bolognese": {
+      "display_zh": "意式肉酱面",
+      "per_100g": { "kcal": 150, "protein_g": 7.0, "carbs_g": 18.0, "fat_g": 5.5 },
+      "portions": { "small": 200, "medium": 300, "large": 400 }
+    },
+    "ice_cream": {
+      "display_zh": "冰淇淋",
+      "per_100g": { "kcal": 207, "protein_g": 3.5, "carbs_g": 24.0, "fat_g": 11.0 },
+      "portions": { "small": 60, "medium": 100, "large": 150 }
+    },
+    "cheesecake": {
+      "display_zh": "芝士蛋糕",
+      "per_100g": { "kcal": 321, "protein_g": 5.5, "carbs_g": 26.0, "fat_g": 23.0 },
+      "portions": { "small": 80, "medium": 120, "large": 160 }
+    },
+    "chocolate_cake": {
+      "display_zh": "巧克力蛋糕",
+      "per_100g": { "kcal": 352, "protein_g": 5.0, "carbs_g": 51.0, "fat_g": 15.0 },
+      "portions": { "small": 80, "medium": 120, "large": 160 }
+    },
+    "apple_pie": {
+      "display_zh": "苹果派",
+      "per_100g": { "kcal": 237, "protein_g": 2.0, "carbs_g": 34.0, "fat_g": 11.0 },
+      "portions": { "small": 100, "medium": 150, "large": 200 }
+    },
+    "french_toast": {
+      "display_zh": "法式吐司",
+      "per_100g": { "kcal": 229, "protein_g": 8.0, "carbs_g": 25.0, "fat_g": 11.0 },
+      "portions": { "small": 100, "medium": 160, "large": 220 }
+    },
+    "guacamole": {
+      "display_zh": "牛油果酱",
+      "per_100g": { "kcal": 160, "protein_g": 2.0, "carbs_g": 9.0, "fat_g": 15.0 },
+      "portions": { "small": 50, "medium": 80, "large": 120 }
+    },
+    "hummus": {
+      "display_zh": "鹰嘴豆泥",
+      "per_100g": { "kcal": 166, "protein_g": 8.0, "carbs_g": 14.0, "fat_g": 10.0 },
+      "portions": { "small": 50, "medium": 80, "large": 120 }
+    },
+    "miso_soup": {
+      "display_zh": "味噌汤",
+      "per_100g": { "kcal": 35, "protein_g": 2.5, "carbs_g": 3.0, "fat_g": 1.5 },
+      "portions": { "small": 200, "medium": 300, "large": 400 }
+    },
+    "pho": {
+      "display_zh": "越南河粉",
+      "per_100g": { "kcal": 65, "protein_g": 4.0, "carbs_g": 8.0, "fat_g": 1.2 },
+      "portions": { "small": 400, "medium": 550, "large": 700 }
+    },
+    "pad_thai": {
+      "display_zh": "泰式炒河粉",
+      "per_100g": { "kcal": 190, "protein_g": 8.0, "carbs_g": 24.0, "fat_g": 7.0 },
+      "portions": { "small": 180, "medium": 280, "large": 380 }
+    },
+    "spring_rolls": {
+      "display_zh": "春卷",
+      "per_100g": { "kcal": 154, "protein_g": 4.0, "carbs_g": 20.0, "fat_g": 6.5 },
+      "portions": { "small": 80, "medium": 140, "large": 200 }
+    },
+    "nachos": {
+      "display_zh": "玉米片",
+      "per_100g": { "kcal": 260, "protein_g": 7.0, "carbs_g": 30.0, "fat_g": 12.0 },
+      "portions": { "small": 100, "medium": 180, "large": 260 }
+    },
+    "greek_salad": {
+      "display_zh": "希腊沙拉",
+      "per_100g": { "kcal": 120, "protein_g": 3.0, "carbs_g": 8.0, "fat_g": 9.0 },
+      "portions": { "small": 150, "medium": 250, "large": 350 }
+    },
+    "fish_and_chips": {
+      "display_zh": "炸鱼薯条",
+      "per_100g": { "kcal": 250, "protein_g": 12.0, "carbs_g": 22.0, "fat_g": 13.0 },
+      "portions": { "small": 200, "medium": 300, "large": 400 }
+    },
+    "omelette": {
+      "display_zh": "煎蛋卷",
+      "per_100g": { "kcal": 154, "protein_g": 11.0, "carbs_g": 1.0, "fat_g": 12.0 },
+      "portions": { "small": 100, "medium": 160, "large": 220 }
+    },
+    "macaroni_and_cheese": {
+      "display_zh": "芝士通心粉",
+      "per_100g": { "kcal": 164, "protein_g": 7.0, "carbs_g": 20.0, "fat_g": 6.0 },
+      "portions": { "small": 180, "medium": 280, "large": 380 }
+    },
+    "chicken_curry": {
+      "display_zh": "咖喱鸡",
+      "per_100g": { "kcal": 150, "protein_g": 12.0, "carbs_g": 6.0, "fat_g": 9.0 },
+      "portions": { "small": 200, "medium": 300, "large": 400 }
+    },
+    "risotto": {
+      "display_zh": "意式烩饭",
+      "per_100g": { "kcal": 166, "protein_g": 4.0, "carbs_g": 24.0, "fat_g": 6.0 },
+      "portions": { "small": 180, "medium": 280, "large": 380 }
+    },
+    "paella": {
+      "display_zh": "西班牙海鲜饭",
+      "per_100g": { "kcal": 156, "protein_g": 9.0, "carbs_g": 18.0, "fat_g": 5.0 },
+      "portions": { "small": 200, "medium": 300, "large": 400 }
+    },
+    "samosa": {
+      "display_zh": "咖喱角",
+      "per_100g": { "kcal": 262, "protein_g": 5.0, "carbs_g": 30.0, "fat_g": 14.0 },
+      "portions": { "small": 60, "medium": 100, "large": 150 }
+    },
+    "baklava": {
+      "display_zh": "果仁蜜饼",
+      "per_100g": { "kcal": 428, "protein_g": 6.0, "carbs_g": 48.0, "fat_g": 24.0 },
+      "portions": { "small": 40, "medium": 70, "large": 100 }
+    },
+    "tiramisu": {
+      "display_zh": "提拉米苏",
+      "per_100g": { "kcal": 283, "protein_g": 5.0, "carbs_g": 26.0, "fat_g": 18.0 },
+      "portions": { "small": 80, "medium": 120, "large": 160 }
+    },
+    "hot_dog": {
+      "display_zh": "热狗",
+      "per_100g": { "kcal": 290, "protein_g": 10.0, "carbs_g": 22.0, "fat_g": 17.0 },
+      "portions": { "small": 100, "medium": 150, "large": 220 }
+    },
+    "club_sandwich": {
+      "display_zh": "总汇三明治",
+      "per_100g": { "kcal": 213, "protein_g": 11.0, "carbs_g": 20.0, "fat_g": 10.0 },
+      "portions": { "small": 150, "medium": 220, "large": 300 }
+    },
+    "falafel": {
+      "display_zh": "炸鹰嘴豆饼",
+      "per_100g": { "kcal": 333, "protein_g": 13.0, "carbs_g": 32.0, "fat_g": 18.0 },
+      "portions": { "small": 80, "medium": 130, "large": 180 }
+    },
+    "edamame": {
+      "display_zh": "毛豆",
+      "per_100g": { "kcal": 121, "protein_g": 11.0, "carbs_g": 9.0, "fat_g": 5.0 },
+      "portions": { "small": 60, "medium": 100, "large": 150 }
+    },
+    "garlic_bread": {
+      "display_zh": "蒜香面包",
+      "per_100g": { "kcal": 350, "protein_g": 9.0, "carbs_g": 45.0, "fat_g": 14.0 },
+      "portions": { "small": 50, "medium": 80, "large": 120 }
+    },
+    "bruschetta": {
+      "display_zh": "意式烤面包",
+      "per_100g": { "kcal": 170, "protein_g": 5.0, "carbs_g": 20.0, "fat_g": 8.0 },
+      "portions": { "small": 60, "medium": 100, "large": 150 }
+    },
+    "caprese_salad": {
+      "display_zh": "卡普里沙拉",
+      "per_100g": { "kcal": 160, "protein_g": 9.0, "carbs_g": 4.0, "fat_g": 12.0 },
+      "portions": { "small": 120, "medium": 200, "large": 280 }
+    },
+    "beet_salad": {
+      "display_zh": "甜菜沙拉",
+      "per_100g": { "kcal": 90, "protein_g": 2.0, "carbs_g": 10.0, "fat_g": 5.0 },
+      "portions": { "small": 120, "medium": 200, "large": 280 }
+    }
+  }
+}

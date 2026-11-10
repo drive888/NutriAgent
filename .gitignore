@@ -27,6 +27,9 @@ Thumbs.db
 
 # Bind mount data (DB + uploads live on the host, not in git)
 data/
+!server/data/
+server/data/*
+!server/data/g31-nutrition.json
 
 # Editor
 .vscode/
@@ -49,3 +52,4 @@ android/keystore.properties
 # Python runtime caches
 __pycache__/
 *.py[cod]
+.venv/

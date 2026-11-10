@@ -1,0 +1,38 @@
+{
+  "health": {
+    "ok": true,
+    "model_version": "efficientnet-b0-food101-101cls-v2",
+    "classes": 101,
+    "temperature": 0.8214613199234009,
+    "device": "cpu",
+    "error": null
+  },
+  "prediction": {
+    "predictions": [
+      {
+        "label": "pizza",
+        "display_label": "pizza",
+        "confidence": 0.8738
+      },
+      {
+        "label": "nachos",
+        "display_label": "nachos",
+        "confidence": 0.0284
+      },
+      {
+        "label": "huevos_rancheros",
+        "display_label": "huevos rancheros",
+        "confidence": 0.019
+      }
+    ],
+    "model_version": "efficientnet-b0-food101-101cls-v2",
+    "calibration": {
+      "temperature": 0.8214613199234009,
+      "applied": true
+    },
+    "device": "cpu",
+    "latency_ms": 165.9
+  },
+  "invalid_image_status": 422,
+  "model_sha256": "4d55b36dc23d51cf1446a678534c75662d202e728153755c086f887e226e79c1"
+}

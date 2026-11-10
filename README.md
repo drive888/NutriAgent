@@ -1,242 +1,296 @@
-<h1 align="center">NutriAgent</h1>
+# NutriAgent
 
-<p align="center"><b>Your AI Nutrition Assistant</b></p>
+**Food logging, meal recognition, and an AI nutrition assistant.**
 
-<p align="center">A self-hosted personal nutrition tracker.<br/>
-No accounts, no telemetry, no cloud sync unless you opt in.</p>
+NutriAgent is a self-hosted personal nutrition tracker built on [NutriTrace](https://github.com/TraceApps/nutritrace). This version adds Simplified Chinese localization, the NutriAgent identity, a shared photo recognition workflow, refreshed colors, and the team's G31 meal recognition module.
 
-<p align="center">
-  <img src="public/icons/logo-transparent.png" alt="NutriAgent" width="180" />
-</p>
+Track meals and water, maintain a food library, review nutrition trends, or upload a meal photo to create a draft for review. The AI assistant and image recognition use separate configurations; enabling one does not enable the other.
 
-<p align="center">
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-AGPL--3.0-blue"></a>
-  <a href="https://github.com/traceapps/nutritrace/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/traceapps/nutritrace?label=release&color=orange"></a>
-  <a href="https://github.com/traceapps/nutritrace/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/traceapps/nutritrace/total?label=downloads&color=brightgreen"></a>
-  <a href="https://github.com/traceapps/nutritrace/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/traceapps/nutritrace?style=social"></a>
-  <a href="https://traceapps.github.io/docs/getting-started/compose/"><img alt="Platform" src="https://img.shields.io/badge/platform-Web%20%7C%20Android%20%7C%20Docker-lightgrey"></a>
-  <br/>
-  <a href="https://traceapps.github.io/docs/nutritrace/"><img alt="Documentation" src="https://img.shields.io/badge/docs-traceapps.github.io-8A2BE2?logo=readthedocs&logoColor=white"></a>
-  <a href="https://github.com/traceapps/nutritrace/pkgs/container/nutritrace"><img alt="GHCR" src="https://img.shields.io/badge/ghcr.io-traceapps%2Fnutritrace-181717?logo=github&logoColor=white"></a>
-  <a href="https://hub.docker.com/r/traceapps/nutritrace"><img alt="Docker Hub pulls" src="https://img.shields.io/docker/pulls/traceapps/nutritrace?logo=docker&logoColor=white&label=docker%20pulls&color=2496ED"></a>
-  <a href="https://hosted.weblate.org/engage/nutritrace/"><img alt="Translation status" src="https://hosted.weblate.org/widget/nutritrace/svg-badge.svg"></a>
-</p>
+[Features and usage](#features-and-usage) · [Quick start](#quick-start) · [Recognition engines](#recognition-engines) · [AI assistant](#ai-assistant) · [Development and verification](#development-and-verification) · [Project structure](#project-structure)
 
-<p align="center">
-  <b>Coming to Apple devices:</b> the NutriAgent apps have no iPhone app yet, because building and testing one needs a Mac and an iPhone.
-  <a href="https://ko-fi.com/traceapps">Chip in on Ko-fi</a>. Self-hosting stays free either way.
-</p>
+![NutriAgent food diary](docs/ui-polish-evidence/after-desktop.png)
 
----
+## Features and usage
 
-**Jump to:** [What it is](#what-nutriagent-is) · [Features](#features) · [Install](#install) · [Env vars](#env-vars) · [Docs](https://traceapps.github.io/docs/nutritrace/)
+| Feature | How to use it |
+| --- | --- |
+| Food diary | Add foods to breakfast, lunch, dinner, or snacks; adjust portions and review daily calories and nutrients. |
+| Food library | Create or edit foods with photos, portions, nutrition, brands, barcodes, and notes. Reuse saved foods in the diary. |
+| Meal photo recognition | Open the camera shortcut on Foods, select Meal photo and a recognition engine, then upload a photo and review the candidates. |
+| Recognition inside the editor | Add a photo in the food editor and select Recognize this photo. Reuse the existing image and apply the reviewed result to the current form. |
+| Nutrition label recognition | Select Nutrition label, use the configured OCR service, and check the nutrition basis and values before confirming. |
+| AI assistant | Enable the assistant in Settings, configure a provider, model, and key, then use the floating assistant button. |
+| Goals and statistics | Set calorie and nutrient goals and review intake trends. |
+| Appearance and language | Switch between English and Simplified Chinese, light and dark themes, and desktop and mobile layouts. |
 
----
+The project also retains upstream support for meals and recipes, offline logging and sync, imports and exports, account management, OIDC, wellness integrations, the Federation API, MCP, and an Android app. These features have their own configuration requirements. The G31 integration work did not revalidate every external service or Android hardware feature.
 
-## What NutriAgent is
+### Photo recognition workflow
 
-NutriAgent runs as a single Docker container on your own hardware, with a PWA for the browser and a native Android app for your phone. No accounts on external services, no data leaving your network, no subscriptions.
+1. Open **Foods → camera shortcut**, or select **Recognize this photo** in the food editor.
+2. Choose a recognition type and an engine that supports it.
+3. Upload a JPEG, PNG, or WebP image, up to 6 MiB.
+4. Run recognition and check the candidate name, confidence, and actual portion.
+5. Confirm the draft to open the food editor or apply it to the current form.
+6. Review the values and save the food. Add it to the diary through the normal logging flow when needed.
 
-## Principles
+Recognition does not automatically create foods or diary entries. Switching engines clears the previous result; switching candidates updates the associated reference portions and nutrition. Canceling recognition inside the editor leaves the original form intact. Applying a result preserves the existing food identity, brand, and existing notes.
 
-- **Self-hosting is and will remain free.** The server, PWA, and source code will never be paywalled.
-- **No trackers, no analytics, no telemetry.** NutriAgent doesn't phone home; your usage is invisible to anyone but you.
-- **Your data stays on your hardware.** No central server, no cloud sync that can read it; nothing leaves your network unless you opt into a third-party integration (OFF, USDA, Fitbit, etc.).
-- **Open source under AGPL-3.0.** Every line that touches your data is readable.
+## Quick start
 
----
+### Option 1: Docker Compose
 
-![NutriAgent diary view: a full day of food logging with macro bar, per-meal breakdowns, and water tracking](docs/screenshots/01-diary.png)
+Requires Git, Docker, and Docker Compose. This repository builds a local image from source; it does not depend on a published NutriAgent image or APK.
 
----
-
-## Features
-
-- **Diary + meal logging.** Configurable meal slots, per-meal ⋮ menu, Split Recipe, IF tracker widget. [Full guide](https://traceapps.github.io/docs/nutritrace/diary/).
-- **Foods, meals, recipes.** Personal database, source filter chips, OFF + USDA quality signals (v1.0.3), Scan Label AI OCR. [Full guide](https://traceapps.github.io/docs/nutritrace/foods/).
-- **Goals + Adaptive TDEE.** Fixed/Dynamic/Adaptive modes, 7,700 kcal/kg regression math. [Full guide](https://traceapps.github.io/docs/nutritrace/goals/).
-- **Wellness integrations (4).** Fitbit (via Google Health), Withings, Garmin, Health Connect, plus NutriAgent-computed Sleep/Readiness/Resilience scores. [Full guide](https://traceapps.github.io/docs/nutritrace/wellness/).
-- **Activity + Intermittent Fasting.** Manual workouts + IF widget with presets and streaks. [Full guide](https://traceapps.github.io/docs/nutritrace/activity-if/).
-- **Open Food Facts.** Cloud + local Parquet mirror for air-gap. [Full guide](https://traceapps.github.io/docs/nutritrace/off/).
-- **USDA + Mealie.** Free API key USDA lookups + Mealie recipe import. [Full guide](https://traceapps.github.io/docs/nutritrace/usda-mealie/).
-- **NutriAgent AI.** Reads your diary, meals, wellness, fasting streaks, and Adaptive TDEE state; can log a food, propose one from a photo (you confirm), or add an activity entry, all conversationally. 16 tools total. Smart Log voice/text, propose_food photo flow. [Full guide](https://traceapps.github.io/docs/nutritrace/trace/).
-- **Federation API.** `/api/v1/*` scoped Bearer tokens for CT + LT + external clients. [Full guide](https://traceapps.github.io/docs/nutritrace/federation-api/).
-- **Model Context Protocol (MCP).** Expose your diary, goals, foods, steps and body composition to external AI agents (Claude Desktop, Cursor, Codex) via the standard MCP Streamable HTTP transport. 20 tools: 13 read tools, plus logging tools behind `MCP_WRITE_ENABLED=1` and the `mcp:write` scope, and delete, edit and create-food tools behind `MCP_DESTROY_ENABLED=1`, the `mcp:destroy` scope and a confirm on every call. Off by default; opt in with `MCP_ENABLED=1`. [Full guide](https://traceapps.github.io/docs/nutritrace/mcp/).
-- **Migrations.** MyFitnessPal (with nomad64 scraper), Lose It, Cronometer, Waistline. [Full guide](https://traceapps.github.io/docs/nutritrace/migrate-mfp/).
-- **Multi-user + OIDC SSO.** Authentik/Keycloak/Pocket ID/Authelia/Google/Auth0. [Full guide](https://traceapps.github.io/docs/auth/oidc/).
-- **Offline mode in the browser.** Your diary, your own foods, meals and recipes, manual activity, settings and goals, the fasting timer and your profile are kept in the browser, so the app opens without a connection and the day still adds up. Changes go up on their own when the connection returns. Open Food Facts, USDA, Mealie and CookTrace lookups, wellness providers, NutriAgent and admin need a connection. Works on iPhone too. [What works offline](https://traceapps.github.io/docs/nutritrace/features/#offline).
-- **Native Android app.** Offline mode or server-sync, WorkManager native reminders. [Full guide](https://traceapps.github.io/docs/mobile/install/).
-- **Foldables (preliminary).** Half open like a book, Settings puts its section list on one side of the crease and the section on the other, the day's meals fall onto the two pages, and dialogs, sheets, pickers and NutriAgent keep off the fold. Opened flat or on a tablet, the wider layouts turn on: Foods two cards across, side rails on Diary and Goals, and the food and meal editors side by side.
-
----
-
-## Apps
-
-- **Web (PWA).** Runs in any modern browser; add to home screen for full-screen use. Keeps working offline: your diary, foods and settings stay on the device and sync when the connection returns.
-- **Android.** Native Capacitor build; works standalone or connected to your NutriAgent server. Signed APK on the [Releases page](https://github.com/traceapps/nutritrace/releases/latest).
-- **iOS.** Not currently available (requires Mac + Apple Developer account; see [Support](#support)).
-
----
-
-## Install
-
-Build NutriAgent locally from this checkout with `docker compose up -d --build`. The local image is `nutriagent:local`; no published NutriAgent registry image is assumed. Upstream repositories, translation services and license links keep their original identities.
-
-For Unraid, build this checkout and configure the database, uploads and JWT secret in the same way as the Compose example below.
-
-Minimum viable `docker-compose.yml`:
-
-```yaml
-services:
-  nutriagent:
-    build: .
-    image: nutriagent:local
-    container_name: nutriagent
-    ports:
-      - "3001:3001"
-    volumes:
-      - ./data/db:/data/db
-      - ./data/uploads:/data/uploads
-    environment:
-      - DB_PATH=/data/db/nutriagent.db
-      - UPLOADS_PATH=/data/uploads
-      - JWT_SECRET=change-me-to-a-long-random-string
-      # OIDC_ISSUER=https://auth.example.com  # optional single-provider SSO
-    restart: unless-stopped
-```
-
-Generate a JWT secret:
-
-```bash
+```sh
+git clone https://github.com/drive888/NutriAgent.git
+cd NutriAgent
+cp .env.example .env
+mkdir -p data/db data/uploads
 openssl rand -base64 48
 ```
 
-Start it:
+For a new installation, set the following fields in `.env`. Use the random value generated above for `JWT_SECRET`. Existing deployments should retain their current secret and data paths.
 
-```bash
-docker compose up -d
+```dotenv
+DATA_DB_PATH=./data/db
+DATA_UPLOADS_PATH=./data/uploads
+JWT_SECRET=replace-with-your-generated-secret
 ```
 
-Open `http://localhost:3001` and the first-run wizard will walk you through user management and creating your admin account. Skipping user management runs the app in single-user mode.
+Start the application:
 
-Full compose recipes with SMTP, Docker secrets (`*_FILE`), reverse-proxy examples, and multi-provider OIDC at [docs/getting-started/compose/](https://traceapps.github.io/docs/getting-started/compose/). Tag policy (`:latest`, `:1`, `:1.0`, `:1.0.0`, `:dev`, legacy `:1.0.0-rc.N`) in [DEPLOY.md](DEPLOY.md).
-
-Pre-release testers can grab the rolling `dev-latest` APK; occasional milestone builds also get numbered `-devNN` pre-releases. See [DEPLOY.md](DEPLOY.md) for details.
-
----
-
-## Env vars
-
-| Variable | Required | Default | Description |
-|---|---|---|---|
-| `JWT_SECRET` | If using users |  | Signing key for auth tokens. Long random string. |
-| `DB_PATH` | Yes | `/data/db/nutriagent.db` | SQLite database file inside the container. |
-| `UPLOADS_PATH` | Yes | `/data/uploads` | Upload directory inside the container. |
-| `PORT` | No | `3001` | Container-side port the server listens on. |
-| `BASE_URL` | No |  | Subpath prefix when mounted behind a reverse proxy (e.g. `/nt`). |
-| `PUBLIC_URL` | No |  | The full address people open the app at, subpath included (e.g. `https://nutrition.example.com`). Links in emails (password reset, invites, sharing) use it. Unset, they use an address an admin has opened the app at. |
-| `LOG_LEVEL` | No | `info` | `error` \| `warn` \| `info` \| `debug` \| `trace`. |
-| `TRACE_REQUEST_BODIES` | No | unset | Set to `1` with trace logging to include redacted request bodies. |
-| `TRACE_REQUEST_PATHS` | No | `/api/diary,/api/sync/push` | Comma-separated body-trace path prefixes; `*` traces all and `none` traces no request bodies. |
-| `TRACE_BODY_MAX_BYTES` | No | `32768` | Maximum serialized bytes emitted for one traced request body. |
-| `INSECURE_COOKIES` | If on plain HTTP | unset | `1` drops the `Secure` cookie flag; needed only on plain-HTTP LAN. See [docs/getting-started/lan-http/](https://traceapps.github.io/docs/getting-started/lan-http/). |
-| `MAX_SESSION_HOURS` | No | `8760` (1 year) | Cap on the auth cookie lifetime. |
-| `RECOVERY_TOKEN` | No |  | Passphrase to disable user management from the login page (lockout recovery). |
-| `OFF_LOCAL_DB` | No |  | Path to an Open Food Facts Parquet snapshot (or legacy DuckDB file) for an air-gap mirror. |
-| `USDA_API_KEY` | No |  | Optional server-side USDA FoodData Central key (users can also enter their own in Settings). |
-| `MEALIE_URL` | No |  | Base URL of a Mealie instance for recipe import. |
-| `MEALIE_API_KEY` | No |  | Mealie API key. |
-| `AI_PROVIDER` | No |  | Lock NutriAgent to a provider: `claude` \| `openai` \| `gemini` \| `oai-compat`. |
-| `OIDC_ISSUER` | No |  | Enable a single OIDC provider by setting `OIDC_ISSUER` + `OIDC_CLIENT_ID` + `OIDC_CLIENT_SECRET`. Numbered form (`OIDC_PROVIDER_2_*`) for multi-provider. |
-| `SMTP_HOST` | No |  | SMTP server for password reset & invites; also `SMTP_PORT` (587), `SMTP_SECURE` (false), `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`. |
-
-Full list (Docker secrets `*_FILE` variants, air-gap `OFF_LOCAL_ONLY`, per-provider AI knobs, all `OIDC_*` options) at [docs/self-hosting/env-vars/](https://traceapps.github.io/docs/self-hosting/env-vars/). SMTP and AI can also be set in the Settings UI; env vars take priority and lock those fields.
-
-### Request logging
-
-API request logs include a client/server correlation ID, method, path, response status, duration, outcome, and observed wire-body bytes. Uploaded images and frontend assets are not request-logged. `Content-Length` is reported separately as an untrusted `declared_bytes` value and is never substituted for bytes actually observed. Oversized JSON requests return HTTP 413 with `request_id`, observed `size_bytes` (or `null`), `declared_bytes`, and `limit_bytes` fields.
-
-`LOG_LEVEL=trace` enables fine-grained internal trace calls, but request content remains off unless `TRACE_REQUEST_BODIES=1` is also set. Minimal byte counting happens before body-size enforcement; body inspection happens only after parsing and access checks. Selected request bodies, including sync pushes, use bounded traversal with credential and setting-value redaction, URL sanitization, inline `data:` URL summaries, and the `TRACE_BODY_MAX_BYTES` output cap. Query strings are omitted. Bodies can still contain private diary and health data; enable body tracing only temporarily and do not publish the resulting logs without reviewing them.
-
-The app sends `X-Request-ID` to the server and records the same ID in verbose client diagnostics. The server returns the ID on responses, so a failing app request can be matched directly to its server log. Invalid logging configuration fails at startup instead of silently falling back.
-
----
-
-## Data persistence
-
-Two host directories bind-mount:
-
-- **Database** (`DB_PATH`). SQLite file.
-- **Uploads** (`UPLOADS_PATH`). Food/meal photos and server-side backups (`uploads/backups/`).
-
-Nothing else needs to persist; the container is stateless beyond these two volumes.
-
-## Updating
-
-```bash
-docker compose pull
-docker compose up -d
+```sh
+docker compose up -d --build
 ```
 
-The database schema migrates automatically on startup.
+Open **http://localhost:3001/** and complete the first-run setup. Meal recognition, label OCR, and the AI assistant each require their own service configuration. The application container does not start the Python model service.
 
----
+The current development machine also has a separately configured preview at **http://localhost:3103/**. This is a local preview port, not the default repository Compose port. The original instance on 3101 remains separate, with its own data and service configuration.
 
-## Tech stack
+### Option 2: Local development
 
-| Layer | Technology |
-|---|---|
-| Frontend | Svelte 5 (compat mode), svelte-spa-router, Vite 6, PWA (service worker) |
-| Mobile | Capacitor 8 (Android), `@capacitor-community/sqlite`, ML Kit barcode, Health Connect |
-| Backend | Node.js, Express 5, better-sqlite3, optional DuckDB for the local OFF mirror |
-| Auth | JWT (httpOnly cookie), bcryptjs, OpenID Connect 1.0 (PKCE + state + nonce) |
+Use Node.js 20 to match the Docker runtime. For G31, use a separate Python 3.12 virtual environment.
 
----
+Install dependencies and create the configuration from the project root:
 
-## NutriAgent family
+```sh
+npm ci
+npm ci --prefix server
+cp .env.example .env
+mkdir -p data/db data/uploads
+```
 
-Part of the **TraceApps** family. Sister apps: [CookTrace](https://github.com/traceapps/cooktrace) for recipes and pantry, [LiftTrace](https://github.com/traceapps/lifttrace) for weightlifting, [NoteTrace](https://github.com/traceapps/notetrace) for notes, tasks and reminders. Docs for the family at [traceapps.github.io/docs](https://traceapps.github.io/docs/).
+Set `JWT_SECRET` in `.env` to a stable random value, then start the backend in one terminal:
 
----
+```sh
+DB_PATH=./data/db/development.db UPLOADS_PATH=./data/uploads \
+  node --env-file=.env server/index.js
+```
 
-## Translations
+Start the frontend in another terminal:
 
-NutriAgent is translated with [Weblate](https://weblate.org/), a free web platform for libre translation projects. No coding required — pick your language, translate the strings, submit. Missing keys fall back to English at runtime, so partial translations are safe to release.
+```sh
+npm run dev
+```
 
-[![Translation status](https://hosted.weblate.org/widget/nutritrace/svg-badge.svg)](https://hosted.weblate.org/engage/nutritrace/)
+Open the address printed by Vite, normally **http://localhost:5173/**. Vite proxies `/api` and `/uploads` to the backend on port 3001. Docker packages the production frontend for the backend; during development, use the Vite entry point.
 
-Start translating at [hosted.weblate.org/projects/nutriagent/](https://hosted.weblate.org/projects/nutritrace/). See [CONTRIBUTING.md](CONTRIBUTING.md#translations) for domain-specific guidance (regulatory nutrition terms, proper nouns, tone).
+## Recognition engines
 
----
+**Recognition type** selects the task. **Recognition engine** selects the model or service that performs it. The selector reads the server registry: unconfigured engines are disabled, and engines that do not support the current task are omitted. A service failure produces an error instead of silently falling back to another engine.
 
-## Roadmap, changelog, contributing, license
+| Engine ID | Display name | Supported types | Configuration |
+| --- | --- | --- | --- |
+| `legacy` | Standard recognition | Meal photo, nutrition label | `MEAL_RECOGNITION_URL`, `LABEL_RECOGNITION_URL` |
+| `g31` | G31 · Food-101 | Meal photo | `G31_RECOGNITION_URL` |
 
-- See [ROADMAP.md](ROADMAP.md) for what's next.
-- [CHANGELOG.md](CHANGELOG.md) tracks per-release changes.
-- Contributions welcome; see [CONTRIBUTING.md](CONTRIBUTING.md) for coding conventions, translation workflow, and the volunteer thread.
-- Licensed under [AGPL-3.0](LICENSE), entire codebase including the Android app source.
+### G31: run the team's meal recognition model
 
-## Support
+G31 uses EfficientNet-B0 / Food-101 and returns three dish candidates with temperature-calibrated confidence scores. Only the model service, 101-class weights, calibration, sample, and reference nutrition table were imported from the handoff package. The existing application was not replaced.
 
-NutriAgent is free to self-host and always will be. No paid tier, nothing behind a donation, no telemetry. It's built and maintained by one person.
+Run from the project root:
 
-**The current goal is a Mac and an iPhone.** None of the NutriAgent apps run properly on an iPhone, because building and testing for iOS needs Apple hardware, plus the developer accounts for both app stores. That comes to about $1,300, and the itemised breakdown is on the [Support page](https://traceapps.github.io/docs/support/).
+```sh
+python3.12 -m venv .venv
+.venv/bin/pip install -r tools/recognition-g31/requirements.txt
+DEVICE=cpu .venv/bin/python -m uvicorn app:app \
+  --app-dir tools/recognition-g31 --host 127.0.0.1 --port 3213
+```
 
-Helping doesn't have to cost anything: starring the repo, reporting bugs with detail, and translating all count, and stars are how self-hosted projects get found.
+When the Node backend runs directly on the host, set this in `.env`:
 
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-Toward_a_Mac_and_iPhone-FF5E5B?logo=ko-fi&logoColor=white)](https://ko-fi.com/traceapps) [![GitHub Sponsors](https://img.shields.io/badge/GitHub_Sponsors-Sponsor_monthly-EA4AAA?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/TraceApps?metadata_app=nutritrace&metadata_from=readme)
+```dotenv
+G31_RECOGNITION_URL=http://127.0.0.1:3213/predict
+```
 
-## Credits
+When the backend runs in Docker Desktop or OrbStack and G31 runs on the Mac host, use a listening address reachable from the container:
 
-NutriAgent was inspired by two self-hosted nutrition trackers:
+```sh
+DEVICE=cpu .venv/bin/python -m uvicorn app:app \
+  --app-dir tools/recognition-g31 --host 0.0.0.0 --port 3213
+```
 
-- **[Waistline](https://github.com/davidhealey/waistline)** by David Healey. A privacy-focused Android nutrition diary that proved a great open-source nutrition tracker is possible.
-- **[SparkyFitness](https://github.com/CodeWithCJ/SparkyFitness)** by CodeWithCJ. A self-hosted fitness and nutrition tracker that influenced the wellness integrations and goal-tracking approach.
+Set the application environment to:
 
-## Disclaimer
+```dotenv
+G31_RECOGNITION_URL=http://host.docker.internal:3213/predict
+```
 
-NutriAgent is not medical, health, or nutrition-professional software. It does not provide medical advice, diagnosis, treatment, or personalized nutrition prescriptions. Food entries, calorie and macro tracking, NutriAgent AI suggestions, Smart Log parsing, Scan Label output, Goal Insights, Adaptive TDEE recommendations, wellness scores, and any analytical output are for informational and self-tracking purposes only.
+Restart a local Node backend after changing its environment. With the repository Compose setup, recreate the application container to load the new configuration:
 
-Nutrition decisions can interact with medical conditions (diabetes, eating disorders, food allergies, pregnancy, breastfeeding, pediatric needs, kidney or liver disease, metabolic disorders) in ways this app cannot assess. Consult a qualified healthcare professional, registered dietitian, or licensed nutritionist before starting a new eating plan, calorie target, or making significant dietary changes.
+```sh
+docker compose up -d --force-recreate nutriagent
+```
 
-NutriAgent AI answers can be incorrect or incomplete; treat them as a starting point, not a substitute for human judgment or professional advice. Food nutrition data from Open Food Facts is community-curated and may contain inaccuracies. **Use at your own risk.**
+On Linux Docker, configure `host-gateway` for host access, or run the model on the same container network and connect by service name. G31 and the application are separate processes; both must be running.
+
+Check the model service:
+
+```sh
+curl http://localhost:3213/health
+curl -F image=@tools/recognition-g31/samples/pizza.jpg \
+  http://localhost:3213/predict
+```
+
+See the [G31 module guide](tools/recognition-g31/README.md) for the API contract, dependency versions, model hash, and provenance.
+
+### Portion and nutrition limits
+
+G31 identifies dish categories. **It does not measure weight from a photo.** The bundled reference table covers 47 food classes, with approximate nutrition per 100g and small, medium, and large reference weights. Users can select a reference portion or enter grams manually.
+
+For example, the table lists pizza at 266 kcal per 100g, so selecting 200g produces 532 kcal. This calculation does not establish that the photographed pizza weighs 200g or has the same nutritional composition. Missing food entries or nutrients remain unknown rather than becoming zero.
+
+### Standard recognition and nutrition labels
+
+The standard engine accepts JSON `{kind, image}` and uses separate meal and label service addresses:
+
+```dotenv
+MEAL_RECOGNITION_URL=http://your-service:8000/recognize
+LABEL_RECOGNITION_URL=http://your-ocr-service:8000/recognize
+```
+
+The repository retains the [macOS recognition adapter](tools/recognition-macos/README.md): ONNX Food-101 for meals and Apple Vision OCR for labels. It has separate model, dependency, and operating-system requirements. G31 does not provide nutrition label OCR.
+
+### Add another engine
+
+Register a service that implements an existing protocol through the environment. No selector changes are needed:
+
+```dotenv
+RECOGNITION_ENGINES_JSON=[{"id":"another-model","name":"Another model","kinds":["meal"],"adapter":"json","url":"http://model:8000/recognize"}]
+```
+
+- `id`: a unique engine identifier, different from `legacy` and `g31`.
+- `name`: the display name. Optional `nameZh` supplies a Simplified Chinese label.
+- `kinds`: supported tasks, `meal` or `label`. The `g31` adapter supports only `meal`.
+- `adapter`: `json` uses the existing JSON contract; `g31` uses multipart images and a `predictions` response.
+- `url`: the endpoint accessed by the backend. Engine listing does not expose it to the browser.
+
+A module with a different protocol needs a server adapter. Registration and forwarding are implemented in [`recognition-engines.js`](server/lib/recognition-engines.js) and [`recognition-service.js`](server/lib/recognition-service.js).
+
+## AI assistant
+
+Enable the assistant under **Settings → AI**, configure the provider, model, API address, and key, then test the connection. Supported provider types include OpenAI, Claude, Gemini, and OpenAI-compatible services. Photo conversations require image support; tool operations require tool-calling support from the selected model.
+
+You can also configure the assistant on the server:
+
+```dotenv
+AI_ENABLED=true
+AI_PROVIDER=oai-compat
+AI_BASE_URL=https://your-provider.example/v1
+AI_MODEL=your-model-id
+AI_API_KEY=your-api-key
+```
+
+Environment configuration takes precedence over UI settings and locks the corresponding fields. G31 uses a local model and does not require this AI API key. Cloud assistants and external recognition services send request content to the configured provider; whether data leaves the machine depends on that configuration.
+
+## Configuration and data
+
+| Variable | Purpose |
+| --- | --- |
+| `DATA_DB_PATH`, `DATA_UPLOADS_PATH` | Host database and upload directories used by Compose. |
+| `DB_PATH`, `UPLOADS_PATH` | Paths used by the Node backend. Repository Compose sets them to `/data/db/nutriagent.db` and `/data/uploads` inside the container. |
+| `JWT_SECRET` | Session signing secret; keep it stable for an existing deployment. |
+| `PORT` | Backend port, default 3001. |
+| `BASE_URL`, `PUBLIC_URL` | Reverse-proxy subpath and public address used by features such as email links. |
+| `INSECURE_COOKIES` | Set to `1` only when needed on a trusted plain-HTTP setup. Not needed for HTTPS deployments. |
+| `G31_RECOGNITION_URL` | G31 `/predict` endpoint. |
+| `MEAL_RECOGNITION_URL`, `LABEL_RECOGNITION_URL` | Standard meal recognition and label OCR endpoints. |
+| `RECOGNITION_ENGINES_JSON` | Additional engine definitions. |
+| `RECOGNITION_MODE` | `mock` explicitly simulates the standard engine for testing; it is not real recognition. |
+| `AI_*` | Assistant enablement, provider, endpoint, model, and key. |
+
+See [`.env.example`](.env.example) and [deployment notes](DEPLOY.md) for more options. Persist the database and uploads. Environment files, local credentials, personal databases, and Python virtual environments are excluded from version control.
+
+Update an application built from this source:
+
+```sh
+git pull --ff-only
+docker compose up -d --build
+```
+
+The backend applies database migrations at startup. Back up the database and uploads before updating. Rebuild this project's source image rather than using upstream image-pull instructions.
+
+## Development and verification
+
+```sh
+npm test
+npm run i18n:check
+npm run i18n:check:zh
+npm run build
+```
+
+Install both frontend and backend dependencies before running the full suite. Some tests depend on native modules or platform capabilities; skipped tests are not passes. Use isolated databases for integration tests rather than personal diary data.
+
+G31 integration verification on **2026-11-10** included:
+
+- Full regression: 961 tests, with 916 passing, 45 skipped, and no failures. English/Chinese coverage checks and the production build passed.
+- Actual CPU loading of the supplied weights and recognition of the bundled pizza sample, including Top-3 candidates, reference-portion calculations, candidate switching, and editor prefill.
+- Real-browser checks of English and Chinese, a 390px mobile layout, engine failure messages, and preservation of the original form when recognition is canceled.
+
+One sample verifies that the integration runs; it does not establish independent recognition accuracy or mixed-meal performance. See the [G31 acceptance record](docs/g31-recognition-acceptance.md) for steps, limits, and screenshots.
+
+The Android project is in `android/`. Run `npm run cap:sync` before opening it in Android Studio. Android source availability does not imply that this repository has published a signed APK or passed hardware testing in this round.
+
+## Project structure
+
+```text
+src/
+  routes/Recognition.svelte       Task, engine selection, and result review
+  routes/FoodEditor.svelte        Food editing and photo reuse
+  components/ai/                 AI assistant interface
+  i18n/                          Translations
+  lib/recognition-contract.js    Result validation and portion calculations
+  lib/recognition-editor.js      Recognition draft prefill
+server/
+  routes/recognition.js          Recognition API, auth, and image validation
+  lib/recognition-engines.js     Engine registry and capabilities
+  lib/recognition-service.js     Provider calls and protocol adapters
+  lib/recognition-g31.js         G31 candidate and reference-nutrition mapping
+  data/g31-nutrition.json        Bundled approximate nutrition table
+tools/
+  recognition-g31/               G31 Python service, weights, and sample
+  recognition-macos/             Existing macOS recognition adapter
+scripts/                        Tests and development scripts
+docs/                           Designs, acceptance records, and UI evidence
+android/                        Capacitor Android project
+```
+
+## Documentation
+
+- [G31 setup and extension guide](tools/recognition-g31/README.md)
+- [G31 acceptance record](docs/g31-recognition-acceptance.md)
+- [Photo recognition workflow acceptance](docs/photo-recognition-acceptance.md)
+- [Localization acceptance](docs/localization-acceptance.md)
+- [Project rename notes](docs/project-rename.md)
+- [Architecture](ARCHITECTURE.md)
+- [Public API](docs/public-api.md)
+- [Deployment](DEPLOY.md)
+
+Some deployment, roadmap, and historical documents are inherited from upstream. Check their release links and version plans against this repository's current state.
+
+## Attribution and license
+
+This project builds on [TraceApps/NutriTrace](https://github.com/TraceApps/nutritrace), retains upstream attribution and copyright notices, and uses [AGPL-3.0](LICENSE). See [LICENSES.md](LICENSES.md) for upstream integration and data-source notes. The G31 weights, calibration, sample, and approximate nutrition table come from the team's handoff package; provenance and modifications are documented in the [module guide](tools/recognition-g31/README.md).
+
+Upstream also credits [Waistline](https://github.com/davidhealey/waistline) and [SparkyFitness](https://github.com/CodeWithCJ/SparkyFitness). Feature, release, and verification claims for this repository are defined by its current code and acceptance records.
